@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -19,20 +20,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.DataManager;
+import com.shs.trophiesapp.data.entities.Sport;
+import com.shs.trophiesapp.data.entities.Trophy;
 import com.shs.trophiesapp.ui.sports.SportsActivity;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
-import com.shs.trophiesapp.utils.DownloadService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.IntStream;
+import java.util.List;
 
 import static com.shs.trophiesapp.utils.Constants.DOWNLOAD_URL;
 import static com.shs.trophiesapp.utils.Constants.GIDS;
 import static com.shs.trophiesapp.utils.Constants.titles;
 
-public class DownloadActivity extends AppCompatActivity implements View.OnClickListener {
+public class SetupActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "SetupActivity";
 
     private static final String DOWNLOAD_PATH = Constants.DOWNLOAD_URL;
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
@@ -40,13 +43,18 @@ public class DownloadActivity extends AppCompatActivity implements View.OnClickL
     long[] downloadIds = new long[IDSNUM];
     ArrayList downloadedIds = new ArrayList();
     Button downloadButton = null;
+    Button loadDatabaseButton = null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_download);
-        findViewById(R.id.downloadDataButton).setOnClickListener(this);
+        setContentView(R.layout.activity_setup);
+        downloadButton = findViewById(R.id.downloadDataButton);
+        downloadButton.setOnClickListener(this);
+        loadDatabaseButton = findViewById(R.id.loadDatabaseButton);
+        loadDatabaseButton.setOnClickListener(this);
+
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -57,6 +65,40 @@ public class DownloadActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.downloadDataButton: {
+                downloadData();
+                downloadButton = (Button) findViewById(view.getId());
+                downloadButton.setEnabled(false);
+                break;
+            }
+            case R.id.loadDatabaseButton: {
+                loadDatabase();
+                break;
+            }
+
+        }
+    }
+
+    private void downloadData() {
+        try {
+            Log.d(TAG, "downloadData: deleting database");
+            getApplicationContext().deleteDatabase(Constants.DATABASE_NAME);
+            for (int i = 0; i < GIDS.length; i++) {
+                String url = DOWNLOAD_URL.replace("YOURGID", GIDS[i]);
+                String directory = titles[i];
+                downloadIds[i] = startDownload(url, DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directory));
+                Toast.makeText(SetupActivity.this, "Download Started for id=" + downloadIds[i], Toast.LENGTH_LONG).show();
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -65,46 +107,46 @@ public class DownloadActivity extends AppCompatActivity implements View.OnClickL
             downloadedIds.add(id);
             //Checking if the received broadcast is for our enqueued download by matching download id
             if (Arrays.stream(downloadIds).anyMatch(n -> n == id)) {
-                Toast.makeText(DownloadActivity.this, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
+                Toast.makeText(SetupActivity.this, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
             }
-            if(downloadedIds.size() >= IDSNUM) {
+            if (downloadedIds.size() >= IDSNUM) {
 //                if(downloadButton != null) downloadButton.setEnabled(true);
                 downloadedIds.clear();
-                //CAROLINA HERE
-                Toast.makeText(DownloadActivity.this, "Getting sports repository", Toast.LENGTH_LONG).show();
-                DataManager.getSportRepository(context);
-                Toast.makeText(DownloadActivity.this, "Getting trophy repository", Toast.LENGTH_LONG).show();
-                DataManager.getTrophyRepository(context);
-                startActivity(new Intent(DownloadActivity.this, SportsActivity.class));
+                Toast.makeText(SetupActivity.this, "Getting sports repository", Toast.LENGTH_LONG).show();
+                List<Sport> sports = DataManager.getSportRepository(context).getSports();
+                Toast.makeText(SetupActivity.this, "sports size=" + sports.size(), Toast.LENGTH_LONG).show();
+
+                Toast.makeText(SetupActivity.this, "Getting trophy repository", Toast.LENGTH_LONG).show();
+                List<Trophy> trophies = DataManager.getTrophyRepository(context).getTrophies();
+                Toast.makeText(SetupActivity.this, "trophies size=" + trophies.size(), Toast.LENGTH_LONG).show();
+
+                startActivity(new Intent(SetupActivity.this, SportsActivity.class));
 
             }
         }
     };
 
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.downloadDataButton: {
-                try {
-                    for (int i = 0; i < GIDS.length; i++) {
-                        String url = DOWNLOAD_URL.replace("YOURGID", GIDS[i]);
-                        String directory = titles[i];
-                        downloadIds[i] = startDownload(url, DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directory));
-                        Toast.makeText(DownloadActivity.this, "Download Started for id=" + downloadIds[i], Toast.LENGTH_LONG).show();
+    private void loadDatabase() {
+        try {
 
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                downloadButton = (Button)findViewById(view.getId());
-                downloadButton.setEnabled(false);
-                break;
-            }
+            Context context = getApplicationContext();
+            Toast.makeText(SetupActivity.this, "Getting sports repository", Toast.LENGTH_LONG).show();
+            List<Sport> sports = DataManager.getSportRepository(context).getSports();
+            Toast.makeText(SetupActivity.this, "sports size=" + sports.size(), Toast.LENGTH_LONG).show();
 
+            Toast.makeText(SetupActivity.this, "Getting trophy repository", Toast.LENGTH_LONG).show();
+            List<Trophy> trophies = DataManager.getTrophyRepository(context).getTrophies();
+            Toast.makeText(SetupActivity.this, "trophies size=" + trophies.size(), Toast.LENGTH_LONG).show();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
 
+        startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+
+    }
     private long startDownload(String downloadPath, String destinationPath) {
         Uri uri = Uri.parse(downloadPath);
         DownloadManager.Request request = new DownloadManager.Request(uri);

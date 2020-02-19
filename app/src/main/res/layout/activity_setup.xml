@@ -5,14 +5,22 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.DownloadActivity">
+    tools:context=".ui.SetupActivity">
+
 
     <Button
         android:id="@+id/downloadDataButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:text="@string/download_data_from_google_spreadsheet" />
+        android:text="@string/download_data" />
+    <Button
+        android:id="@+id/loadDatabaseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/load_database" />
+
+
 
 
 </LinearLayout>
