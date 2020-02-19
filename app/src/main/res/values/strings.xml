@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Saratoga High School Trophy Application</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_launch">LaunchActivity</string>
+
+    <string name="progress_bar_starting_dialog">Launching&#8230;</string>
+    <string name="progress_bar_asynctask_dialog">Downloading Spreadsheet</string>
+    <string name="progress_bar_database_recreation">Recreating Database for New Changes</string>
+    <string name="progress_bar_completed_database_setup">Setting UI for Updated Database</string>
+    <string name="search">Search</string>
+    <string name="saratoga_high_school_trophies">Saratoga High School Trophies</string>
+    <string name="sport_title">Sport Title</string>
+    <string name="todo">TODO</string>
+
+</resources>

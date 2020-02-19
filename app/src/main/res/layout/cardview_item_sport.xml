@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardview_sport_id"
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    android:layout_margin="5dp"
+    android:background="#f45942"
+    android:clickable="true"
+
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    cardview:cardCornerRadius="4dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="174dp"
+        android:gravity="center"
+
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/my_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:background="#2d2d2d"
+            android:contentDescription="@string/todo"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/sport_title_id"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:gravity="center"
+            android:text="@string/sport_title"
+            android:textColor="#2d2d2d"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
