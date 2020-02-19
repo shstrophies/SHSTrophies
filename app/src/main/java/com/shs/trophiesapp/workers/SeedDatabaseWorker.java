@@ -16,6 +16,7 @@ import com.shs.trophiesapp.data.AppDatabase;
 import com.shs.trophiesapp.data.entities.Sport;
 import com.shs.trophiesapp.data.entities.Trophy;
 import com.shs.trophiesapp.utils.Constants;
+import com.shs.trophiesapp.utils.DirectoryHelper;
 
 import static com.shs.trophiesapp.utils.CSVUtils.parseLine;
 import static com.shs.trophiesapp.utils.Constants.titles;
@@ -27,6 +28,7 @@ public class SeedDatabaseWorker extends Worker {
     public Result doWork() {
 
         try {
+            DirectoryHelper.createDirectory(getApplicationContext());
             Sport[] sportCSVData = getSportCSVData();
             Log.d(TAG, "onCreate: sportCSVData length=" + sportCSVData.length);
             AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
@@ -45,8 +47,9 @@ public class SeedDatabaseWorker extends Worker {
     static Sport[] getSportCSVData() {
         List<Sport> sports = new ArrayList<>();
         try {
-            Scanner scanner = new Scanner(new File(Environment.getExternalStorageDirectory().toString() + "/"
-                    + Constants.titleSports + ".csv"));
+            File file = DirectoryHelper.getLatestFilefromDir(DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.titleSports + "/");
+            Log.d(TAG, "getSportCSVData: getting sport data from file=" + file.getAbsolutePath());
+            Scanner scanner = new Scanner(file);
             boolean first = true;
             while (scanner.hasNext()) {
                 List<String> line = parseLine(scanner.nextLine());
@@ -62,8 +65,9 @@ public class SeedDatabaseWorker extends Worker {
     static Trophy[] getTrophyCSVData() {
         List<Trophy> trophies = new ArrayList<>();
         try {
-            Scanner scanner = new Scanner(new File(Environment.getExternalStorageDirectory().toString() + "/"
-                    + titles[1] + ".csv"));
+            File file = DirectoryHelper.getLatestFilefromDir(DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.titleTrophies + "/");
+            Log.d(TAG, "getSportCSVData: getting trophy data from file=" + file.getAbsolutePath());
+            Scanner scanner = new Scanner(file);
             boolean first = true;
             while (scanner.hasNext()) {
                 List<String> line = parseLine(scanner.nextLine());

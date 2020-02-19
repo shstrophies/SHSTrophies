@@ -17,7 +17,7 @@ public class LaunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
-        SpreadsheetDownloadTask task = new SpreadsheetDownloadTask(this);
+        DownloadTask task = new DownloadTask(this);
         TextView progress = findViewById(R.id.progress_text);
         try {
             if (task.execute().get()) {

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.shs.trophiesapp.R;
+import com.shs.trophiesapp.utils.DirectoryHelper;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -27,13 +28,13 @@ import java.util.Set;
 
 import static com.shs.trophiesapp.utils.Constants.*;
 
-public class SpreadsheetDownloadTask extends AsyncTask<Void, Void, Boolean> {
-    private static final String TAG = "SpreadsheetDownloadTask";
+public class DownloadTask extends AsyncTask<Void, Void, Boolean> {
+    private static final String TAG = "DownloadTask";
     private static String[] fileHashes = new String[GIDS.length];
     private WeakReference<Activity> foregroundActivity;
 
 
-    SpreadsheetDownloadTask(Activity activity) {
+    DownloadTask(Activity activity) {
         this.foregroundActivity = new WeakReference<>(activity);
     }
 
@@ -86,7 +87,7 @@ public class SpreadsheetDownloadTask extends AsyncTask<Void, Void, Boolean> {
         url.openConnection().connect();
 
         MessageDigest md = MessageDigest.getInstance("SHA-1");
-        File csv = new File(Environment.getExternalStorageDirectory().toString() + "/" + title + ".csv");
+        File csv = new File(DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + title + "/" + "export");
         InputStream input = new BufferedInputStream(url.openStream(),8192);
         OutputStream output = new FileOutputStream(csv);
 
