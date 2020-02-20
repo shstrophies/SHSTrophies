@@ -2,19 +2,25 @@ package com.shs.trophiesapp.data;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import com.shs.trophiesapp.data.daos.SportDao;
 import com.shs.trophiesapp.data.daos.TrophyDao;
 import com.shs.trophiesapp.data.entities.Sport;
 import com.shs.trophiesapp.data.entities.Trophy;
+import com.shs.trophiesapp.ui.SetupActivity;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.workers.SeedDatabaseWorker;
 
@@ -46,7 +52,8 @@ public abstract class AppDatabase extends RoomDatabase {
                         Log.d(TAG, "Room.databaseBuilder, ... onCreate: ");
                         super.onCreate(db);
                         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SeedDatabaseWorker.class).build();
-                        WorkManager.getInstance().enqueue(workRequest);
+                        WorkManager workManager = WorkManager.getInstance(context);
+                        workManager.enqueue(workRequest);
                     }
                 }).build();
     }

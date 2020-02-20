@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.shs.trophiesapp.R;
+import com.shs.trophiesapp.data.AppDatabase;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.entities.Sport;
 import com.shs.trophiesapp.data.entities.Trophy;
@@ -86,7 +87,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     private void downloadData() {
         try {
             Log.d(TAG, "downloadData: deleting database");
-            getApplicationContext().deleteDatabase(Constants.DATABASE_NAME);
             for (int i = 0; i < GIDS.length; i++) {
                 String url = DOWNLOAD_URL.replace("YOURGID", GIDS[i]);
                 String directory = titles[i];
@@ -131,7 +131,9 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         try {
 
             Context context = getApplicationContext();
-            Toast.makeText(SetupActivity.this, "Getting sports repository", Toast.LENGTH_LONG).show();
+            context.deleteDatabase(Constants.DATABASE_NAME);
+//            AppDatabase db = AppDatabase.getInstance(context);
+            Toast.makeText(SetupActivity.this, "Loading database...", Toast.LENGTH_LONG).show();
             List<Sport> sports = DataManager.getSportRepository(context).getSports();
             Toast.makeText(SetupActivity.this, "sports size=" + sports.size(), Toast.LENGTH_LONG).show();
 
