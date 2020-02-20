@@ -26,8 +26,8 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/sport_recycleview"
-                    android:layout_width="2561dp"
-                    android:layout_height="1108dp"
+                    android:layout_width="2585dp"
+                    android:layout_height="949dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.609"
@@ -38,8 +38,8 @@
 
                 <View
                     android:id="@+id/view"
-                    android:layout_width="2549dp"
-                    android:layout_height="215dp"
+                    android:layout_width="2591dp"
+                    android:layout_height="204dp"
                     android:background="#fff"
                     app:layout_constraintBottom_toTopOf="@+id/sport_recycleview"
                     app:layout_constraintEnd_toEndOf="parent"

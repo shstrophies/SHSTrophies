@@ -2032,12 +2032,12 @@
         "source": "/Users/armanrafati/.gradle/caches/transforms-2/files-2.1/339cc3e573de53d2d7150d8469e348f3/jetified-MaterialSearchBar-0.8.2/res/anim/fade_in_right.xml"
     },
     {
-        "merged": "/Users/armanrafati/Desktop/GITHUB-PROJECTS/SHSTrophies/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_btn_switch_to_on_mtrl_00012.9.png.flat",
-        "source": "/Users/armanrafati/.gradle/caches/transforms-2/files-2.1/6119d746697059b7e1b74aab4d181f56/appcompat-1.1.0/res/drawable-xxxhdpi-v4/abc_btn_switch_to_on_mtrl_00012.9.png"
-    },
-    {
         "merged": "/Users/armanrafati/Desktop/GITHUB-PROJECTS/SHSTrophies/app/build/intermediates/res/merged/debug/drawable-v24_shs_logo.png.flat",
         "source": "/Users/armanrafati/Desktop/GITHUB-PROJECTS/SHSTrophies/app/src/main/res/drawable-v24/shs_logo.png"
+    },
+    {
+        "merged": "/Users/armanrafati/Desktop/GITHUB-PROJECTS/SHSTrophies/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_btn_switch_to_on_mtrl_00012.9.png.flat",
+        "source": "/Users/armanrafati/.gradle/caches/transforms-2/files-2.1/6119d746697059b7e1b74aab4d181f56/appcompat-1.1.0/res/drawable-xxxhdpi-v4/abc_btn_switch_to_on_mtrl_00012.9.png"
     },
     {
         "merged": "/Users/armanrafati/Desktop/GITHUB-PROJECTS/SHSTrophies/app/build/intermediates/res/merged/debug/drawable-v21_avd_show_password.xml.flat",
