@@ -98,7 +98,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
     private void downloadData() {
         try {
-            Log.d(TAG, "downloadData: deleting database");
             for (int i = 0; i < GIDS.length; i++) {
                 String url = DOWNLOAD_URL.replace("YOURGID", GIDS[i]);
                 String directory = titles[i];
