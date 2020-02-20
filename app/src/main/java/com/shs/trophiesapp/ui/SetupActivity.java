@@ -16,7 +16,16 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.Operation;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.AppDatabase;
@@ -26,16 +35,18 @@ import com.shs.trophiesapp.data.entities.Trophy;
 import com.shs.trophiesapp.ui.sports.SportsActivity;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
+import com.shs.trophiesapp.workers.SeedDatabaseWorker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static com.shs.trophiesapp.utils.Constants.DOWNLOAD_URL;
 import static com.shs.trophiesapp.utils.Constants.GIDS;
 import static com.shs.trophiesapp.utils.Constants.titles;
 
-public class SetupActivity extends AppCompatActivity implements View.OnClickListener {
+public class SetupActivity extends AppCompatActivity implements View.OnClickListener, LifecycleOwner {
     private static final String TAG = "SetupActivity";
 
     private static final String DOWNLOAD_PATH = Constants.DOWNLOAD_URL;
@@ -45,6 +56,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     ArrayList downloadedIds = new ArrayList();
     Button downloadButton = null;
     Button loadDatabaseButton = null;
+    private LifecycleOwner lifecycleOwner = this;
 
 
     @Override
@@ -132,7 +144,29 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
             Context context = getApplicationContext();
             context.deleteDatabase(Constants.DATABASE_NAME);
-//            AppDatabase db = AppDatabase.getInstance(context);
+
+            RoomDatabase.Callback rdc = new RoomDatabase.Callback() {
+                public void onCreate (SupportSQLiteDatabase db) {
+                    Log.d(TAG, "Room.databaseBuilder, ... onCreate: ");
+                    super.onCreate(db);
+                    OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SeedDatabaseWorker.class).build();
+                    WorkManager workManager = WorkManager.getInstance(context);
+                    Operation operation = workManager.enqueue(workRequest);
+                    UUID id = workRequest.getId();
+                    WorkManager.getInstance(context).getWorkInfoByIdLiveData(workRequest.getId())
+                            .observe(lifecycleOwner, new Observer<WorkInfo>() {
+                                @Override
+                                public void onChanged(@Nullable WorkInfo workInfo) {
+                                    if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                                        Toast.makeText(SetupActivity.this, "DONE Loading database...", Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+                                    }
+                                }
+                            });
+                }
+            };
+
+            AppDatabase db = AppDatabase.getInstance(context, rdc);
             Toast.makeText(SetupActivity.this, "Loading database...", Toast.LENGTH_LONG).show();
             List<Sport> sports = DataManager.getSportRepository(context).getSports();
             Toast.makeText(SetupActivity.this, "sports size=" + sports.size(), Toast.LENGTH_LONG).show();
@@ -141,12 +175,13 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             List<Trophy> trophies = DataManager.getTrophyRepository(context).getTrophies();
             Toast.makeText(SetupActivity.this, "trophies size=" + trophies.size(), Toast.LENGTH_LONG).show();
 
-
+            if((sports.size() != 0) && (trophies.size() != 0)) {
+                startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        startActivity(new Intent(SetupActivity.this, SportsActivity.class));
 
     }
     private long startDownload(String downloadPath, String destinationPath) {
