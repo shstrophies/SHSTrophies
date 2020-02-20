@@ -124,16 +124,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             if (downloadedIds.size() >= IDSNUM) {
                 if(downloadButton != null) downloadButton.setEnabled(true);
                 downloadedIds.clear();
-                Toast.makeText(SetupActivity.this, "Getting sports repository", Toast.LENGTH_LONG).show();
-                List<Sport> sports = DataManager.getSportRepository(context).getSports();
-                Toast.makeText(SetupActivity.this, "sports size=" + sports.size(), Toast.LENGTH_LONG).show();
-
-                Toast.makeText(SetupActivity.this, "Getting trophy repository", Toast.LENGTH_LONG).show();
-                List<Trophy> trophies = DataManager.getTrophyRepository(context).getTrophies();
-                Toast.makeText(SetupActivity.this, "trophies size=" + trophies.size(), Toast.LENGTH_LONG).show();
-
-                startActivity(new Intent(SetupActivity.this, SportsActivity.class));
-
+                loadDatabase();
             }
         }
     };
@@ -169,13 +160,14 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             AppDatabase db = AppDatabase.getInstance(context, rdc);
             Toast.makeText(SetupActivity.this, "Loading database...", Toast.LENGTH_LONG).show();
             List<Sport> sports = DataManager.getSportRepository(context).getSports();
-            Toast.makeText(SetupActivity.this, "sports size=" + sports.size(), Toast.LENGTH_LONG).show();
 
             Toast.makeText(SetupActivity.this, "Getting trophy repository", Toast.LENGTH_LONG).show();
             List<Trophy> trophies = DataManager.getTrophyRepository(context).getTrophies();
-            Toast.makeText(SetupActivity.this, "trophies size=" + trophies.size(), Toast.LENGTH_LONG).show();
 
             if((sports.size() != 0) && (trophies.size() != 0)) {
+                Toast.makeText(SetupActivity.this, "sports size=" + sports.size(), Toast.LENGTH_LONG).show();
+                Toast.makeText(SetupActivity.this, "trophies size=" + trophies.size(), Toast.LENGTH_LONG).show();
+
                 startActivity(new Intent(SetupActivity.this, SportsActivity.class));
             }
         } catch (Exception e) {
