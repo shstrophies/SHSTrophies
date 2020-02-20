@@ -110,7 +110,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(SetupActivity.this, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
             }
             if (downloadedIds.size() >= IDSNUM) {
-//                if(downloadButton != null) downloadButton.setEnabled(true);
+                if(downloadButton != null) downloadButton.setEnabled(true);
                 downloadedIds.clear();
                 Toast.makeText(SetupActivity.this, "Getting sports repository", Toast.LENGTH_LONG).show();
                 List<Sport> sports = DataManager.getSportRepository(context).getSports();
