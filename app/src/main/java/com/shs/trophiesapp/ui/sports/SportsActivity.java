@@ -64,33 +64,6 @@ public class SportsActivity extends AppCompatActivity {
 //            getSportData();
             getData();
         }
-
-
-//        searchBar = findViewById(R.id.searchBar);
-//
-//        searchBar.addTextChangeListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                Log.d(TAG, "onTextChanged: " + searchBar.getText());
-//                doSearch(searchBar.getText());
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                Log.d(TAG, "afterTextChanged: " + searchBar.getText());
-//                doSearch(searchBar.getText());
-//
-//            }
-//
-//        });
-//
-//        searchBar.enableSearch();
-
     }
 
     // - create data and notify data

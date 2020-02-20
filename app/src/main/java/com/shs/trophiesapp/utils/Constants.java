@@ -8,6 +8,8 @@ public final class Constants {
     public static final String titleSports = titles[0];
     public static final String titleTrophies = titles[1];
 
+    public static final String DRIVE_URL = "https://drive.google.com/uc?export=download&id=";
+
     public static final String tableName_1 = "Sports";
     public static final String columns_1 = "_Sports, Image URL";
 
