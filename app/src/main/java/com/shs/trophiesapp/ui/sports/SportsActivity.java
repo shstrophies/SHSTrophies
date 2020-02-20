@@ -56,14 +56,9 @@ public class SportsActivity extends AppCompatActivity {
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);
 
-        // Request for permission to read external storage
-        if (fromExternalSource && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
-        } else {
             // create data and notify adapter
 //            getSportData();
             getData();
-        }
     }
 
     // - create data and notify data

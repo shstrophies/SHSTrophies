@@ -21,13 +21,13 @@ import java.util.List;
 
     // User-defined Queries
     @Query("SELECT * FROM trophy WHERE Trophy_Title LIKE :tr_title")
-        Trophy findByTrophyTitle(String tr_title);
+    List<Trophy> findByTrophyTitle(String tr_title);
     @Query("SELECT * FROM trophy WHERE Player_Name LIKE :player") //TODO: Normalize DB Structure (IF NECESSARY)
-        Trophy findByName(String player);
+    List<Trophy> findByName(String player);
     @Query("SELECT * FROM trophy WHERE Year LIKE :year")
-        Trophy findByYear(int year);
+    List<Trophy> findByYear(int year);
     @Query("SELECT * FROM trophy WHERE Sport LIKE :sport_name")
-        Trophy findBySport(String sport_name);
+    List<Trophy> findBySport(String sport_name);
     @Query("SELECT * FROM trophy WHERE Category LIKE :category")
-        Trophy findByCategory(String category);
+    List<Trophy> findByCategory(String category);
 }

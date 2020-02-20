@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.entities.Trophy;
+import com.shs.trophiesapp.utils.Constants;
 
 public class TrophyViewHolder extends RecyclerView.ViewHolder {
     private TextView txtTitle;
@@ -34,7 +35,7 @@ public class TrophyViewHolder extends RecyclerView.ViewHolder {
         String[] p=imageUrl.split("/");
         if(p.length > 5) {
             //Create the new image link
-            String imageLink="https://drive.google.com/uc?export=download&id="+p[5];
+            String imageLink= Constants.DRIVE_URL+p[5];
 
             if ((imageUrl !=  null) && !imageUrl.isEmpty()) {
                 Glide.with(view.getContext()).load(imageLink).into(view);

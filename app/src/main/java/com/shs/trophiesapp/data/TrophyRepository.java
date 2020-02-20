@@ -18,6 +18,10 @@ public class TrophyRepository {
         return TrophyDao.getTrophies();
     }
 
+    public List<Trophy>  getTrophiesBySport(String sport_name) {
+        return TrophyDao.findBySport(sport_name);
+    }
+
     public static TrophyRepository getInstance(TrophyDao TrophyDao) {
         if (instance == null) {
             synchronized(TrophyRepository.class) {

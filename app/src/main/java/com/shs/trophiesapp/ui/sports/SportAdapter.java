@@ -21,6 +21,7 @@ import java.util.List;
 
 public class SportAdapter extends RecyclerView.Adapter<SportViewHolder> implements Filterable {
     private static final String TAG = "SportAdapter";
+
     private Context context;
     private ArrayList<Sport> sports;
     private List<Sport> sportsFiltered;
@@ -54,7 +55,7 @@ public class SportAdapter extends RecyclerView.Adapter<SportViewHolder> implemen
             public void onClick(View view) {
                 Intent intent = new Intent(context, TrophiesActivity.class);
                 // passing data
-                intent.putExtra("Sport", sports.get(position).sport_name);
+                intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sports.get(position).sport_name);
 
                 // start activity
                 context.startActivity(intent);

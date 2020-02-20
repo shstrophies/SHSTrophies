@@ -25,6 +25,7 @@ import java.util.List;
 
 public class TrophiesActivity extends AppCompatActivity {
     private static final String TAG = "TrophiesActivity";
+    public static final String TROPHIES_BY_SPORT_NAME = "Sport";
 
     private MaterialSearchBar searchBar;
 
@@ -50,7 +51,7 @@ public class TrophiesActivity extends AppCompatActivity {
 
         //Receive data
         Intent intent = getIntent();
-        String sport = intent.getExtras().getString("Sport");
+        String sport = intent.getExtras().getString(TROPHIES_BY_SPORT_NAME);
 
         // set recyclerview layout manager
         recyclerView = (RecyclerView) findViewById(R.id.trophies_recyclerView);
@@ -61,16 +62,10 @@ public class TrophiesActivity extends AppCompatActivity {
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);
 
-        // Request for permission to read external storage
-        if (fromExternalSource && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
-        } else {
+
             // get data and notify adapter
 //            getTrophyData();
-            getData();
-
-
-        }
+            getData(sport);
 
 
         searchBar = findViewById(R.id.searchBar);
@@ -127,11 +122,11 @@ public class TrophiesActivity extends AppCompatActivity {
     }
 
 
-    private void getData() {
+    private void getData(String sport) {
         Log.d(TAG, "getData: getData");
         Context context = this;
         TrophyRepository trophyRepository = DataManager.getTrophyRepository(context);
-        List<Trophy> _trophies = trophyRepository.getTrophies();
+        List<Trophy> _trophies = trophyRepository.getTrophiesBySport(sport);
         trophies.addAll(_trophies);
         Log.d(TAG, "getData: recyclerview trophies size=" + trophies.size());
         adapter.notifyDataSetChanged();
