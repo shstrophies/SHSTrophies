@@ -24,6 +24,8 @@ import com.shs.trophiesapp.ui.SetupActivity;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.workers.SeedDatabaseWorker;
 
+import java.util.UUID;
+
 @Database(entities = {Sport.class, Trophy.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     
@@ -32,30 +34,39 @@ public abstract class AppDatabase extends RoomDatabase {
     abstract public TrophyDao trophyDao();
 
     private static AppDatabase mInstance = null;
+    private static RoomDatabase.Callback mCallback = new RoomDatabase.Callback() {
+        public void onCreate (SupportSQLiteDatabase db) {
+            Log.d(TAG, "Room.databaseBuilder, ... onCreate: ");
+            super.onCreate(db);
+            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SeedDatabaseWorker.class).build();
+            WorkManager workManager = WorkManager.getInstance();
+            workManager.enqueue(workRequest);
+            UUID id = workRequest.getId();
+        }
+    };
 
-    public synchronized static AppDatabase getInstance(Context context) {
+    public synchronized static AppDatabase getInstance(Context context, RoomDatabase.Callback callback) {
         if(mInstance == null) {
             Log.d(TAG, "getInstance: calling buildDatabase");
-            mInstance = buildDatabase(context);
+            mInstance = buildDatabase(context, callback);
         }
         return mInstance;
     }
 
-    private static AppDatabase buildDatabase(final Context context) {
+    public synchronized static AppDatabase getInstance(Context context) {
+        if(mInstance == null) {
+            Log.d(TAG, "getInstance: calling buildDatabase");
+            mInstance = buildDatabase(context, mCallback);
+        }
+        return mInstance;
+    }
+
+    private static AppDatabase buildDatabase(final Context context, RoomDatabase.Callback callback) {
 
         Log.d(TAG, "buildDatabase: in buildDatabase, context=" + context);
         return Room.databaseBuilder(context, AppDatabase.class, Constants.DATABASE_NAME)
                 .allowMainThreadQueries()
-                .addCallback(new Callback() {
-                    @Override
-                    public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                        Log.d(TAG, "Room.databaseBuilder, ... onCreate: ");
-                        super.onCreate(db);
-                        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SeedDatabaseWorker.class).build();
-                        WorkManager workManager = WorkManager.getInstance(context);
-                        workManager.enqueue(workRequest);
-                    }
-                }).build();
+                .addCallback(callback).build();
     }
 
     public void cleanUp(){
