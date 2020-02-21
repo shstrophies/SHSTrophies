@@ -1,30 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_sports"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
     android:background="#f45942"
     tools:context=".ui.sports.SportsActivity">
 
-<!--
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="382dp"
-            android:layout_height="49dp"
-            android:text="@string/saratoga_high_school_trophies"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-            -->
+    <com.mancj.materialsearchbar.MaterialSearchBar
+        android:id="@+id/sports_search"
+        style="@style/MaterialSearchBarLight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="8dp"
+        app:mt_placeholder=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mt_maxSuggestionsCount="10"
+        app:mt_speechMode="false">
+    </com.mancj.materialsearchbar.MaterialSearchBar>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/sport_recycleview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sport_recycleview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/sports_search"
+        app:layout_constraintEnd_toEndOf="@id/sports_search"
+        app:layout_constraintEnd_toStartOf="@id/sports_search"
+        app:layout_constraintStart_toEndOf="@id/sports_search"
+        app:layout_constraintStart_toStartOf="@id/sports_search"
+        app:layout_constraintTop_toBottomOf="@+id/sports_search" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
