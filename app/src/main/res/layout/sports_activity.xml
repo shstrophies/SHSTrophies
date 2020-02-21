@@ -24,22 +24,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/sport_recycleview"
                     android:layout_width="2585dp"
                     android:layout_height="949dp"
+                    android:layout_gravity="center|center_horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
+
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.609"
+                    app:layout_constraintHorizontal_bias="0.526"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0"></androidx.recyclerview.widget.RecyclerView>
+                    app:layout_constraintVertical_bias="1.0">
 
+                </androidx.recyclerview.widget.RecyclerView>
 
                 <View
                     android:id="@+id/view"
-                    android:layout_width="2591dp"
-                    android:layout_height="204dp"
+                    android:layout_width="2613dp"
+                    android:layout_height="216dp"
                     android:background="#fff"
                     app:layout_constraintBottom_toTopOf="@+id/sport_recycleview"
                     app:layout_constraintEnd_toEndOf="parent"

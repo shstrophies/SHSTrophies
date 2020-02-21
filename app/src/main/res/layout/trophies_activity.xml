@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context=".ui.trophies.TrophiesActivity">
 
 
@@ -16,26 +16,23 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:elevation="8dp"
-        app:mt_placeholder=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:mt_maxSuggestionsCount="10"
-        app:mt_speechMode="false">
-    </com.mancj.materialsearchbar.MaterialSearchBar>
+        app:mt_placeholder=""
+        app:mt_speechMode="false"></com.mancj.materialsearchbar.MaterialSearchBar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trophies_recyclerView"
-        android:layout_width="395dp"
-        android:layout_height="635dp"
+        android:layout_width="2564dp"
+        android:layout_height="1044dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchBar"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
