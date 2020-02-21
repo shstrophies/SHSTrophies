@@ -1,15 +1,15 @@
 # Saratoga-High-School-Trophy-Application
 
-##TODO:
+## TODO:
 
-#Backend:
+# Backend:
 - find out the structure of the spreadsheet and format of the database (Ujjwal & Carolina)
 - download images in case wifi is slow? (Ujjwal & Carolina)
 - add more search capability especially with homepage (Ujjwal & Carolina)
 - add more of the trophy info (Ujjwal & Carolina)
 - add cleanup code to clean export files (Shayan)
 
-#UI:
+# UI:
 - add search bar (Ujjwal)
 -finish homescreen UI (Arman & Vignav) & design cards 
 -finish trophy page UI (Arman & Vignav) & design cards 
