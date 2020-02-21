@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,9 +62,11 @@ public class TrophiesActivity extends AppCompatActivity {
 
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
 
-            // get data and notify adapter
+
+        // get data and notify adapter
 //            getTrophyData();
             getData(sport);
 

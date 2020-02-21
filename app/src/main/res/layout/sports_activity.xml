@@ -27,11 +27,15 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/sport_recycleview"
-                    android:layout_width="2585dp"
-                    android:layout_height="949dp"
+                    android:layout_width="2560dp"
+                    android:layout_marginLeft="200dp"
+                    android:layout_height="1070dp"
                     android:layout_gravity="center|center_horizontal"
+                    android:layout_marginTop="352dp"
+                    android:layout_marginBottom="10dp"
+                    android:clipToPadding="false"
+                    android:padding="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.526"
                     app:layout_constraintStart_toStartOf="parent"
