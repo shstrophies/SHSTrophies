@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,6 +59,8 @@ public class TrophiesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         trophies = new ArrayList<>();
         adapter = new TrophyAdapter(this, trophies);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+
 
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);
