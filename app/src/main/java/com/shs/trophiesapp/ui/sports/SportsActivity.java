@@ -10,8 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +29,6 @@ import java.util.List;
 public class SportsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener {
     private static final String TAG = "SportsActivity";
 
-    private DrawerLayout drawer;
     private MaterialSearchBar searchBar;
 
     private RecyclerView recyclerView;
@@ -58,10 +55,7 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         // get data and notify adapter
         getData();
 
-        drawer = findViewById(R.id.activity_sports);
-        NavigationView navigationView = findViewById(R.id.sports_nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        searchBar = findViewById(R.id.searchBar);
+        searchBar = findViewById(R.id.sports_search);
         searchBar.setOnSearchActionListener(this);
         searchBar.inflateMenu(R.menu.main);
         searchBar.setText("Hello World!");
@@ -70,6 +64,7 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         searchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d(TAG, "beforeTextChanged: ");
             }
 
             @Override
@@ -79,28 +74,22 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                Log.d(TAG, "afterTextChanged: ");
             }
 
         });
 
-        final FloatingActionButton searchButton = findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchBar.openSearch();
-            }
-        });
+//        final FloatingActionButton searchButton = findViewById(R.id.searchButton);
+//        searchButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                searchBar.openSearch();
+//            }
+//        });
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_sports);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
@@ -145,8 +134,6 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_sports);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -162,9 +149,6 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
     @Override
     public void onButtonClicked(int buttonCode) {
         switch (buttonCode) {
-            case MaterialSearchBar.BUTTON_NAVIGATION:
-                drawer.openDrawer(GravityCompat.START);
-                break;
             case MaterialSearchBar.BUTTON_SPEECH:
                 break;
             case MaterialSearchBar.BUTTON_BACK:

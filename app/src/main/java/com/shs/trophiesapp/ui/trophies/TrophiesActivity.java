@@ -11,8 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +30,6 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
     private static final String TAG = "TrophiesActivity";
     public static final String TROPHIES_BY_SPORT_NAME = "Sport";
 
-    private DrawerLayout drawer;
     private MaterialSearchBar searchBar;
 
     private RecyclerView recyclerView;
@@ -65,9 +62,6 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
 
         getData(sport);
 
-        drawer = findViewById(R.id.activity_trophies);
-        NavigationView navigationView = findViewById(R.id.trophies_nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
         searchBar = findViewById(R.id.searchBar);
         searchBar.setOnSearchActionListener(this);
         searchBar.inflateMenu(R.menu.main);
@@ -77,6 +71,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         searchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d(TAG, "beforeTextChanged: ");
             }
 
             @Override
@@ -87,27 +82,23 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void afterTextChanged(Editable editable) {
 
+                Log.d(TAG, "afterTextChanged: ");
             }
 
         });
 
-        final FloatingActionButton searchButton = findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchBar.openSearch();
-            }
-        });
+//        final FloatingActionButton searchButton = findViewById(R.id.searchButton);
+//        searchButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                searchBar.openSearch();
+//            }
+//        });
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_trophies);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        Log.d(TAG, "onBackPressed: ");
     }
 
     @Override
@@ -152,8 +143,6 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_trophies);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -169,9 +158,6 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
     @Override
     public void onButtonClicked(int buttonCode) {
         switch (buttonCode) {
-            case MaterialSearchBar.BUTTON_NAVIGATION:
-                drawer.openDrawer(GravityCompat.START);
-                break;
             case MaterialSearchBar.BUTTON_SPEECH:
                 break;
             case MaterialSearchBar.BUTTON_BACK:
