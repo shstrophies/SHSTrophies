@@ -62,7 +62,7 @@ public class TrophiesActivity extends AppCompatActivity {
 
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
 
 
 

@@ -1,4 +1,0 @@
-#Fri Feb 21 16:55:56 PST 2020
-base.0=/Users/armanrafati/Desktop/GITHUB-PROJECTS/SHSTrophies/app/build/intermediates/dex/release/mergeDexRelease/out/classes.dex
-path.0=classes.dex
-renamed.0=classes.dex

@@ -1544,7 +1544,6 @@ id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
 id trophies_recyclerView
-id txtDescription
 id txtTitle
 id unchecked
 id uniform

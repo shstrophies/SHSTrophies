@@ -5,49 +5,47 @@
     android:layout_width="350dp"
     android:layout_height="600dp"
     android:padding="0dp">
+
+
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="351dp"
-        android:layout_height="68dp"
+        android:layout_width="416dp"
+        android:layout_height="102dp"
         app:layout_constraintTop_toBottomOf="@+id/my_image_view"
         app:srcCompat="@android:color/holo_orange_dark"
-        tools:layout_editor_absoluteX="-3dp" />
-
-
-    <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="292dp"
-        android:layout_height="56dp"
-        android:padding="1dp"
-        android:textColor="#000"
-        android:textSize="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="@+id/imageView3"
-        tools:layout_editor_absoluteY="487dp" />
+        tools:layout_editor_absoluteX="-32dp" />
 
     <ImageView
         android:id="@+id/my_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="474dp"
+        android:layout_width="419dp"
+        android:layout_height="483dp"
         android:layout_marginBottom="4dp"
         android:background="#2d2d2d"
         android:contentDescription="@string/todo"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/txtTitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.008"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+
+<!--    we need to find some conditional to be like, for example'if theres only 10 characters, make font size 50 but if theres more than 10, font size = 30 -->
+
     <TextView
-        android:id="@+id/txtDescription"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/txtTitle"
+        android:layout_width="387dp"
+        android:layout_height="100dp"
+        android:fontFamily="@font/montserrat_bold"
         android:padding="1dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="497dp" />
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.968" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

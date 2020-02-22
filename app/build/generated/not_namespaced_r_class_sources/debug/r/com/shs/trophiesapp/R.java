@@ -6290,19 +6290,18 @@ public final class R {
     public static final int transition_scene_layoutid_cache=0x7f0a0126;
     public static final int transition_transform=0x7f0a0127;
     public static final int trophies_recyclerView=0x7f0a0128;
-    public static final int txtDescription=0x7f0a0129;
-    public static final int txtTitle=0x7f0a012a;
-    public static final int unchecked=0x7f0a012b;
-    public static final int uniform=0x7f0a012c;
-    public static final int unlabeled=0x7f0a012d;
-    public static final int up=0x7f0a012e;
-    public static final int useLogo=0x7f0a012f;
-    public static final int view=0x7f0a0130;
-    public static final int view_offset_helper=0x7f0a0131;
-    public static final int visible=0x7f0a0132;
-    public static final int withText=0x7f0a0133;
-    public static final int wrap=0x7f0a0134;
-    public static final int wrap_content=0x7f0a0135;
+    public static final int txtTitle=0x7f0a0129;
+    public static final int unchecked=0x7f0a012a;
+    public static final int uniform=0x7f0a012b;
+    public static final int unlabeled=0x7f0a012c;
+    public static final int up=0x7f0a012d;
+    public static final int useLogo=0x7f0a012e;
+    public static final int view=0x7f0a012f;
+    public static final int view_offset_helper=0x7f0a0130;
+    public static final int visible=0x7f0a0131;
+    public static final int withText=0x7f0a0132;
+    public static final int wrap=0x7f0a0133;
+    public static final int wrap_content=0x7f0a0134;
   }
   public static final class integer {
     public static final int abc_config_activityDefaultDur=0x7f0b0000;
