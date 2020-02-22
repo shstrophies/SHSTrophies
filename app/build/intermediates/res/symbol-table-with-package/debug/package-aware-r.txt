@@ -1509,6 +1509,7 @@ id standard
 id start
 id status_bar_latest_event_content
 id stretch
+id subTextView
 id submenuarrow
 id submit_area
 id tabMode

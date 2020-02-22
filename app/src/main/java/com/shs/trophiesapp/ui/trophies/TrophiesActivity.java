@@ -97,6 +97,7 @@ public class TrophiesActivity extends AppCompatActivity {
         searchBar.enableSearch();
 
     }
+    
 
     // - create data and notify data
     private void getTrophyData() {

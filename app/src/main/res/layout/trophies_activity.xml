@@ -7,19 +7,62 @@
     tools:context=".ui.trophies.TrophiesActivity">
 
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="2613dp"
+        android:layout_height="216dp"
+        android:background="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Football Trophies"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="45dp"
+        android:paddingTop="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+    <TextView
+        android:id="@+id/subTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Tap a trophy or search"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="30dp"
+        android:paddingTop="115dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+
     <com.mancj.materialsearchbar.MaterialSearchBar
         android:id="@+id/searchBar"
         style="@style/MaterialSearchBarLight"
         android:layout_width="2256dp"
         android:layout_height="42dp"
         android:layout_marginStart="151dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="256dp"
         android:layout_marginEnd="150dp"
         android:elevation="8dp"
+        android:windowSoftInputMode="adjustPan|adjustResize"
+        app:layout_constraintBottom_toTopOf="@+id/trophies_recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+
+
         app:mt_maxSuggestionsCount="10"
         app:mt_placeholder=""
         app:mt_speechMode="false"></com.mancj.materialsearchbar.MaterialSearchBar>
@@ -27,17 +70,18 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trophies_recyclerView"
         android:layout_width="2560dp"
-        android:layout_marginLeft="200dp"
         android:layout_height="1070dp"
         android:layout_gravity="center|center_horizontal"
-        android:layout_marginTop="352dp"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="60dp"
         android:layout_marginBottom="10dp"
         android:clipToPadding="false"
         android:padding="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchBar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

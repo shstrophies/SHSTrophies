@@ -33,7 +33,8 @@
         android:theme="@style/AppTheme.NoActionBar" >
         <activity
             android:name="com.shs.trophiesapp.ui.SetupActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan|adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
