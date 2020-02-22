@@ -1,11 +1,5 @@
 apply plugin: 'com.android.application'
 
-
-
-
-
-
-
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -35,7 +29,7 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
-    buildToolsVersion = '29.0.1'
+    buildToolsVersion = '29.0.2'
 
     android {
         lintOptions {
