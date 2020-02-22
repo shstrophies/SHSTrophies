@@ -34,7 +34,7 @@ public class SportAdapter extends RecyclerView.Adapter<SportViewHolder> implemen
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, "getItemCount: sportsFiltered.size=" + sportsFiltered.size());
+//        Log.d(TAG, "getItemCount: sportsFiltered.size=" + sportsFiltered.size());
         return sportsFiltered.size();
     }
 

@@ -53,7 +53,7 @@ dependencies {
     implementation "com.mikepenz:aboutlibraries:6.2.3"
 
     //Material search bar library
-    implementation 'com.github.mancj:MaterialSearchBar:0.8.2'
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 
     /////
 

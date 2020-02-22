@@ -1,26 +1,24 @@
 package com.shs.trophiesapp.ui.sports;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.SportRepository;
@@ -30,66 +28,15 @@ import com.mancj.materialsearchbar.MaterialSearchBar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SportsActivity extends AppCompatActivity {
+public class SportsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener {
     private static final String TAG = "SportsActivity";
 
+    private DrawerLayout drawer;
     private MaterialSearchBar searchBar;
 
     private RecyclerView recyclerView;
     private SportAdapter adapter;
     private ArrayList<Sport> sports;
-
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE
-    };
-
-    private final boolean fromExternalSource = true;
-
-    public void onCreateOptionsMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu, menu);
-
-        searchBar.inflateMenu(R.menu.options_menu);
-
-        searchBar.getMenu().setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId())
-                {
-                    case R.id.app_bar_search:
-                        break;
-                }
-                return false;
-            }
-        });
-
-        searchBar = findViewById(R.id.sports_search);
-
-        searchBar.addTextChangeListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d(TAG, "beforeTextChanged: charSequence=" + charSequence + ", i=" + i + ", i1=" + i1 + ", i2=" + 0);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d(TAG, "onTextChanged: " + searchBar.getText());
-//                doSearch(searchBar.getText());
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                Log.d(TAG, "afterTextChanged: " + searchBar.getText());
-                doSearch(searchBar.getText());
-
-            }
-        });
-
-        searchBar.enableSearch();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,30 +55,122 @@ public class SportsActivity extends AppCompatActivity {
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);
 
-            // create data and notify adapter
-//            getSportData();
-            getData();
+        // get data and notify adapter
+        getData();
 
+        drawer = findViewById(R.id.activity_sports);
+        NavigationView navigationView = findViewById(R.id.sports_nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        searchBar = findViewById(R.id.searchBar);
+        searchBar.setOnSearchActionListener(this);
+        searchBar.inflateMenu(R.menu.main);
+        searchBar.setText("Hello World!");
+        Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
+        searchBar.setCardViewElevation(10);
+        searchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
+            }
 
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+
+        });
+
+        final FloatingActionButton searchButton = findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchBar.openSearch();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_sports);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_sports);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onSearchStateChanged(boolean enabled) {
+    }
+
+    @Override
+    public void onSearchConfirmed(CharSequence text) {
 
     }
 
-
-
-    // - create data and notify data
-    private void getSportData() {
-        Sport Sport;
-//        Sport = new Sport("Baseball - Arman Rafati - 2018", "This was an epic year for MVP player Arman Rafati.  He conquered the field with his quick legs.  Congratulations for a game well played by Arman and his mates ... ");
-//        sports.add(Sport);
-//        Sport = new Sport("Tennis - Shay Sarn - 2019", "Fabulous game! Shay is a lefty who has strengthened his game throughout the year. He has achieved a level of mastery and perfection.  Great job!");
-//        sports.add(Sport);
-//        Sport = new Sport("Soccer - Johnny Bee - 2018", "Another fabulous game with Johnny Bee. Johnny has legs of steel!  Go Mr. Bee!");
-//        sports.add(Sport);
-//        Sport = new Sport("Swimming - Anthony Lao - 2017", "Don't let Anthony fool you because he is a sophomore.  He has strong arms and legs and he will not be defated. Good job Mr. Lao!");
-//        sports.add(Sport);
-//        adapter.notifyDataSetChanged();
-
+    @Override
+    public void onButtonClicked(int buttonCode) {
+        switch (buttonCode) {
+            case MaterialSearchBar.BUTTON_NAVIGATION:
+                drawer.openDrawer(GravityCompat.START);
+                break;
+            case MaterialSearchBar.BUTTON_SPEECH:
+                break;
+            case MaterialSearchBar.BUTTON_BACK:
+                searchBar.closeSearch();
+                break;
+        }
     }
 
     private void getData() {
@@ -148,8 +187,7 @@ public class SportsActivity extends AppCompatActivity {
     // search data
     private void doSearch(String searchText) {
         Log.d(TAG, "doSearch: " + searchBar.getText());
-
         adapter.getFilter().filter(searchText);
-
     }
+
 }

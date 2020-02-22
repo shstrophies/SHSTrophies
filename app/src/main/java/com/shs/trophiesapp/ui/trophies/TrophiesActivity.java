@@ -1,25 +1,24 @@
 package com.shs.trophiesapp.ui.trophies;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.TrophyRepository;
@@ -29,64 +28,17 @@ import com.mancj.materialsearchbar.MaterialSearchBar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrophiesActivity extends AppCompatActivity {
+public class TrophiesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener {
     private static final String TAG = "TrophiesActivity";
     public static final String TROPHIES_BY_SPORT_NAME = "Sport";
 
+    private DrawerLayout drawer;
     private MaterialSearchBar searchBar;
 
     private RecyclerView recyclerView;
     private TrophyAdapter adapter;
     private ArrayList<Trophy> trophies;
 
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE
-    };
-
-    private final boolean fromExternalSource = true;
-
-    public void onCreateOptionsMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu, menu);
-        searchBar.inflateMenu(R.menu.options_menu);
-        searchBar.getMenu().setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId())
-                {
-                    case R.id.app_bar_search:
-                        break;
-                }
-                return false;
-            }
-        });
-
-        searchBar = findViewById(R.id.sports_search);
-        
-        searchBar.addTextChangeListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d(TAG, "onTextChanged: " + searchBar.getText());
-                doSearch(searchBar.getText());
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                Log.d(TAG, "afterTextChanged: " + searchBar.getText());
-                doSearch(searchBar.getText());
-
-            }
-        });
-
-        searchBar.enableSearch();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,39 +63,121 @@ public class TrophiesActivity extends AppCompatActivity {
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);
 
+        getData(sport);
 
-            // get data and notify adapter
-//            getTrophyData();
-            getData(sport);
+        drawer = findViewById(R.id.activity_trophies);
+        NavigationView navigationView = findViewById(R.id.trophies_nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        searchBar = findViewById(R.id.searchBar);
+        searchBar.setOnSearchActionListener(this);
+        searchBar.inflateMenu(R.menu.main);
+        searchBar.setText("Hello World!");
+        Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
+        searchBar.setCardViewElevation(10);
+        searchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+
+        });
+
+        final FloatingActionButton searchButton = findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchBar.openSearch();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_trophies);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.activity_trophies);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onSearchStateChanged(boolean enabled) {
+    }
+
+    @Override
+    public void onSearchConfirmed(CharSequence text) {
 
     }
 
-
-
-    // - create data and notify data
-    private void getTrophyData() {
-        Log.d(TAG, "getTrophyData: getTrophyData");
-        Trophy trophy;
-        trophy = new Trophy(
-                "Basketball",
-                1983,
-                "CCS Champ",
-                "https://drive.google.com/file/d/1vD-ZeOkH0zRdT0V08p9Eh7f8O7QBl6Bh/view",
-                "Glenn Mcfarlane",
-                "JV");
-        trophies.add(trophy);
-        trophy = new Trophy(
-                "Baseball",
-                1982,
-                "Champion for Champion",
-                "https://drive.google.com/file/d/1vD-ZeOkH0zRdT0V08p9Eh7f8O7QBl6Bh/view?usp=sharing",
-                "Dante Mackenzie",
-                "JV");
-        trophies.add(trophy);
-
-        adapter.notifyDataSetChanged();
-
-
+    @Override
+    public void onButtonClicked(int buttonCode) {
+        switch (buttonCode) {
+            case MaterialSearchBar.BUTTON_NAVIGATION:
+                drawer.openDrawer(GravityCompat.START);
+                break;
+            case MaterialSearchBar.BUTTON_SPEECH:
+                break;
+            case MaterialSearchBar.BUTTON_BACK:
+                searchBar.closeSearch();
+                break;
+        }
     }
 
 
