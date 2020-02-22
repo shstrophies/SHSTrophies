@@ -8,8 +8,14 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +46,49 @@ public class SportsActivity extends AppCompatActivity {
 
     private final boolean fromExternalSource = true;
 
+    public void onCreateOptionsMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+
+        searchBar.inflateMenu(R.menu.options_menu);
+
+        searchBar.getMenu().setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId())
+                {
+                    case R.id.app_bar_search:
+                        break;
+                }
+                return false;
+            }
+        });
+
+        searchBar = findViewById(R.id.sports_search);
+
+        searchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d(TAG, "onTextChanged: " + searchBar.getText());
+                doSearch(searchBar.getText());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.d(TAG, "afterTextChanged: " + searchBar.getText());
+                doSearch(searchBar.getText());
+
+            }
+        });
+
+        searchBar.enableSearch();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,30 +111,9 @@ public class SportsActivity extends AppCompatActivity {
 //            getSportData();
             getData();
 
-        searchBar = findViewById(R.id.sports_search);
 
-        searchBar.addTextChangeListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d(TAG, "onTextChanged: " + searchBar.getText());
-                doSearch(searchBar.getText());
 
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                Log.d(TAG, "afterTextChanged: " + searchBar.getText());
-                doSearch(searchBar.getText());
-
-            }
-
-        });
-
-        searchBar.enableSearch();
     }
 
 
