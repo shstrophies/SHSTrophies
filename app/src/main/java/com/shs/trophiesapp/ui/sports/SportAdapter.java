@@ -67,10 +67,12 @@ public class SportAdapter extends RecyclerView.Adapter<SportViewHolder> implemen
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+            Log.d(TAG, "performFiltering: constraint=" + constraint);
             String charString = constraint.toString().toLowerCase();
             if (charString.isEmpty()) {
                 sportsFiltered = sports;
             } else {
+                Log.d(TAG, "performFiltering: charString=" + charString);
                 List<Sport> filteredList = new ArrayList<>();
                 for (Sport row : sports) {
                     // name match condition. this might differ depending on your requirement

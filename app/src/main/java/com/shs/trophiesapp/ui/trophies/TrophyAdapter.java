@@ -50,10 +50,12 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+            Log.d(TAG, "performFiltering: constraint=" + constraint);
             String charString = constraint.toString().toLowerCase();
             if (charString.isEmpty()) {
                 trophiesFiltered = trophies;
             } else {
+                Log.d(TAG, "performFiltering: charString=" + charString);
                 List<Trophy> filteredList = new ArrayList<>();
                 for (Trophy row : trophies) {
                     // name match condition. this might differ depending on your requirement

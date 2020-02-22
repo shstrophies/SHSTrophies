@@ -70,12 +70,13 @@ public class SportsActivity extends AppCompatActivity {
         searchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d(TAG, "beforeTextChanged: charSequence=" + charSequence + ", i=" + i + ", i1=" + i1 + ", i2=" + 0);
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "onTextChanged: " + searchBar.getText());
-                doSearch(searchBar.getText());
+//                doSearch(searchBar.getText());
 
             }
 
