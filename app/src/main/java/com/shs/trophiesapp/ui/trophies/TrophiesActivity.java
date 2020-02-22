@@ -62,10 +62,10 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
 
         getData(sport);
 
-        searchBar = findViewById(R.id.searchBar);
+        searchBar = findViewById(R.id.trophies_search);
         searchBar.setOnSearchActionListener(this);
         searchBar.inflateMenu(R.menu.main);
-        searchBar.setText("Hello World!");
+        searchBar.setHint("Search for trophy, player, year...");
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
         searchBar.setCardViewElevation(10);
         searchBar.addTextChangeListener(new TextWatcher() {
@@ -82,7 +82,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void afterTextChanged(Editable editable) {
 
-                Log.d(TAG, "afterTextChanged: ");
+                Log.d(TAG, "afterTextChanged: editable=" + editable.toString());
             }
 
         });
@@ -96,10 +96,10 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
 //        });
     }
 
-    @Override
-    public void onBackPressed() {
-        Log.d(TAG, "onBackPressed: ");
-    }
+//    @Override
+//    public void onBackPressed() {
+//        Log.d(TAG, "onBackPressed: ");
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
