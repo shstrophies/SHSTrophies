@@ -60,7 +60,7 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
                 for (Trophy row : trophies) {
                     // name match condition. this might differ depending on your requirement
                     // here we are looking for title or description match
-                    if (row.tr_title.toLowerCase().contains(charString) || row.player.contains(charString)) {
+                    if (row.tr_title.toLowerCase().contains(charString) || row.player.toLowerCase().contains(charString)) {
                         filteredList.add(row);
                     }
                 }

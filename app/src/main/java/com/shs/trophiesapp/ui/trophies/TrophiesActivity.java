@@ -77,12 +77,16 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
+                doSearch(searchBar.getText());
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
 
                 Log.d(TAG, "afterTextChanged: editable=" + editable.toString());
+                doSearch(searchBar.getText());
+
             }
 
         });

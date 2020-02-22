@@ -76,6 +76,8 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
             @Override
             public void afterTextChanged(Editable editable) {
                 Log.d(TAG, "afterTextChanged: ");
+                doSearch(searchBar.getText());
+
             }
 
         });
