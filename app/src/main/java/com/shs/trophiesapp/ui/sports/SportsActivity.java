@@ -58,7 +58,8 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         searchBar = findViewById(R.id.sports_search);
         searchBar.setOnSearchActionListener(this);
         searchBar.inflateMenu(R.menu.main);
-        searchBar.setText("Hello World!");
+        searchBar.setHint("Search for a sport, trophy, player, year...");
+
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
         searchBar.setCardViewElevation(10);
         searchBar.addTextChangeListener(new TextWatcher() {
