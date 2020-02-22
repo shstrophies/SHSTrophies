@@ -1,0 +1,8 @@
+.gradle/
+.idea/
+build/
+
+#Generated files
+bin/
+gen/
+out/
