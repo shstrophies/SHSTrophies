@@ -10,15 +10,18 @@
 
     <Button
         android:id="@+id/downloadDataButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/download_data" />
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:text="@string/download_data"
+        android:textSize="40sp" />
+
     <Button
         android:id="@+id/loadDatabaseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
         android:layout_marginTop="20dp"
-        android:text="@string/load_database" />
+        android:text="@string/load_database"
+        android:textSize="40sp" />
 
 
 
