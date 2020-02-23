@@ -22,7 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
         <activity
             android:name="com.shs.trophiesapp.ui.trophies.TrophiesActivity">
         </activity>
@@ -33,10 +32,6 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-=======
-        <activity android:name="com.shs.trophiesapp.ui.trophies.TrophiesActivity"></activity>
-        <activity android:name="com.shs.trophiesapp.ui.sports.SportsActivity"></activity>
->>>>>>> c32b630398bac7c49943655ad03eb5cc26f9feb5
     </application>
 
 
