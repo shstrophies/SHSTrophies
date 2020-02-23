@@ -54,7 +54,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         trophies = new ArrayList<>();
         adapter = new TrophyAdapter(this, trophies);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
 
 
         // set adapter for recyclerview

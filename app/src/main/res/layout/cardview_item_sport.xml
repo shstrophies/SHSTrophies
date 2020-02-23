@@ -3,11 +3,11 @@
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardview_sport_id"
-    android:layout_width="600dp"
+    android:layout_width="375dp"
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
-    android:layout_marginRight="10dp"
     android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
@@ -15,7 +15,7 @@
 
 
     <LinearLayout
-        android:layout_width="600dp"
+        android:layout_width="375dp"
         android:layout_height="match_parent"
         android:background="#C72027"
         android:gravity="center"
@@ -23,15 +23,15 @@
 
         <ImageView
             android:id="@+id/my_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="#EE1D1D"
+            android:layout_width="343dp"
+            android:layout_height="139dp"
+            android:layout_marginTop="20dp"
             android:scaleType="centerCrop" />
 
         <TextView
 
             android:id="@+id/sport_title_id"
-            android:layout_width="579dp"
+            android:layout_width="403dp"
             android:layout_height="wrap_content"
             android:background="#C72027"
             android:gravity="center_horizontal"
@@ -39,7 +39,7 @@
             android:paddingBottom="10dp"
             android:text="@string/sport_title"
             android:textColor="#fff"
-            android:textSize="35dp"
+            android:textSize="25dp"
             android:textStyle="bold"
             android:visibility="visible" />
 

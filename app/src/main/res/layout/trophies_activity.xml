@@ -5,39 +5,86 @@
     android:id="@+id/activity_trophies"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f45942"
+    android:background="#f2f2f2"
     tools:context=".ui.trophies.TrophiesActivity">
+
+
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:background="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Football Trophies"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="30dp"
+        android:paddingTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <TextView
+        android:id="@+id/subTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:fontFamily="@font/montserrat_bold"
+        android:paddingTop="70dp"
+        android:text="Tap a trophy or search"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
 
 
     <com.mancj.materialsearchbar.MaterialSearchBar
         android:id="@+id/trophies_search"
         style="@style/MaterialSearchBarLight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="1109dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="160dp"
+        android:layout_marginEnd="150dp"
         android:elevation="8dp"
+        android:windowSoftInputMode="adjustPan|adjustResize"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+
+
         app:layout_constraintTop_toTopOf="parent"
         app:mt_maxSuggestionsCount="10"
         app:mt_placeholder=""
-        app:mt_speechMode="false">
-    </com.mancj.materialsearchbar.MaterialSearchBar>
+        app:mt_speechMode="false"></com.mancj.materialsearchbar.MaterialSearchBar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trophies_recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="673dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="1274dp"
+        android:layout_height="576dp"
+        android:layout_gravity="center|center_horizontal"
+        android:layout_marginTop="20dp"
+        android:clipToPadding="false"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trophies_search" />
+        app:layout_constraintTop_toBottomOf="@+id/trophies_search"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 
