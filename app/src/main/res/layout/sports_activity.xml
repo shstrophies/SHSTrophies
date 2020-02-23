@@ -25,11 +25,9 @@
             android:layout_height="match_parent">
 
 
-
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/sport_recycleview"
-                    android:layout_width="1271dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="495dp"
                     android:layout_gravity="center|center_horizontal"
                     android:layout_marginStart="10dp"
