@@ -103,7 +103,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 String directory = DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directoryName);
                 downloadIds[i] = startDownload(url, directory);
 
-                File[] files = DirectoryHelper.listFilesInDirectory(directoryName);
+                File[] files = DirectoryHelper.listFilesInDirectory(directory);
                 for(i = 0; i<files.length; i++) {
                     Log.d(TAG, "downloadData: file[" + i + "]=" );
                 }
