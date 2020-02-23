@@ -23,10 +23,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.shs.trophiesapp.ui.trophies.TrophiesActivity">
+            android:name="com.shs.trophiesapp.ui.trophies.TrophiesActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            >
+
         </activity>
         <activity
-            android:name="com.shs.trophiesapp.ui.sports.SportsActivity">
+            android:name="com.shs.trophiesapp.ui.sports.SportsActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            >
         </activity>
 
         <meta-data
