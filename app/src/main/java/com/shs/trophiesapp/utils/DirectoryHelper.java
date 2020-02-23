@@ -8,6 +8,7 @@ import java.io.File;
 
 public class DirectoryHelper extends ContextWrapper {
 
+    private static final String TAG = "DirectoryHelper";
     public static final String ROOT_DIRECTORY_NAME = Constants.DATA_DIRECTORY_NAME;
 
     private DirectoryHelper(Context context) {
@@ -24,19 +25,38 @@ public class DirectoryHelper extends ContextWrapper {
         return Environment.MEDIA_MOUNTED.equals(extStorageState);
     }
 
-    private void createFolderDirectories() {
+    public void createFolderDirectories() {
         if (isExternalStorageAvailable())
             createDirectory(ROOT_DIRECTORY_NAME);
     }
 
-    private void createDirectory(String directoryName) {
-        if (!isDirectoryExists(directoryName)) {
+    public void createDirectory(String directoryName) {
+        if (!doesDirectoryExist(directoryName)) {
             File file = new File(Environment.getExternalStorageDirectory(), directoryName);
             file.mkdir();
         }
     }
 
-    private boolean isDirectoryExists(String directoryName) {
+    public static File[] listFilesInDirectory(String directoryName) {
+        // TODO
+
+        return null;
+    }
+
+    public static void deleteFileFromDirectory(String directoryName, String fileName) {
+        // TODO
+        // see this.deleteFile method in ContextWrapper which this class extends from
+    }
+
+    public static void deleteOlderFiles(String directoryName, int keepNewestNumberOfFiles) {
+        // TODO
+
+    }
+
+
+
+
+    private boolean doesDirectoryExist(String directoryName) {
         File file = new File(Environment.getExternalStorageDirectory() + "/" + directoryName);
         return file.isDirectory() && file.exists();
     }

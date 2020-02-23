@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,7 @@ import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
 import com.shs.trophiesapp.workers.SeedDatabaseWorker;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -71,6 +73,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
             return;
         }
+
         DirectoryHelper.createDirectory(this);
     }
 
@@ -97,8 +100,15 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         try {
             for (int i = 0; i < GIDS.length; i++) {
                 String url = DOWNLOAD_URL.replace("YOURGID", GIDS[i]);
-                String directory = titles[i];
-                downloadIds[i] = startDownload(url, DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directory));
+                String directoryName = titles[i];
+                String directory = Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directoryName);
+                downloadIds[i] = startDownload(url, directory);
+
+                File[] files = DirectoryHelper.listFilesInDirectory(directory);
+                for(i = 0; i<files.length; i++) {
+                    Log.d(TAG, "downloadData: file[" + i + "]=" );
+                }
+                DirectoryHelper.deleteOlderFiles(directoryName, 5);
                 Toast.makeText(SetupActivity.this, "Download Started for id=" + downloadIds[i], Toast.LENGTH_LONG).show();
 
             }
