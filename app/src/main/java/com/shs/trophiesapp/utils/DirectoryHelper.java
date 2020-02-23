@@ -40,19 +40,17 @@ public class DirectoryHelper extends ContextWrapper {
         }
     }
 
-    // ??
     public static File[] listFilesInDirectory(String dirPath) {
-        // TODO
         File dir = new File(dirPath);
         File[] files = dir.listFiles();
+        Log.d(TAG, "listFilesInDirectory: dirPath="+ dirPath + Arrays.toString(files));
+
         return files;
     }
-    // ??
 
 
 
     public static void deleteOlderFiles(String directoryName, int keepNewestNumberOfFiles) {
-        // TODO
 
         // actual directory, with ALL the files inside
         File dir = new File(directoryName);
@@ -66,17 +64,18 @@ public class DirectoryHelper extends ContextWrapper {
                 return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
             } });
 
-        Log.d(TAG, "deleteOlderFiles: "+ files.toString());
-
+        Log.d(TAG, "deleteOlderFiles: "+ Arrays.toString(files));
         // no need to remove files
         if(files.length <= keepNewestNumberOfFiles){
+
+            Log.d(TAG, "deleteOlderFiles: nothing to delete");
             return;
         }
 
         // objective is to eliminate elements that that are the oldest, aka delete the files with the smallest numbers
         for(int i=0;i < (files.length - keepNewestNumberOfFiles); i++){
-            files[i].delete();
             Log.d(TAG, "deleteOlderFiles: DELETING FILE: " + files[i]);
+            files[i].delete();
         }
 
     }
@@ -90,8 +89,10 @@ public class DirectoryHelper extends ContextWrapper {
     }
 
     public static File getLatestFilefromDir(String dirPath){
+        Log.d(TAG, "getLatestFilefromDir: dirPath=" + dirPath);
         File dir = new File(dirPath);
         File[] files = dir.listFiles();
+        Log.d(TAG, "getLatestFilefromDir: " + Arrays.toString(files));
         if (files == null || files.length == 0) {
             return null;
         }

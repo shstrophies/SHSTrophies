@@ -105,9 +105,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 downloadIds[i] = startDownload(url, directory);
 
                 File[] files = DirectoryHelper.listFilesInDirectory(directory);
-                for(i = 0; i<files.length; i++) {
-                    Log.d(TAG, "downloadData: file[" + i + "]=" + files[i]);
-                }
                 DirectoryHelper.deleteOlderFiles(directory, 5);
                 Toast.makeText(SetupActivity.this, "Download Started for id=" + downloadIds[i], Toast.LENGTH_LONG).show();
 
