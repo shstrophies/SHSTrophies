@@ -99,14 +99,15 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         try {
             for (int i = 0; i < GIDS.length; i++) {
                 String url = DOWNLOAD_URL.replace("YOURGID", GIDS[i]);
-                String directory = titles[i];
-                downloadIds[i] = startDownload(url, DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directory));
+                String directoryName = titles[i];
+                String directory = DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directoryName)
+                downloadIds[i] = startDownload(url, directory);
 
-                File[] files = DirectoryHelper.listFilesInDirectory(directory);
+                File[] files = DirectoryHelper.listFilesInDirectory(directoryName);
                 for(i = 0; i<files.length; i++) {
                     Log.d(TAG, "downloadData: file[" + i + "]=" );
                 }
-                DirectoryHelper.deleteOlderFiles(directory, 5);
+                DirectoryHelper.deleteOlderFiles(directoryName, 5);
                 Toast.makeText(SetupActivity.this, "Download Started for id=" + downloadIds[i], Toast.LENGTH_LONG).show();
 
             }
