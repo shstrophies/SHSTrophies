@@ -55,7 +55,7 @@ public class SportAdapter extends RecyclerView.Adapter<SportViewHolder> implemen
             public void onClick(View view) {
                 Intent intent = new Intent(context, TrophiesActivity.class);
                 // passing data
-                intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sports.get(position).sport_name);
+                intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sports.get(position).sport_name.toLowerCase());
 
                 // start activity
                 context.startActivity(intent);
