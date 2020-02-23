@@ -3,7 +3,6 @@ package com.shs.trophiesapp.workers;
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -18,12 +17,10 @@ import androidx.work.WorkerParameters;
 import com.shs.trophiesapp.data.AppDatabase;
 import com.shs.trophiesapp.data.entities.Sport;
 import com.shs.trophiesapp.data.entities.Trophy;
-import com.shs.trophiesapp.ui.SetupActivity;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
 
 import static com.shs.trophiesapp.utils.CSVUtils.parseLine;
-import static com.shs.trophiesapp.utils.Constants.titles;
 
 public class SeedDatabaseWorker extends Worker {
     private static final String TAG = "SeedDatabaseWorker";
@@ -45,8 +42,6 @@ public class SeedDatabaseWorker extends Worker {
             AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
             appDatabase.sportDao().insertAll(sportCSVData);
             Log.d(TAG, "doWork: sport data loaded");
-
-
             Trophy[] trophyCSVData = getTrophyCSVData();
             Log.d(TAG, "onCreate: trophyCSVData length=" + trophyCSVData.length);
             appDatabase.trophyDao().insertAll(trophyCSVData);
@@ -74,7 +69,7 @@ public class SeedDatabaseWorker extends Worker {
                 }
             }
         } catch (Exception e) { e.printStackTrace(); }
-        return sports.toArray(new Sport[sports.size()]);
+        return sports.toArray(new Sport[0]);
     }
 
     private static Trophy[] getTrophyCSVData() {
@@ -100,6 +95,6 @@ public class SeedDatabaseWorker extends Worker {
                 }
             }
         } catch (Exception e) { e.printStackTrace(); }
-        return trophies.toArray(new Trophy[trophies.size()]);
+        return trophies.toArray(new Trophy[0]);
     }
 }

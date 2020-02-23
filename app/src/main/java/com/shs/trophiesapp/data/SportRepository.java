@@ -5,13 +5,11 @@ import com.shs.trophiesapp.data.entities.Sport;
 
 import java.util.List;
 
-
-
 public class SportRepository {
     private SportDao sportDao;
     private static volatile SportRepository instance;
 
-    SportRepository(SportDao SportDao) {
+    private SportRepository(SportDao SportDao) {
         this.sportDao = SportDao;
     }
 
@@ -19,7 +17,7 @@ public class SportRepository {
         return sportDao.getSports();
     }
 
-    public static SportRepository getInstance(SportDao SportDao) {
+    static SportRepository getInstance(SportDao SportDao) {
         if (instance == null) {
             synchronized(SportRepository.class) {
                 if (instance == null)

@@ -16,10 +16,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.work.OneTimeWorkRequest;
@@ -49,7 +47,6 @@ import static com.shs.trophiesapp.utils.Constants.titles;
 public class SetupActivity extends AppCompatActivity implements View.OnClickListener, LifecycleOwner {
     private static final String TAG = "SetupActivity";
 
-    private static final String DOWNLOAD_PATH = Constants.DOWNLOAD_URL;
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
     private static final int IDSNUM = GIDS.length;
     long[] downloadIds = new long[IDSNUM];
@@ -84,7 +81,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.downloadDataButton: {
                 downloadData();
-                downloadButton = (Button) findViewById(view.getId());
+                downloadButton = findViewById(view.getId());
                 downloadButton.setEnabled(false);
                 break;
             }
@@ -136,7 +133,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             context.deleteDatabase(Constants.DATABASE_NAME);
 
             RoomDatabase.Callback rdc = new RoomDatabase.Callback() {
-                public void onCreate (SupportSQLiteDatabase db) {
+                public void onCreate (@NonNull SupportSQLiteDatabase db) {
                     Log.d(TAG, "Room.databaseBuilder, ... onCreate: ");
                     super.onCreate(db);
                     OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SeedDatabaseWorker.class).build();
@@ -144,13 +141,10 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                     Operation operation = workManager.enqueue(workRequest);
                     UUID id = workRequest.getId();
                     WorkManager.getInstance(context).getWorkInfoByIdLiveData(workRequest.getId())
-                            .observe(lifecycleOwner, new Observer<WorkInfo>() {
-                                @Override
-                                public void onChanged(@Nullable WorkInfo workInfo) {
-                                    if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
-                                        Toast.makeText(SetupActivity.this, "DONE Loading database...", Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(SetupActivity.this, SportsActivity.class));
-                                    }
+                            .observe(lifecycleOwner, workInfo -> {
+                                if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                                    Toast.makeText(SetupActivity.this, "DONE Loading database...", Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(SetupActivity.this, SportsActivity.class));
                                 }
                             });
                 }

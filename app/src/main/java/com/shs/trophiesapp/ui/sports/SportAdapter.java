@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -26,7 +27,7 @@ public class SportAdapter extends RecyclerView.Adapter<SportViewHolder> implemen
     private ArrayList<Sport> sports;
     private List<Sport> sportsFiltered;
 
-    public SportAdapter(Context context, ArrayList<Sport> sports) {
+    SportAdapter(Context context, ArrayList<Sport> sports) {
         this.context = context;
         this.sports = sports;
         this.sportsFiltered = sports;
@@ -39,7 +40,8 @@ public class SportAdapter extends RecyclerView.Adapter<SportViewHolder> implemen
     }
 
     @Override
-    public SportViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public SportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.cardview_item_sport, parent, false);
         return new SportViewHolder(view);
     }
@@ -50,16 +52,13 @@ public class SportAdapter extends RecyclerView.Adapter<SportViewHolder> implemen
         holder.setDetails(Sport);
 
         // set click listener
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, TrophiesActivity.class);
-                // passing data
-                intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sports.get(position).sport_name.toLowerCase());
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, TrophiesActivity.class);
+            // passing data
+            intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sports.get(position).sport_name.toLowerCase());
 
-                // start activity
-                context.startActivity(intent);
-            }
+            // start activity
+            context.startActivity(intent);
         });
     }
 

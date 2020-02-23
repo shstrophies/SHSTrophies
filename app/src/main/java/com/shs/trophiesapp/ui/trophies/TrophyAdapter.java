@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
@@ -22,7 +23,7 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
     private List<Trophy> trophies;
     private List<Trophy> trophiesFiltered;
 
-    public TrophyAdapter(Context context, List<Trophy> trophies) {
+    TrophyAdapter(Context context, List<Trophy> trophies) {
         this.context = context;
         this.trophies = trophies;
         this.trophiesFiltered = trophies;
@@ -35,7 +36,8 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
     }
 
     @Override
-    public TrophyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public TrophyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.trophies_item, parent, false);
         return new TrophyViewHolder(view);
     }

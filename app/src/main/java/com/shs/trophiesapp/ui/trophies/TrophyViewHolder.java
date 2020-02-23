@@ -11,27 +11,26 @@ import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.entities.Trophy;
 import com.shs.trophiesapp.utils.Constants;
 
-public class TrophyViewHolder extends RecyclerView.ViewHolder {
+class TrophyViewHolder extends RecyclerView.ViewHolder {
     private TextView txtTitle;
     private ImageView imgView;
     //private TextView txtDescription;
 
-    public TrophyViewHolder(View itemView) {
+    TrophyViewHolder(View itemView) {
         super(itemView);
         txtTitle = itemView.findViewById(R.id.txtTitle);
         imgView = itemView.findViewById(R.id.my_image_view);
         //txtDescription = itemView.findViewById(R.id.txtDescription);//commenting this out since we only need the title of trophy on the trophies page
     }
 
-    public void setDetails(Trophy trophy) {
+    void setDetails(Trophy trophy) {
         txtTitle.setText(trophy.tr_title);
         String imageUrl = trophy.tr_image_url;
         imageFromUrl(imgView, imageUrl);
         // txtDescription.setText(trophy.player);
     }
 
-    public static void imageFromUrl(ImageView view, String imageUrl) {
-
+    private static void imageFromUrl(ImageView view, String imageUrl) {
         String[] p=imageUrl.split("/");
         if(p.length > 5) {
             //Create the new image link

@@ -10,7 +10,7 @@ public class TrophyRepository {
     private TrophyDao TrophyDao;
     private static volatile TrophyRepository instance;
 
-    TrophyRepository(TrophyDao TrophyDao) {
+    private TrophyRepository(TrophyDao TrophyDao) {
         this.TrophyDao = TrophyDao;
     }
 
@@ -22,7 +22,7 @@ public class TrophyRepository {
         return TrophyDao.findBySport(sport_name);
     }
 
-    public static TrophyRepository getInstance(TrophyDao TrophyDao) {
+    static TrophyRepository getInstance(TrophyDao TrophyDao) {
         if (instance == null) {
             synchronized(TrophyRepository.class) {
                 if (instance == null)

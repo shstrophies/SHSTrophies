@@ -7,15 +7,12 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.DataManager;
@@ -31,7 +28,6 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
 
     private MaterialSearchBar searchBar;
 
-    private RecyclerView recyclerView;
     private SportAdapter adapter;
     private ArrayList<Sport> sports;
 
@@ -43,7 +39,7 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         setContentView(R.layout.sports_activity);
 
         // set recyclerview layout manager
-        recyclerView = (RecyclerView) findViewById(R.id.sport_recycleview);
+        RecyclerView recyclerView = findViewById(R.id.sport_recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         sports = new ArrayList<>();
         adapter = new SportAdapter(this, sports);

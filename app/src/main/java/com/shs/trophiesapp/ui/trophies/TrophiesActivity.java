@@ -8,14 +8,12 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.DataManager;
@@ -32,7 +30,6 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
 
     private MaterialSearchBar searchBar;
 
-    private RecyclerView recyclerView;
     private TrophyAdapter adapter;
     private ArrayList<Trophy> trophies;
 
@@ -50,7 +47,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         String sport = intent.getExtras().getString(TROPHIES_BY_SPORT_NAME);
 
         // set recyclerview layout manager
-        recyclerView = (RecyclerView) findViewById(R.id.trophies_recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.trophies_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         trophies = new ArrayList<>();
         adapter = new TrophyAdapter(this, trophies);
