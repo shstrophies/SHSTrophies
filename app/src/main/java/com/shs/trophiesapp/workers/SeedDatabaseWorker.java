@@ -10,6 +10,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
@@ -24,11 +27,11 @@ import static com.shs.trophiesapp.utils.CSVUtils.parseLine;
 
 public class SeedDatabaseWorker extends Worker {
     private static final String TAG = "SeedDatabaseWorker";
+    private static ExecutorService mES;
 
-    public SeedDatabaseWorker(
-            @NonNull Context context,
-            @NonNull WorkerParameters params) {
+    public SeedDatabaseWorker(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
+        mES = Executors.newCachedThreadPool();
     }
 
     @NonNull
@@ -46,8 +49,12 @@ public class SeedDatabaseWorker extends Worker {
             Log.d(TAG, "onCreate: trophyCSVData length=" + trophyCSVData.length);
             appDatabase.trophyDao().insertAll(trophyCSVData);
             Log.d(TAG, "doWork: trophy data loaded");
-
-            return Result.success();
+            mES.shutdown();
+            Log.d(TAG, "doWork: waiting on image loading into hard disk");
+            boolean done = mES.awaitTermination(10, TimeUnit.MINUTES);
+            Log.d(TAG, "doWork: images loaded into database");
+            if(done) return Result.success();
+            else return Result.failure();
         } catch (Exception e) {
             e.printStackTrace();
             return Result.failure();
@@ -57,7 +64,7 @@ public class SeedDatabaseWorker extends Worker {
     private static Sport[] getSportCSVData() {
         List<Sport> sports = new ArrayList<>();
         try {
-            File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.titleSports + "/");
+            File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME + "/" + Constants.titleSports + "/");
             Log.d(TAG, "getSportCSVData: getting sport data from file=" + file.getAbsolutePath());
             Scanner scanner = new Scanner(file);
             boolean first = true;
@@ -65,6 +72,7 @@ public class SeedDatabaseWorker extends Worker {
                 List<String> line = parseLine(scanner.nextLine());
                 if (first) first = false;
                 else {
+                    mES.execute(new ImageDownloadThread(line.get(2), true));
                     sports.add(new Sport(line.get(1), line.get(2)));
                 }
             }
@@ -75,7 +83,7 @@ public class SeedDatabaseWorker extends Worker {
     private static Trophy[] getTrophyCSVData() {
         List<Trophy> trophies = new ArrayList<>();
         try {
-            File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.titleTrophies + "/");
+            File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME + "/" + Constants.titleTrophies + "/");
             Log.d(TAG, "getSportCSVData: getting trophy data from file=" + file.getAbsolutePath());
             Scanner scanner = new Scanner(file);
             boolean first = true;
@@ -87,6 +95,7 @@ public class SeedDatabaseWorker extends Worker {
                     for(String player : players) {
                         if(!line.get(2).isEmpty()) {
                             Log.d(TAG, "getTrophyCSVData: line.get(0)=" + line.get(0) + " line.get(1)=" + line.get(1));
+                            mES.execute(new ImageDownloadThread(line.get(4), false));
                             trophies.add(new Trophy(line.get(1), Integer.parseInt(line.get(2)),
                                     line.get(3), line.get(4), player, line.get(6)));
                         }

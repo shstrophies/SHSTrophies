@@ -1,12 +1,13 @@
 package com.shs.trophiesapp.ui.sports;
 
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.entities.Sport;
 import com.shs.trophiesapp.utils.Constants;
@@ -28,13 +29,10 @@ class SportViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static void imageFromUrl(ImageView view, String imageUrl) {
-        String[] p=imageUrl.split("/");
-        //Create the new image link
-        String imageLink= Constants.DRIVE_URL+p[5];
-
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            Glide.with(view.getContext()).load(imageLink).into(view);
-
+        if (!imageUrl.isEmpty()) {
+            String imgName = imageUrl.replace(Constants.DRIVE_IMAGE_PREFIX, "").split("/")[0] + ".jpg";
+            view.setImageBitmap(BitmapFactory.decodeFile(Constants.DATA_DIRECTORY_SPORT_IMAGES + imgName));
+            //Glide.with(view.getContext()).load(imageLink).into(view);
         }
     }
 }
