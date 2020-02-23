@@ -9,24 +9,19 @@
     <application
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup"
-        android:label="@string/app_name"
+        android:label="@string/saratoga_high_school_trophies"
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity
-            android:name=".ui.SetupActivity">
+        <activity android:name=".ui.SetupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.shs.trophiesapp.ui.trophies.TrophiesActivity">
-        </activity>
-        <activity
-            android:name="com.shs.trophiesapp.ui.sports.SportsActivity">
-        </activity>
+        <activity android:name="com.shs.trophiesapp.ui.trophies.TrophiesActivity"></activity>
+        <activity android:name="com.shs.trophiesapp.ui.sports.SportsActivity"></activity>
     </application>
 
 
