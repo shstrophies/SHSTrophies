@@ -20,7 +20,8 @@
     <string name="todo">TODO</string>
     <string name="download_data">Download Data</string>
     <string name="load_database">Load Database</string>
-
+    <string name="sport_trophies">Sport Trophies</string>
+    <string name="tap_a_sport_or_search">Tap a sport or search</string>
 
 
 </resources>

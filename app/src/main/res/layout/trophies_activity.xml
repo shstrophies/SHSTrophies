@@ -21,15 +21,15 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/trophies_sport_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:fontFamily="@font/montserrat_bold"
-        android:text="Football Trophies"
+        android:text="@string/sport_trophies"
         android:textAlignment="center"
         android:textColor="#000"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:paddingTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
