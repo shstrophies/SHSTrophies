@@ -35,6 +35,7 @@ import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
 import com.shs.trophiesapp.workers.SeedDatabaseWorker;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -71,6 +72,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
             return;
         }
+
         DirectoryHelper.createDirectory(this);
     }
 
@@ -99,6 +101,12 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 String url = DOWNLOAD_URL.replace("YOURGID", GIDS[i]);
                 String directory = titles[i];
                 downloadIds[i] = startDownload(url, DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directory));
+
+                File[] files = DirectoryHelper.listFilesInDirectory(directory);
+                for(i = 0; i<files.length; i++) {
+                    Log.d(TAG, "downloadData: file[" + i + "]=" );
+                }
+                DirectoryHelper.deleteOlderFiles(directory, 5);
                 Toast.makeText(SetupActivity.this, "Download Started for id=" + downloadIds[i], Toast.LENGTH_LONG).show();
 
             }
