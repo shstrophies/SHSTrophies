@@ -15,6 +15,11 @@
     <string name="progress_bar_database_recreation">Recreating Database for New Changes</string>
     <string name="progress_bar_completed_database_setup">Setting UI for Updated Database</string>
     <string name="search">Search</string>
+<<<<<<< HEAD
+=======
+    <string name="saratoga_high_school_trophies">Saratoga High School Trophies</string>
+    <string name="app_bane">Saratoga High School Trophies</string>
+>>>>>>> c32b630398bac7c49943655ad03eb5cc26f9feb5
     <string name="sport_title">Sport Title</string>
     <string name="todo">TODO</string>
     <string name="download_data">Download Data</string>
