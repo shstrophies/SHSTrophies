@@ -9,12 +9,10 @@
     tools:context=".ui.trophies.TrophiesActivity">
 
 
-
-
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="128dp"
+        android:layout_height="115dp"
         android:background="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
