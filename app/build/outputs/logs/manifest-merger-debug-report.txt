@@ -122,7 +122,7 @@ MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] /Users/armanrafati/.gra
 	android:fullBackupContent
 		ADDED from /Users/armanrafati/Desktop/GITHUB-PROJECTS/SHSTrophies/app/src/main/AndroidManifest.xml:14:9-48
 	android:testOnly
-		ADDED from /Users/armanrafati/Desktop/GITHUB-PROJECTS/SHSTrophies/app/src/main/AndroidManifest.xml:19:9-32
+		ADDED from /Users/armanrafati/Desktop/GITHUB-PROJECTS/SHSTrophies/app/src/main/AndroidManifest.xml:19:9-33
 	android:roundIcon
 		ADDED from /Users/armanrafati/Desktop/GITHUB-PROJECTS/SHSTrophies/app/src/main/AndroidManifest.xml:17:9-54
 	android:icon
