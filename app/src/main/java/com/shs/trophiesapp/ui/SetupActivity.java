@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -100,7 +101,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             for (int i = 0; i < GIDS.length; i++) {
                 String url = DOWNLOAD_URL.replace("YOURGID", GIDS[i]);
                 String directoryName = titles[i];
-                String directory = DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directoryName);
+                String directory = Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directoryName);
                 downloadIds[i] = startDownload(url, directory);
 
                 File[] files = DirectoryHelper.listFilesInDirectory(directory);
