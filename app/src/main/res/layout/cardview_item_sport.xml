@@ -15,6 +15,7 @@
 
 
     <LinearLayout
+        android:id="@+id/padding"
         android:layout_width="375dp"
         android:layout_height="match_parent"
         android:background="#C72027"
@@ -25,7 +26,7 @@
             android:id="@+id/my_image_view"
             android:layout_width="343dp"
             android:layout_height="139dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:scaleType="centerCrop" />
 
         <TextView
@@ -34,9 +35,10 @@
             android:layout_width="403dp"
             android:layout_height="wrap_content"
             android:background="#C72027"
+            android:fontFamily="@font/montserrat_extrabold"
             android:gravity="center_horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
             android:text="@string/sport_title"
             android:textColor="#fff"
             android:textSize="25dp"
