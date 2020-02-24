@@ -1,4 +1,4 @@
-package com.shs.trophiesapp.ui.sports;
+package com.shs.trophiesapp.adapters;
 
 import android.view.View;
 import android.widget.ImageView;

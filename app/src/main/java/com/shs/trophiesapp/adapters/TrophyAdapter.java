@@ -1,4 +1,4 @@
-package com.shs.trophiesapp.ui.trophies;
+package com.shs.trophiesapp.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
+import com.shs.trophiesapp.adapters.TrophyViewHolder;
 import com.shs.trophiesapp.data.entities.Trophy;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
     private List<Trophy> trophies;
     private List<Trophy> trophiesFiltered;
 
-    TrophyAdapter(Context context, List<Trophy> trophies) {
+    public TrophyAdapter(Context context, List<Trophy> trophies) {
         this.context = context;
         this.trophies = trophies;
         this.trophiesFiltered = trophies;

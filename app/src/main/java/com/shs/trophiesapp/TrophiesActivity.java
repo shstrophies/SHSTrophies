@@ -1,4 +1,4 @@
-package com.shs.trophiesapp.ui.trophies;
+package com.shs.trophiesapp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.shs.trophiesapp.R;
+import com.shs.trophiesapp.adapters.TrophyAdapter;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.TrophyRepository;
 import com.shs.trophiesapp.data.entities.Trophy;

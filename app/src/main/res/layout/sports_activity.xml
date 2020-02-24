@@ -8,7 +8,7 @@
     android:background="#f2f2f2"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.sports.SportsActivity">
+    tools:context=".SportsActivity">
 
         <!--
         <TextView

@@ -1,6 +1,7 @@
-package com.shs.trophiesapp.ui.sports;
+package com.shs.trophiesapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,35 +15,48 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
-import com.shs.trophiesapp.R;
-import com.shs.trophiesapp.data.DataManager;
-import com.shs.trophiesapp.data.SportRepository;
-import com.shs.trophiesapp.data.entities.Sport;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.shs.trophiesapp.adapters.SportsAndTrophiesAdapter;
+import com.shs.trophiesapp.data.DataManager;
+import com.shs.trophiesapp.data.SportsAndTrophiesData;
+import com.shs.trophiesapp.data.TrophyRepository;
+import com.shs.trophiesapp.data.entities.Sport;
+import com.shs.trophiesapp.adapters.SportAdapter;
+import com.shs.trophiesapp.data.entities.Trophy;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SportsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener {
-    private static final String TAG = "SportsActivity";
+public class SportsAndTrophiesActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener {
+    private static final String TAG = "SportsAndTrophiesActivity";
+
+    public static final String TROPHIES_BY_SPORTS_NAMES = "Sports";
+    String[] sportNames;
 
     private MaterialSearchBar searchBar;
 
-    private SportAdapter adapter;
-    private ArrayList<Sport> sports;
+    private SportsAndTrophiesAdapter adapter;
+    private ArrayList<SportsAndTrophiesData> sportsAndTrophies = new ArrayList<>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Receive data
+        Intent intent = getIntent();
+        String sports = intent.getExtras().getString(TROPHIES_BY_SPORTS_NAMES);
+        sportNames = sports.split(",");
+
         // create sports_activity layout object
-        setContentView(R.layout.sports_activity);
+        setContentView(R.layout.sports_and_trophies_activity);
 
         // set recyclerview layout manager
-        RecyclerView recyclerView = findViewById(R.id.sport_recycleview);
+        RecyclerView recyclerView = findViewById(R.id.sports_and_trophie_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        sports = new ArrayList<>();
-        adapter = new SportAdapter(this, sports);
+        sportsAndTrophies = new ArrayList<SportsAndTrophiesData>();
+        adapter = new SportsAndTrophiesAdapter(this, sportsAndTrophies);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
         // set adapter for recyclerview
@@ -51,10 +65,10 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         // get data and notify adapter
         getData();
 
-        searchBar = findViewById(R.id.sports_search);
+        searchBar = findViewById(R.id.sports_and_trophies_search);
         searchBar.setOnSearchActionListener(this);
         searchBar.inflateMenu(R.menu.main);
-        searchBar.setHint("Search for a sport, trophy, player, year...");
+        searchBar.setHint("???...");
 
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
         searchBar.setCardViewElevation(10);
@@ -78,18 +92,8 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
 
         });
 
-//        final FloatingActionButton searchButton = findViewById(R.id.searchButton);
-//        searchButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                searchBar.openSearch();
-//            }
-//        });
     }
 
-//    @Override
-//    public void onBackPressed() {
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -113,28 +117,6 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        return true;
-    }
 
     @Override
     public void onSearchStateChanged(boolean enabled) {
@@ -159,11 +141,15 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
     private void getData() {
         Log.d(TAG, "getData: getData");
         Context context = this;
-        SportRepository SportRepository = DataManager.getSportRepository(context);
-        List<Sport> _sports = SportRepository.getSports();
-        sports.addAll(_sports);
-        Log.d(TAG, "getData: recyclerview sports size=" + sports.size());
-        adapter.notifyDataSetChanged();
+        TrophyRepository tropyRepository = DataManager.getTrophyRepository(context);
+        for(int i=0; i<sportNames.length; i++) {
+            String sportName = sportNames[i];
+            List<Trophy> trophies = tropyRepository.getTrophiesBySport(sportName);
+            SportsAndTrophiesData data = new SportsAndTrophiesData(trophies, sportName);
+            sportsAndTrophies.addAll(data);
+            Log.d(TAG, "getData: recyclerview sportsAndTrophies size=" + sportsAndTrophies.size());
+            adapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -172,5 +158,4 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         Log.d(TAG, "doSearch: " + searchBar.getText());
         adapter.getFilter().filter(searchText);
     }
-
 }
