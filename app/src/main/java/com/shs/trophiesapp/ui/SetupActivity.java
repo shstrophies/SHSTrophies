@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import com.shs.trophiesapp.workers.SeedDatabaseWorker;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,12 +48,23 @@ import static com.shs.trophiesapp.utils.Constants.DOWNLOAD_URL;
 import static com.shs.trophiesapp.utils.Constants.GIDS;
 import static com.shs.trophiesapp.utils.Constants.titles;
 
+
 public class SetupActivity extends AppCompatActivity implements View.OnClickListener, LifecycleOwner {
     private static final String TAG = "SetupActivity";
 
+    class DownloadInfo {
+        long id;
+        DownloadManager downloadManager;
+
+        public DownloadInfo(long id, DownloadManager downloadManager) {
+            this.id = id;
+            this.downloadManager = downloadManager;
+        }
+    }
+
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
     private static final int IDSNUM = GIDS.length;
-    long[] downloadIds = new long[IDSNUM];
+    HashMap downloadInfoMap = new HashMap();
     ArrayList downloadedIds = new ArrayList();
     Button downloadButton = null;
     Button loadDatabaseButton = null;
@@ -78,7 +91,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -98,14 +110,16 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
     private void downloadData() {
         try {
-            for (int i = 0; i < GIDS.length; i++) {
+            for (int i = 1; i < GIDS.length; i++) {
                 String url = DOWNLOAD_URL.replace("YOURGID", GIDS[i]);
                 String directoryName = titles[i];
                 Log.d(TAG, "downloadData: download data for " + titles[i]);
                 String directory = Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directoryName);
-                downloadIds[i] = startDownload(url, directory);
-                Toast.makeText(SetupActivity.this, "Download Started for id=" + downloadIds[i], Toast.LENGTH_LONG).show();
-                Log.d(TAG, "downloadData: Download Started for id=" + downloadIds[i]);
+                DownloadInfo downloadInfo = startDownload(url, directory);
+                downloadInfoMap.put(downloadInfo.id, downloadInfo);
+
+                Toast.makeText(SetupActivity.this, "Download Started for id=" + downloadInfo.id, Toast.LENGTH_LONG).show();
+                Log.d(TAG, "downloadData: Download Started for id=" + downloadInfo.id);
                 File[] files = DirectoryHelper.listFilesInDirectory(directory);
                 DirectoryHelper.deleteOlderFiles(directory, 5);
             }
@@ -121,18 +135,72 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             Log.d(TAG, "onReceive: downloaded id=" + id);
             downloadedIds.add(id);
+            DownloadInfo downloadInfo = (DownloadInfo) downloadInfoMap.get(id);
             //Checking if the received broadcast is for our enqueued download by matching download id
-            if (Arrays.stream(downloadIds).anyMatch(n -> n == id)) {
-                Toast.makeText(SetupActivity.this, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
+            if (downloadInfo != null) {
+                DownloadManager.Query query = new DownloadManager.Query();
+                query.setFilterById(id);
+                Cursor cursor = downloadInfo.downloadManager.query(query);
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                int status = cursor.getInt(columnIndex);
+
+                int columnReason = cursor.getColumnIndex(DownloadManager.COLUMN_REASON);
+                int reason = cursor.getInt(columnReason);
+                switch (status) {
+                    case DownloadManager.STATUS_SUCCESSFUL:
+
+                        Toast.makeText(context, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
+                        break;
+
+                    case DownloadManager.STATUS_FAILED:
+                        String failedReason = "";
+                        switch (reason) {
+                            case DownloadManager.ERROR_CANNOT_RESUME:
+                                failedReason = "ERROR_CANNOT_RESUME";
+                                break;
+                            case DownloadManager.ERROR_DEVICE_NOT_FOUND:
+                                failedReason = "ERROR_DEVICE_NOT_FOUND";
+                                break;
+                            case DownloadManager.ERROR_FILE_ALREADY_EXISTS:
+                                failedReason = "ERROR_FILE_ALREADY_EXISTS";
+                                break;
+                            case DownloadManager.ERROR_FILE_ERROR:
+                                failedReason = "ERROR_FILE_ERROR";
+                                break;
+                            case DownloadManager.ERROR_HTTP_DATA_ERROR:
+                                failedReason = "ERROR_HTTP_DATA_ERROR";
+                                break;
+                            case DownloadManager.ERROR_INSUFFICIENT_SPACE:
+                                failedReason = "ERROR_INSUFFICIENT_SPACE";
+                                break;
+                            case DownloadManager.ERROR_TOO_MANY_REDIRECTS:
+                                failedReason = "ERROR_TOO_MANY_REDIRECTS";
+                                break;
+                            case DownloadManager.ERROR_UNHANDLED_HTTP_CODE:
+                                failedReason = "ERROR_UNHANDLED_HTTP_CODE";
+                                break;
+                            case DownloadManager.ERROR_UNKNOWN:
+                                failedReason = "ERROR_UNKNOWN";
+                                break;
+                        }
+                        Toast.makeText(context, "Download failed because " + failedReason, Toast.LENGTH_LONG).show();
+
+                        Log.d(TAG, "onReceive: Download failed because " + failedReason);
+                        break;
+                }
+                ;
+
                 DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.titleTrophies + "/");
                 DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.titleSports + "/");
 
-            }
-            if (downloadedIds.size() >= IDSNUM) {
-                if(downloadButton != null) downloadButton.setEnabled(true);
-                downloadedIds.clear();
-                Log.d(TAG, "onReceive: DOWNLOADS complete, downloaded ids=" +  Arrays.toString(downloadIds));
-                loadDatabase();
+
+                if (downloadedIds.size() >= IDSNUM) {
+                    if (downloadButton != null) downloadButton.setEnabled(true);
+                    downloadedIds.clear();
+                    Log.d(TAG, "onReceive: DOWNLOADS complete");
+                    loadDatabase();
+                }
             }
         }
     };
@@ -147,7 +215,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
 
             RoomDatabase.Callback rdc = new RoomDatabase.Callback() {
-                public void onCreate (@NonNull SupportSQLiteDatabase db) {
+                public void onCreate(@NonNull SupportSQLiteDatabase db) {
                     Log.d(TAG, "Room.databaseBuilder, ... onCreate: ");
                     super.onCreate(db);
                     OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SeedDatabaseWorker.class).build();
@@ -171,7 +239,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             Toast.makeText(SetupActivity.this, "Getting trophy repository", Toast.LENGTH_LONG).show();
             List<Trophy> trophies = DataManager.getTrophyRepository(context).getTrophies();
 
-            if((sports.size() != 0) && (trophies.size() != 0)) {
+            if ((sports.size() != 0) && (trophies.size() != 0)) {
                 Toast.makeText(SetupActivity.this, "sports size=" + sports.size(), Toast.LENGTH_LONG).show();
                 Toast.makeText(SetupActivity.this, "trophies size=" + trophies.size(), Toast.LENGTH_LONG).show();
 
@@ -180,10 +248,9 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
-    private long startDownload(String downloadPath, String destinationPath) {
+
+    private DownloadInfo startDownload(String downloadPath, String destinationPath) {
         Log.d(TAG, "startDownload: downloadPath=" + downloadPath + ", destinationPath=" + destinationPath);
         Uri uri = Uri.parse(downloadPath);
         DownloadManager.Request request = new DownloadManager.Request(uri);
@@ -194,9 +261,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         request.setDestinationInExternalPublicDir(destinationPath, uri.getLastPathSegment());  // Storage directory path
         DownloadManager downloadManager = ((DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE));
         long downloadId = downloadManager.enqueue(request); // This will start downloading
-
-
-        return downloadId;
+        return new DownloadInfo(downloadId, downloadManager);
     }
 
     @Override
@@ -207,6 +272,4 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 DirectoryHelper.createDirectory(this);
         }
     }
-
-
 }
