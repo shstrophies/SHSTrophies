@@ -101,13 +101,13 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             for (int i = 0; i < GIDS.length; i++) {
                 String url = DOWNLOAD_URL.replace("YOURGID", GIDS[i]);
                 String directoryName = titles[i];
+                Log.d(TAG, "downloadData: download data for " + titles[i]);
                 String directory = Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directoryName);
                 downloadIds[i] = startDownload(url, directory);
+                Toast.makeText(SetupActivity.this, "Download Started for id=" + downloadIds[i], Toast.LENGTH_LONG).show();
 
                 File[] files = DirectoryHelper.listFilesInDirectory(directory);
                 DirectoryHelper.deleteOlderFiles(directory, 5);
-                Toast.makeText(SetupActivity.this, "Download Started for id=" + downloadIds[i], Toast.LENGTH_LONG).show();
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,14 +119,19 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         public void onReceive(Context context, Intent intent) {
             //Fetching the download id received with the broadcast
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+            Log.d(TAG, "onReceive: downloaded id=" + id);
             downloadedIds.add(id);
             //Checking if the received broadcast is for our enqueued download by matching download id
             if (Arrays.stream(downloadIds).anyMatch(n -> n == id)) {
                 Toast.makeText(SetupActivity.this, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
+                DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.titleTrophies + "/");
+                DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.titleSports + "/");
+
             }
             if (downloadedIds.size() >= IDSNUM) {
                 if(downloadButton != null) downloadButton.setEnabled(true);
                 downloadedIds.clear();
+                Log.d(TAG, "onReceive: DOWNLOADS complete, downloaded ids=" +  Arrays.toString(downloadIds));
                 loadDatabase();
             }
         }
@@ -136,8 +141,10 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     private void loadDatabase() {
         try {
 
+            Log.d(TAG, "loadDatabase: ");
             Context context = getApplicationContext();
             context.deleteDatabase(Constants.DATABASE_NAME);
+
 
             RoomDatabase.Callback rdc = new RoomDatabase.Callback() {
                 public void onCreate (@NonNull SupportSQLiteDatabase db) {
@@ -177,6 +184,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
     }
     private long startDownload(String downloadPath, String destinationPath) {
+        Log.d(TAG, "startDownload: downloadPath=" + downloadPath + ", destinationPath=" + destinationPath);
         Uri uri = Uri.parse(downloadPath);
         DownloadManager.Request request = new DownloadManager.Request(uri);
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);  // Tell on which network you want to download file.
@@ -186,6 +194,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         request.setDestinationInExternalPublicDir(destinationPath, uri.getLastPathSegment());  // Storage directory path
         DownloadManager downloadManager = ((DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE));
         long downloadId = downloadManager.enqueue(request); // This will start downloading
+
+
         return downloadId;
     }
 

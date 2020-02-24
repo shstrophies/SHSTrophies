@@ -55,6 +55,7 @@ public class SeedDatabaseWorker extends Worker {
     }
 
     private static Sport[] getSportCSVData() {
+        Log.d(TAG, "getSportCSVData: ");
         List<Sport> sports = new ArrayList<>();
         try {
             File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.titleSports + "/");
@@ -73,10 +74,11 @@ public class SeedDatabaseWorker extends Worker {
     }
 
     private static Trophy[] getTrophyCSVData() {
+        Log.d(TAG, "getTrophyCSVData: ");
         List<Trophy> trophies = new ArrayList<>();
         try {
             File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.titleTrophies + "/");
-            Log.d(TAG, "getSportCSVData: getting trophy data from file=" + file.getAbsolutePath());
+            Log.d(TAG, "getTrophyCSVData: getting trophy data from file=" + file.getAbsolutePath());
             Scanner scanner = new Scanner(file);
             boolean first = true;
             while (scanner.hasNext()) {
