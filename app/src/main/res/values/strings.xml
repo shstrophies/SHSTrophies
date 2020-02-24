@@ -1,7 +1,7 @@
 <resources>
 
-    <string name="app_name">Saratoga High School Trophies</string>
-    <string name="saratoga_high_school_trophies">Saratoga High School Trophies</string>
+    <string name="app_name">SHS Trophies</string>
+    <string name="saratoga_high_school_trophies">SHS Trophies</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
