@@ -30,4 +30,11 @@ import java.util.List;
     List<Trophy> findBySport(String sport_name);
     @Query("SELECT * FROM trophy WHERE Category LIKE :category")
     List<Trophy> findByCategory(String category);
+
+
+    @Query("SELECT * FROM trophy WHERE (Sport LIKE :sport_name) AND (Player_Name LIKE :player)")
+    List<Trophy> findBySportAndPlayer(String sport_name, String player);
+
+    @Query("SELECT * FROM trophy WHERE (Sport LIKE :sport_name) AND (Year LIKE :year)")
+    List<Trophy> findBySportAndYear(String sport_name, int year);
 }

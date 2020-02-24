@@ -15,7 +15,7 @@
         android:textSize="14sp"
         android:textStyle="bold" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_recycler_view_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

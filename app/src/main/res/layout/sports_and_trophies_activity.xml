@@ -12,12 +12,12 @@
         android:layout_height="wrap_content">
     </com.mancj.materialsearchbar.MaterialSearchBar>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/sports_and_trophie_recyclerview"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sports_and_trophies_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <ProgressBar
         android:id="@+id/pb_home"

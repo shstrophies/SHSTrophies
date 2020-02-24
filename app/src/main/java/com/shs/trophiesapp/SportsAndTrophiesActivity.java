@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -34,6 +35,7 @@ public class SportsAndTrophiesActivity extends AppCompatActivity implements Mate
     String[] sportNames;
 
     private MaterialSearchBar searchBar;
+    private ProgressBar progressBar;
 
     private SportsAndTrophiesAdapter adapter;
     private ArrayList<SportsAndTrophiesData> sportsAndTrophies = new ArrayList<>();
@@ -53,11 +55,10 @@ public class SportsAndTrophiesActivity extends AppCompatActivity implements Mate
         setContentView(R.layout.sports_and_trophies_activity);
 
         // set recyclerview layout manager
-        RecyclerView recyclerView = findViewById(R.id.sports_and_trophie_recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView recyclerView = findViewById(R.id.sports_and_trophies_recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         sportsAndTrophies = new ArrayList<SportsAndTrophiesData>();
         adapter = new SportsAndTrophiesAdapter(this, sportsAndTrophies);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);

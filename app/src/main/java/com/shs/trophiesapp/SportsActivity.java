@@ -1,6 +1,7 @@
 package com.shs.trophiesapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -129,10 +130,18 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     public void onSearchStateChanged(boolean enabled) {
+        Log.d(TAG, "onSearchStateChanged: ");
     }
 
     @Override
     public void onSearchConfirmed(CharSequence text) {
+        Log.d(TAG, "onSearchConfirmed: ");
+        //HERE
+        Intent intent = new Intent(this, SportsAndTrophiesActivity.class);
+
+        intent.putExtra(SportsAndTrophiesActivity.TROPHIES_BY_SPORTS_NAMES, text.toString());
+
+        startActivity(intent);
 
     }
 
