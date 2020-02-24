@@ -87,9 +87,9 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
 //        });
     }
 
-    @Override
-    public void onBackPressed() {
-    }
+//    @Override
+//    public void onBackPressed() {
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

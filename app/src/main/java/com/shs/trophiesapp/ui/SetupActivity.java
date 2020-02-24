@@ -105,7 +105,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 String directory = Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directoryName);
                 downloadIds[i] = startDownload(url, directory);
                 Toast.makeText(SetupActivity.this, "Download Started for id=" + downloadIds[i], Toast.LENGTH_LONG).show();
-
+                Log.d(TAG, "downloadData: Download Started for id=" + downloadIds[i]);
                 File[] files = DirectoryHelper.listFilesInDirectory(directory);
                 DirectoryHelper.deleteOlderFiles(directory, 5);
             }
