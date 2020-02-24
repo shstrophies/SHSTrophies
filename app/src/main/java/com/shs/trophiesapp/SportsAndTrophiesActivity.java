@@ -146,7 +146,7 @@ public class SportsAndTrophiesActivity extends AppCompatActivity implements Mate
             String sportName = sportNames[i];
             List<Trophy> trophies = tropyRepository.getTrophiesBySport(sportName);
             SportsAndTrophiesData data = new SportsAndTrophiesData(trophies, sportName);
-            sportsAndTrophies.addAll(data);
+            sportsAndTrophies.add(data);
             Log.d(TAG, "getData: recyclerview sportsAndTrophies size=" + sportsAndTrophies.size());
             adapter.notifyDataSetChanged();
         }
