@@ -25,8 +25,13 @@ import com.shs.trophiesapp.data.entities.Sport;
 import com.shs.trophiesapp.adapters.SportAdapter;
 import com.shs.trophiesapp.data.entities.Trophy;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SportsAndTrophiesActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener {
     private static final String TAG = "SportsAndTrophiesActivity";
@@ -145,9 +150,27 @@ public class SportsAndTrophiesActivity extends AppCompatActivity implements Mate
         TrophyRepository tropyRepository = DataManager.getTrophyRepository(context);
         for(int i=0; i<sportNames.length; i++) {
             String sportName = sportNames[i];
-            List<Trophy> trophies = tropyRepository.getTrophiesBySport(sportName);
-            SportsAndTrophiesData data = new SportsAndTrophiesData(trophies, sportName);
-            sportsAndTrophies.add(data);
+            List<Trophy> trophies = tropyRepository.getTrophiesBySport("%" + sportName + "%");
+            List<Trophy> distinctList = trophies.stream().distinct().collect(Collectors.toList());
+            List<List<Trophy>> listOfTrophies = new ArrayList();
+            for(Trophy t : distinctList) {
+                List<Trophy> l = new ArrayList();
+                l.add(t);
+                listOfTrophies.add(l);
+            }
+            Map<String, List<Trophy>> map =
+                    listOfTrophies.stream().collect(Collectors.groupingBy(e -> e.get(0).sport_name,
+                            Collectors.mapping(e -> e.get(0),
+                                    Collectors.toList())));
+
+            for (Map.Entry<String, List<Trophy>> entry : map.entrySet()) {
+                System.out.println(entry.getKey() + " = " + entry.getValue());
+                String sport_name = entry.getKey();
+                List<Trophy> trophyList = entry.getValue();
+                SportsAndTrophiesData data = new SportsAndTrophiesData(trophyList, sport_name);
+                sportsAndTrophies.add(data);
+            }
+
             Log.d(TAG, "getData: recyclerview sportsAndTrophies size=" + sportsAndTrophies.size());
             adapter.notifyDataSetChanged();
         }

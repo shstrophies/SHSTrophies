@@ -26,4 +26,28 @@ public class Trophy {
         this.player = player;
         this.category = category;
     }
+
+    public String getSport_name() {
+        return sport_name;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getTr_title() {
+        return tr_title;
+    }
+
+    public String getTr_image_url() {
+        return tr_image_url;
+    }
+
+    public String getPlayer() {
+        return player;
+    }
+
+    public String getCategory() {
+        return category;
+    }
 }

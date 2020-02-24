@@ -47,7 +47,7 @@ public class SportsAndTrophiesAdapter extends RecyclerView.Adapter<SportsAndTrop
     @Override
     public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View theView = LayoutInflater.from(context).inflate(R.layout.sports_and_trophies_row_layout, parent, false);
+        View theView = LayoutInflater.from(context).inflate(R.layout.sports_and_trophies_row_layout_horizontal, parent, false);
 
 
         return new HomeViewHolder(theView);
