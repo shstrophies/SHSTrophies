@@ -11,8 +11,8 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    cardview:cardElevation="10dp"
-    cardview:cardCornerRadius="10dp">
+    cardview:cardCornerRadius="10dp"
+    cardview:cardElevation="10dp">
 
 
     <LinearLayout
@@ -35,12 +35,13 @@
 
         <!--    we need to find some conditional to be like, for example'if theres only 10 characters, make font size 50 but if theres more than 10, font size = 30 -->
 
+        <!--
         <TextView
             android:id="@+id/txtTitle"
             android:layout_width="match_parent"
             android:layout_height="43dp"
             android:autoSizeMaxTextSize="30dp"
-            android:autoSizeMinTextSize="20sp"
+            android:autoSizeMinTextSize="20dp"
             android:autoSizeStepGranularity="2sp"
             android:autoSizeTextType="uniform"
             android:autoText="false"
@@ -49,7 +50,18 @@
             android:textAlignment="center"
             android:textColor="#fff" />
         />
+        -->
 
+        <com.lb.auto_fit_textview.AutoResizeTextView
+            android:id="@+id/txtTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textSize="30dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:padding="1dp"
+            android:textAlignment="center"
+            android:textColor="#fff"/>
 
     </LinearLayout>
 
