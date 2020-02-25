@@ -2,6 +2,7 @@ package com.shs.trophiesapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,10 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
     private List<Trophy> trophies;
     private List<Trophy> trophiesFiltered;
 
+    static int colors[] = {Color.YELLOW, Color.BLUE, Color.RED};
+    static int nextColorIndex = 0;
+
+
     public TrophyAdapter(Context context, List<Trophy> trophies) {
         this.context = context;
         this.trophies = trophies;
@@ -48,7 +53,12 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
     @Override
     public void onBindViewHolder(TrophyViewHolder holder, int position) {
         Trophy trophy = trophiesFiltered.get(position);
+
         holder.setDetails(trophy);
+
+        holder.cardView.setBackgroundColor(colors[nextColorIndex++]);
+        nextColorIndex %= colors.length;
+
 
         // set click listener
 

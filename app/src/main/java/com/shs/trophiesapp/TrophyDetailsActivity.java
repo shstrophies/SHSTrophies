@@ -43,6 +43,7 @@ public class TrophyDetailsActivity extends AppCompatActivity {
 
         tvTitle.setText(tr_title);
         tvPlayer.setText(player);
+        tvCategory.setText(category);
         imageFromUrl(img, tr_image_url);
 
     }
