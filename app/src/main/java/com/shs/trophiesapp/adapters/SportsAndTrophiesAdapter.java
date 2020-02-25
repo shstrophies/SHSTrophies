@@ -61,7 +61,7 @@ public class SportsAndTrophiesAdapter extends RecyclerView.Adapter<SportsAndTrop
 
         horizontalAdapter = new SportsAndTrophiesHorizontalAdapter(context, data.get(position).getTrophies());
         holder.recyclerViewHorizontal.setAdapter(horizontalAdapter);
-        holder.recyclerViewHorizontal.setLayoutManager(new GridLayoutManager(context, 3));
+        holder.recyclerViewHorizontal.setLayoutManager(new GridLayoutManager(context, 5));
 
         holder.recyclerViewHorizontal.setRecycledViewPool(recycledViewPool);
 
