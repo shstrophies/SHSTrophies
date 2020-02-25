@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -53,9 +54,11 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         adapter = new TrophyAdapter(this, trophies);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
 
-
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);
+
+        TextView sport_trophies = findViewById(R.id.trophies_sport_title);
+        sport_trophies.setText(sport);
 
         getData(sport);
 
@@ -172,7 +175,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         Log.d(TAG, "getData: getData");
         Context context = this;
         TrophyRepository trophyRepository = DataManager.getTrophyRepository(context);
-        List<Trophy> _trophies = trophyRepository.getTrophiesBySport(sport);
+        List<Trophy> _trophies = trophyRepository.getTrophiesBySport(sport.toLowerCase());
         trophies.addAll(_trophies);
         Log.d(TAG, "getData: recyclerview trophies size=" + trophies.size());
         adapter.notifyDataSetChanged();

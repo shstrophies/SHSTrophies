@@ -9,27 +9,27 @@
     tools:context=".ui.trophies.TrophiesActivity">
 
 
-
-
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="128dp"
+        android:layout_height="115dp"
         android:background="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/trophies_sport_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:fontFamily="@font/montserrat_bold"
-        android:text="Football Trophies"
+        android:text="@string/sport_trophies"
         android:textAlignment="center"
         android:textColor="#000"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:paddingTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,23 +50,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
+    <View
+        android:layout_width="1300dp"
+        android:layout_height="4dp"
+        android:layout_above="@id/view"
+        android:background="@drawable/shadow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.325"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+
 
 
     <com.mancj.materialsearchbar.MaterialSearchBar
         android:id="@+id/trophies_search"
         style="@style/MaterialSearchBarLight"
-        android:layout_width="1109dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="151dp"
-        android:layout_marginTop="160dp"
-        android:layout_marginEnd="150dp"
+        android:layout_width="1100dp"
+        android:layout_height="wrap_content"
+
+
         android:elevation="8dp"
-        android:windowSoftInputMode="adjustPan|adjustResize"
+        android:paddingTop="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/sport_recycleview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-
-
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view"
+        app:layout_constraintVertical_bias="0.0"
         app:mt_maxSuggestionsCount="10"
         app:mt_placeholder=""
         app:mt_speechMode="false"></com.mancj.materialsearchbar.MaterialSearchBar>

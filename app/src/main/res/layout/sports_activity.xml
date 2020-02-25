@@ -28,10 +28,10 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/sport_recycleview"
                     android:layout_width="fill_parent"
-                    android:layout_height="495dp"
+                    android:layout_height="fill_parent"
                     android:layout_gravity="center|center_horizontal"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="352dp"
+                    android:layout_marginTop="175dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:clipToPadding="false"
@@ -39,8 +39,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0">
+                    app:layout_constraintTop_toTopOf="parent">
 
                 </androidx.recyclerview.widget.RecyclerView>
 
@@ -56,6 +55,16 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.02" />
 
+                <View
+                    android:layout_width="1300dp"
+                    android:layout_height="4dp"
+                    android:layout_above="@id/view"
+                    android:background="@drawable/shadow"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.325"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
+
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="39dp"
@@ -69,12 +78,12 @@
                     app:srcCompat="@drawable/shs_logo" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/sport_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
                     android:fontFamily="@font/montserrat_bold"
-                    android:text="Tap a sport or search"
+                    android:text="@string/tap_a_sport_or_search"
                     android:textAlignment="center"
                     android:textColor="#000"
                     android:textSize="15dp"
@@ -85,17 +94,22 @@
                 <com.mancj.materialsearchbar.MaterialSearchBar
                     android:id="@+id/sports_search"
                     style="@style/MaterialSearchBarLight"
-                    android:layout_width="wrap_content"
+                    android:layout_width="1100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:elevation="8dp"
 
+
+                    android:elevation="8dp"
+                    android:paddingTop="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/sport_recycleview"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view"
+                    app:layout_constraintVertical_bias="0.0"
                     app:mt_maxSuggestionsCount="10"
                     app:mt_placeholder=""
-                    app:mt_speechMode="false"
-                    app:layout_constraintTop_toBottomOf="@id/view"></com.mancj.materialsearchbar.MaterialSearchBar>
+                    app:mt_speechMode="false">
+
+                </com.mancj.materialsearchbar.MaterialSearchBar>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
