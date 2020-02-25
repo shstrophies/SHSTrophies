@@ -138,6 +138,7 @@ public class SportsAndTrophiesActivity extends AppCompatActivity
         Log.d(TAG, "getData: getData");
         Context context = this;
         TrophyRepository tropyRepository = DataManager.getTrophyRepository(context);
+        List<List<Trophy>> listOfTrophies = new ArrayList();
         for(int i = 0; i< searchStrings.length; i++) {
             String searchString = searchStrings[i];
             List<Trophy> sportTrophies  = tropyRepository.getTrophiesBySport("%" + searchString + "%");
@@ -152,30 +153,32 @@ public class SportsAndTrophiesActivity extends AppCompatActivity
                 trophies.addAll(yearTrophies);
             }
 
-
             List<Trophy> distinctList = trophies.stream().distinct().collect(Collectors.toList());
-            List<List<Trophy>> listOfTrophies = new ArrayList();
             for(Trophy t : distinctList) {
                 List<Trophy> l = new ArrayList();
                 l.add(t);
                 listOfTrophies.add(l);
             }
-            Map<String, List<Trophy>> map =
-                    listOfTrophies.stream().collect(Collectors.groupingBy(e -> e.get(0).sport_name,
-                            Collectors.mapping(e -> e.get(0),
-                                    Collectors.toList())));
-
-            for (Map.Entry<String, List<Trophy>> entry : map.entrySet()) {
-                System.out.println(entry.getKey() + " = " + entry.getValue());
-                String sport_name = entry.getKey();
-                List<Trophy> trophyList = entry.getValue();
-                SportsAndTrophiesData data = new SportsAndTrophiesData(trophyList, sport_name.substring(0,1).toUpperCase() + sport_name.substring(1).toLowerCase());
-                sportsAndTrophies.add(data);
-            }
-
-            Log.d(TAG, "getData: recyclerview sportsAndTrophies size=" + sportsAndTrophies.size());
-            adapter.notifyDataSetChanged();
         }
+
+        Map<String, List<Trophy>> map =
+                listOfTrophies.stream().collect(Collectors.groupingBy(e -> e.get(0).sport_name,
+                        Collectors.mapping(e -> e.get(0),
+                                Collectors.toList())));
+
+        for (Map.Entry<String, List<Trophy>> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + " = " + entry.getValue());
+            Log.d(TAG, "getData: " + entry.getKey() + " = " + entry.getValue());
+            String sport_name = entry.getKey();
+            List<Trophy> trophyList = entry.getValue();
+            List<Trophy> distinctTrophiesList = trophyList.stream().distinct().collect(Collectors.toList());
+
+            SportsAndTrophiesData data = new SportsAndTrophiesData(distinctTrophiesList, sport_name.substring(0,1).toUpperCase() + sport_name.substring(1).toLowerCase());
+            sportsAndTrophies.add(data);
+        }
+
+        Log.d(TAG, "getData: recyclerview sportsAndTrophies size=" + sportsAndTrophies.size());
+        adapter.notifyDataSetChanged();
 
     }
 
