@@ -167,7 +167,7 @@ public class SportsAndTrophiesActivity extends AppCompatActivity
                 System.out.println(entry.getKey() + " = " + entry.getValue());
                 String sport_name = entry.getKey();
                 List<Trophy> trophyList = entry.getValue();
-                SportsAndTrophiesData data = new SportsAndTrophiesData(trophyList, sport_name);
+                SportsAndTrophiesData data = new SportsAndTrophiesData(trophyList, sport_name.substring(0,1).toUpperCase() + sport_name.substring(1).toLowerCase());
                 sportsAndTrophies.add(data);
             }
 
