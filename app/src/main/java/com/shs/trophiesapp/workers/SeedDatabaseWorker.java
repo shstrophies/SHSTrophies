@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -28,10 +29,12 @@ import static com.shs.trophiesapp.utils.CSVUtils.parseLine;
 public class SeedDatabaseWorker extends Worker {
     private static final String TAG = "SeedDatabaseWorker";
     private static ExecutorService mES;
+    private static WeakReference<Context> contextWeakReference;
 
     public SeedDatabaseWorker(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
         mES = Executors.newCachedThreadPool();
+        contextWeakReference = new WeakReference<>(context);
     }
 
     @NonNull
@@ -72,7 +75,7 @@ public class SeedDatabaseWorker extends Worker {
                 List<String> line = parseLine(scanner.nextLine());
                 if (first) first = false;
                 else {
-                    mES.execute(new ImageDownloadThread(line.get(2), true));
+                    mES.execute(new ImageDownloadThread(contextWeakReference.get(), line.get(2), true));
                     sports.add(new Sport(line.get(1), line.get(2)));
                 }
             }
@@ -95,7 +98,7 @@ public class SeedDatabaseWorker extends Worker {
                     for(String player : players) {
                         if(!line.get(2).isEmpty()) {
                             Log.d(TAG, "getTrophyCSVData: line.get(0)=" + line.get(0) + " line.get(1)=" + line.get(1));
-                            mES.execute(new ImageDownloadThread(line.get(4), false));
+                            mES.execute(new ImageDownloadThread(contextWeakReference.get(), line.get(4), false));
                             trophies.add(new Trophy(line.get(1), Integer.parseInt(line.get(2)),
                                     line.get(3), line.get(4), player, line.get(6)));
                         }

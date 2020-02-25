@@ -1,7 +1,9 @@
 package com.shs.trophiesapp.ui.trophies;
 
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +13,8 @@ import com.bumptech.glide.Glide;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.entities.Trophy;
 import com.shs.trophiesapp.utils.Constants;
+
+import java.io.File;
 
 class TrophyViewHolder extends RecyclerView.ViewHolder {
     private TextView txtTitle;
@@ -33,8 +37,8 @@ class TrophyViewHolder extends RecyclerView.ViewHolder {
 
     private static void imageFromUrl(ImageView view, String imageUrl) {
         if (!imageUrl.isEmpty()) {
-            String imgName = imageUrl.replace(Constants.DRIVE_IMAGE_PREFIX, "").split("/")[0] + ".jpg";
-            view.setImageBitmap(BitmapFactory.decodeFile(Constants.DATA_DIRECTORY_TROPHY_IMAGES + imgName));
+            String imgName = imageUrl.replace(Constants.DRIVE_IMAGE_PREFIX, "").split("/")[0] + MimeTypeMap.getFileExtensionFromUrl(imageUrl);
+            view.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + File.separator + Constants.DATA_DIRECTORY_TROPHY_IMAGES + imgName));
             //Glide.with(view.getContext()).load(imageLink).into(view);
         }
     }

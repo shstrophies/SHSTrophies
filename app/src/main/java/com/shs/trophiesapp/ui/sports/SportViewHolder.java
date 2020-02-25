@@ -2,7 +2,9 @@ package com.shs.trophiesapp.ui.sports;
 
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.entities.Sport;
 import com.shs.trophiesapp.utils.Constants;
+
+import java.io.File;
 
 class SportViewHolder extends RecyclerView.ViewHolder {
     private TextView txtTitle;
@@ -30,8 +34,10 @@ class SportViewHolder extends RecyclerView.ViewHolder {
 
     private static void imageFromUrl(ImageView view, String imageUrl) {
         if (!imageUrl.isEmpty()) {
-            String imgName = imageUrl.replace(Constants.DRIVE_IMAGE_PREFIX, "").split("/")[0] + ".jpg";
-            view.setImageBitmap(BitmapFactory.decodeFile(Constants.DATA_DIRECTORY_SPORT_IMAGES + imgName));
+            String imgName = imageUrl.replace(Constants.DRIVE_IMAGE_PREFIX, "").split("/")[0] + MimeTypeMap.getFileExtensionFromUrl(imageUrl);
+            String filepath = Environment.getExternalStorageDirectory() + File.separator + Constants.DATA_DIRECTORY_SPORT_IMAGES + imgName;
+            Log.d("SportViewHolder", "Setting image bitmap: " + filepath);
+            view.setImageBitmap(BitmapFactory.decodeFile(filepath));
             //Glide.with(view.getContext()).load(imageLink).into(view);
         }
     }
