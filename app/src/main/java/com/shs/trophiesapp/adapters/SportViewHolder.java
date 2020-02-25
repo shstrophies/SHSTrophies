@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.entities.Sport;
 import com.shs.trophiesapp.utils.Constants;
+import com.shs.trophiesapp.utils.Utils;
 
 class SportViewHolder extends RecyclerView.ViewHolder {
     private TextView txtTitle;
@@ -24,18 +25,7 @@ class SportViewHolder extends RecyclerView.ViewHolder {
     void setDetails(Sport sport) {
         txtTitle.setText(sport.sport_name);
         String imageUrl = sport.image_url;
-        imageFromUrl(imgView, imageUrl);
-    }
-
-    private static void imageFromUrl(ImageView view, String imageUrl) {
-        String[] p=imageUrl.split("/");
-        //Create the new image link
-        String imageLink= Constants.DRIVE_URL+p[5];
-
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            Glide.with(view.getContext()).load(imageLink).into(view);
-
-        }
+        Utils.imageFromUrl(imgView, imageUrl);
     }
 }
 

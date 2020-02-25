@@ -30,7 +30,7 @@ public class SportsAndTrophiesAdapter extends RecyclerView.Adapter<SportsAndTrop
     private List<SportsAndTrophiesData> data;
     private List<SportsAndTrophiesData> dataFiltered;
 
-    private TrophiesAdapter horizontalAdapter;
+    private TrophyAdapter horizontalAdapter;
     private RecyclerView.RecycledViewPool recycledViewPool;
 
     public SportsAndTrophiesAdapter(Context context, List<SportsAndTrophiesData> data) {
@@ -58,7 +58,7 @@ public class SportsAndTrophiesAdapter extends RecyclerView.Adapter<SportsAndTrop
 
         holder.textViewSport.setText(data.get(position).getSport());
 
-        horizontalAdapter = new TrophiesAdapter(context, data.get(position).getTrophies());
+        horizontalAdapter = new TrophyAdapter(context, data.get(position).getTrophies());
         holder.recyclerViewHorizontal.setAdapter(horizontalAdapter);
         holder.recyclerViewHorizontal.setLayoutManager(new GridLayoutManager(context, 5));
 

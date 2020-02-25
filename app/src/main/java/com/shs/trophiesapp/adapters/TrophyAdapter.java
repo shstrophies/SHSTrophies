@@ -21,8 +21,8 @@ import com.shs.trophiesapp.data.entities.Trophy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> implements Filterable {
-    private static final String TAG = "TrophiesAdapter";
+public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implements Filterable {
+    private static final String TAG = "TrophyAdapter";
     private Context context;
     private List<Trophy> trophies;
     private List<Trophy> trophiesFiltered;
@@ -30,7 +30,7 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
 
 
 
-    public TrophiesAdapter(Context context, List<Trophy> trophies) {
+    public TrophyAdapter(Context context, List<Trophy> trophies) {
         this.context = context;
         this.trophies = trophies;
         this.trophiesFiltered = trophies;

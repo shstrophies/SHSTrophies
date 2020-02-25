@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.shs.trophiesapp.utils.Constants;
+import com.shs.trophiesapp.utils.Utils;
 
 public class TrophyDetailsActivity extends AppCompatActivity {
 
@@ -38,22 +39,10 @@ public class TrophyDetailsActivity extends AppCompatActivity {
         tvTitle.setText(tr_title);
         tvPlayer.setText(player);
         tvCategory.setText(category);
-        imageFromUrl(img, tr_image_url);
+        Utils.imageFromUrl(img, tr_image_url);
 
     }
 
-    private static void imageFromUrl(ImageView view, String imageUrl) {
-        String[] p=imageUrl.split("/");
-        if(p.length > 5) {
-            //Create the new image link
-            String imageLink= Constants.DRIVE_URL+p[5];
 
-            if ((imageUrl !=  null) && !imageUrl.isEmpty()) {
-                Glide.with(view.getContext()).load(imageLink).into(view);
-
-            }
-        }
-
-    }
 }
 
