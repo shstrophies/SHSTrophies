@@ -52,7 +52,7 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
 
         // set click listener
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

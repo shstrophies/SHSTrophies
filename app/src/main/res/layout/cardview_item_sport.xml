@@ -28,21 +28,21 @@
             android:layout_marginTop="20dp"
             android:scaleType="centerCrop" />
 
-        <TextView
 
+        <TextView
             android:id="@+id/sport_title_id"
-            android:layout_width="403dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#C72027"
             android:fontFamily="@font/montserrat_bold"
             android:gravity="center_horizontal"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:text="@string/sport_title"
+            android:padding="1dp"
+            android:textAlignment="center"
             android:textColor="#fff"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:textStyle="bold"
-            android:visibility="visible" />
+            android:clickable="true"
+            android:focusable="true"
+            />
 
     </LinearLayout>
 
