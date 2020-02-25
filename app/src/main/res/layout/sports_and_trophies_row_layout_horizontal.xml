@@ -11,6 +11,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:layout_below="@+id/sports_and_trophies_search"
         android:text="Sport"
         android:textSize="14sp"
         android:textStyle="bold" />

@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -40,7 +39,6 @@ public class SportsAndTrophiesActivity extends AppCompatActivity implements Mate
     String[] sportNames;
 
     private MaterialSearchBar searchBar;
-    private ProgressBar progressBar;
 
     private SportsAndTrophiesAdapter adapter;
     private ArrayList<SportsAndTrophiesData> sportsAndTrophies = new ArrayList<>();
