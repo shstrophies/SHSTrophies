@@ -1,4 +1,4 @@
-package com.shs.trophiesapp.ui.sports;
+package com.shs.trophiesapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.entities.Sport;
-import com.shs.trophiesapp.ui.trophies.TrophiesActivity;
+import com.shs.trophiesapp.TrophiesActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class SportAdapter extends RecyclerView.Adapter<SportViewHolder> implemen
     private ArrayList<Sport> sports;
     private List<Sport> sportsFiltered;
 
-    SportAdapter(Context context, ArrayList<Sport> sports) {
+    public SportAdapter(Context context, ArrayList<Sport> sports) {
         this.context = context;
         this.sports = sports;
         this.sportsFiltered = sports;

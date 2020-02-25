@@ -1,5 +1,6 @@
 package com.shs.trophiesapp.data.entities;
 
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -26,4 +27,44 @@ public class Trophy {
         this.player = player;
         this.category = category;
     }
+
+    public String getSport_name() {
+        return sport_name;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getTr_title() {
+        return tr_title;
+    }
+
+    public String getTr_image_url() {
+        return tr_image_url;
+    }
+
+    public String getPlayer() {
+        return player;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        return (this.id == ((Trophy)obj).id);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = hash + (this.getTr_title() != null ? this.getTr_title().hashCode() : 0);
+        hash = hash + (int) (this.id ^ (this.id >>> 32));
+        hash = hash +(this.getPlayer() != null ? this.getPlayer().hashCode() : 0);
+        return hash;
+    }
+
+
 }

@@ -1,6 +1,7 @@
-package com.shs.trophiesapp.ui.sports;
+package com.shs.trophiesapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
-import com.shs.trophiesapp.R;
+import com.shs.trophiesapp.adapters.SportAdapter;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.SportRepository;
 import com.shs.trophiesapp.data.entities.Sport;
@@ -41,8 +42,8 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.sport_recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        sports = new ArrayList<>();
-        adapter = new SportAdapter(this, sports);
+        sports = new ArrayList<Sport>();
+        adapter = new SportAdapter(this, this.sports);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
         // set adapter for recyclerview
@@ -78,18 +79,8 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
 
         });
 
-//        final FloatingActionButton searchButton = findViewById(R.id.searchButton);
-//        searchButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                searchBar.openSearch();
-//            }
-//        });
     }
 
-//    @Override
-//    public void onBackPressed() {
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -138,10 +129,18 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     public void onSearchStateChanged(boolean enabled) {
+        Log.d(TAG, "onSearchStateChanged: ");
     }
 
     @Override
     public void onSearchConfirmed(CharSequence text) {
+        Log.d(TAG, "onSearchConfirmed: ");
+        //HERE
+        Intent intent = new Intent(this, SportsAndTrophiesActivity.class);
+
+        intent.putExtra(SportsAndTrophiesActivity.TROPHIES_SEARCH_STRING, text.toString());
+
+        startActivity(intent);
 
     }
 

@@ -1,4 +1,4 @@
-package com.shs.trophiesapp.ui;
+package com.shs.trophiesapp;
 
 import android.Manifest;
 import android.app.DownloadManager;
@@ -27,12 +27,10 @@ import androidx.work.Operation;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
-import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.AppDatabase;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.entities.Sport;
 import com.shs.trophiesapp.data.entities.Trophy;
-import com.shs.trophiesapp.ui.sports.SportsActivity;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
 import com.shs.trophiesapp.workers.SeedDatabaseWorker;

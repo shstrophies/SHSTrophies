@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f2f2f2"
-    tools:context=".ui.trophies.TrophiesActivity">
+    tools:context=".TrophiesActivity">
 
 
     <View
@@ -19,18 +19,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <TextView
         android:id="@+id/trophies_sport_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:fontFamily="@font/montserrat_bold"
+        android:fontFamily="@font/montserrat_extrabold"
+        android:paddingTop="5dp"
         android:text="@string/sport_trophies"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="30sp"
-        android:paddingTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
@@ -40,17 +39,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
+        android:layout_marginBottom="12dp"
         android:fontFamily="@font/montserrat_bold"
-        android:paddingTop="70dp"
         android:text="Tap a trophy or search"
         android:textAlignment="center"
         android:textColor="#000"
-        android:textSize="20dp"
+        android:textSize="23dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <View
+        android:id="@+id/view2"
         android:layout_width="1300dp"
         android:layout_height="4dp"
         android:layout_above="@id/view"

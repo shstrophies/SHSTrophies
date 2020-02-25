@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ui.SetupActivity">
+        <activity android:name=".SetupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,17 +23,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.shs.trophiesapp.ui.trophies.TrophiesActivity"
+            android:name="com.shs.trophiesapp.TrophiesActivity"
             android:windowSoftInputMode="adjustPan|adjustResize"
             >
 
         </activity>
         <activity
-            android:name="com.shs.trophiesapp.ui.sports.SportsActivity"
+            android:name="com.shs.trophiesapp.SportsActivity"
             android:windowSoftInputMode="adjustPan|adjustResize"
             >
         </activity>
-
+        <activity
+            android:name="com.shs.trophiesapp.SportsAndTrophiesActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            >
+        </activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
