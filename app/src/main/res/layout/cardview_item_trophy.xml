@@ -10,10 +10,11 @@
     android:layout_marginRight="10dp"
     android:clickable="true"
     android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     cardview:cardCornerRadius="10dp"
-    android:foreground="?android:attr/selectableItemBackground">
-
-
+    cardview:contentPaddingLeft="10dp"
+    cardview:contentPaddingRight="10dp"
+    cardview:contentPaddingTop="10dp">
 
 
     <LinearLayout
@@ -21,7 +22,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
-
 
 
         <ImageView

@@ -1,50 +1,44 @@
 package com.shs.trophiesapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
+import com.shs.trophiesapp.TrophyDetailsActivity;
+import com.shs.trophiesapp.adapters.TrophyViewHolder;
 import com.shs.trophiesapp.data.entities.Trophy;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class SportsAndTrophiesHorizontalAdapter extends RecyclerView.Adapter<TrophyViewHolder> implements Filterable {
-
-    private static final String TAG = "SportsAndTrophiesHorizontalAdapter";
+public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> implements Filterable {
+    private static final String TAG = "TrophiesAdapter";
     private Context context;
     private List<Trophy> trophies;
     private List<Trophy> trophiesFiltered;
-    CardView cardView;
 
-    SportsAndTrophiesHorizontalAdapter(Context context, List<Trophy> trophies) {
+
+
+
+    public TrophiesAdapter(Context context, List<Trophy> trophies) {
         this.context = context;
         this.trophies = trophies;
         this.trophiesFiltered = trophies;
-
-    }
-
-
-    @Override
-    public void onBindViewHolder(TrophyViewHolder holder, int position) {
-        Trophy trophy = trophiesFiltered.get(position);
-        holder.setDetails(trophy);
     }
 
     @Override
     public int getItemCount() {
+        Log.d(TAG, "getItemCount: trophiesFiltered.size()=" + trophiesFiltered.size());
         return trophiesFiltered.size();
     }
 
@@ -53,6 +47,36 @@ public class SportsAndTrophiesHorizontalAdapter extends RecyclerView.Adapter<Tro
     public TrophyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.cardview_item_trophy, parent, false);
         return new TrophyViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(TrophyViewHolder holder, int position) {
+        Trophy trophy = trophiesFiltered.get(position);
+
+        holder.setDetails(trophy);
+
+
+        // set click listener
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(context, TrophyDetailsActivity.class);
+
+                // passing data
+
+                intent.putExtra("Category", trophiesFiltered.get(position).getCategory());
+                intent.putExtra("sport_name", trophiesFiltered.get(position).getSport_name());
+                intent.putExtra("year", trophiesFiltered.get(position).getYear());
+                intent.putExtra("tr_title", trophiesFiltered.get(position).getTr_title());
+                intent.putExtra("player", trophiesFiltered.get(position).getPlayer());
+                intent.putExtra("category", trophiesFiltered.get(position).getCategory());
+                intent.putExtra("tr_image_url", trophiesFiltered.get(position).getTr_image_url());
+
+                // start activity
+                context.startActivity(intent);
+            }
+        });
     }
 
     private class TrophyFilter extends Filter {
@@ -90,7 +114,7 @@ public class SportsAndTrophiesHorizontalAdapter extends RecyclerView.Adapter<Tro
 
     @Override
     public Filter getFilter() {
-        return new SportsAndTrophiesHorizontalAdapter.TrophyFilter();
+        return new TrophyFilter();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.shs.trophiesapp.adapters;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +17,8 @@ class TrophyViewHolder extends RecyclerView.ViewHolder {
     private TextView txtTitle;
     private ImageView imgView;
     CardView cardView;
+    static int colors[] = {Color.YELLOW, Color.BLUE, Color.RED};
+    static int nextColorIndex = 0;
 
 
     TrophyViewHolder(View itemView) {
@@ -29,6 +32,10 @@ class TrophyViewHolder extends RecyclerView.ViewHolder {
         txtTitle.setText(trophy.tr_title);
         String imageUrl = trophy.tr_image_url;
         imageFromUrl(imgView, imageUrl);
+
+        this.cardView.setBackgroundColor(colors[nextColorIndex++]);
+        nextColorIndex %= colors.length;
+
     }
 
     private static void imageFromUrl(ImageView view, String imageUrl) {
