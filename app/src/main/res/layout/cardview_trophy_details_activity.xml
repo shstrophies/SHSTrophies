@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardview_trophy_id"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    cardview:cardCornerRadius="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".TrophyDetailsActivity">
+
+
+            <ImageView
+                android:id="@+id/trophythumbnail"
+                android:layout_width="600dp"
+                android:layout_height="wrap_content"
+                android:background="#2d2d2d"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/txt_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Trophy Title"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_cat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#edecec"
+                android:padding="8dp"
+                android:text="Category" />
+
+            <TextView
+                android:id="@+id/txt_player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Player"
+                android:textSize="18sp"
+
+                />
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

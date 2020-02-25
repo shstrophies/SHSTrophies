@@ -1,10 +1,7 @@
 package com.shs.trophiesapp;
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,9 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.shs.trophiesapp.utils.Constants;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 public class TrophyDetailsActivity extends AppCompatActivity {
 
     private TextView tvTitle, tvPlayer, tvCategory;
@@ -25,7 +19,7 @@ public class TrophyDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.trophy_details_activity);
+        setContentView(R.layout.cardview_trophy_details_activity);
 
         tvTitle = findViewById(R.id.txt_title);
         tvPlayer = findViewById(R.id.txt_player);
