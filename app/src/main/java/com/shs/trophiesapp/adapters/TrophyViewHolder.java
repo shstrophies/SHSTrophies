@@ -17,7 +17,7 @@ class TrophyViewHolder extends RecyclerView.ViewHolder {
     private TextView txtTitle;
     private ImageView imgView;
     CardView cardView;
-    static ColorGenerator newColor = new ColorGenerator(new int[]{Color.YELLOW, Color.BLUE, Color.RED});
+    static ColorGenerator newColor = new ColorGenerator(new int[]{Color.BLUE, Color.YELLOW, Color.RED});
 
 
     TrophyViewHolder(View itemView) {
