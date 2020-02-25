@@ -70,6 +70,7 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
                 intent.putExtra("player", trophiesFiltered.get(position).getPlayer());
                 intent.putExtra("category", trophiesFiltered.get(position).getCategory());
                 intent.putExtra("tr_image_url", trophiesFiltered.get(position).getTr_image_url());
+                intent.putExtra("color", trophiesFiltered.get(position).getColor());
 
                 // start activity
                 context.startActivity(intent);
