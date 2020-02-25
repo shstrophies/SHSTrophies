@@ -14,11 +14,8 @@ public class ColorGenerator {
     }
 
     public ColorGenerator getNextColor() {
-        int theColor = this.colors[nextColorIndex++];
-        nextColorIndex %= colors.length;
-        ColorGenerator nextColor = new ColorGenerator(this.colors);
-        nextColor.nextColorIndex = nextColorIndex;
-        return nextColor;
+        // TODO
+        return this;
     }
 
     public int getColor() {
