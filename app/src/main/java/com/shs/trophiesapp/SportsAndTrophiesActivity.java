@@ -32,13 +32,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class SportsAndTrophiesActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener {
+public class SportsAndTrophiesActivity extends AppCompatActivity
+//        implements MaterialSearchBar.OnSearchActionListener
+{
     private static final String TAG = "SportsAndTrophiesActivity";
 
     public static final String TROPHIES_BY_SPORTS_NAMES = "Sports";
     String[] sportNames;
 
-    private MaterialSearchBar searchBar;
+//    private MaterialSearchBar searchBar;
 
     private SportsAndTrophiesAdapter adapter;
     private ArrayList<SportsAndTrophiesData> sportsAndTrophies = new ArrayList<>();
@@ -69,32 +71,32 @@ public class SportsAndTrophiesActivity extends AppCompatActivity implements Mate
         // get data and notify adapter
         getData();
 
-        searchBar = findViewById(R.id.sports_and_trophies_search);
-        searchBar.setOnSearchActionListener(this);
-        searchBar.inflateMenu(R.menu.main);
-        searchBar.setHint("???...");
-
-        Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
-        searchBar.setCardViewElevation(10);
-        searchBar.addTextChangeListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d(TAG, "beforeTextChanged: ");
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                Log.d(TAG, "afterTextChanged: ");
-                doSearch(searchBar.getText());
-
-            }
-
-        });
+//        searchBar = findViewById(R.id.sports_and_trophies_search);
+//        searchBar.setOnSearchActionListener(this);
+//        searchBar.inflateMenu(R.menu.main);
+//        searchBar.setHint("???...");
+//
+//        Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
+//        searchBar.setCardViewElevation(10);
+//        searchBar.addTextChangeListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                Log.d(TAG, "beforeTextChanged: ");
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                Log.d(TAG, "afterTextChanged: ");
+//                doSearch(searchBar.getText());
+//
+//            }
+//
+//        });
 
     }
 
@@ -122,25 +124,25 @@ public class SportsAndTrophiesActivity extends AppCompatActivity implements Mate
     }
 
 
-    @Override
-    public void onSearchStateChanged(boolean enabled) {
-    }
-
-    @Override
-    public void onSearchConfirmed(CharSequence text) {
-
-    }
-
-    @Override
-    public void onButtonClicked(int buttonCode) {
-        switch (buttonCode) {
-            case MaterialSearchBar.BUTTON_SPEECH:
-                break;
-            case MaterialSearchBar.BUTTON_BACK:
-                searchBar.closeSearch();
-                break;
-        }
-    }
+//    @Override
+//    public void onSearchStateChanged(boolean enabled) {
+//    }
+//
+//    @Override
+//    public void onSearchConfirmed(CharSequence text) {
+//
+//    }
+//
+//    @Override
+//    public void onButtonClicked(int buttonCode) {
+//        switch (buttonCode) {
+//            case MaterialSearchBar.BUTTON_SPEECH:
+//                break;
+//            case MaterialSearchBar.BUTTON_BACK:
+//                searchBar.closeSearch();
+//                break;
+//        }
+//    }
 
     private void getData() {
         Log.d(TAG, "getData: getData");
@@ -175,9 +177,9 @@ public class SportsAndTrophiesActivity extends AppCompatActivity implements Mate
 
     }
 
-    // search data
-    private void doSearch(String searchText) {
-        Log.d(TAG, "doSearch: " + searchBar.getText());
-        adapter.getFilter().filter(searchText);
-    }
+//    // search data
+//    private void doSearch(String searchText) {
+//        Log.d(TAG, "doSearch: " + searchBar.getText());
+//        adapter.getFilter().filter(searchText);
+//    }
 }

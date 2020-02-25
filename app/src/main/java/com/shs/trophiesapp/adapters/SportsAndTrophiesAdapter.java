@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -60,6 +61,7 @@ public class SportsAndTrophiesAdapter extends RecyclerView.Adapter<SportsAndTrop
 
         horizontalAdapter = new SportsAndTrophiesHorizontalAdapter(context, data.get(position).getTrophies());
         holder.recyclerViewHorizontal.setAdapter(horizontalAdapter);
+        holder.recyclerViewHorizontal.setLayoutManager(new GridLayoutManager(context, 3));
 
         holder.recyclerViewHorizontal.setRecycledViewPool(recycledViewPool);
 

@@ -5,12 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".SportsAndTrophiesActivity">
 
+    <!--
     <com.mancj.materialsearchbar.MaterialSearchBar
         android:id="@+id/sports_and_trophies_search"
         style="@style/MaterialSearchBarLight"
         android:layout_width="1100dp"
         android:layout_height="wrap_content">
     </com.mancj.materialsearchbar.MaterialSearchBar>
+    -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sports_and_trophies_recyclerview"
