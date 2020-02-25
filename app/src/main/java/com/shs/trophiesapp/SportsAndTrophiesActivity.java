@@ -3,31 +3,21 @@ package com.shs.trophiesapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.navigation.NavigationView;
-import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.shs.trophiesapp.adapters.SportsAndTrophiesAdapter;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.SportsAndTrophiesData;
 import com.shs.trophiesapp.data.TrophyRepository;
-import com.shs.trophiesapp.data.entities.Sport;
-import com.shs.trophiesapp.adapters.SportAdapter;
 import com.shs.trophiesapp.data.entities.Trophy;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,8 +27,8 @@ public class SportsAndTrophiesActivity extends AppCompatActivity
 {
     private static final String TAG = "SportsAndTrophiesActivity";
 
-    public static final String TROPHIES_BY_SPORTS_NAMES = "Sports";
-    String[] sportNames;
+    public static final String TROPHIES_SEARCH_STRING = "TROPHIES_SEARCH_STRING";
+    String[] searchStrings;
 
 //    private MaterialSearchBar searchBar;
 
@@ -53,8 +43,8 @@ public class SportsAndTrophiesActivity extends AppCompatActivity
 
         //Receive data
         Intent intent = getIntent();
-        String sports = intent.getExtras().getString(TROPHIES_BY_SPORTS_NAMES);
-        sportNames = sports.split(",");
+        String searchString = intent.getExtras().getString(TROPHIES_SEARCH_STRING);
+        searchStrings = searchString.split(",");
 
         // create sports_activity layout object
         setContentView(R.layout.sports_and_trophies_activity);
@@ -148,9 +138,21 @@ public class SportsAndTrophiesActivity extends AppCompatActivity
         Log.d(TAG, "getData: getData");
         Context context = this;
         TrophyRepository tropyRepository = DataManager.getTrophyRepository(context);
-        for(int i=0; i<sportNames.length; i++) {
-            String sportName = sportNames[i];
-            List<Trophy> trophies = tropyRepository.getTrophiesBySport("%" + sportName + "%");
+        for(int i = 0; i< searchStrings.length; i++) {
+            String searchString = searchStrings[i];
+            List<Trophy> sportTrophies  = tropyRepository.getTrophiesBySport("%" + searchString + "%");
+            List<Trophy> playerTrophies = tropyRepository.getTrophiesByPlayer("%" + searchString + "%");
+
+
+            List<Trophy> trophies = sportTrophies;
+            trophies.addAll(playerTrophies);
+            if(searchString.matches("-?(0|[1-9]\\d*)")) {
+                int year = Integer.parseInt(searchString);
+                List<Trophy> yearTrophies = tropyRepository.getTrophiesByYear(year);
+                trophies.addAll(yearTrophies);
+            }
+
+
             List<Trophy> distinctList = trophies.stream().distinct().collect(Collectors.toList());
             List<List<Trophy>> listOfTrophies = new ArrayList();
             for(Trophy t : distinctList) {

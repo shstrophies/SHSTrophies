@@ -22,6 +22,14 @@ public class TrophyRepository {
         return TrophyDao.findBySport(sport_name);
     }
 
+    public List<Trophy>  getTrophiesByYear(int year) {
+        return TrophyDao.findByYear(year);
+    }
+
+    public List<Trophy>  getTrophiesByPlayer(String player) {
+        return TrophyDao.findByName(player);
+    }
+
     static TrophyRepository getInstance(TrophyDao TrophyDao) {
         if (instance == null) {
             synchronized(TrophyRepository.class) {

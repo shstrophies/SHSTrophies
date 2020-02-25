@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
-import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.adapters.SportAdapter;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.SportRepository;
@@ -139,7 +138,7 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         //HERE
         Intent intent = new Intent(this, SportsAndTrophiesActivity.class);
 
-        intent.putExtra(SportsAndTrophiesActivity.TROPHIES_BY_SPORTS_NAMES, text.toString());
+        intent.putExtra(SportsAndTrophiesActivity.TROPHIES_SEARCH_STRING, text.toString());
 
         startActivity(intent);
 
