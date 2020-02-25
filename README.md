@@ -10,9 +10,9 @@
 - add cleanup code to clean export files (Shayan)
 
 # UI:
-
 ~~- add search bar (Ujjwal)~~
 
+>>>>>>> 71c0c60471561e1c11fdd90f8f81a9a6fb52d86a
 - finish homescreen UI (Arman & Vignav) 
   - design cards
     - round the inside images
