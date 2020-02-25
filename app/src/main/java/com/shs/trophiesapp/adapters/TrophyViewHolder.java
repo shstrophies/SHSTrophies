@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -14,20 +15,20 @@ import com.shs.trophiesapp.utils.Constants;
 class TrophyViewHolder extends RecyclerView.ViewHolder {
     private TextView txtTitle;
     private ImageView imgView;
-    //private TextView txtDescription;
+    CardView cardView;
+
 
     TrophyViewHolder(View itemView) {
         super(itemView);
         txtTitle = itemView.findViewById(R.id.txtTitle);
         imgView = itemView.findViewById(R.id.my_image_view);
-        //txtDescription = itemView.findViewById(R.id.txtDescription);//commenting this out since we only need the title of trophy on the trophies page
+        cardView = itemView.findViewById(R.id.cardview_trophy_id);
     }
 
     void setDetails(Trophy trophy) {
         txtTitle.setText(trophy.tr_title);
         String imageUrl = trophy.tr_image_url;
         imageFromUrl(imgView, imageUrl);
-        // txtDescription.setText(trophy.player);
     }
 
     private static void imageFromUrl(ImageView view, String imageUrl) {

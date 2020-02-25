@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
@@ -26,11 +27,13 @@ public class SportsAndTrophiesHorizontalAdapter extends RecyclerView.Adapter<Tro
     private Context context;
     private List<Trophy> trophies;
     private List<Trophy> trophiesFiltered;
+    CardView cardView;
 
     SportsAndTrophiesHorizontalAdapter(Context context, List<Trophy> trophies) {
         this.context = context;
         this.trophies = trophies;
         this.trophiesFiltered = trophies;
+
     }
 
 
@@ -48,7 +51,7 @@ public class SportsAndTrophiesHorizontalAdapter extends RecyclerView.Adapter<Tro
     @Override
     @NonNull
     public TrophyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.trophies_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.cardview_item_trophy, parent, false);
         return new TrophyViewHolder(view);
     }
 

@@ -1,6 +1,7 @@
 package com.shs.trophiesapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
+import com.shs.trophiesapp.TrophyDetailsActivity;
 import com.shs.trophiesapp.adapters.TrophyViewHolder;
 import com.shs.trophiesapp.data.entities.Trophy;
 
@@ -39,7 +41,7 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
     @Override
     @NonNull
     public TrophyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.trophies_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.cardview_item_trophy, parent, false);
         return new TrophyViewHolder(view);
     }
 
@@ -47,6 +49,29 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
     public void onBindViewHolder(TrophyViewHolder holder, int position) {
         Trophy trophy = trophiesFiltered.get(position);
         holder.setDetails(trophy);
+
+        // set click listener
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(context, TrophyDetailsActivity.class);
+
+                // passing data
+
+                intent.putExtra("Category", trophiesFiltered.get(position).getCategory());
+                intent.putExtra("sport_name", trophiesFiltered.get(position).getSport_name());
+                intent.putExtra("year", trophiesFiltered.get(position).getYear());
+                intent.putExtra("tr_title", trophiesFiltered.get(position).getTr_title());
+                intent.putExtra("player", trophiesFiltered.get(position).getPlayer());
+                intent.putExtra("category", trophiesFiltered.get(position).getCategory());
+                intent.putExtra("tr_image_url", trophiesFiltered.get(position).getTr_image_url());
+
+                // start activity
+                context.startActivity(intent);
+            }
+        });
     }
 
     private class TrophyFilter extends Filter {
