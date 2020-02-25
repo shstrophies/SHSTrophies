@@ -8,18 +8,16 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.entities.Trophy;
-import com.shs.trophiesapp.utils.Constants;
+import com.shs.trophiesapp.utils.ColorGenerator;
 import com.shs.trophiesapp.utils.Utils;
 
 class TrophyViewHolder extends RecyclerView.ViewHolder {
     private TextView txtTitle;
     private ImageView imgView;
     CardView cardView;
-    static int colors[] = {Color.YELLOW, Color.BLUE, Color.RED};
-    static int nextColorIndex = 0;
+    static ColorGenerator newColor = new ColorGenerator(new int[]{Color.YELLOW, Color.BLUE, Color.RED});
 
 
     TrophyViewHolder(View itemView) {
@@ -34,8 +32,10 @@ class TrophyViewHolder extends RecyclerView.ViewHolder {
         String imageUrl = trophy.tr_image_url;
         Utils.imageFromUrl(imgView, imageUrl);
 
-        this.cardView.setBackgroundColor(colors[nextColorIndex++]);
-        nextColorIndex %= colors.length;
-
+        newColor = newColor.getNextColor();
+        trophy.setColor(newColor.getColor());
+        this.cardView.setBackgroundColor(trophy.getColor());
     }
+
+
 }

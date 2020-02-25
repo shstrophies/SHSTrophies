@@ -52,7 +52,6 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
     @Override
     public void onBindViewHolder(TrophyViewHolder holder, int position) {
         Trophy trophy = trophiesFiltered.get(position);
-
         holder.setDetails(trophy);
 
 
@@ -64,7 +63,6 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
                 Intent intent = new Intent(context, TrophyDetailsActivity.class);
 
                 // passing data
-
                 intent.putExtra("Category", trophiesFiltered.get(position).getCategory());
                 intent.putExtra("sport_name", trophiesFiltered.get(position).getSport_name());
                 intent.putExtra("year", trophiesFiltered.get(position).getYear());
