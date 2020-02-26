@@ -45,7 +45,7 @@ public class TrophyPlayersAndYearsAdapter extends RecyclerView.Adapter<TrophyPla
     @Override
     @NonNull
     public TrophyPlayerAndYearViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.cardview_item_trophy, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.cardview_item_trophy_player_and_year, parent, false);
         return new TrophyPlayerAndYearViewHolder(view);
     }
 
