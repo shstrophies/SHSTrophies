@@ -7,7 +7,7 @@
 - download images in case wifi is slow? (Ujjwal & Carolina)
 - add more search capability especially with homepage (Shayan)
   - homepage searching
-    ~~- search for sports within homepage~~
+    - <s> search for sports within homepage</s>
     ~~- search for trophies within homepage~~
     ~~- search for names within homepage~~
       - possible suggestion: should we allow search by year? If we decide yes, then we need it so if you type in 2005 on homepage search bar, cards will be organized with the year on the top instead of the Sport
