@@ -52,12 +52,12 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
 
         //Receive data
         Intent intent = getIntent();
-        String sport_name = intent.getExtras().getString("sport_name");
-        String tr_title = intent.getExtras().getString("tr_title");
-        String tr_image_url = intent.getExtras().getString("tr_image_url");
+        String trophy_title = intent.getExtras().getString("trophy_title");
         int color = intent.getExtras().getInt("color");
+        String tr_image_url = intent.getExtras().getString("tr_image_url");
 
-        tvTitle.setText(tr_title);
+
+        tvTitle.setText(trophy_title);
         Utils.imageFromUrl(img, tr_image_url);
         trophyView.setBackgroundColor(color);
 
@@ -70,7 +70,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
 
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);
-        getData(sport);
+        getData(intent);
 
         searchBar = findViewById(R.id.trophies_search);
         searchBar.setOnSearchActionListener(this);
@@ -124,11 +124,16 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
     }
 
 
-    private void getData(String sport) {
+    private void getData(Intent intent) {
         Log.d(TAG, "getData: getData");
+
+        //Receive data
+        String sport_name = intent.getExtras().getString("sport_name");
+        String trophy_title = intent.getExtras().getString("trophy_title");
+
         Context context = this;
         TrophyRepository trophyRepository = DataManager.getTrophyRepository(context);
-        List<Trophy> _trophies = trophyRepository.getTrophiesBySport(sport.toLowerCase());
+        List<Trophy> _trophies = trophyRepository.getTrophiesBySportAndTitle(sport_name.toLowerCase(), trophy_title);
         trophies.addAll(_trophies);
         Log.d(TAG, "getData: recyclerview trophies size=" + trophies.size());
         adapter.notifyDataSetChanged();

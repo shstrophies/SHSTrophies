@@ -67,7 +67,7 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
                 intent.putExtra("Category", trophiesFiltered.get(position).getCategory());
                 intent.putExtra("sport_name", trophiesFiltered.get(position).getSport_name());
                 intent.putExtra("year", trophiesFiltered.get(position).getYear());
-                intent.putExtra("tr_title", trophiesFiltered.get(position).getTr_title());
+                intent.putExtra("trophy_title", trophiesFiltered.get(position).gettrophy_title());
                 intent.putExtra("player", trophiesFiltered.get(position).getPlayer());
                 intent.putExtra("category", trophiesFiltered.get(position).getCategory());
                 intent.putExtra("tr_image_url", trophiesFiltered.get(position).getTr_image_url());
@@ -93,7 +93,7 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
                 for (Trophy row : trophies) {
                     // name match condition. this might differ depending on your requirement
                     // here we are looking for title or description match
-                    if (row.tr_title.toLowerCase().contains(charString) || row.player.toLowerCase().contains(charString)) {
+                    if (row.trophy_title.toLowerCase().contains(charString) || row.player.toLowerCase().contains(charString)) {
                         filteredList.add(row);
                     }
                 }

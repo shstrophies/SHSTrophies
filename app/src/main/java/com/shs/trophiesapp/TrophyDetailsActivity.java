@@ -31,11 +31,11 @@ public class TrophyDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String sport_name = intent.getExtras().getString("sport_name");
         int year = intent.getExtras().getInt("year");
-        String tr_title = intent.getExtras().getString("tr_title");
+        String trophy_title = intent.getExtras().getString("trophy_title");
         String tr_image_url = intent.getExtras().getString("tr_image_url");
         int color = intent.getExtras().getInt("color");
 
-        tvTitle.setText(tr_title);
+        tvTitle.setText(trophy_title);
 
         Utils.imageFromUrl(img, tr_image_url);
         cardView.setBackgroundColor(color);

@@ -59,7 +59,7 @@
             "notNull": true
           },
           {
-            "fieldPath": "tr_title",
+            "fieldPath": "trophy_title",
             "columnName": "Trophy_Title",
             "affinity": "TEXT",
             "notNull": false
