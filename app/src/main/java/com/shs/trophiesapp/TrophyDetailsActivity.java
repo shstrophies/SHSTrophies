@@ -15,7 +15,7 @@ import com.shs.trophiesapp.utils.Utils;
 
 public class TrophyDetailsActivity extends AppCompatActivity {
 
-    private TextView tvTitle, tvPlayer, tvCategory;
+    private TextView tvTitle;
     private ImageView img;
     private CardView cardView;
 
@@ -26,8 +26,7 @@ public class TrophyDetailsActivity extends AppCompatActivity {
 
         cardView = findViewById(R.id.cardview_trophy_details_id);
         tvTitle = findViewById(R.id.txt_title);
-        tvPlayer = findViewById(R.id.txt_player);
-        tvCategory = findViewById(R.id.txt_cat);
+
         img = findViewById(R.id.trophythumbnail);
 
         //Receive data
@@ -35,14 +34,11 @@ public class TrophyDetailsActivity extends AppCompatActivity {
         String sport_name = intent.getExtras().getString("sport_name");
         int year = intent.getExtras().getInt("year");
         String tr_title = intent.getExtras().getString("tr_title");
-        String player = intent.getExtras().getString("player");
-        String category = intent.getExtras().getString("category");
         String tr_image_url = intent.getExtras().getString("tr_image_url");
         int color = intent.getExtras().getInt("color");
 
         tvTitle.setText(tr_title);
-        tvPlayer.setText(player);
-        tvCategory.setText(category);
+
         Utils.imageFromUrl(img, tr_image_url);
         cardView.setBackgroundColor(color);
 
