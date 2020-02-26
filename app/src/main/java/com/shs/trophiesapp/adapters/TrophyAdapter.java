@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.TrophyDetailsActivity;
+import com.shs.trophiesapp.TrophyPlayersAndYearsActivity;
 import com.shs.trophiesapp.adapters.TrophyViewHolder;
 import com.shs.trophiesapp.data.entities.Trophy;
 
@@ -60,7 +61,7 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(context, TrophyDetailsActivity.class);
+                Intent intent = new Intent(context, TrophyPlayersAndYearsActivity.class);
 
                 // passing data
                 intent.putExtra("Category", trophiesFiltered.get(position).getCategory());

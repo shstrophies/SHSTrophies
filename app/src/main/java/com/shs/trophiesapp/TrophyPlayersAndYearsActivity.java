@@ -2,6 +2,7 @@ package com.shs.trophiesapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +15,8 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity {
 
     private TextView tvTitle;
     private ImageView img;
-    private CardView cardView;
+    private View trophyView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity {
 
         tvTitle = findViewById(R.id.trophy_players_and_years_title);
         img = findViewById(R.id.trophy_players_and_years_thumbnail);
+        trophyView = findViewById(R.id.trophy_players_and_years_trophy);
 
         //Receive data
         Intent intent = getIntent();
@@ -33,7 +36,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity {
 
         tvTitle.setText(tr_title);
         Utils.imageFromUrl(img, tr_image_url);
-        cardView.setBackgroundColor(color);
+        trophyView.setBackgroundColor(color);
 
     }
 

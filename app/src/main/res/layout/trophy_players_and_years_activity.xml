@@ -8,59 +8,40 @@
     android:background="#f2f2f2"
     tools:context=".TrophyPlayersAndYearsActivity">
 
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fff"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <ImageView
-        android:id="@+id/trophy_players_and_years_thumbnail"
+    <LinearLayout
+        android:id="@+id/trophy_players_and_years_trophy"
         android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:background="#2d2d2d"
-        android:scaleType="fitXY"
+        android:layout_height="200dp"
+        android:background="#fff"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/trophies_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/trophy_players_and_years_title"
-        android:contentDescription="@string/todo" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/trophy_players_and_years_thumbnail"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="#2d2d2d"
+            android:contentDescription="@string/todo"
+            android:scaleType="fitXY"
+            tools:layout_editor_absoluteX="136dp"
+            tools:layout_editor_absoluteY="0dp" />
 
 
-    <TextView
-        android:id="@+id/trophy_players_and_years_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <com.lb.auto_fit_textview.AutoResizeTextView
+            android:id="@+id/trophy_players_and_years_title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:textSize="20dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:padding="1dp"
+            android:textAlignment="center"
+            android:textColor="#fff"/>
+    </LinearLayout>
 
-        android:fontFamily="@font/montserrat_extrabold"
-        android:paddingTop="5dp"
-        android:text="@string/sport_trophies"
-        android:textAlignment="center"
-        android:textColor="#000"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trophy_players_and_years_thumbnail" />
-
-    <TextView
-        android:id="@+id/trophy_players_and_years_sport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginBottom="12dp"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="@string/tap_a_trophy_or_search"
-        android:textAlignment="center"
-        android:textColor="#000"
-        android:textSize="23sp"
-        app:layout_constraintBottom_toBottomOf="@+id/trophy_players_and_years_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trophy_players_and_years_title" />
 
     <com.mancj.materialsearchbar.MaterialSearchBar
         android:id="@+id/trophies_search"
@@ -72,7 +53,7 @@
         app:layout_constraintBottom_toTopOf="@+id/trophy_players_and_years_recycleview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view"
+        app:layout_constraintTop_toBottomOf="@id/trophy_players_and_years_trophy"
         app:layout_constraintVertical_bias="0.0"
         app:mt_maxSuggestionsCount="10"
         app:mt_placeholder=""
