@@ -13,14 +13,14 @@ import com.shs.trophiesapp.data.entities.Trophy;
 import com.shs.trophiesapp.utils.ColorGenerator;
 import com.shs.trophiesapp.utils.Utils;
 
-class TrophyViewHolder extends RecyclerView.ViewHolder {
+class TrophyPlayerAndYearViewHolder extends RecyclerView.ViewHolder {
     private TextView txtTitle;
     private ImageView imgView;
     CardView cardView;
     static ColorGenerator newColor = new ColorGenerator(new int[]{Color.parseColor("#009A28"), Color.parseColor("#FF3232"), Color.parseColor("#FF8900"),  Color.parseColor("#00CB0C"), Color.parseColor("#FF5C00"), Color.parseColor("#009A95"), Color.parseColor("#006E9A"), Color.parseColor("#004CCB"), Color.parseColor("#A8C100")     });
 
 
-    TrophyViewHolder(View itemView) {
+    TrophyPlayerAndYearViewHolder(View itemView) {
         super(itemView);
         txtTitle = itemView.findViewById(R.id.txtTitle);
         imgView = itemView.findViewById(R.id.my_image_view);

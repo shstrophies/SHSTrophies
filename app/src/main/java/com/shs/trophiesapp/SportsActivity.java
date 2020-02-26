@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
-import com.shs.trophiesapp.adapters.SportAdapter;
+import com.shs.trophiesapp.adapters.SportsAdapter;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.SportRepository;
 import com.shs.trophiesapp.data.entities.Sport;
@@ -29,7 +29,7 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
 
     private MaterialSearchBar searchBar;
 
-    private SportAdapter adapter;
+    private SportsAdapter adapter;
     private ArrayList<Sport> sports;
 
     @Override
@@ -43,7 +43,7 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         RecyclerView recyclerView = findViewById(R.id.sport_recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         sports = new ArrayList<Sport>();
-        adapter = new SportAdapter(this, this.sports);
+        adapter = new SportsAdapter(this, this.sports);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
         // set adapter for recyclerview

@@ -20,14 +20,14 @@ import com.shs.trophiesapp.TrophiesActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SportAdapter extends RecyclerView.Adapter<SportViewHolder> implements Filterable {
-    private static final String TAG = "SportAdapter";
+public class SportsAdapter extends RecyclerView.Adapter<SportViewHolder> implements Filterable {
+    private static final String TAG = "SportsAdapter";
 
     private Context context;
     private ArrayList<Sport> sports;
     private List<Sport> sportsFiltered;
 
-    public SportAdapter(Context context, ArrayList<Sport> sports) {
+    public SportsAdapter(Context context, ArrayList<Sport> sports) {
         this.context = context;
         this.sports = sports;
         this.sportsFiltered = sports;

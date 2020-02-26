@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
-import com.shs.trophiesapp.adapters.TrophyAdapter;
+import com.shs.trophiesapp.adapters.TrophiesAdapter;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.TrophyRepository;
 import com.shs.trophiesapp.data.entities.Trophy;
@@ -31,7 +31,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
 
     private MaterialSearchBar searchBar;
 
-    private TrophyAdapter adapter;
+    private TrophiesAdapter adapter;
     private ArrayList<Trophy> trophies;
 
 
@@ -51,7 +51,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         RecyclerView recyclerView = findViewById(R.id.trophies_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         trophies = new ArrayList<>();
-        adapter = new TrophyAdapter(this, trophies);
+        adapter = new TrophiesAdapter(this, trophies);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
 
         // set adapter for recyclerview
