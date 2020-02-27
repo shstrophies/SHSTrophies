@@ -30,12 +30,13 @@ class SportViewHolder extends RecyclerView.ViewHolder {
     void setDetails(Sport sport) {
         txtTitle.setText(sport.sport_name);
         String imageUrl = sport.image_url;
-        Utils.imageFromUrl(imgView, imageUrl);
+        //Utils.imageFromUrl(imgView, imageUrl);
+        imageFromUrl(imgView, imageUrl);
     }
 
     private static void imageFromUrl(ImageView view, String imageUrl) {
         if (!imageUrl.isEmpty()) {
-            String imgName = imageUrl.replace(Constants.DRIVE_IMAGE_PREFIX, "").split("/")[0] + MimeTypeMap.getFileExtensionFromUrl(imageUrl);
+            String imgName = imageUrl.replace(Constants.DRIVE_IMAGE_PREFIX, "").split("/")[0] + ".jpg";
             String filepath = Environment.getExternalStorageDirectory() + File.separator + Constants.DATA_DIRECTORY_SPORT_IMAGES + imgName;
             Log.d("SportViewHolder", "Setting image bitmap: " + filepath);
             view.setImageBitmap(BitmapFactory.decodeFile(filepath));
