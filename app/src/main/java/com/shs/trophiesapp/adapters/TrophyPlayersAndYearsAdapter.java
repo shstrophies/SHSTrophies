@@ -2,7 +2,6 @@ package com.shs.trophiesapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.TrophyDetailsActivity;
-import com.shs.trophiesapp.adapters.TrophyViewHolder;
+import com.shs.trophiesapp.TrophyPlayersAndYearsActivity;
 import com.shs.trophiesapp.data.entities.Trophy;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implements Filterable {
-    private static final String TAG = "TrophyAdapter";
+
+public class TrophyPlayersAndYearsAdapter extends RecyclerView.Adapter<TrophyPlayerAndYearViewHolder> implements Filterable {
+    private static final String TAG = "TrophiesAdapter";
     private Context context;
     private List<Trophy> trophies;
     private List<Trophy> trophiesFiltered;
@@ -30,7 +30,7 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
 
 
 
-    public TrophyAdapter(Context context, List<Trophy> trophies) {
+    public TrophyPlayersAndYearsAdapter(Context context, List<Trophy> trophies) {
         this.context = context;
         this.trophies = trophies;
         this.trophiesFiltered = trophies;
@@ -44,13 +44,13 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
 
     @Override
     @NonNull
-    public TrophyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.cardview_item_trophy, parent, false);
-        return new TrophyViewHolder(view);
+    public TrophyPlayerAndYearViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.cardview_item_trophy_player_and_year, parent, false);
+        return new TrophyPlayerAndYearViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(TrophyViewHolder holder, int position) {
+    public void onBindViewHolder(TrophyPlayerAndYearViewHolder holder, int position) {
         Trophy trophy = trophiesFiltered.get(position);
         holder.setDetails(trophy);
 
@@ -66,7 +66,7 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
                 intent.putExtra("Category", trophiesFiltered.get(position).getCategory());
                 intent.putExtra("sport_name", trophiesFiltered.get(position).getSport_name());
                 intent.putExtra("year", trophiesFiltered.get(position).getYear());
-                intent.putExtra("tr_title", trophiesFiltered.get(position).getTr_title());
+                intent.putExtra("trophy_title", trophiesFiltered.get(position).gettrophy_title());
                 intent.putExtra("player", trophiesFiltered.get(position).getPlayer());
                 intent.putExtra("category", trophiesFiltered.get(position).getCategory());
                 intent.putExtra("tr_image_url", trophiesFiltered.get(position).getTr_image_url());
@@ -92,7 +92,7 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyViewHolder> implem
                 for (Trophy row : trophies) {
                     // name match condition. this might differ depending on your requirement
                     // here we are looking for title or description match
-                    if (row.tr_title.toLowerCase().contains(charString) || row.player.toLowerCase().contains(charString)) {
+                    if (row.trophy_title.toLowerCase().contains(charString) || row.player.toLowerCase().contains(charString)) {
                         filteredList.add(row);
                     }
                 }

@@ -34,7 +34,7 @@ class TrophyViewHolder extends RecyclerView.ViewHolder {
     }
 
     void setDetails(Trophy trophy) {
-        txtTitle.setText(trophy.tr_title);
+        txtTitle.setText(trophy.trophy_title);
         String imageUrl = trophy.tr_image_url;
         Utils.imageFromUrl(imgView, imageUrl);
         newColor = newColor.getNextColor();

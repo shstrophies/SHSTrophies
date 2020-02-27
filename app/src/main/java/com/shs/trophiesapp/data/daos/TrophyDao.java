@@ -20,8 +20,8 @@ import java.util.List;
     @Delete void delete(Trophy trophy);
 
     // User-defined Queries
-    @Query("SELECT * FROM trophy WHERE Trophy_Title LIKE :tr_title")
-    List<Trophy> findByTrophyTitle(String tr_title);
+    @Query("SELECT * FROM trophy WHERE Trophy_Title LIKE :trophy_title")
+    List<Trophy> findByTrophyTitle(String trophy_title);
     @Query("SELECT * FROM trophy WHERE Player_Name LIKE :player") //TODO: Normalize DB Structure (IF NECESSARY)
     List<Trophy> findByName(String player);
     @Query("SELECT * FROM trophy WHERE Year LIKE :year")
@@ -37,4 +37,7 @@ import java.util.List;
 
     @Query("SELECT * FROM trophy WHERE (Sport LIKE :sport_name) AND (Year LIKE :year)")
     List<Trophy> findBySportAndYear(String sport_name, int year);
+
+    @Query("SELECT * FROM trophy WHERE (Sport LIKE :sport_name) AND (Trophy_Title LIKE :trophy_title)")
+    List<Trophy> findBySportAndTitle(String sport_name, String trophy_title);
 }

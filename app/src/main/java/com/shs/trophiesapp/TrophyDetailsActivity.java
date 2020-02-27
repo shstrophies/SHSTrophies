@@ -9,8 +9,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.bumptech.glide.Glide;
-import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.Utils;
 
 public class TrophyDetailsActivity extends AppCompatActivity {
@@ -22,7 +20,7 @@ public class TrophyDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cardview_trophy_details_activity);
+        setContentView(R.layout.cardview_trophy_details);
 
         cardView = findViewById(R.id.cardview_trophy_details_id);
         tvTitle = findViewById(R.id.txt_title);
@@ -33,11 +31,11 @@ public class TrophyDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String sport_name = intent.getExtras().getString("sport_name");
         int year = intent.getExtras().getInt("year");
-        String tr_title = intent.getExtras().getString("tr_title");
+        String trophy_title = intent.getExtras().getString("trophy_title");
         String tr_image_url = intent.getExtras().getString("tr_image_url");
         int color = intent.getExtras().getInt("color");
 
-        tvTitle.setText(tr_title);
+        tvTitle.setText(trophy_title);
 
         Utils.imageFromUrl(img, tr_image_url);
         cardView.setBackgroundColor(color);

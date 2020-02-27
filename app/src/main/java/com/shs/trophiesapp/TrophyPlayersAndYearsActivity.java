@@ -6,61 +6,71 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.shs.trophiesapp.adapters.TrophiesAdapter;
+import com.shs.trophiesapp.adapters.TrophyPlayersAndYearsAdapter;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.TrophyRepository;
 import com.shs.trophiesapp.data.entities.Trophy;
-import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.shs.trophiesapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrophiesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener {
-    private static final String TAG = "TrophiesActivity";
-    public static final String TROPHIES_BY_SPORT_NAME = "Sport";
+public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener  {
+    private static final String TAG = "TrophyPlayersAndYearsAc";
+
+    private TextView tvTitle;
+    private ImageView img;
+    private View trophyView;
 
     private MaterialSearchBar searchBar;
 
-    private TrophiesAdapter adapter;
+    private TrophyPlayersAndYearsAdapter adapter;
     private ArrayList<Trophy> trophies;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.trophy_players_and_years_activity);
 
-        // create trophies_activity layout object
-        setContentView(R.layout.trophies_activity);
+        tvTitle = findViewById(R.id.trophy_players_and_years_title);
+        img = findViewById(R.id.trophy_players_and_years_thumbnail);
+        trophyView = findViewById(R.id.trophy_players_and_years_trophy);
 
         //Receive data
         Intent intent = getIntent();
-        String sport = intent.getExtras().getString(TROPHIES_BY_SPORT_NAME);
+        String trophy_title = intent.getExtras().getString("trophy_title");
+        int color = intent.getExtras().getInt("color");
+        String tr_image_url = intent.getExtras().getString("tr_image_url");
+
+
+        tvTitle.setText(trophy_title);
+        Utils.imageFromUrl(img, tr_image_url);
+        trophyView.setBackgroundColor(color);
 
         // set recyclerview layout manager
-        RecyclerView recyclerView = findViewById(R.id.trophies_recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.trophy_players_and_years_recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         trophies = new ArrayList<>();
-        adapter = new TrophiesAdapter(this, trophies);
+        adapter = new TrophyPlayersAndYearsAdapter(this, trophies);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
 
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);
-
-        TextView sport_trophies = findViewById(R.id.trophies_sport_title);
-        sport_trophies.setText(sport);
-
-        getData(sport);
+        getData(intent);
 
         searchBar = findViewById(R.id.trophies_search);
         searchBar.setOnSearchActionListener(this);
@@ -91,63 +101,6 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
 
         });
 
-//        final FloatingActionButton searchButton = findViewById(R.id.searchButton);
-//        searchButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                searchBar.openSearch();
-//            }
-//        });
-    }
-
-//    @Override
-//    public void onBackPressed() {
-//        Log.d(TAG, "onBackPressed: ");
-//    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        return true;
     }
 
     @Override
@@ -171,11 +124,16 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
     }
 
 
-    private void getData(String sport) {
+    private void getData(Intent intent) {
         Log.d(TAG, "getData: getData");
+
+        //Receive data
+        String sport_name = intent.getExtras().getString("sport_name");
+        String trophy_title = intent.getExtras().getString("trophy_title");
+
         Context context = this;
         TrophyRepository trophyRepository = DataManager.getTrophyRepository(context);
-        List<Trophy> _trophies = trophyRepository.getTrophiesBySport(sport.toLowerCase());
+        List<Trophy> _trophies = trophyRepository.getTrophiesBySportAndTitle(sport_name.toLowerCase(), trophy_title);
         trophies.addAll(_trophies);
         Log.d(TAG, "getData: recyclerview trophies size=" + trophies.size());
         adapter.notifyDataSetChanged();
@@ -186,8 +144,10 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
     // search data
     private void doSearch(String searchText) {
         Log.d(TAG, "doSearch: " + searchBar.getText());
-
         adapter.getFilter().filter(searchText);
 
     }
+
+
 }
+
