@@ -38,6 +38,12 @@
             android:windowSoftInputMode="adjustPan|adjustResize"
             >
         </activity>
+
+        <activity
+            android:name="com.shs.trophiesapp.TrophyDetailsActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            >
+        </activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

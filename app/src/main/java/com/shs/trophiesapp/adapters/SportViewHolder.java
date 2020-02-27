@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.entities.Sport;
 import com.shs.trophiesapp.utils.Constants;
+import com.shs.trophiesapp.utils.Utils;
 
 import java.io.File;
 
@@ -29,7 +30,7 @@ class SportViewHolder extends RecyclerView.ViewHolder {
     void setDetails(Sport sport) {
         txtTitle.setText(sport.sport_name);
         String imageUrl = sport.image_url;
-        imageFromUrl(imgView, imageUrl);
+        Utils.imageFromUrl(imgView, imageUrl);
     }
 
     private static void imageFromUrl(ImageView view, String imageUrl) {
