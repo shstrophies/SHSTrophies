@@ -23,7 +23,7 @@ public class TrophyRepository {
     }
 
     public List<Trophy>  getTrophiesBySportAndTitle(String sport_name, String trophy_title) {
-        return TrophyDao.findBySport(sport_name);
+        return TrophyDao.findBySportAndTitle(sport_name, trophy_title);
     }
 
     public List<Trophy>  getTrophiesByYear(int year) {
