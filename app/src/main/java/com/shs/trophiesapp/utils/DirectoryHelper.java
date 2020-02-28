@@ -53,10 +53,14 @@ public class DirectoryHelper extends ContextWrapper {
 
 
 
-    public static void deleteOlderFiles(String directoryName, int keepNewestNumberOfFiles) {
-
+    public static void deleteOlderFiles(String directory, int keepNewestNumberOfFiles) {
         // actual directory, with ALL the files inside
-        File dir = new File(directoryName);
+        File dir = new File(directory);
+        if (!(dir.isDirectory() && dir.exists())) {
+            Log.d(TAG, "deleteOlderFiles: directory=" + directory + " does not exist, nothing to delete");
+        }
+
+
         // file array with all the files
         File[] files = dir.listFiles(); //important
 
@@ -83,7 +87,7 @@ public class DirectoryHelper extends ContextWrapper {
 
     }
 
-    private boolean doesDirectoryExist(String directoryName) {
+    public static boolean doesDirectoryExist(String directoryName) {
         File file = new File(Environment.getExternalStorageDirectory() + "/" + directoryName);
         return file.isDirectory() && file.exists();
     }
