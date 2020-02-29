@@ -8,6 +8,8 @@ Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load da
 
 # Backend:
 - find out the structure of the spreadsheet and format of the database (Ujjwal & Carolina)
+  - remove row ID from spreadsheet and fix seedDatabaseWorker.java
+  
 - download images in case wifi is slow? (Ujjwal & Carolina)
 - add more search capability especially with homepage (Shayan)
   - homepage searching
@@ -19,8 +21,8 @@ Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load da
       ~~- search for trophies within trophy page~~
       - search for names within trophy page (i'll check if it works when im home)
    - trophy players and years page searching
-      - search for people's names
-      - search for year
+      - search for people's names(Shayan)
+      - search for year(Shayan)
 - add more of the trophy info (Ujjwal & Carolina)
       - add 'trophy_players_and_years_activity' page
       - add 'corner_view_trophy_players_and_years_activity.xml' which contains cards that go inside of      'trophy_players_and_years_activity' page
