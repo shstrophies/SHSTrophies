@@ -1,5 +1,22 @@
 # Saratoga-High-School-Trophy-Application
 
+
+## Links to original data:
+- Images provided by Mr. Torrens: https://drive.google.com/drive/folders/1jjymid-BPNTvE8sj15OUT0PvNo9TRVqW
+- Spreadsheet provided by Mr. Torrens of trophy information: https://drive.google.com/drive/folders/1uUnlIY1g8QrJMeidAtESJx-MJrDoLoLm
+- Test Spreadsheet provided by Arman: https://docs.google.com/spreadsheets/d/1bCjaCRR1ezrEWUXnxYyPRpUK5nr6u3NTP7iEitLEyxo/edit#gid=0
+- Example Spreadsheet Mr. Torrens will be using: https://docs.google.com/spreadsheets/d/1opVRw44HNCm08cL_0wqbAiBdh5DROUH563LWNTwtSpA/edit?ts=5e5adf83#gid=0
+
+
+-- To get the image url: click on the image, then on the right hand side top, click three dots, then click on "Open in new window", and the copy the url
+-- Trophy with one year many players - football: https://drive.google.com/file/d/1zOlNzaB-VGyegnQ_3UWZtq64KsVLK4Q7/view
+-- Trophy with no players - football:  https://drive.google.com/file/d/1V1SN5c5wDbUyB0yNlPphWoLM-yMQor98/view
+-- Trophy with no year no players - football: https://drive.google.com/file/d/1cEOO6vceis57f0MU_wSk-hTojf_Ct_0W/view
+-- Trophy with many years and one player per year - football: https://drive.google.com/file/d/1ZZkED9UHRSnEVuw-oJVN75B4FvV8jCfX/view
+
+https://drive.google.com/file/d/1zOlNzaB-VGyegnQ_3UWZtq64KsVLK4Q7/view?usp=sharing
+
+
 ## Setup:
 
 Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load database from then on
@@ -9,6 +26,7 @@ Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load da
 # Backend:
 - find out the structure of the spreadsheet and format of the database (Ujjwal & Carolina)
   - remove row ID from spreadsheet and fix seedDatabaseWorker.java
+  - remove category
   
 - download images in case wifi is slow? (Ujjwal & Carolina)
 - add more search capability especially with homepage (Shayan)
