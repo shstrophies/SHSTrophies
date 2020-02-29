@@ -1,5 +1,9 @@
 # Saratoga-High-School-Trophy-Application
 
+## Setup:
+
+Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load database from then on
+
 ## TODO:
 
 # Backend:
