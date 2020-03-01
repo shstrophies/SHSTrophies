@@ -119,13 +119,16 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", trophiesGID), titleTrophies);
     }
 
-    private void downloadDataFromURL(String url, String directoryName) {
+    private void downloadDataFromURL(String downloadPath, String directoryName) {
         Log.d(TAG, "downloadDataFromURL: download data for " + directoryName);
-        String directory = Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directoryName);
-        File[] files = DirectoryHelper.listFilesInDirectory(directory);
-        DirectoryHelper.deleteOlderFiles(directory, 5);
+        String destinationPath =
+                        Environment.getExternalStorageDirectory() +
+                        "/" + DirectoryHelper.ROOT_DIRECTORY_NAME +
+                        "/" + directoryName;
+        File[] files = DirectoryHelper.listFilesInDirectory(destinationPath);
+        DirectoryHelper.deleteOlderFiles(destinationPath, 5);
 
-        DownloadInfo downloadInfo = startDownload(url, directory);
+        DownloadInfo downloadInfo = startDownload(downloadPath, destinationPath);
         downloadInfoMap.put(downloadInfo.id, downloadInfo);
         downloadInfoList.add(downloadInfo.id);
 
@@ -133,13 +136,13 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         Log.d(TAG, "downloadDataFromURL: Download Started for id=" + downloadInfo.id + " downloadDataFromURL: downloadInfoMap=" + Arrays.asList(downloadInfoMap));
     }
 
-    private DownloadInfo startDownload(String url, String directory) {
-        Log.d(TAG, "startDownload: url=" + url + ", directory=" + directory);
-        Uri uri = Uri.parse(url);
+    private DownloadInfo startDownload(String downloadPath, String destinationPath) {
+        Log.d(TAG, "startDownload: url=" + downloadPath + ", directory=" + destinationPath);
+        Uri uri = Uri.parse(downloadPath);
         Downloader downloader = new Downloader(this);
-        DownloadManager.Request request = downloader.createRequest(url, DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directory), uri.getLastPathSegment());
+        DownloadManager.Request request = downloader.createRequest(downloadPath, destinationPath, uri.getLastPathSegment());
         long downloadId = downloader.queueDownload(request);// This will start downloading
-        return new DownloadInfo(downloadId, downloader, url, directory);
+        return new DownloadInfo(downloadId, downloader, downloadPath, destinationPath);
     }
 
     private BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
@@ -165,6 +168,9 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                         Toast.makeText(context, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
                         Log.d(TAG, "onReceive: Download Completed for id=" + id + " downloadInfo.id=" + downloadInfo.id + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
                         DirectoryHelper.listFilesInDirectory(downloadInfo.destinationPath);
+
+                        // TODO
+//                        String directory = downloadInfo.downloadPath
                         break;
 
                     default:
