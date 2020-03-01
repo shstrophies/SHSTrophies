@@ -68,7 +68,7 @@ public class SeedDatabaseWorker extends Worker {
                 List<String> commaSeparatedLine = parseLine(line);
                 if (first) first = false;
                 else {
-                    String sport = commaSeparatedLine.get(0); // .toLowerCase().replaceAll(" ", "_");
+                    String sport = commaSeparatedLine.get(0); 
                     String url = commaSeparatedLine.get(2);
                     sports.add(new Sport(sport, url));
                 }

@@ -190,7 +190,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                                 List<String> commaSeparatedLine = parseLine(line);
                                 if (first) first = false;
                                 else {
-                                    String sport = commaSeparatedLine.get(0); // .toLowerCase().replaceAll(" ", "_");
+                                    String sport = commaSeparatedLine.get(0);
                                     String gid = commaSeparatedLine.get(1);
                                     downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", gid), sport);
                                 }
