@@ -49,8 +49,6 @@ import static com.shs.trophiesapp.utils.CSVUtils.parseLine;
 import static com.shs.trophiesapp.utils.Constants.DOWNLOAD_URL;
 import static com.shs.trophiesapp.utils.Constants.sportsGID;
 import static com.shs.trophiesapp.utils.Constants.titleSports;
-import static com.shs.trophiesapp.utils.Constants.titleTrophies;
-import static com.shs.trophiesapp.utils.Constants.trophiesGID;
 
 
 public class SetupActivity extends AppCompatActivity implements View.OnClickListener, LifecycleOwner {
@@ -186,7 +184,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                                 List<String> commaSeparatedLine = parseLine(line);
                                 if (first) first = false;
                                 else {
-                                    String sport = commaSeparatedLine.get(0).toLowerCase();
+                                    String sport = commaSeparatedLine.get(0).toLowerCase().replaceAll(" ", "_");
                                     String gid = commaSeparatedLine.get(1);
                                     downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", gid), sport);
                                 }

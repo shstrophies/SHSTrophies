@@ -10,7 +10,6 @@ public final class Constants {
     public static final String DOWNLOAD_URL = "https://docs.google.com/spreadsheets/d/1DBYBQEN4fZd0ByzcxvvGMDZ--I2-Ku2Rr5zMRpbFRsU/export?gid=YOURGID&format=csv";
 
     public static final String sportsGID ="0";
-    public static final String trophiesGID ="2132257028";
 
     public static final String titleSports = "sports";
     public static final String titleTrophies = "trophies";
