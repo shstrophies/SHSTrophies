@@ -181,11 +181,13 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                             Scanner scanner = new Scanner(file);
                             boolean first = true;
                             while (scanner.hasNext()) {
-                                List<String> line = parseLine(scanner.nextLine());
+                                String line = scanner.nextLine();
+                                Log.d(TAG, "onReceive: line=" + line);
+                                List<String> commaSeparatedLine = parseLine(line);
                                 if (first) first = false;
                                 else {
-                                    String sport = line.get(0).toLowerCase();
-                                    String gid = line.get(1);
+                                    String sport = commaSeparatedLine.get(0).toLowerCase();
+                                    String gid = commaSeparatedLine.get(1);
                                     downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", gid), sport);
                                 }
                             }

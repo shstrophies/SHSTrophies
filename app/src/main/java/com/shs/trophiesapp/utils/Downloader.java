@@ -24,22 +24,15 @@ public class Downloader {
 
     public DownloadManager.Request createRequest(String url, String directory, String saveAsName) {
         String downloadDescription = "url=" + url + " directory=" + directory + " saveAsName=" + saveAsName;
-        Boolean allowedInRoaming = true;
-        Boolean allowedInMetered = true;
-        Boolean showInDownloads = true;
 
         Uri downloadUri = Uri.parse(url);
         DownloadManager.Request request = new DownloadManager.Request(downloadUri);
 
-
-
-        request.setTitle(directory);
+        request.setTitle("Downloading file to directory=" + directory); // Title for notification.
         request.setDescription(downloadDescription);
 //        request.setDestinationInExternalPublicDir(DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directoryName), uri.getLastPathSegment());  // Storage directory path
         request.setDestinationInExternalPublicDir(directory, saveAsName);
-        request.setAllowedOverRoaming(allowedInRoaming);
-        request.setAllowedOverMetered(allowedInMetered);
-        request.setVisibleInDownloadsUi(showInDownloads);
+        request.setVisibleInDownloadsUi(true);
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         return request;
