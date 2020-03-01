@@ -26,9 +26,10 @@ Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load da
 ## TODO:
 
 # Backend:
-- find out the structure of the spreadsheet and format of the database (Ujjwal & Carolina)
-  - remove row ID from spreadsheet and fix seedDatabaseWorker.java
-  - remove category
+- new spreadsheet (Shayan and Carolina)
+  - fix seedDatabaseWorker.java
+  
+- new DB schema (Ujjwal)
   
 - download images in case wifi is slow? (Ujjwal & Carolina)
 - add more search capability especially with homepage (Shayan)
