@@ -190,7 +190,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                                 List<String> commaSeparatedLine = parseLine(line);
                                 if (first) first = false;
                                 else {
-                                    String sport = commaSeparatedLine.get(0).toLowerCase().replaceAll(" ", "_");
+                                    String sport = commaSeparatedLine.get(0); // .toLowerCase().replaceAll(" ", "_");
                                     String gid = commaSeparatedLine.get(1);
                                     downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", gid), sport);
                                 }
@@ -212,6 +212,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             if (downloadInfoList.isEmpty()) {
                 if (downloadButton != null) downloadButton.setEnabled(true);
                 Log.d(TAG, "onReceive: DOWNLOADS complete");
+                DirectoryHelper.listFilesInDirectoryRecursively(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
                 loadDatabase();
             }
 

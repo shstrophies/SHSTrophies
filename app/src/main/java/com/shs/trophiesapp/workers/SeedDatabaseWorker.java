@@ -37,12 +37,12 @@ public class SeedDatabaseWorker extends Worker {
         try {
             Log.d(TAG, "doWork: loading data (into database)");
             DirectoryHelper.createDirectory(getApplicationContext());
-            Sport[] sportCSVData = getSportCSVData();
+            Sport[] sportCSVData = getSportsCSVData();
             Log.d(TAG, "onCreate: sportCSVData length=" + sportCSVData.length);
             AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
             appDatabase.sportDao().insertAll(sportCSVData);
             Log.d(TAG, "doWork: sport data loaded");
-            Trophy[] trophyCSVData = getTrophyCSVData();
+            Trophy[] trophyCSVData = getTrophiesCSVData();
             Log.d(TAG, "onCreate: trophyCSVData length=" + trophyCSVData.length);
             appDatabase.trophyDao().insertAll(trophyCSVData);
             Log.d(TAG, "doWork: trophy data loaded");
@@ -54,12 +54,12 @@ public class SeedDatabaseWorker extends Worker {
         }
     }
 
-    private static Sport[] getSportCSVData() {
-        Log.d(TAG, "getSportCSVData: ");
+    private static Sport[] getSportsCSVData() {
+        Log.d(TAG, "getSportsCSVData: ");
         List<Sport> sports = new ArrayList<>();
         try {
             File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.SPORTS_DIRECTORY_NAME + "/");
-            Log.d(TAG, "getSportCSVData: getting sport data from file=" + file.getAbsolutePath());
+            Log.d(TAG, "getSportsCSVData: getting sport data from file=" + file.getAbsolutePath());
             Scanner scanner = new Scanner(file);
             boolean first = true;
             while (scanner.hasNext()) {
@@ -68,7 +68,7 @@ public class SeedDatabaseWorker extends Worker {
                 List<String> commaSeparatedLine = parseLine(line);
                 if (first) first = false;
                 else {
-                    String sport = commaSeparatedLine.get(0).toLowerCase().replaceAll(" ", "_");
+                    String sport = commaSeparatedLine.get(0); // .toLowerCase().replaceAll(" ", "_");
                     String url = commaSeparatedLine.get(2);
                     sports.add(new Sport(sport, url));
                 }
@@ -77,17 +77,17 @@ public class SeedDatabaseWorker extends Worker {
         return sports.toArray(new Sport[0]);
     }
 
-    private static Trophy[] getTrophyCSVData() {
-        Log.d(TAG, "getTrophyCSVData: ");
+    private static Trophy[] getTrophiesCSVData() {
+        Log.d(TAG, "getTrophiesCSVData: ");
         List<Trophy> trophies = new ArrayList<>();
 
-        Sport[] sports = getSportCSVData();
+        Sport[] sports = getSportsCSVData();
         for(int i=0; i<sports.length; i++) {
             String sport = sports[i].sport_name;
             try {
                 File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + sport + "/");
                 if(file != null) {
-                    Log.d(TAG, "getTrophyCSVData: getting trophy data from file=" + file.getAbsolutePath());
+                    Log.d(TAG, "getTrophiesCSVData: getting trophy data from file=" + file.getAbsolutePath());
                     Scanner scanner = new Scanner(file);
                     boolean first = true;
                     while (scanner.hasNext()) {
@@ -101,7 +101,7 @@ public class SeedDatabaseWorker extends Worker {
                                     String title = line.get(1);
                                     String uri = line.get(2);
                                     String category = "TBD";
-                                    Log.d(TAG, "getTrophyCSVData: line.get(0)=" + line.get(0) + " line.get(1)=" + line.get(1));
+                                    Log.d(TAG, "getTrophiesCSVData: line.get(0)=" + line.get(0) + " line.get(1)=" + line.get(1));
                                     trophies.add(new Trophy(sport, Integer.parseInt(year), title, uri, player, category));
                                 }
 
@@ -110,7 +110,7 @@ public class SeedDatabaseWorker extends Worker {
                     }
                 }
                 else {
-                    Log.d(TAG, "getTrophyCSVData: no files found ...");
+                    Log.d(TAG, "getTrophiesCSVData: no files found ...");
                 }
 
             } catch (Exception e) { e.printStackTrace(); }

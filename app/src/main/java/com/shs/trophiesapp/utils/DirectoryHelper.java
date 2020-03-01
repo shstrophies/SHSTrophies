@@ -43,11 +43,28 @@ public class DirectoryHelper extends ContextWrapper {
     public static File[] listFilesInDirectory(String dirPath) {
         File dir = new File(dirPath);
         File[] files = dir.listFiles();
-        Log.d(TAG, "listFilesInDirectory: dirPath="+ dirPath + " " + Arrays.toString(files));
-
+        if (files != null) {
+            Log.d(TAG, "listFilesInDirectory: dirPath=" + dirPath + " " + Arrays.toString(files));
+        }
+        else {
+            Log.d(TAG, "listFilesInDirectory: no files");
+        }
         return files;
     }
 
+    public static void listFilesInDirectoryRecursively(String dirPath) {
+        File dir = new File(dirPath);
+        if(dir.isDirectory()) {
+            Log.d(TAG, "listFilesInDirectoryRecursively: directory=" + dirPath);
+        }
+        File[] allContents = dir.listFiles();
+        if (allContents != null) {
+            Log.d(TAG, Arrays.toString(allContents));
+            for (File file : allContents) {
+                listFilesInDirectoryRecursively(file.getAbsolutePath());
+            }
+        }
+    }
 
     public static boolean deleteDirectory(String directoryToBeDeleted) {
         Log.d(TAG, "deleteDirectory: directoryToBeDeleted=" + directoryToBeDeleted);
