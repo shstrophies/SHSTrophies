@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -45,8 +46,9 @@ public class ImageDownloadThread extends Thread {
             Glide.with(contextWeakReference.get())
                     .setDefaultRequestOptions(new RequestOptions().timeout(300000))
                     .asBitmap()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .load(imageLink)
-                    .into(new SimpleTarget<Bitmap>() {
+                    .into(new SimpleTarget<Bitmap>(100, 100) {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                             writeBitmapToFile(resource, img_name);

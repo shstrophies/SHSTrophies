@@ -18,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.MemoryCategory;
 import com.shs.trophiesapp.data.AppDatabase;
 import com.shs.trophiesapp.data.entities.Sport;
 import com.shs.trophiesapp.data.entities.Trophy;
@@ -35,6 +37,7 @@ public class SeedDatabaseWorker extends Worker {
         super(context, params);
         mES = Executors.newCachedThreadPool();
         contextWeakReference = new WeakReference<>(context);
+        Glide.get(context).setMemoryCategory(MemoryCategory.HIGH);
     }
 
     @NonNull
