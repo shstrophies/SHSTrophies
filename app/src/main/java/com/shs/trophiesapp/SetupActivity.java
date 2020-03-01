@@ -128,12 +128,11 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         Log.d(TAG, "downloadDataFromURL: ************************************************** ");
         Log.d(TAG, "downloadDataFromURL: ************************************************** ");
 
-        String destinationPath =
-                Environment.getExternalStorageDirectory() +
-                        "/" + DirectoryHelper.ROOT_DIRECTORY_NAME +
-                        "/" + directoryName;
-        File[] files = DirectoryHelper.listFilesInDirectory(destinationPath);
-        DirectoryHelper.deleteOlderFiles(destinationPath, 0);
+        String destinationPath = DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + directoryName;
+        String fullDirectory = Environment.getExternalStorageDirectory() + "/" + destinationPath;
+
+        File[] files = DirectoryHelper.listFilesInDirectory(fullDirectory);
+        DirectoryHelper.deleteOlderFiles(fullDirectory, 0);
 
         DownloadInfo downloadInfo = startDownload(downloadPath, destinationPath);
         downloadInfoMap.put(downloadInfo.id, downloadInfo);
@@ -150,7 +149,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         Downloader downloader = new Downloader(this);
         DownloadManager.Request request = downloader.createRequest(downloadPath, destinationPath, uri.getLastPathSegment());
         long downloadId = downloader.queueDownload(request);// This will start downloading
-        return new DownloadInfo(downloadId, downloader, downloadPath, destinationPath);
+        String fullDirectory = Environment.getExternalStorageDirectory() + "/" + destinationPath;
+        return new DownloadInfo(downloadId, downloader, downloadPath, fullDirectory);
     }
 
     private BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
@@ -184,8 +184,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                                 List<String> line = parseLine(scanner.nextLine());
                                 if (first) first = false;
                                 else {
-                                    String sport = line.get(1).toLowerCase();
-                                    String gid = line.get(2);
+                                    String sport = line.get(0).toLowerCase();
+                                    String gid = line.get(1);
                                     downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", gid), sport);
                                 }
                             }

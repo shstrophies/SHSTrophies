@@ -43,7 +43,7 @@ public class DirectoryHelper extends ContextWrapper {
     public static File[] listFilesInDirectory(String dirPath) {
         File dir = new File(dirPath);
         File[] files = dir.listFiles();
-        Log.d(TAG, "listFilesInDirectory: dirPath="+ dirPath + Arrays.toString(files));
+        Log.d(TAG, "listFilesInDirectory: dirPath="+ dirPath + " " + Arrays.toString(files));
 
         return files;
     }
@@ -55,6 +55,7 @@ public class DirectoryHelper extends ContextWrapper {
         File dir = new File(directory);
         if (!(dir.isDirectory() && dir.exists())) {
             Log.d(TAG, "deleteOlderFiles: directory=" + directory + " does not exist, nothing to delete");
+            return;
         }
 
 

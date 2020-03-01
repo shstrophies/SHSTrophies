@@ -31,9 +31,12 @@ public class Downloader {
         Uri downloadUri = Uri.parse(url);
         DownloadManager.Request request = new DownloadManager.Request(downloadUri);
 
+
+
         request.setTitle(directory);
         request.setDescription(downloadDescription);
-        request.setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, saveAsName);
+//        request.setDestinationInExternalPublicDir(DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directoryName), uri.getLastPathSegment());  // Storage directory path
+        request.setDestinationInExternalPublicDir(directory, saveAsName);
         request.setAllowedOverRoaming(allowedInRoaming);
         request.setAllowedOverMetered(allowedInMetered);
         request.setVisibleInDownloadsUi(showInDownloads);
