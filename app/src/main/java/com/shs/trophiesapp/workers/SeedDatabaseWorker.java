@@ -70,7 +70,7 @@ public class SeedDatabaseWorker extends Worker {
                 if (first) first = false;
                 else {
                     String sport = commaSeparatedLine.get(0).toLowerCase().replaceAll(" ", "_");
-                    String url = commaSeparatedLine.get(1);
+                    String url = commaSeparatedLine.get(2);
                     sports.add(new Sport(sport, url));
                 }
             }
