@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -47,35 +46,20 @@ import java.util.UUID;
 
 import static com.shs.trophiesapp.utils.CSVUtils.parseLine;
 import static com.shs.trophiesapp.utils.Constants.DOWNLOAD_URL;
-import static com.shs.trophiesapp.utils.Constants.sportsGID;
-import static com.shs.trophiesapp.utils.Constants.titleSports;
+import static com.shs.trophiesapp.utils.Constants.SPORTS_GID;
+import static com.shs.trophiesapp.utils.Constants.SPORTS_DIRECTORY_NAME;
 
 
 public class SetupActivity extends AppCompatActivity implements View.OnClickListener, LifecycleOwner {
     private static final String TAG = "SetupActivity";
 
-    class DownloadInfo {
-        long id;
-        Downloader downloader;
-        String downloadPath;
-        String destinationPath;
-
-
-        public DownloadInfo(long id, Downloader downloader, String downloadPath, String destinationPath) {
-            this.id = id;
-            this.downloader = downloader;
-            this.downloadPath = downloadPath;
-            this.destinationPath = destinationPath;
-        }
-    }
+    Button downloadButton = null;
+    Button loadDatabaseButton = null;
+    Button cleanButton = null;
 
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
     HashMap downloadInfoMap = new HashMap();
     ArrayList downloadInfoList = new ArrayList();
-    Button downloadButton = null;
-
-
-    Button loadDatabaseButton = null;
     private LifecycleOwner lifecycleOwner = this;
 
 
@@ -87,6 +71,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         downloadButton.setOnClickListener(this);
         loadDatabaseButton = findViewById(R.id.loadDatabaseButton);
         loadDatabaseButton.setOnClickListener(this);
+        cleanButton = findViewById(R.id.cleanButton);
+        cleanButton.setOnClickListener(this);
 
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
@@ -111,12 +97,32 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 loadDatabase();
                 break;
             }
+            case R.id.cleanButton: {
+                SetupActivity.this.deleteDatabase(Constants.DATABASE_NAME);
+                DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
+                break;
+            }
 
         }
     }
 
     private void downloadData() {
-        downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", sportsGID), titleSports);
+        downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", SPORTS_GID), SPORTS_DIRECTORY_NAME);
+    }
+
+
+    class DownloadInfo {
+        long id;
+        Downloader downloader;
+        String downloadPath;
+        String destinationPath;
+
+        public DownloadInfo(long id, Downloader downloader, String downloadPath, String destinationPath) {
+            this.id = id;
+            this.downloader = downloader;
+            this.downloadPath = downloadPath;
+            this.destinationPath = destinationPath;
+        }
     }
 
     private void downloadDataFromURL(String downloadPath, String directoryName) {
@@ -130,7 +136,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         String fullDirectory = Environment.getExternalStorageDirectory() + "/" + destinationPath;
 
         File[] files = DirectoryHelper.listFilesInDirectory(fullDirectory);
-        DirectoryHelper.deleteOlderFiles(fullDirectory, 0);
+        DirectoryHelper.deleteOlderFiles(fullDirectory, 5);
 
         DownloadInfo downloadInfo = startDownload(downloadPath, destinationPath);
         downloadInfoMap.put(downloadInfo.id, downloadInfo);
@@ -145,7 +151,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         Log.d(TAG, "startDownload: url=" + downloadPath + ", directory=" + destinationPath);
         Uri uri = Uri.parse(downloadPath);
         Downloader downloader = new Downloader(this);
-        DownloadManager.Request request = downloader.createRequest(downloadPath, destinationPath, uri.getLastPathSegment());
+        DownloadManager.Request request = downloader.createRequest(downloadPath, destinationPath, Constants.DATA_FILENAME_NAME);
         long downloadId = downloader.queueDownload(request);// This will start downloading
         String fullDirectory = Environment.getExternalStorageDirectory() + "/" + destinationPath;
         return new DownloadInfo(downloadId, downloader, downloadPath, fullDirectory);
@@ -173,7 +179,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
                     // if this is the sports spreadsheet, then read it and get all the GIDs from that file
                     File destinationPath = new File(downloadInfo.destinationPath);
-                    if(destinationPath.getName().compareToIgnoreCase(titleSports) == 0) {
+                    if(destinationPath.getName().compareToIgnoreCase(SPORTS_DIRECTORY_NAME) == 0) {
                         try {
                             File file = DirectoryHelper.getLatestFilefromDir(downloadInfo.destinationPath);
                             Scanner scanner = new Scanner(file);

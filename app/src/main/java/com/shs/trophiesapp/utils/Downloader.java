@@ -17,6 +17,20 @@ public class Downloader {
     private DownloadManager downloadManager;
     private Context context;
 
+    class DownloadInfo {
+        long id;
+        Downloader downloader;
+        String downloadPath;
+        String destinationPath;
+
+        public DownloadInfo(long id, Downloader downloader, String downloadPath, String destinationPath) {
+            this.id = id;
+            this.downloader = downloader;
+            this.downloadPath = downloadPath;
+            this.destinationPath = destinationPath;
+        }
+    }
+
     public Downloader(Context ctx) {
         context = ctx;
         downloadManager = (DownloadManager) ctx.getSystemService(DOWNLOAD_SERVICE);

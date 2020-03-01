@@ -49,6 +49,18 @@ public class DirectoryHelper extends ContextWrapper {
     }
 
 
+    public static boolean deleteDirectory(String directoryToBeDeleted) {
+        Log.d(TAG, "deleteDirectory: directoryToBeDeleted=" + directoryToBeDeleted);
+        File dir = new File(directoryToBeDeleted);
+        File[] allContents = dir.listFiles();
+        if (allContents != null) {
+            Log.d(TAG, "deleteDirectory: deleting " + Arrays.toString(allContents));
+            for (File file : allContents) {
+                deleteDirectory(file.getAbsolutePath());
+            }
+        }
+        return dir.delete();
+    }
 
     public static void deleteOlderFiles(String directory, int keepNewestNumberOfFiles) {
         // actual directory, with ALL the files inside

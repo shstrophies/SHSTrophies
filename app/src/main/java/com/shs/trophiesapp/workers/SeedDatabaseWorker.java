@@ -21,7 +21,6 @@ import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
 
 import static com.shs.trophiesapp.utils.CSVUtils.parseLine;
-import static com.shs.trophiesapp.utils.Constants.DOWNLOAD_URL;
 
 public class SeedDatabaseWorker extends Worker {
     private static final String TAG = "SeedDatabaseWorker";
@@ -59,7 +58,7 @@ public class SeedDatabaseWorker extends Worker {
         Log.d(TAG, "getSportCSVData: ");
         List<Sport> sports = new ArrayList<>();
         try {
-            File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.titleSports + "/");
+            File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.SPORTS_DIRECTORY_NAME + "/");
             Log.d(TAG, "getSportCSVData: getting sport data from file=" + file.getAbsolutePath());
             Scanner scanner = new Scanner(file);
             boolean first = true;
