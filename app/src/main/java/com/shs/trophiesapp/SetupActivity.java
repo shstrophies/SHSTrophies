@@ -31,6 +31,7 @@ import com.shs.trophiesapp.data.AppDatabase;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.entities.Sport;
 import com.shs.trophiesapp.data.entities.Trophy;
+import com.shs.trophiesapp.utils.Assert;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
 import com.shs.trophiesapp.utils.Downloader;
@@ -41,8 +42,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 import java.util.UUID;
 
+import static com.shs.trophiesapp.utils.CSVUtils.parseLine;
 import static com.shs.trophiesapp.utils.Constants.DOWNLOAD_URL;
 import static com.shs.trophiesapp.utils.Constants.sportsGID;
 import static com.shs.trophiesapp.utils.Constants.titleSports;
@@ -116,20 +119,25 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
     private void downloadData() {
         downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", sportsGID), titleSports);
-        downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", trophiesGID), titleTrophies);
     }
 
     private void downloadDataFromURL(String downloadPath, String directoryName) {
-        Log.d(TAG, "downloadDataFromURL: download data for " + directoryName);
+        Log.d(TAG, "downloadDataFromURL: ************************************************** ");
+        Log.d(TAG, "downloadDataFromURL: ************************************************** ");
+        Log.d(TAG, "downloadDataFromURL: download data for " + directoryName + " downloadPath=" + downloadPath);
+        Log.d(TAG, "downloadDataFromURL: ************************************************** ");
+        Log.d(TAG, "downloadDataFromURL: ************************************************** ");
+
         String destinationPath =
-                        Environment.getExternalStorageDirectory() +
+                Environment.getExternalStorageDirectory() +
                         "/" + DirectoryHelper.ROOT_DIRECTORY_NAME +
                         "/" + directoryName;
         File[] files = DirectoryHelper.listFilesInDirectory(destinationPath);
-        DirectoryHelper.deleteOlderFiles(destinationPath, 5);
+        DirectoryHelper.deleteOlderFiles(destinationPath, 0);
 
         DownloadInfo downloadInfo = startDownload(downloadPath, destinationPath);
         downloadInfoMap.put(downloadInfo.id, downloadInfo);
+        Log.d(TAG, "downloadDataFromURL: *** downloadInfoList add " + downloadInfo.id);
         downloadInfoList.add(downloadInfo.id);
 
         Toast.makeText(SetupActivity.this, "Download Started for id=" + downloadInfo.id, Toast.LENGTH_LONG).show();
@@ -152,37 +160,49 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             Log.d(TAG, "onReceive: downloaded id=" + id);
             DownloadInfo downloadInfo = (DownloadInfo) downloadInfoMap.get(id);
-            downloadInfoList.remove(downloadInfo.id);
+            Assert.that(downloadInfo != null, "downloadInfo should not be null");
 
             //Checking if the received broadcast is for our enqueued download by matching download id
-            if (downloadInfo != null) {
-                Log.d(TAG, "onReceive: found downloadInfo, downloadInfo.id=" + downloadInfo.id + " downloadInfo.downloadPath=" + downloadInfo.downloadPath + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
-                DownloadManager.Query query = new DownloadManager.Query();
-                query.setFilterById(id);
-                Cursor cursor = downloadInfo.downloader.getDownloadManager().query(query);
-                cursor.moveToFirst();
-                HashMap downloadStatus = downloadInfo.downloader.checkDownloadStatus(downloadInfo.id);
-                String status = downloadStatus.get("status").toString();
-                switch (status) {
-                    case "STATUS_SUCCESSFUL":
-                        Toast.makeText(context, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "onReceive: Download Completed for id=" + id + " downloadInfo.id=" + downloadInfo.id + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
-                        DirectoryHelper.listFilesInDirectory(downloadInfo.destinationPath);
 
-                        // TODO
-//                        String directory = downloadInfo.downloadPath
-                        break;
+            Log.d(TAG, "onReceive: found downloadInfo, downloadInfo.id=" + downloadInfo.id + " downloadInfo.downloadPath=" + downloadInfo.downloadPath + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
+            HashMap downloadStatus = downloadInfo.downloader.checkDownloadStatus(downloadInfo.id);
+            String status = downloadStatus.get("status").toString();
+            switch (status) {
+                case "STATUS_SUCCESSFUL":
+                    Toast.makeText(context, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "onReceive: Download Completed for id=" + id + " downloadInfo.id=" + downloadInfo.id + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
+                    DirectoryHelper.listFilesInDirectory(downloadInfo.destinationPath);
 
-                    default:
-                        String reason = downloadStatus.get("reason").toString();
-                        Toast.makeText(context, "Download NOT SUCCESSFUL because " + reason, Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "**** onReceive: Download failed because " + reason);
-                        break;
-                }
-            } else {
-                Log.d(TAG, "**** onReceive: downloadInfo is null, id=" + id);
+                    // if this is the sports spreadsheet, then read it and get all the GIDs from that file
+                    File destinationPath = new File(downloadInfo.destinationPath);
+                    if(destinationPath.getName().compareToIgnoreCase(titleSports) == 0) {
+                        try {
+                            File file = DirectoryHelper.getLatestFilefromDir(downloadInfo.destinationPath);
+                            Scanner scanner = new Scanner(file);
+                            boolean first = true;
+                            while (scanner.hasNext()) {
+                                List<String> line = parseLine(scanner.nextLine());
+                                if (first) first = false;
+                                else {
+                                    String sport = line.get(1).toLowerCase();
+                                    String gid = line.get(2);
+                                    downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", gid), sport);
+                                }
+                            }
+                        } catch (Exception e) { e.printStackTrace(); }
+                    }
+                    break;
+
+                default:
+                    String reason = downloadStatus.get("reason").toString();
+                    Toast.makeText(context, "Download NOT SUCCESSFUL because " + reason, Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "**** onReceive: Download failed because " + reason);
+                    break;
             }
 
+            Log.d(TAG, "onReceive: *** downloadInfoList remove " + downloadInfo.id);
+            Log.d(TAG, "onReceive: downloadInfoList=" + Arrays.asList(downloadInfoList));
+            downloadInfoList.remove(downloadInfo.id);
             if (downloadInfoList.isEmpty()) {
                 if (downloadButton != null) downloadButton.setEnabled(true);
                 Log.d(TAG, "onReceive: DOWNLOADS complete");

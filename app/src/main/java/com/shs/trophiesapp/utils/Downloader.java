@@ -23,7 +23,7 @@ public class Downloader {
     }
 
     public DownloadManager.Request createRequest(String url, String directory, String saveAsName) {
-        String downloadDescription = directory;
+        String downloadDescription = "url=" + url + " directory=" + directory + " saveAsName=" + saveAsName;
         Boolean allowedInRoaming = true;
         Boolean allowedInMetered = true;
         Boolean showInDownloads = true;

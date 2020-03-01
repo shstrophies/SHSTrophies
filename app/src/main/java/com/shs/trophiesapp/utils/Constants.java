@@ -5,7 +5,7 @@ import java.util.Map;
 
 public final class Constants {
     public static final String DOWNLOAD_URL = "https://docs.google.com/spreadsheets/d/" +
-            "1bCjaCRR1ezrEWUXnxYyPRpUK5nr6u3NTP7iEitLEyxo/export?gid=YOURGID&format=csv";
+            "1opVRw44HNCm08cL_0wqbAiBdh5DROUH563LWNTwtSpA/export?gid=YOURGID&format=csv";
 //    public static final String[] GIDS = {"0", "2132257028"};
 
     private static final Map<String, String> tabs = new HashMap<String, String>()
