@@ -33,6 +33,7 @@ import com.shs.trophiesapp.data.entities.Sport;
 import com.shs.trophiesapp.data.entities.Trophy;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
+import com.shs.trophiesapp.utils.Downloader;
 import com.shs.trophiesapp.workers.SeedDatabaseWorker;
 
 import java.io.File;
@@ -54,14 +55,14 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
     class DownloadInfo {
         long id;
-        DownloadManager downloadManager;
+        Downloader downloader;
         String downloadPath;
         String destinationPath;
 
 
-        public DownloadInfo(long id, DownloadManager downloadManager, String downloadPath, String destinationPath) {
+        public DownloadInfo(long id, Downloader downloader, String downloadPath, String destinationPath) {
             this.id = id;
-            this.downloadManager = downloadManager;
+            this.downloader = downloader;
             this.downloadPath = downloadPath;
             this.destinationPath = destinationPath;
         }
@@ -69,8 +70,10 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
     HashMap downloadInfoMap = new HashMap();
-    ArrayList downloadedIds = new ArrayList();
+    ArrayList downloadInfoList = new ArrayList();
     Button downloadButton = null;
+
+
     Button loadDatabaseButton = null;
     private LifecycleOwner lifecycleOwner = this;
 
@@ -90,7 +93,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
             return;
         }
-
         DirectoryHelper.createDirectory(this);
     }
 
@@ -119,16 +121,26 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
     private void downloadDataFromURL(String url, String directoryName) {
         Log.d(TAG, "downloadDataFromURL: download data for " + directoryName);
+        String directory = Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directoryName);
+        File[] files = DirectoryHelper.listFilesInDirectory(directory);
+        DirectoryHelper.deleteOlderFiles(directory, 5);
 
-
-        DownloadInfo downloadInfo = startDownload(url, directoryName);
+        DownloadInfo downloadInfo = startDownload(url, directory);
         downloadInfoMap.put(downloadInfo.id, downloadInfo);
+        downloadInfoList.add(downloadInfo.id);
 
         Toast.makeText(SetupActivity.this, "Download Started for id=" + downloadInfo.id, Toast.LENGTH_LONG).show();
-        Log.d(TAG, "downloadDataFromURL: Download Started for id=" + downloadInfo.id);
-        Log.d(TAG, "downloadDataFromURL: downloadInfoMap=" + Arrays.asList(downloadInfoMap));
+        Log.d(TAG, "downloadDataFromURL: Download Started for id=" + downloadInfo.id + " downloadDataFromURL: downloadInfoMap=" + Arrays.asList(downloadInfoMap));
     }
 
+    private DownloadInfo startDownload(String url, String directory) {
+        Log.d(TAG, "startDownload: url=" + url + ", directory=" + directory);
+        Uri uri = Uri.parse(url);
+        Downloader downloader = new Downloader(this);
+        DownloadManager.Request request = downloader.createRequest(url, DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directory), uri.getLastPathSegment());
+        long downloadId = downloader.queueDownload(request);// This will start downloading
+        return new DownloadInfo(downloadId, downloader, url, directory);
+    }
 
     private BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
         @Override
@@ -136,72 +148,37 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             //Fetching the download id received with the broadcast
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             Log.d(TAG, "onReceive: downloaded id=" + id);
-            downloadedIds.add(id);
             DownloadInfo downloadInfo = (DownloadInfo) downloadInfoMap.get(id);
+            downloadInfoList.remove(downloadInfo.id);
+
             //Checking if the received broadcast is for our enqueued download by matching download id
             if (downloadInfo != null) {
                 Log.d(TAG, "onReceive: found downloadInfo, downloadInfo.id=" + downloadInfo.id + " downloadInfo.downloadPath=" + downloadInfo.downloadPath + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
                 DownloadManager.Query query = new DownloadManager.Query();
                 query.setFilterById(id);
-                Cursor cursor = downloadInfo.downloadManager.query(query);
+                Cursor cursor = downloadInfo.downloader.getDownloadManager().query(query);
                 cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
-                int status = cursor.getInt(columnIndex);
-                int columnReason = cursor.getColumnIndex(DownloadManager.COLUMN_REASON);
-                int reason = cursor.getInt(columnReason);
+                HashMap downloadStatus = downloadInfo.downloader.checkDownloadStatus(downloadInfo.id);
+                String status = downloadStatus.get("status").toString();
                 switch (status) {
-                    case DownloadManager.STATUS_SUCCESSFUL:
+                    case "STATUS_SUCCESSFUL":
                         Toast.makeText(context, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
                         Log.d(TAG, "onReceive: Download Completed for id=" + id + " downloadInfo.id=" + downloadInfo.id + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
-                        File[] files = DirectoryHelper.listFilesInDirectory(downloadInfo.destinationPath);
-
+                        DirectoryHelper.listFilesInDirectory(downloadInfo.destinationPath);
                         break;
 
-                    case DownloadManager.STATUS_FAILED:
-                        String failedReason = "";
-                        switch (reason) {
-                            case DownloadManager.ERROR_CANNOT_RESUME:
-                                failedReason = "ERROR_CANNOT_RESUME";
-                                break;
-                            case DownloadManager.ERROR_DEVICE_NOT_FOUND:
-                                failedReason = "ERROR_DEVICE_NOT_FOUND";
-                                break;
-                            case DownloadManager.ERROR_FILE_ALREADY_EXISTS:
-                                failedReason = "ERROR_FILE_ALREADY_EXISTS";
-                                break;
-                            case DownloadManager.ERROR_FILE_ERROR:
-                                failedReason = "ERROR_FILE_ERROR";
-                                break;
-                            case DownloadManager.ERROR_HTTP_DATA_ERROR:
-                                failedReason = "ERROR_HTTP_DATA_ERROR";
-                                break;
-                            case DownloadManager.ERROR_INSUFFICIENT_SPACE:
-                                failedReason = "ERROR_INSUFFICIENT_SPACE";
-                                break;
-                            case DownloadManager.ERROR_TOO_MANY_REDIRECTS:
-                                failedReason = "ERROR_TOO_MANY_REDIRECTS";
-                                break;
-                            case DownloadManager.ERROR_UNHANDLED_HTTP_CODE:
-                                failedReason = "ERROR_UNHANDLED_HTTP_CODE";
-                                break;
-                            case DownloadManager.ERROR_UNKNOWN:
-                                failedReason = "ERROR_UNKNOWN";
-                                break;
-                        }
-                        Toast.makeText(context, "Download failed because " + failedReason, Toast.LENGTH_LONG).show();
-
-                        Log.d(TAG, "**** onReceive: Download failed because " + failedReason);
+                    default:
+                        String reason = downloadStatus.get("reason").toString();
+                        Toast.makeText(context, "Download NOT SUCCESSFUL because " + reason, Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "**** onReceive: Download failed because " + reason);
                         break;
                 }
-
-
             } else {
                 Log.d(TAG, "**** onReceive: downloadInfo is null, id=" + id);
             }
 
-            if (downloadedIds.size() >= 2) {
+            if (downloadInfoList.isEmpty()) {
                 if (downloadButton != null) downloadButton.setEnabled(true);
-                downloadedIds.clear();
                 Log.d(TAG, "onReceive: DOWNLOADS complete");
                 loadDatabase();
             }
@@ -216,7 +193,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             Log.d(TAG, "loadDatabase: ");
             Context context = getApplicationContext();
             context.deleteDatabase(Constants.DATABASE_NAME);
-
 
             RoomDatabase.Callback rdc = new RoomDatabase.Callback() {
                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
@@ -252,23 +228,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private DownloadInfo startDownload(String downloadPath, String directoryName) {
-        Log.d(TAG, "startDownload: downloadPath=" + downloadPath + ", directoryName=" + directoryName);
-        Uri uri = Uri.parse(downloadPath);
-        String directory = Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directoryName);
-        File[] files = DirectoryHelper.listFilesInDirectory(directory);
-        DirectoryHelper.deleteOlderFiles(directory, 5);
-        DownloadManager.Request request = new DownloadManager.Request(uri);
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);  // Tell on which network you want to download file.
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);  // This will show notification on top when downloading the file.
-        request.setTitle("Downloading file to directory=" + directory); // Title for notification.
-        request.setVisibleInDownloadsUi(true);
-        request.setDestinationInExternalPublicDir(DirectoryHelper.ROOT_DIRECTORY_NAME.concat("/").concat(directoryName), uri.getLastPathSegment());  // Storage directory path
-        DownloadManager downloadManager = ((DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE));
-        long downloadId = downloadManager.enqueue(request); // This will start downloading
-        return new DownloadInfo(downloadId, downloadManager, downloadPath, directory);
     }
 
     @Override
