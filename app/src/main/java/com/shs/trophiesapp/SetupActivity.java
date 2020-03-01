@@ -98,7 +98,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 break;
             }
             case R.id.cleanButton: {
-                SetupActivity.this.deleteDatabase(Constants.DATABASE_NAME);
+                Context context = getApplicationContext();
+                context.deleteDatabase(Constants.DATABASE_NAME);
                 DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
                 break;
             }

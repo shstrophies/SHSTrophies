@@ -37,10 +37,15 @@ public class SeedDatabaseWorker extends Worker {
         try {
             Log.d(TAG, "doWork: loading data (into database)");
             DirectoryHelper.createDirectory(getApplicationContext());
+            DirectoryHelper.listFilesInDirectoryRecursively(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
             Sport[] sportCSVData = getSportsCSVData();
             Log.d(TAG, "onCreate: sportCSVData length=" + sportCSVData.length);
             AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
             appDatabase.sportDao().insertAll(sportCSVData);
+            List<Sport> sports = appDatabase.sportDao().getAll();
+            for(Sport sport: sports) {
+                Log.d(TAG, "doWork: got sport=" + sport.sport_name);
+            }
             Log.d(TAG, "doWork: sport data loaded");
             Trophy[] trophyCSVData = getTrophiesCSVData();
             Log.d(TAG, "onCreate: trophyCSVData length=" + trophyCSVData.length);
@@ -64,7 +69,7 @@ public class SeedDatabaseWorker extends Worker {
             boolean first = true;
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
-                Log.d(TAG, "onReceive: line=" + line);
+                Log.d(TAG, "getSportsCSVData: line=" + line);
                 List<String> commaSeparatedLine = parseLine(line);
                 if (first) first = false;
                 else {
@@ -94,7 +99,7 @@ public class SeedDatabaseWorker extends Worker {
                         List<String> line = parseLine(scanner.nextLine());
                         if (first) first = false;
                         else {
-                            String[] players = line.get(3).split(",");
+                            String[] players = line.get(3).replaceAll("\"", "").split(",");
                             for(String player : players) {
                                 if(!line.get(0).isEmpty()) {
                                     String year = line.get(0);
