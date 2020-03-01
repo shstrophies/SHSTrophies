@@ -1,9 +1,36 @@
 # Saratoga-High-School-Trophy-Application
 
+
+## Links to original data:
+- Images provided by Mr. Torrens: https://drive.google.com/drive/folders/1jjymid-BPNTvE8sj15OUT0PvNo9TRVqW
+- Spreadsheet provided by Mr. Torrens of trophy information: https://drive.google.com/drive/folders/1uUnlIY1g8QrJMeidAtESJx-MJrDoLoLm
+- Test Spreadsheet provided by Arman: https://docs.google.com/spreadsheets/d/1bCjaCRR1ezrEWUXnxYyPRpUK5nr6u3NTP7iEitLEyxo/edit#gid=0
+- Example Spreadsheet Mr. Torrens will be using: https://docs.google.com/spreadsheets/d/1opVRw44HNCm08cL_0wqbAiBdh5DROUH563LWNTwtSpA/edit?ts=5e5adf83#gid=0
+
+
+-- To get the image url: click on the image, then on the right hand side top, click three dots, then click on "Open in new window", and the copy the url
+
+
+-- P7220156.JPG - Trophy with one year many players - football: https://drive.google.com/file/d/1zOlNzaB-VGyegnQ_3UWZtq64KsVLK4Q7/view
+-- P7220173.JPG - Trophy with no players - football:  https://drive.google.com/file/d/1V1SN5c5wDbUyB0yNlPphWoLM-yMQor98/view
+-- P7220176.JPG - Trophy with no year no players - football: https://drive.google.com/file/d/1cEOO6vceis57f0MU_wSk-hTojf_Ct_0W/view
+-- P7220178.JPG - Trophy with many years and one player per year - football: https://drive.google.com/file/d/1ZZkED9UHRSnEVuw-oJVN75B4FvV8jCfX/view
+
+https://drive.google.com/file/d/1zOlNzaB-VGyegnQ_3UWZtq64KsVLK4Q7/view?usp=sharing
+
+
+## Setup:
+
+Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load database from then on
+
 ## TODO:
 
 # Backend:
-- find out the structure of the spreadsheet and format of the database (Ujjwal & Carolina)
+- new spreadsheet (Shayan and Carolina)
+  - fix seedDatabaseWorker.java
+  
+- new DB schema (Ujjwal)
+  
 - download images in case wifi is slow? (Ujjwal & Carolina)
 - add more search capability especially with homepage (Shayan)
   - homepage searching
@@ -15,8 +42,8 @@
       ~~- search for trophies within trophy page~~
       - search for names within trophy page (i'll check if it works when im home)
    - trophy players and years page searching
-      - search for people's names
-      - search for year
+      - search for people's names(Shayan)
+      - search for year(Shayan)
 - add more of the trophy info (Ujjwal & Carolina)
       - add 'trophy_players_and_years_activity' page
       - add 'corner_view_trophy_players_and_years_activity.xml' which contains cards that go inside of      'trophy_players_and_years_activity' page
