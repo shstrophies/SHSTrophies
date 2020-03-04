@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "290824af2ae10215a11a36d8eec79621",
+    "identityHash": "da70e13c3ee195fe20d9786196eac8f6",
     "entities": [
       {
         "tableName": "sport",
@@ -89,6 +89,14 @@
               "url"
             ],
             "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Trophy_title_url` ON `${TABLE_NAME}` (`title`, `url`)"
+          },
+          {
+            "name": "index_Trophy_sportId",
+            "unique": true,
+            "columnNames": [
+              "sportId"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Trophy_sportId` ON `${TABLE_NAME}` (`sportId`)"
           }
         ],
         "foreignKeys": [
@@ -107,7 +115,7 @@
       },
       {
         "tableName": "TrophyAward",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Sport` TEXT, `Year` INTEGER NOT NULL, `Title` TEXT, `url` TEXT, `Player` TEXT, `Category` TEXT, `color` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `SportName` TEXT, `Year` INTEGER NOT NULL, `Title` TEXT, `url` TEXT, `Player` TEXT, `Category` TEXT, `color` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -117,7 +125,7 @@
           },
           {
             "fieldPath": "sportName",
-            "columnName": "Sport",
+            "columnName": "SportName",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -171,7 +179,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '290824af2ae10215a11a36d8eec79621')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'da70e13c3ee195fe20d9786196eac8f6')"
     ]
   }
 }

@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "TrophyAward")
 public class TrophyAward {
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") public long id = 0;
-    @ColumnInfo(name = "Sport") public String sportName;
+    @ColumnInfo(name = "SportName") public String sportName;
     @ColumnInfo(name = "Year") public int year;
     @ColumnInfo(name = "Title") public String title;
     @ColumnInfo(name = "url") public String url;
