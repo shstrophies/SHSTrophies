@@ -4,7 +4,7 @@
 ## Links to original data:
 - figma: https://www.figma.com/file/q213rSM1bDSIGCbETgCeAL/Official-SHS-Trophy-UI?node-id=1%3A2
 - Images provided by Mr. Torrens: https://drive.google.com/drive/folders/1jjymid-BPNTvE8sj15OUT0PvNo9TRVqW
-- Spreadsheet provided by Mr. Torrens of trophy information: https://drive.google.com/drive/folders/1uUnlIY1g8QrJMeidAtESJx-MJrDoLoLm
+- Spreadsheet provided by Mr. Torrens of trophyAward information: https://drive.google.com/drive/folders/1uUnlIY1g8QrJMeidAtESJx-MJrDoLoLm
 - Test Spreadsheet provided by Arman: https://docs.google.com/spreadsheets/d/1bCjaCRR1ezrEWUXnxYyPRpUK5nr6u3NTP7iEitLEyxo/edit#gid=0
 - Example Spreadsheet Mr. Torrens will be using: https://docs.google.com/spreadsheets/d/1DBYBQEN4fZd0ByzcxvvGMDZ--I2-Ku2Rr5zMRpbFRsU/edit#gid=0
 - Database schema design: https://docs.google.com/document/d/1I4Tbaf91UoqEknFLpeujyCxKXef-D9utp799DpYx_7g/edit
@@ -39,13 +39,13 @@ Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load da
     ~~- search for trophies within homepage~~
     ~~- search for names within homepage~~
       - possible suggestion: should we allow search by year? If we decide yes, then we need it so if you type in 2005 on homepage search bar, cards will be organized with the year on the top instead of the Sport
-   - trophy page searching
-      ~~- search for trophies within trophy page~~
-      - search for names within trophy page (i'll check if it works when im home)
-   - trophy players and years page searching
+   - trophyAward page searching
+      ~~- search for trophies within trophyAward page~~
+      - search for names within trophyAward page (i'll check if it works when im home)
+   - trophyAward players and years page searching
       - search for people's names(Shayan)
       - search for year(Shayan)
-- add more of the trophy info (Ujjwal & Carolina)
+- add more of the trophyAward info (Ujjwal & Carolina)
       - add 'trophy_players_and_years_activity' page
       - add 'corner_view_trophy_players_and_years_activity.xml' which contains cards that go inside of      'trophy_players_and_years_activity' page
 - add cleanup code to clean export files (Shayan)
@@ -62,7 +62,7 @@ Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load da
   - design search bar
     - make screen move up on searchbar tap
 
-- finish trophy page UI (Arman & Vignav) 
+- finish trophyAward page UI (Arman & Vignav) 
   - design cards
     - add proper rounding to cards (maybe change to card view)
     - make cards clickable for new screen
@@ -73,13 +73,13 @@ Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load da
 - finish names page UI (Arman & Vignav) 
   - design cards
     - add proper rounding to cards (maybe change to card view)
-    - allow to click on trophy to get more details about it (Arman & Vignav)
+    - allow to click on trophyAward to get more details about it (Arman & Vignav)
   - design top header 
     - add proper image on left of text
   - design search bar
     - make screen move up on searchbar tap
 
-- finish zoomed in trophy UI (Arman & Vignav)
+- finish zoomed in trophyAward UI (Arman & Vignav)
   - design cards
       - add proper rounding to cards (maybe change to card view)
 

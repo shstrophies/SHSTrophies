@@ -19,7 +19,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.shs.trophiesapp.adapters.TrophiesAdapter;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.TrophyRepository;
-import com.shs.trophiesapp.data.entities.Trophy;
+import com.shs.trophiesapp.data.entities.TrophyAward;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
     private MaterialSearchBar searchBar;
 
     private TrophiesAdapter adapter;
-    private ArrayList<Trophy> trophies;
+    private ArrayList<TrophyAward> trophies;
 
 
     @Override
@@ -175,7 +175,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         Log.d(TAG, "getData: getData");
         Context context = this;
         TrophyRepository trophyRepository = DataManager.getTrophyRepository(context);
-        List<Trophy> _trophies = trophyRepository.getTrophiesBySport(sport.toLowerCase());
+        List<TrophyAward> _trophies = trophyRepository.getTrophiesBySport(sport.toLowerCase());
         trophies.addAll(_trophies);
         Log.d(TAG, "getData: recyclerview trophies size=" + trophies.size());
         adapter.notifyDataSetChanged();

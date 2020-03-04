@@ -16,7 +16,7 @@ import androidx.work.WorkerParameters;
 
 import com.shs.trophiesapp.data.AppDatabase;
 import com.shs.trophiesapp.data.entities.Sport;
-import com.shs.trophiesapp.data.entities.Trophy;
+import com.shs.trophiesapp.data.entities.TrophyAward;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
 
@@ -47,9 +47,9 @@ public class SeedDatabaseWorker extends Worker {
                 Log.d(TAG, "doWork: got sport=" + sport.sport_name);
             }
             Log.d(TAG, "doWork: sport data loaded");
-            Trophy[] trophyCSVData = getTrophiesCSVData();
-            Log.d(TAG, "onCreate: trophyCSVData length=" + trophyCSVData.length);
-            appDatabase.trophyDao().insertAll(trophyCSVData);
+            TrophyAward[] trophyAwardCSVData = getTrophiesCSVData();
+            Log.d(TAG, "onCreate: trophyAwardCSVData length=" + trophyAwardCSVData.length);
+            appDatabase.trophyDao().insertAll(trophyAwardCSVData);
             Log.d(TAG, "doWork: trophy data loaded");
 
             return Result.success();
@@ -82,9 +82,9 @@ public class SeedDatabaseWorker extends Worker {
         return sports.toArray(new Sport[0]);
     }
 
-    private static Trophy[] getTrophiesCSVData() {
+    private static TrophyAward[] getTrophiesCSVData() {
         Log.d(TAG, "getTrophiesCSVData: ");
-        List<Trophy> trophies = new ArrayList<>();
+        List<TrophyAward> trophies = new ArrayList<>();
 
         Sport[] sports = getSportsCSVData();
         for(int i=0; i<sports.length; i++) {
@@ -107,7 +107,7 @@ public class SeedDatabaseWorker extends Worker {
                                     String uri = line.get(2);
                                     String category = "TBD";
                                     Log.d(TAG, "getTrophiesCSVData: line.get(0)=" + line.get(0) + " line.get(1)=" + line.get(1));
-                                    trophies.add(new Trophy(sport, Integer.parseInt(year), title, uri, player, category));
+                                    trophies.add(new TrophyAward(sport, Integer.parseInt(year), title, uri, player, category));
                                 }
 
                             }
@@ -121,6 +121,6 @@ public class SeedDatabaseWorker extends Worker {
             } catch (Exception e) { e.printStackTrace(); }
         }
 
-        return trophies.toArray(new Trophy[0]);
+        return trophies.toArray(new TrophyAward[0]);
     }
 }

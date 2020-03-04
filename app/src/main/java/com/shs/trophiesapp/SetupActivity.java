@@ -29,7 +29,7 @@ import androidx.work.WorkManager;
 import com.shs.trophiesapp.data.AppDatabase;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.entities.Sport;
-import com.shs.trophiesapp.data.entities.Trophy;
+import com.shs.trophiesapp.data.entities.TrophyAward;
 import com.shs.trophiesapp.utils.Assert;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
@@ -251,7 +251,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             List<Sport> sports = DataManager.getSportRepository(context).getSports();
 
             Toast.makeText(SetupActivity.this, "Getting trophy repository", Toast.LENGTH_LONG).show();
-            List<Trophy> trophies = DataManager.getTrophyRepository(context).getTrophies();
+            List<TrophyAward> trophies = DataManager.getTrophyRepository(context).getTrophies();
 
             if ((sports.size() != 0) && (trophies.size() != 0)) {
                 Toast.makeText(SetupActivity.this, "sports size=" + sports.size(), Toast.LENGTH_LONG).show();

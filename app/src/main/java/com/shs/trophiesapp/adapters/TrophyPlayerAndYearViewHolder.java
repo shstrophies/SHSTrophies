@@ -2,16 +2,14 @@ package com.shs.trophiesapp.adapters;
 
 import android.graphics.Color;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
-import com.shs.trophiesapp.data.entities.Trophy;
+import com.shs.trophiesapp.data.entities.TrophyAward;
 import com.shs.trophiesapp.utils.ColorGenerator;
-import com.shs.trophiesapp.utils.Utils;
 
 class TrophyPlayerAndYearViewHolder extends RecyclerView.ViewHolder {
     private TextView txtPlayer;
@@ -27,13 +25,13 @@ class TrophyPlayerAndYearViewHolder extends RecyclerView.ViewHolder {
         cardView = itemView.findViewById(R.id.cardview_trophy_player_and_year_id);
     }
 
-    void setDetails(Trophy trophy) {
-        txtPlayer.setText(trophy.getPlayer());
-        txtYear.setText(String.valueOf(trophy.getYear()));
+    void setDetails(TrophyAward trophyAward) {
+        txtPlayer.setText(trophyAward.getPlayer());
+        txtYear.setText(String.valueOf(trophyAward.getYear()));
 
 
         newColor = newColor.getNextColor();
-        trophy.setColor(newColor.getColor());
-        this.cardView.setBackgroundColor(trophy.getColor());
+        trophyAward.setColor(newColor.getColor());
+        this.cardView.setBackgroundColor(trophyAward.getColor());
     }
 }

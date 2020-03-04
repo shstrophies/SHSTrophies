@@ -2,7 +2,6 @@ package com.shs.trophiesapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
-import com.shs.trophiesapp.TrophyDetailsActivity;
 import com.shs.trophiesapp.TrophyPlayersAndYearsActivity;
-import com.shs.trophiesapp.adapters.TrophyViewHolder;
-import com.shs.trophiesapp.data.entities.Trophy;
+import com.shs.trophiesapp.data.entities.TrophyAward;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +22,13 @@ import java.util.List;
 public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> implements Filterable {
     private static final String TAG = "TrophiesAdapter";
     private Context context;
-    private List<Trophy> trophies;
-    private List<Trophy> trophiesFiltered;
+    private List<TrophyAward> trophies;
+    private List<TrophyAward> trophiesFiltered;
 
 
 
 
-    public TrophiesAdapter(Context context, List<Trophy> trophies) {
+    public TrophiesAdapter(Context context, List<TrophyAward> trophies) {
         this.context = context;
         this.trophies = trophies;
         this.trophiesFiltered = trophies;
@@ -52,8 +49,8 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
 
     @Override
     public void onBindViewHolder(TrophyViewHolder holder, int position) {
-        Trophy trophy = trophiesFiltered.get(position);
-        holder.setDetails(trophy);
+        TrophyAward trophyAward = trophiesFiltered.get(position);
+        holder.setDetails(trophyAward);
 
 
         // set click listener
@@ -89,8 +86,8 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
                 trophiesFiltered = trophies;
             } else {
                 Log.d(TAG, "performFiltering: charString=" + charString);
-                List<Trophy> filteredList = new ArrayList<>();
-                for (Trophy row : trophies) {
+                List<TrophyAward> filteredList = new ArrayList<>();
+                for (TrophyAward row : trophies) {
                     // name match condition. this might differ depending on your requirement
                     // here we are looking for title or description match
                     if (row.trophy_title.toLowerCase().contains(charString) || row.player.toLowerCase().contains(charString)) {
@@ -107,7 +104,7 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            trophiesFiltered = (ArrayList<Trophy>) results.values;
+            trophiesFiltered = (ArrayList<TrophyAward>) results.values;
             notifyDataSetChanged();
         }
     }

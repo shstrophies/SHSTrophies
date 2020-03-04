@@ -1,7 +1,7 @@
 package com.shs.trophiesapp.data;
 
 import com.shs.trophiesapp.data.daos.TrophyDao;
-import com.shs.trophiesapp.data.entities.Trophy;
+import com.shs.trophiesapp.data.entities.TrophyAward;
 
 import java.util.List;
 
@@ -14,23 +14,23 @@ public class TrophyRepository {
         this.TrophyDao = TrophyDao;
     }
 
-    public List<Trophy> getTrophies() {
+    public List<TrophyAward> getTrophies() {
         return TrophyDao.getTrophies();
     }
 
-    public List<Trophy>  getTrophiesBySport(String sport_name) {
+    public List<TrophyAward>  getTrophiesBySport(String sport_name) {
         return TrophyDao.findBySport(sport_name);
     }
 
-    public List<Trophy>  getTrophiesBySportAndTitle(String sport_name, String trophy_title) {
+    public List<TrophyAward>  getTrophiesBySportAndTitle(String sport_name, String trophy_title) {
         return TrophyDao.findBySportAndTitle(sport_name, trophy_title);
     }
 
-    public List<Trophy>  getTrophiesByYear(int year) {
+    public List<TrophyAward>  getTrophiesByYear(int year) {
         return TrophyDao.findByYear(year);
     }
 
-    public List<Trophy>  getTrophiesByPlayer(String player) {
+    public List<TrophyAward>  getTrophiesByPlayer(String player) {
         return TrophyDao.findByName(player);
     }
 

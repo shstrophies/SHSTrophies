@@ -1,19 +1,19 @@
 package com.shs.trophiesapp.data;
 
-import com.shs.trophiesapp.data.entities.Trophy;
+import com.shs.trophiesapp.data.entities.TrophyAward;
 
 import java.util.List;
 
 public class SportsAndTrophiesData {
-    List<Trophy> trophies;
+    List<TrophyAward> trophies;
     String sport;
 
-    public SportsAndTrophiesData(List<Trophy> trophies, String sport) {
+    public SportsAndTrophiesData(List<TrophyAward> trophies, String sport) {
         this.trophies = trophies;
         this.sport = sport;
     }
 
-    public List<Trophy> getTrophies() {
+    public List<TrophyAward> getTrophies() {
         return trophies;
     }
 

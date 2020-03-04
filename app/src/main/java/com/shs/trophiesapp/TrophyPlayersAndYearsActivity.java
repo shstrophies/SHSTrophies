@@ -11,18 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.navigation.NavigationView;
 import com.mancj.materialsearchbar.MaterialSearchBar;
-import com.shs.trophiesapp.adapters.TrophiesAdapter;
 import com.shs.trophiesapp.adapters.TrophyPlayersAndYearsAdapter;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.TrophyRepository;
-import com.shs.trophiesapp.data.entities.Trophy;
+import com.shs.trophiesapp.data.entities.TrophyAward;
 import com.shs.trophiesapp.utils.Utils;
 
 import java.util.ArrayList;
@@ -38,7 +35,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
     private MaterialSearchBar searchBar;
 
     private TrophyPlayersAndYearsAdapter adapter;
-    private ArrayList<Trophy> trophies;
+    private ArrayList<TrophyAward> trophies;
 
 
     @Override
@@ -133,7 +130,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
 
         Context context = this;
         TrophyRepository trophyRepository = DataManager.getTrophyRepository(context);
-        List<Trophy> _trophies = trophyRepository.getTrophiesBySportAndTitle(sport_name.toLowerCase(), trophy_title);
+        List<TrophyAward> _trophies = trophyRepository.getTrophiesBySportAndTitle(sport_name.toLowerCase(), trophy_title);
         trophies.addAll(_trophies);
         Log.d(TAG, "getData: recyclerview trophies size=" + trophies.size());
         adapter.notifyDataSetChanged();

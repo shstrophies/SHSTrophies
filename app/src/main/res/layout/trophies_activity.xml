@@ -41,7 +41,7 @@
 
         android:layout_marginBottom="12dp"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Tap a trophy or search"
+        android:text="Tap a trophyAward or search"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="23dp"
