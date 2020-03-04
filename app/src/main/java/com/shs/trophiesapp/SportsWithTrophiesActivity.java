@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.shs.trophiesapp.adapters.SportsAndTrophiesAdapter;
+import com.shs.trophiesapp.adapters.SportsWithTrophiesAdapter;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.SportsAndTrophiesData;
 import com.shs.trophiesapp.data.TrophyRepository;
@@ -22,17 +22,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class SportsAndTrophiesActivity extends AppCompatActivity
+public class SportsWithTrophiesActivity extends AppCompatActivity
 //        implements MaterialSearchBar.OnSearchActionListener
 {
-    private static final String TAG = "SportsAndTrophiesActivity";
+    private static final String TAG = "SportsWithTrophiesActivity";
 
     public static final String TROPHIES_SEARCH_STRING = "TROPHIES_SEARCH_STRING";
     String[] searchStrings;
 
 //    private MaterialSearchBar searchBar;
 
-    private SportsAndTrophiesAdapter adapter;
+    private SportsWithTrophiesAdapter adapter;
     private ArrayList<SportsAndTrophiesData> sportsAndTrophies = new ArrayList<>();
 
 
@@ -53,7 +53,7 @@ public class SportsAndTrophiesActivity extends AppCompatActivity
         RecyclerView recyclerView = findViewById(R.id.sports_and_trophies_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         sportsAndTrophies = new ArrayList<SportsAndTrophiesData>();
-        adapter = new SportsAndTrophiesAdapter(this, sportsAndTrophies);
+        adapter = new SportsWithTrophiesAdapter(this, sportsAndTrophies);
 
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);

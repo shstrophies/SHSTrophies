@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SportsAndTrophiesAdapter extends RecyclerView.Adapter<SportsAndTrophiesAdapter.HomeViewHolder> implements Filterable {
+public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTrophiesAdapter.HomeViewHolder> implements Filterable {
 
     private static final String TAG = "SportsAndTrophiesAdapte";
 
@@ -33,7 +33,7 @@ public class SportsAndTrophiesAdapter extends RecyclerView.Adapter<SportsAndTrop
     private TrophiesAdapter horizontalAdapter;
     private RecyclerView.RecycledViewPool recycledViewPool;
 
-    public SportsAndTrophiesAdapter(Context context, List<SportsAndTrophiesData> data) {
+    public SportsWithTrophiesAdapter(Context context, List<SportsAndTrophiesData> data) {
         this.context = context;
         this.data = data;
         this.dataFiltered = data;

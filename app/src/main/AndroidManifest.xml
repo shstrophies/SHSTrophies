@@ -34,7 +34,7 @@
             >
         </activity>
         <activity
-            android:name="com.shs.trophiesapp.SportsAndTrophiesActivity"
+            android:name="com.shs.trophiesapp.SportsWithTrophiesActivity"
             android:windowSoftInputMode="adjustPan|adjustResize"
             >
         </activity>
