@@ -20,24 +20,24 @@ import java.util.List;
     @Delete void delete(TrophyAward trophyAward);
 
     // User-defined Queries
-    @Query("SELECT * FROM TrophyAward WHERE Trophy_Title LIKE :trophy_title")
+    @Query("SELECT * FROM TrophyAward WHERE title LIKE :trophy_title")
     List<TrophyAward> findByTrophyTitle(String trophy_title);
-    @Query("SELECT * FROM TrophyAward WHERE Player_Name LIKE :player") //TODO: Normalize DB Structure (IF NECESSARY)
+    @Query("SELECT * FROM TrophyAward WHERE Player LIKE :player") //TODO: Normalize DB Structure (IF NECESSARY)
     List<TrophyAward> findByName(String player);
     @Query("SELECT * FROM TrophyAward WHERE Year LIKE :year")
     List<TrophyAward> findByYear(int year);
-    @Query("SELECT * FROM TrophyAward WHERE Sport LIKE :sport_name")
+    @Query("SELECT * FROM TrophyAward WHERE sportName LIKE :sport_name")
     List<TrophyAward> findBySport(String sport_name);
     @Query("SELECT * FROM TrophyAward WHERE Category LIKE :category")
     List<TrophyAward> findByCategory(String category);
 
 
-    @Query("SELECT * FROM TrophyAward WHERE (Sport LIKE :sport_name) AND (Player_Name LIKE :player)")
+    @Query("SELECT * FROM TrophyAward WHERE (sportName LIKE :sport_name) AND (Player LIKE :player)")
     List<TrophyAward> findBySportAndPlayer(String sport_name, String player);
 
-    @Query("SELECT * FROM TrophyAward WHERE (Sport LIKE :sport_name) AND (Year LIKE :year)")
+    @Query("SELECT * FROM TrophyAward WHERE (sportName LIKE :sport_name) AND (Year LIKE :year)")
     List<TrophyAward> findBySportAndYear(String sport_name, int year);
 
-    @Query("SELECT * FROM TrophyAward WHERE (Sport LIKE :sport_name) AND (Trophy_Title LIKE :trophy_title)")
+    @Query("SELECT * FROM TrophyAward WHERE (sportName LIKE :sport_name) AND (title LIKE :trophy_title)")
     List<TrophyAward> findBySportAndTitle(String sport_name, String trophy_title);
 }

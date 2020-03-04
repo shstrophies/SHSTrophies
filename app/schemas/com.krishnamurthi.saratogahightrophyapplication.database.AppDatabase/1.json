@@ -54,7 +54,7 @@
         },
         "contentSyncTriggers": [],
         "tableName": "trophy",
-        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`Sport` TEXT, `Year` INTEGER NOT NULL, `Trophy_Title` TEXT, `Trophy_Image_URI` TEXT, `Player_Name` TEXT, `Category` TEXT)",
+        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`Sport` TEXT, `Year` INTEGER NOT NULL, `Title` TEXT, `url` TEXT, `Player` TEXT, `Category` TEXT)",
         "fields": [
           {
             "fieldPath": "sport_name",
@@ -70,19 +70,19 @@
           },
           {
             "fieldPath": "trophy_title",
-            "columnName": "Trophy_Title",
+            "columnName": "Title",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "tr_image_url",
-            "columnName": "Trophy_Image_URI",
+            "columnName": "url",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "player",
-            "columnName": "Player_Name",
+            "columnName": "Player",
             "affinity": "TEXT",
             "notNull": false
           },

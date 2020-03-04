@@ -13,6 +13,7 @@ import androidx.work.WorkManager;
 
 import com.shs.trophiesapp.data.daos.SportDao;
 import com.shs.trophiesapp.data.daos.TrophyAwardDao;
+import com.shs.trophiesapp.data.daos.TrophyDao;
 import com.shs.trophiesapp.data.entities.Sport;
 import com.shs.trophiesapp.data.entities.Trophy;
 import com.shs.trophiesapp.data.entities.TrophyAward;
@@ -26,7 +27,8 @@ public abstract class AppDatabase extends RoomDatabase {
     
     private static final String TAG = "AppDatabase";
     abstract public SportDao sportDao();
-    abstract public TrophyAwardDao trophyDao();
+    abstract public TrophyDao trophyDao();
+    abstract public TrophyAwardDao trophyAwardDao();
 
     private static AppDatabase mInstance = null;
     private static RoomDatabase.Callback mCallback = new RoomDatabase.Callback() {

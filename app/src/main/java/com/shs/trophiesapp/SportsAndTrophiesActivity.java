@@ -162,7 +162,7 @@ public class SportsAndTrophiesActivity extends AppCompatActivity
         }
 
         Map<String, List<TrophyAward>> map =
-                listOfTrophies.stream().collect(Collectors.groupingBy(e -> e.get(0).sport_name,
+                listOfTrophies.stream().collect(Collectors.groupingBy(e -> e.get(0).sportName,
                         Collectors.mapping(e -> e.get(0),
                                 Collectors.toList())));
 

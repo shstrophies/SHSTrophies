@@ -49,9 +49,9 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
 
         //Receive data
         Intent intent = getIntent();
-        String trophy_title = intent.getExtras().getString("trophy_title");
+        String trophy_title = intent.getExtras().getString("title");
         int color = intent.getExtras().getInt("color");
-        String tr_image_url = intent.getExtras().getString("tr_image_url");
+        String tr_image_url = intent.getExtras().getString("url");
 
 
         tvTitle.setText(trophy_title);
@@ -126,7 +126,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
 
         //Receive data
         String sport_name = intent.getExtras().getString("name");
-        String trophy_title = intent.getExtras().getString("trophy_title");
+        String trophy_title = intent.getExtras().getString("title");
 
         Context context = this;
         TrophyRepository trophyRepository = DataManager.getTrophyRepository(context);

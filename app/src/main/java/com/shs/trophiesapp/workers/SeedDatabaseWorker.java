@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,6 +17,7 @@ import androidx.work.WorkerParameters;
 
 import com.shs.trophiesapp.data.AppDatabase;
 import com.shs.trophiesapp.data.entities.Sport;
+import com.shs.trophiesapp.data.entities.Trophy;
 import com.shs.trophiesapp.data.entities.TrophyAward;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
@@ -43,14 +45,24 @@ public class SeedDatabaseWorker extends Worker {
             AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
             appDatabase.sportDao().insertAll(sportCSVData);
             List<Sport> sports = appDatabase.sportDao().getAll();
-            for(Sport sport: sports) {
+            for (Sport sport : sports) {
                 Log.d(TAG, "doWork: got sport=" + sport.name);
+                TrophyAward[] trophyAwardCSVData = getTrophiesCSVData(sport.name);
+                Log.d(TAG, "onCreate: trophyAwardCSVData length=" + trophyAwardCSVData.length);
+                ArrayList<Trophy> trophies = new ArrayList();
+                HashMap<String, Trophy> map = new HashMap<>();
+                for(TrophyAward item : trophyAwardCSVData) {
+                    Trophy trophy = new Trophy(item.getTitle(), item.getUrl());
+                    Trophy trophyItem = map.get(item.getUrl());
+                    if(trophyItem == null) {
+                        map.put(item.getUrl(), trophy);
+                        trophies.add(trophy);
+                    }
+                }
+                appDatabase.trophyDao().insert(sport, trophies);
+                appDatabase.trophyAwardDao().insertAll(trophyAwardCSVData);
+                Log.d(TAG, "doWork: trophy data loaded");
             }
-            Log.d(TAG, "doWork: sport data loaded");
-            TrophyAward[] trophyAwardCSVData = getTrophiesCSVData();
-            Log.d(TAG, "onCreate: trophyAwardCSVData length=" + trophyAwardCSVData.length);
-            appDatabase.trophyDao().insertAll(trophyAwardCSVData);
-            Log.d(TAG, "doWork: trophy data loaded");
 
             return Result.success();
         } catch (Exception e) {
@@ -73,54 +85,54 @@ public class SeedDatabaseWorker extends Worker {
                 List<String> commaSeparatedLine = parseLine(line);
                 if (first) first = false;
                 else {
-                    String sport = commaSeparatedLine.get(0); 
+                    String sport = commaSeparatedLine.get(0);
                     String url = commaSeparatedLine.get(2);
                     sports.add(new Sport(sport, url));
                 }
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return sports.toArray(new Sport[0]);
     }
 
-    private static TrophyAward[] getTrophiesCSVData() {
+    private static TrophyAward[] getTrophiesCSVData(String sport) {
         Log.d(TAG, "getTrophiesCSVData: ");
-        List<TrophyAward> trophies = new ArrayList<>();
+        List<TrophyAward> trophyData = new ArrayList<>();
 
-        Sport[] sports = getSportsCSVData();
-        for(int i=0; i<sports.length; i++) {
-            String sport = sports[i].name;
-            try {
-                File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + sport + "/");
-                if(file != null) {
-                    Log.d(TAG, "getTrophiesCSVData: getting trophy data from file=" + file.getAbsolutePath());
-                    Scanner scanner = new Scanner(file);
-                    boolean first = true;
-                    while (scanner.hasNext()) {
-                        List<String> line = parseLine(scanner.nextLine());
-                        if (first) first = false;
-                        else {
-                            String[] players = line.get(3).replaceAll("\"", "").split(",");
-                            for(String player : players) {
-                                if(!line.get(0).isEmpty()) {
-                                    String year = line.get(0);
-                                    String title = line.get(1);
-                                    String uri = line.get(2);
-                                    String category = "TBD";
-                                    Log.d(TAG, "getTrophiesCSVData: line.get(0)=" + line.get(0) + " line.get(1)=" + line.get(1));
-                                    trophies.add(new TrophyAward(sport, Integer.parseInt(year), title, uri, player, category));
-                                }
-
+        try {
+            File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + sport + "/");
+            if (file != null) {
+                Log.d(TAG, "getTrophiesCSVData: getting trophy data from file=" + file.getAbsolutePath());
+                Scanner scanner = new Scanner(file);
+                boolean first = true;
+                while (scanner.hasNext()) {
+                    List<String> line = parseLine(scanner.nextLine());
+                    if (first) first = false;
+                    else {
+                        String[] players = line.get(3).replaceAll("\"", "").split(",");
+                        for (String player : players) {
+                            if (!line.get(0).isEmpty()) {
+                                String year = line.get(0);
+                                String title = line.get(1);
+                                String uri = line.get(2);
+                                String category = "TBD";
+                                Log.d(TAG, "getTrophiesCSVData: line.get(0)=" + line.get(0) + " line.get(1)=" + line.get(1));
+                                trophyData.add(new TrophyAward(sport, Integer.parseInt(year), title, uri, player, category));
                             }
+
                         }
                     }
                 }
-                else {
-                    Log.d(TAG, "getTrophiesCSVData: no files found ...");
-                }
+            } else {
+                Log.d(TAG, "getTrophiesCSVData: no files found ...");
+            }
 
-            } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        return trophies.toArray(new TrophyAward[0]);
+
+        return trophyData.toArray(new TrophyAward[0]);
     }
 }

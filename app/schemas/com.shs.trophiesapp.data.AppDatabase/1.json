@@ -38,7 +38,7 @@
       },
       {
         "tableName": "trophy",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Sport` TEXT, `Year` INTEGER NOT NULL, `Trophy_Title` TEXT, `Trophy_Image_URI` TEXT, `Player_Name` TEXT, `Category` TEXT, `color` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Sport` TEXT, `Year` INTEGER NOT NULL, `Title` TEXT, `url` TEXT, `Player` TEXT, `Category` TEXT, `color` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -60,19 +60,19 @@
           },
           {
             "fieldPath": "trophy_title",
-            "columnName": "Trophy_Title",
+            "columnName": "Title",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "tr_image_url",
-            "columnName": "Trophy_Image_URI",
+            "columnName": "url",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "player",
-            "columnName": "Player_Name",
+            "columnName": "Player",
             "affinity": "TEXT",
             "notNull": false
           },

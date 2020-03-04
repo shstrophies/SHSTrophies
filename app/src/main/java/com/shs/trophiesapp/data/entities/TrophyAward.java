@@ -11,11 +11,11 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "TrophyAward")
 public class TrophyAward {
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") public long id = 0;
-    @ColumnInfo(name = "Sport") public String sport_name;
+    @ColumnInfo(name = "Sport") public String sportName;
     @ColumnInfo(name = "Year") public int year;
-    @ColumnInfo(name = "Trophy_Title") public String trophy_title;
-    @ColumnInfo(name = "Trophy_Image_URI") public String tr_image_url;
-    @ColumnInfo(name = "Player_Name") public String player;
+    @ColumnInfo(name = "Title") public String title;
+    @ColumnInfo(name = "url") public String url;
+    @ColumnInfo(name = "Player") public String player;
     @ColumnInfo(name = "Category") public String category;
 
     public int getColor() {
@@ -28,29 +28,29 @@ public class TrophyAward {
 
     int color = Color.RED;
 
-    public TrophyAward(String sport_name, int year, String trophy_title, String tr_image_url, String player, String category) {
-        this.sport_name = sport_name;
+    public TrophyAward(String sportName, int year, String title, String url, String player, String category) {
+        this.sportName = sportName;
         this.year = year;
-        this.trophy_title = trophy_title;
-        this.tr_image_url = tr_image_url;
+        this.title = title;
+        this.url = url;
         this.player = player;
         this.category = category;
     }
 
-    public String getSport_name() {
-        return sport_name;
+    public String getSportName() {
+        return sportName;
     }
 
     public int getYear() {
         return year;
     }
 
-    public String gettrophy_title() {
-        return trophy_title;
+    public String getTitle() {
+        return title;
     }
 
-    public String getTr_image_url() {
-        return tr_image_url;
+    public String getUrl() {
+        return url;
     }
 
     public String getPlayer() {
@@ -69,7 +69,7 @@ public class TrophyAward {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = hash + (this.gettrophy_title() != null ? this.gettrophy_title().hashCode() : 0);
+        hash = hash + (this.getTitle() != null ? this.getTitle().hashCode() : 0);
         hash = hash + (int) (this.id ^ (this.id >>> 32));
         hash = hash +(this.getPlayer() != null ? this.getPlayer().hashCode() : 0);
         return hash;

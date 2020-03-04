@@ -3,6 +3,7 @@ package com.shs.trophiesapp.data.daos;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
@@ -24,6 +25,7 @@ public abstract class TrophyDao {
     @Query("SELECT * FROM sport WHERE name LIKE :sportName")
     public abstract List<SportWithTrophies> getTrophiesBySportName(String sportName);
 
+//    @Insert(onConflict = OnConflictStrategy.IGNORE)
     @Transaction
     public void insert(Sport sport, List<Trophy> trophies) {
 

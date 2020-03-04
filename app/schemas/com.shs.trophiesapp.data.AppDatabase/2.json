@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "eec8384f34346c4b4e5fa34d2dda3363",
+    "identityHash": "290824af2ae10215a11a36d8eec79621",
     "entities": [
       {
         "tableName": "sport",
@@ -82,12 +82,13 @@
         },
         "indices": [
           {
-            "name": "index_Trophy_sportId",
-            "unique": false,
+            "name": "index_Trophy_title_url",
+            "unique": true,
             "columnNames": [
-              "sportId"
+              "title",
+              "url"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_Trophy_sportId` ON `${TABLE_NAME}` (`sportId`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Trophy_title_url` ON `${TABLE_NAME}` (`title`, `url`)"
           }
         ],
         "foreignKeys": [
@@ -106,7 +107,7 @@
       },
       {
         "tableName": "TrophyAward",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Sport` TEXT, `Year` INTEGER NOT NULL, `Trophy_Title` TEXT, `Trophy_Image_URI` TEXT, `Player_Name` TEXT, `Category` TEXT, `color` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Sport` TEXT, `Year` INTEGER NOT NULL, `Title` TEXT, `url` TEXT, `Player` TEXT, `Category` TEXT, `color` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -115,7 +116,7 @@
             "notNull": true
           },
           {
-            "fieldPath": "sport_name",
+            "fieldPath": "sportName",
             "columnName": "Sport",
             "affinity": "TEXT",
             "notNull": false
@@ -127,20 +128,20 @@
             "notNull": true
           },
           {
-            "fieldPath": "trophy_title",
-            "columnName": "Trophy_Title",
+            "fieldPath": "title",
+            "columnName": "Title",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "tr_image_url",
-            "columnName": "Trophy_Image_URI",
+            "fieldPath": "url",
+            "columnName": "url",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "player",
-            "columnName": "Player_Name",
+            "columnName": "Player",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -170,7 +171,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'eec8384f34346c4b4e5fa34d2dda3363')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '290824af2ae10215a11a36d8eec79621')"
     ]
   }
 }

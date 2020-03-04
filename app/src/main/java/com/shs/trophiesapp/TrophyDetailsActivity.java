@@ -31,8 +31,8 @@ public class TrophyDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String sport_name = intent.getExtras().getString("name");
         int year = intent.getExtras().getInt("year");
-        String trophy_title = intent.getExtras().getString("trophy_title");
-        String tr_image_url = intent.getExtras().getString("tr_image_url");
+        String trophy_title = intent.getExtras().getString("title");
+        String tr_image_url = intent.getExtras().getString("url");
         int color = intent.getExtras().getInt("color");
 
         tvTitle.setText(trophy_title);

@@ -17,7 +17,7 @@ import static androidx.room.ForeignKey.CASCADE;
                         childColumns = "sportId",
                         onDelete = CASCADE)
         },
-        indices = @Index("sportId")
+        indices = @Index(value = {"title", "url"}, unique = true)
 )
 public class Trophy {
     @PrimaryKey(autoGenerate = true)
