@@ -1,16 +1,16 @@
 package com.shs.trophiesapp.data;
 
-import com.shs.trophiesapp.data.daos.TrophyDao;
+import com.shs.trophiesapp.data.daos.TrophyAwardDao;
 import com.shs.trophiesapp.data.entities.TrophyAward;
 
 import java.util.List;
 
 
 public class TrophyRepository {
-    private TrophyDao TrophyDao;
+    private TrophyAwardDao TrophyDao;
     private static volatile TrophyRepository instance;
 
-    private TrophyRepository(TrophyDao TrophyDao) {
+    private TrophyRepository(TrophyAwardDao TrophyDao) {
         this.TrophyDao = TrophyDao;
     }
 
@@ -34,7 +34,7 @@ public class TrophyRepository {
         return TrophyDao.findByName(player);
     }
 
-    static TrophyRepository getInstance(TrophyDao TrophyDao) {
+    static TrophyRepository getInstance(TrophyAwardDao TrophyDao) {
         if (instance == null) {
             synchronized(TrophyRepository.class) {
                 if (instance == null)

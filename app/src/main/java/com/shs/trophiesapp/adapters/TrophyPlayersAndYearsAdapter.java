@@ -63,7 +63,7 @@ public class TrophyPlayersAndYearsAdapter extends RecyclerView.Adapter<TrophyPla
 
                 // passing data
                 intent.putExtra("Category", trophiesFiltered.get(position).getCategory());
-                intent.putExtra("sport_name", trophiesFiltered.get(position).getSport_name());
+                intent.putExtra("name", trophiesFiltered.get(position).getSport_name());
                 intent.putExtra("year", trophiesFiltered.get(position).getYear());
                 intent.putExtra("trophy_title", trophiesFiltered.get(position).gettrophy_title());
                 intent.putExtra("player", trophiesFiltered.get(position).getPlayer());

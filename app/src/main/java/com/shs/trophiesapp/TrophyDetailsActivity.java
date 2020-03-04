@@ -29,7 +29,7 @@ public class TrophyDetailsActivity extends AppCompatActivity {
 
         //Receive data
         Intent intent = getIntent();
-        String sport_name = intent.getExtras().getString("sport_name");
+        String sport_name = intent.getExtras().getString("name");
         int year = intent.getExtras().getInt("year");
         String trophy_title = intent.getExtras().getString("trophy_title");
         String tr_image_url = intent.getExtras().getString("tr_image_url");

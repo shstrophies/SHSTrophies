@@ -55,7 +55,7 @@ public class SportsAdapter extends RecyclerView.Adapter<SportViewHolder> impleme
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, TrophiesActivity.class);
             // passing data
-            intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sports.get(position).sport_name);
+            intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sports.get(position).name);
 
             // start activity
             context.startActivity(intent);
@@ -76,7 +76,7 @@ public class SportsAdapter extends RecyclerView.Adapter<SportViewHolder> impleme
                 for (Sport row : sports) {
                     // name match condition. this might differ depending on your requirement
                     // here we are looking for title or description match
-                    if (row.sport_name.toLowerCase().contains(charString)) {
+                    if (row.name.toLowerCase().contains(charString)) {
                         filteredList.add(row);
                     }
                 }

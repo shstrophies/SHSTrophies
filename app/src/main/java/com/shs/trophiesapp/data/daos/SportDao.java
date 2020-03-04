@@ -17,8 +17,8 @@ import java.util.List;
     List<Sport> getSports();
 
     @Query("SELECT * FROM sport WHERE rowId IN (:userIds)") List<Sport> loadAllByIds(int[] userIds);
-    @Query("SELECT * FROM sport WHERE Sports LIKE :sport_name AND " +
-            "Image_URL LIKE :image_url LIMIT 1") Sport findByName(String sport_name, String image_url);
+    @Query("SELECT * FROM sport WHERE name LIKE :sportName AND " +
+            "imageUrl LIKE :imageUrl LIMIT 1") Sport findByName(String sportName, String imageUrl);
     @Insert void insertAll(Sport... sports);
     @Delete void delete(Sport sport);
 }

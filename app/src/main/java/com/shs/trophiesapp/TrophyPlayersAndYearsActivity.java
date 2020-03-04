@@ -125,7 +125,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
         Log.d(TAG, "getData: getData");
 
         //Receive data
-        String sport_name = intent.getExtras().getString("sport_name");
+        String sport_name = intent.getExtras().getString("name");
         String trophy_title = intent.getExtras().getString("trophy_title");
 
         Context context = this;

@@ -44,7 +44,7 @@ public class SeedDatabaseWorker extends Worker {
             appDatabase.sportDao().insertAll(sportCSVData);
             List<Sport> sports = appDatabase.sportDao().getAll();
             for(Sport sport: sports) {
-                Log.d(TAG, "doWork: got sport=" + sport.sport_name);
+                Log.d(TAG, "doWork: got sport=" + sport.name);
             }
             Log.d(TAG, "doWork: sport data loaded");
             TrophyAward[] trophyAwardCSVData = getTrophiesCSVData();
@@ -88,7 +88,7 @@ public class SeedDatabaseWorker extends Worker {
 
         Sport[] sports = getSportsCSVData();
         for(int i=0; i<sports.length; i++) {
-            String sport = sports[i].sport_name;
+            String sport = sports[i].name;
             try {
                 File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + sport + "/");
                 if(file != null) {

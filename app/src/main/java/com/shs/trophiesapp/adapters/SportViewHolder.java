@@ -6,10 +6,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.entities.Sport;
-import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.Utils;
 
 class SportViewHolder extends RecyclerView.ViewHolder {
@@ -23,8 +21,8 @@ class SportViewHolder extends RecyclerView.ViewHolder {
     }
 
     void setDetails(Sport sport) {
-        txtTitle.setText(sport.sport_name);
-        String imageUrl = sport.image_url;
+        txtTitle.setText(sport.name);
+        String imageUrl = sport.imageUrl;
         Utils.imageFromUrl(imgView, imageUrl);
     }
 }

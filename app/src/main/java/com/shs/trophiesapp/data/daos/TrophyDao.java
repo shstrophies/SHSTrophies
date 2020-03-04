@@ -1,43 +1,50 @@
 package com.shs.trophiesapp.data.daos;
 
+
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
-import com.shs.trophiesapp.data.entities.TrophyAward;
+import com.shs.trophiesapp.data.entities.Sport;
+import com.shs.trophiesapp.data.entities.SportWithTrophies;
+import com.shs.trophiesapp.data.entities.Trophy;
 
 import java.util.List;
 
-@Dao public interface TrophyDao {
-    @Query("SELECT * FROM TrophyAward") List<TrophyAward> getAll();
+import static androidx.room.OnConflictStrategy.REPLACE;
 
-    @Query("SELECT * FROM TrophyAward")
-    List<TrophyAward> getTrophies();
+@Dao
+public abstract class TrophyDao {
 
-    @Query("SELECT * FROM TrophyAward WHERE rowid IN (:userIds)") List<TrophyAward> loadAllByIds(int[] userIds);
-    @Insert void insertAll(TrophyAward... trophies);
-    @Delete void delete(TrophyAward trophyAward);
+    @Query("SELECT * FROM sport")
+    public abstract List<Sport> getAllSports();
 
-    // User-defined Queries
-    @Query("SELECT * FROM TrophyAward WHERE Trophy_Title LIKE :trophy_title")
-    List<TrophyAward> findByTrophyTitle(String trophy_title);
-    @Query("SELECT * FROM TrophyAward WHERE Player_Name LIKE :player") //TODO: Normalize DB Structure (IF NECESSARY)
-    List<TrophyAward> findByName(String player);
-    @Query("SELECT * FROM TrophyAward WHERE Year LIKE :year")
-    List<TrophyAward> findByYear(int year);
-    @Query("SELECT * FROM TrophyAward WHERE Sport LIKE :sport_name")
-    List<TrophyAward> findBySport(String sport_name);
-    @Query("SELECT * FROM TrophyAward WHERE Category LIKE :category")
-    List<TrophyAward> findByCategory(String category);
+    @Transaction
+    @Query("SELECT * FROM sport WHERE name LIKE :sportName")
+    public abstract List<SportWithTrophies> getTrophiesBySportName(String sportName);
 
+    @Transaction
+    public void insert(Sport sport, List<Trophy> trophies) {
 
-    @Query("SELECT * FROM TrophyAward WHERE (Sport LIKE :sport_name) AND (Player_Name LIKE :player)")
-    List<TrophyAward> findBySportAndPlayer(String sport_name, String player);
+        // Save rowId of inserted CompanyEntity as companyId
+        final long sportId = insert(sport);
 
-    @Query("SELECT * FROM TrophyAward WHERE (Sport LIKE :sport_name) AND (Year LIKE :year)")
-    List<TrophyAward> findBySportAndYear(String sport_name, int year);
+        // Set companyId for all related employeeEntities
+        for (Trophy trophy : trophies) {
+            trophy.setSportId(sportId);
+            insert(trophy);
+        }
 
-    @Query("SELECT * FROM TrophyAward WHERE (Sport LIKE :sport_name) AND (Trophy_Title LIKE :trophy_title)")
-    List<TrophyAward> findBySportAndTitle(String sport_name, String trophy_title);
+    }
+
+    // If the @Insert method receives only 1 parameter, it can return a long,
+    // which is the new rowId for the inserted item.
+    // https://developer.android.com/training/data-storage/room/accessing-data
+    @Insert(onConflict = REPLACE)
+    public abstract long insert(Sport Sport);
+
+    @Insert
+    public abstract void insert(Trophy trophy);
+
 }

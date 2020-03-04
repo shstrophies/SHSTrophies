@@ -8,7 +8,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 //@Fts4
-@Entity(tableName = "trophy")
+@Entity(tableName = "TrophyAward")
 public class TrophyAward {
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") public long id = 0;
     @ColumnInfo(name = "Sport") public String sport_name;
