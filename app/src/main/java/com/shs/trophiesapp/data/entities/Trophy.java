@@ -18,8 +18,7 @@ import static androidx.room.ForeignKey.CASCADE;
                         onDelete = CASCADE)
         },
         indices = {
-                @Index(value = {"title", "url"}, unique = true),
-                @Index(value = {"sportId"}, unique = true)
+                @Index(value = {"sportId", "title", "url"}, unique = true)
 
         }
 )

@@ -25,7 +25,7 @@ public abstract class TrophyDao {
     @Query("SELECT * FROM sport WHERE name LIKE :sportName")
     public abstract List<SportWithTrophies> getTrophiesBySportName(String sportName);
 
-//    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)  // or OnConflictStrategy.IGNORE
     @Transaction
     public void insert(Sport sport, List<Trophy> trophies) {
 

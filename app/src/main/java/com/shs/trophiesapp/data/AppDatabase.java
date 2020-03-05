@@ -22,7 +22,7 @@ import com.shs.trophiesapp.workers.SeedDatabaseWorker;
 
 import java.util.UUID;
 
-@Database(entities = {Sport.class, Trophy.class, TrophyAward.class}, version = 2)
+@Database(entities = {Sport.class, Trophy.class, TrophyAward.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     
     private static final String TAG = "AppDatabase";

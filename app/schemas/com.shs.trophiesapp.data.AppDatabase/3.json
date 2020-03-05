@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "476a44f8cbc5d333809f96ec005f9852",
+    "version": 3,
+    "identityHash": "798704e1261c6f5bbc5dd516b190d165",
     "entities": [
       {
         "tableName": "sport",
@@ -82,13 +82,14 @@
         },
         "indices": [
           {
-            "name": "index_Trophy_title_url",
+            "name": "index_Trophy_sportId_title_url",
             "unique": true,
             "columnNames": [
+              "sportId",
               "title",
               "url"
             ],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Trophy_title_url` ON `${TABLE_NAME}` (`title`, `url`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Trophy_sportId_title_url` ON `${TABLE_NAME}` (`sportId`, `title`, `url`)"
           }
         ],
         "foreignKeys": [
@@ -171,7 +172,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '476a44f8cbc5d333809f96ec005f9852')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '798704e1261c6f5bbc5dd516b190d165')"
     ]
   }
 }
