@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.TrophyPlayersAndYearsActivity;
+import com.shs.trophiesapp.data.entities.Sport;
+import com.shs.trophiesapp.data.entities.SportWithTrophies;
+import com.shs.trophiesapp.data.entities.Trophy;
 import com.shs.trophiesapp.data.entities.TrophyAward;
 
 import java.util.ArrayList;
@@ -22,16 +25,17 @@ import java.util.List;
 public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> implements Filterable {
     private static final String TAG = "TrophiesAdapter";
     private Context context;
-    private List<TrophyAward> trophies;
-    private List<TrophyAward> trophiesFiltered;
+    private Sport sport;
+    private SportWithTrophies sportWithTrophies;
+    private List<Trophy> trophies;
+    private List<Trophy> trophiesFiltered;
 
 
 
 
-    public TrophiesAdapter(Context context, List<TrophyAward> trophies) {
+    public TrophiesAdapter(Context context, SportWithTrophies sportWithTrophies) {
         this.context = context;
-        this.trophies = trophies;
-        this.trophiesFiltered = trophies;
+        this.sportWithTrophies = sportWithTrophies;
     }
 
     @Override
@@ -49,8 +53,8 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
 
     @Override
     public void onBindViewHolder(TrophyViewHolder holder, int position) {
-        TrophyAward trophyAward = trophiesFiltered.get(position);
-        holder.setDetails(trophyAward);
+        Trophy trophy = trophiesFiltered.get(position);
+        holder.setDetails(trophy);
 
 
         // set click listener
@@ -61,12 +65,8 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
                 Intent intent = new Intent(context, TrophyPlayersAndYearsActivity.class);
 
                 // passing data
-                intent.putExtra("Category", trophiesFiltered.get(position).getCategory());
-                intent.putExtra("name", trophiesFiltered.get(position).getSportName());
-                intent.putExtra("year", trophiesFiltered.get(position).getYear());
+                intent.putExtra("name", sport.getName());
                 intent.putExtra("title", trophiesFiltered.get(position).getTitle());
-                intent.putExtra("player", trophiesFiltered.get(position).getPlayer());
-                intent.putExtra("category", trophiesFiltered.get(position).getCategory());
                 intent.putExtra("url", trophiesFiltered.get(position).getUrl());
                 intent.putExtra("color", trophiesFiltered.get(position).getColor());
 
@@ -86,11 +86,14 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
                 trophiesFiltered = trophies;
             } else {
                 Log.d(TAG, "performFiltering: charString=" + charString);
-                List<TrophyAward> filteredList = new ArrayList<>();
-                for (TrophyAward row : trophies) {
+                List<Trophy> filteredList = new ArrayList<>();
+                for (Trophy row : trophies) {
                     // name match condition. this might differ depending on your requirement
                     // here we are looking for title or description match
-                    if (row.title.toLowerCase().contains(charString) || row.player.toLowerCase().contains(charString)) {
+                    // TODO: search for trophies by
+                    if (row.getTitle().toLowerCase().contains(charString)
+//                            || row.player.toLowerCase().contains(charString)
+                    ) {
                         filteredList.add(row);
                     }
                 }
@@ -104,7 +107,7 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            trophiesFiltered = (ArrayList<TrophyAward>) results.values;
+            trophiesFiltered = (ArrayList<Trophy>) results.values;
             notifyDataSetChanged();
         }
     }

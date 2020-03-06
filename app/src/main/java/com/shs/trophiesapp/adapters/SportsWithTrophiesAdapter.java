@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
-import com.shs.trophiesapp.data.SportsAndTrophiesData;
+import com.shs.trophiesapp.data.entities.SportWithTrophies;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +27,13 @@ public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTr
     private static final String TAG = "SportsAndTrophiesAdapte";
 
     private Context context;
-    private List<SportsAndTrophiesData> data;
-    private List<SportsAndTrophiesData> dataFiltered;
+    private List<SportWithTrophies> data;
+    private List<SportWithTrophies> dataFiltered;
 
     private TrophiesAdapter horizontalAdapter;
     private RecyclerView.RecycledViewPool recycledViewPool;
 
-    public SportsWithTrophiesAdapter(Context context, List<SportsAndTrophiesData> data) {
+    public SportsWithTrophiesAdapter(Context context, List<SportWithTrophies> data) {
         this.context = context;
         this.data = data;
         this.dataFiltered = data;
@@ -56,9 +56,9 @@ public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTr
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, final int position) {
 
-        holder.textViewSport.setText(data.get(position).getSport());
+        holder.textViewSport.setText(data.get(position).sport.name);
 
-        horizontalAdapter = new TrophiesAdapter(context, data.get(position).getTrophies());
+        horizontalAdapter = new TrophiesAdapter(context, data.get(position));
         holder.recyclerViewHorizontal.setAdapter(horizontalAdapter);
         holder.recyclerViewHorizontal.setLayoutManager(new GridLayoutManager(context, 5));
 
@@ -107,8 +107,8 @@ public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTr
                 dataFiltered = data;
             } else {
                 Log.d(TAG, "performFiltering: charString=" + charString);
-                List<SportsAndTrophiesData> filteredList = new ArrayList<>();
-                for (SportsAndTrophiesData row : data) {
+                List<SportWithTrophies> filteredList = new ArrayList<>();
+                for (SportWithTrophies row : data) {
                     // name match condition. this might differ depending on your requirement
 
                 }
@@ -122,7 +122,7 @@ public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTr
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            dataFiltered = (ArrayList<SportsAndTrophiesData>) results.values;
+            dataFiltered = (ArrayList<SportWithTrophies>) results.values;
             notifyDataSetChanged();
         }
     }

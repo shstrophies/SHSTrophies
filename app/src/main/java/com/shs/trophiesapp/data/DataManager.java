@@ -10,6 +10,9 @@ public class DataManager {
     }
 
     public static TrophyRepository getTrophyRepository(Context context) {
-        return TrophyRepository.getInstance(AppDatabase.getInstance(context).trophyAwardDao());
+        return TrophyRepository.getInstance(
+                AppDatabase.getInstance(context).trophyDao(),
+                AppDatabase.getInstance(context).trophyAwardDao()
+                );
     }
 }

@@ -15,4 +15,16 @@ import androidx.room.PrimaryKey;
         this.name = name;
         this.imageUrl = imageUrl;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
 }

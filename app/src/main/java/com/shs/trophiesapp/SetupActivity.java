@@ -80,7 +80,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
             return;
         }
-        DirectoryHelper.createDirectory(this);
     }
 
 
@@ -138,6 +137,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
         File[] files = DirectoryHelper.listFilesInDirectory(fullDirectory);
         DirectoryHelper.deleteOlderFiles(fullDirectory, 5);
+        DirectoryHelper.createDirectory(this);
+
 
         DownloadInfo downloadInfo = startDownload(downloadPath, destinationPath);
         downloadInfoMap.put(downloadInfo.id, downloadInfo);

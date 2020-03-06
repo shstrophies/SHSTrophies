@@ -9,6 +9,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
+import com.shs.trophiesapp.data.entities.Trophy;
 import com.shs.trophiesapp.data.entities.TrophyAward;
 import com.shs.trophiesapp.utils.ColorGenerator;
 import com.shs.trophiesapp.utils.Utils;
@@ -27,13 +28,13 @@ class TrophyViewHolder extends RecyclerView.ViewHolder {
         cardView = itemView.findViewById(R.id.cardview_trophy_id);
     }
 
-    void setDetails(TrophyAward trophyAward) {
-        txtTitle.setText(trophyAward.title);
-        String imageUrl = trophyAward.url;
+    void setDetails(Trophy trophy) {
+        txtTitle.setText(trophy.getTitle());
+        String imageUrl = trophy.getUrl();
         Utils.imageFromUrl(imgView, imageUrl);
 
         newColor = newColor.getNextColor();
-        trophyAward.setColor(newColor.getColor());
-        this.cardView.setBackgroundColor(trophyAward.getColor());
+        trophy.setColor(newColor.getColor());
+        this.cardView.setBackgroundColor(trophy.getColor());
     }
 }

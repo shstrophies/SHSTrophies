@@ -19,6 +19,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.shs.trophiesapp.adapters.TrophiesAdapter;
 import com.shs.trophiesapp.data.DataManager;
 import com.shs.trophiesapp.data.TrophyRepository;
+import com.shs.trophiesapp.data.entities.Sport;
+import com.shs.trophiesapp.data.entities.SportWithTrophies;
+import com.shs.trophiesapp.data.entities.Trophy;
 import com.shs.trophiesapp.data.entities.TrophyAward;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
@@ -32,7 +35,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
     private MaterialSearchBar searchBar;
 
     private TrophiesAdapter adapter;
-    private ArrayList<TrophyAward> trophies;
+    private SportWithTrophies sportWithTrophies;
 
 
     @Override
@@ -50,8 +53,10 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.trophies_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        trophies = new ArrayList<>();
-        adapter = new TrophiesAdapter(this, trophies);
+        ArrayList<Trophy> trophies = new ArrayList();
+        sportWithTrophies = new SportWithTrophies();
+        sportWithTrophies.trophies = trophies;
+        adapter = new TrophiesAdapter(this, sportWithTrophies);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
 
         // set adapter for recyclerview
@@ -174,10 +179,9 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
     private void getData(String sport) {
         Log.d(TAG, "getData: getData");
         Context context = this;
-        TrophyRepository trophyRepository = DataManager.getTrophyRepository(context);
-        List<TrophyAward> _trophies = trophyRepository.getTrophiesBySport(sport.toLowerCase());
-        trophies.addAll(_trophies);
-        Log.d(TAG, "getData: recyclerview trophies size=" + trophies.size());
+        List<SportWithTrophies> list = DataManager.getTrophyRepository(context).getTrophiesBySport(sport.toLowerCase());
+        sportWithTrophies = list.get(0);
+        Log.d(TAG, "getData: recyclerview trophies size=" + sportWithTrophies.trophies.size());
         adapter.notifyDataSetChanged();
 
     }
