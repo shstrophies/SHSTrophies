@@ -27,8 +27,7 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
     private Context context;
     private Sport sport;
     private SportWithTrophies sportWithTrophies;
-    private List<Trophy> trophies;
-    private List<Trophy> trophiesFiltered;
+    private SportWithTrophies sportWithTrophiesFiltered;
 
 
 
@@ -36,12 +35,14 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
     public TrophiesAdapter(Context context, SportWithTrophies sportWithTrophies) {
         this.context = context;
         this.sportWithTrophies = sportWithTrophies;
+        this.sportWithTrophiesFiltered = sportWithTrophies;
+
     }
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, "getItemCount: trophiesFiltered.size()=" + trophiesFiltered.size());
-        return trophiesFiltered.size();
+        Log.d(TAG, "getItemCount: sportWithTrophiesFiltered.size()=" + sportWithTrophiesFiltered.trophies.size());
+        return sportWithTrophiesFiltered.trophies.size();
     }
 
     @Override
@@ -53,7 +54,7 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
 
     @Override
     public void onBindViewHolder(TrophyViewHolder holder, int position) {
-        Trophy trophy = trophiesFiltered.get(position);
+        Trophy trophy = sportWithTrophiesFiltered.trophies.get(position);
         holder.setDetails(trophy);
 
 
@@ -66,9 +67,9 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
 
                 // passing data
                 intent.putExtra("name", sport.getName());
-                intent.putExtra("title", trophiesFiltered.get(position).getTitle());
-                intent.putExtra("url", trophiesFiltered.get(position).getUrl());
-                intent.putExtra("color", trophiesFiltered.get(position).getColor());
+                intent.putExtra("title", sportWithTrophiesFiltered.trophies.get(position).getTitle());
+                intent.putExtra("url", sportWithTrophiesFiltered.trophies.get(position).getUrl());
+                intent.putExtra("color", sportWithTrophiesFiltered.trophies.get(position).getColor());
 
                 // start activity
                 context.startActivity(intent);
@@ -83,31 +84,32 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
             Log.d(TAG, "performFiltering: constraint=" + constraint);
             String charString = constraint.toString().toLowerCase();
             if (charString.isEmpty()) {
-                trophiesFiltered = trophies;
-            } else {
-                Log.d(TAG, "performFiltering: charString=" + charString);
-                List<Trophy> filteredList = new ArrayList<>();
-                for (Trophy row : trophies) {
-                    // name match condition. this might differ depending on your requirement
-                    // here we are looking for title or description match
-                    // TODO: search for trophies by
-                    if (row.getTitle().toLowerCase().contains(charString)
-//                            || row.player.toLowerCase().contains(charString)
-                    ) {
-                        filteredList.add(row);
-                    }
-                }
-                trophiesFiltered = filteredList;
+                sportWithTrophiesFiltered = sportWithTrophies;
             }
+//            else {
+//                Log.d(TAG, "performFiltering: charString=" + charString);
+//                List<Trophy> filteredList = new ArrayList<>();
+//                for (Trophy row : trophies) {
+//                    // name match condition. this might differ depending on your requirement
+//                    // here we are looking for title or description match
+//                    // TODO: search for trophies by
+//                    if (row.getTitle().toLowerCase().contains(charString)
+////                            || row.player.toLowerCase().contains(charString)
+//                    ) {
+//                        filteredList.add(row);
+//                    }
+//                }
+//                trophiesFiltered = filteredList;
+//            }
 
             FilterResults filterResults = new FilterResults();
-            filterResults.values = trophiesFiltered;
+            filterResults.values = sportWithTrophiesFiltered;
             return filterResults;
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            trophiesFiltered = (ArrayList<Trophy>) results.values;
+            sportWithTrophiesFiltered = (SportWithTrophies) results.values;
             notifyDataSetChanged();
         }
     }

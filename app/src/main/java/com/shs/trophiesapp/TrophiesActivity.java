@@ -55,7 +55,6 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<Trophy> trophies = new ArrayList();
         sportWithTrophies = new SportWithTrophies();
-        sportWithTrophies.trophies = trophies;
         adapter = new TrophiesAdapter(this, sportWithTrophies);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
 
@@ -180,7 +179,9 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         Log.d(TAG, "getData: getData");
         Context context = this;
         List<SportWithTrophies> list = DataManager.getTrophyRepository(context).getTrophiesBySport(sport.toLowerCase());
-        sportWithTrophies = list.get(0);
+        sportWithTrophies.sport = list.get(0).sport;
+        sportWithTrophies.trophies = list.get(0).trophies;
+
         Log.d(TAG, "getData: recyclerview trophies size=" + sportWithTrophies.trophies.size());
         adapter.notifyDataSetChanged();
 
