@@ -26,7 +26,7 @@ Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load da
 
 # To extract the database from the device or emulator:
 
-* download SQLLiteStudio
+* download SQLLiteStudio (https://sqlitestudio.pl/index.rvt?act=download)
 * Use the following command to get the name of your device or emulator:
     > adb devices
 * set environment variable DEVICE with the name of your device or emulator:
