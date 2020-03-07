@@ -6,6 +6,7 @@ import com.shs.trophiesapp.data.entities.SportWithTrophies;
 import com.shs.trophiesapp.data.entities.Trophy;
 import com.shs.trophiesapp.data.entities.TrophyAward;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,7 +26,23 @@ public class TrophyRepository {
     }
 
     public List<SportWithTrophies>  getTrophiesBySport(String sport_name) {
-        return trophyDao.getTrophiesBySportName(sport_name);
+        // Gets List holding @Relation object
+        List<SportWithTrophies> sportwithTrophiesList = trophyDao.getTrophiesBySportName(sport_name);
+
+        final List<Trophy> trophies = new ArrayList<>();
+
+        if (!sportwithTrophiesList.isEmpty()) {
+            // Room always returns List or Set when @Relation is used
+            // https://issuetracker.google.com/issues/62905145
+            // So we get first element from it
+            SportWithTrophies relationHolder = sportwithTrophiesList.get(0);
+            List<Trophy> trophyEntities =
+                    relationHolder.trophies;
+            for (Trophy trophy : trophyEntities) {
+                trophies.add(trophy);
+            }
+        }
+        return sportwithTrophiesList;
     }
 
     public List<TrophyAward>  getTrophiesBySportAndTitle(String sport_name, String trophy_title) {

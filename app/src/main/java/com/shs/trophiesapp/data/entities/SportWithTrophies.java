@@ -9,7 +9,7 @@ public class SportWithTrophies {
     @Embedded
     public Sport sport;
 
-    @Relation(parentColumn = "id", entityColumn = "id", entity = Trophy.class)
+    @Relation(parentColumn = "id", entityColumn = "sportId", entity = Trophy.class)
     public List<Trophy> trophies;
 }
 
