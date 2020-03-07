@@ -8,13 +8,19 @@ import androidx.annotation.NonNull;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.shs.trophiesapp.data.SportData;
+import com.shs.trophiesapp.data.TrophyAwardData;
 import com.shs.trophiesapp.database.AppDatabase;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.entities.Trophy;
@@ -40,18 +46,22 @@ public class SeedDatabaseWorker extends Worker {
             Log.d(TAG, "doWork: loading data (into database)");
             DirectoryHelper.createDirectory(getApplicationContext());
             DirectoryHelper.listFilesInDirectoryRecursively(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
-            Sport[] sportCSVData = getSportsCSVData();
-            Log.d(TAG, "onCreate: sportCSVData length=" + sportCSVData.length);
+            List<SportData> sportCSVData = getSportsCSVData();
+            Log.d(TAG, "onCreate: sportCSVData length=" + sportCSVData.size());
             AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
-            appDatabase.sportDao().insertAll(sportCSVData);
+
+            List<Sport> list = sportCSVData.stream()
+                    .filter(Objects::nonNull)
+                    .map(sd -> new Sport(sd.name, sd.imageUrl)).collect(Collectors.toList());
+            appDatabase.sportDao().insertAll(list.toArray(new Sport[0]));
             List<Sport> sports = appDatabase.sportDao().getAll();
             for (Sport sport : sports) {
                 Log.d(TAG, "doWork: got sport=" + sport.name);
-                TrophyAward[] trophyAwardCSVData = getTrophiesCSVData(sport.name);
-                Log.d(TAG, "onCreate: trophyAwardCSVData length=" + trophyAwardCSVData.length);
+                List<TrophyAwardData> trophyAwardCSVData = getTrophiesCSVData(sport.name);
+                Log.d(TAG, "onCreate: trophyAwardCSVData length=" + trophyAwardCSVData.size());
                 ArrayList<Trophy> trophies = new ArrayList();
                 HashMap<String, Trophy> map = new HashMap<>();
-                for(TrophyAward awarditem : trophyAwardCSVData) {
+                for(TrophyAwardData awarditem : trophyAwardCSVData) {
                     Trophy trophy = new Trophy(awarditem.getTitle(), awarditem.getUrl());
                     Trophy trophyItem = map.get(awarditem.getUrl());
                     if(trophyItem == null) {
@@ -71,9 +81,9 @@ public class SeedDatabaseWorker extends Worker {
         }
     }
 
-    private static Sport[] getSportsCSVData() {
+    private static List<SportData> getSportsCSVData() {
         Log.d(TAG, "getSportsCSVData: ");
-        List<Sport> sports = new ArrayList<>();
+        List<SportData> sports = new ArrayList<>();
         try {
             File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.SPORTS_DIRECTORY_NAME + "/");
             Log.d(TAG, "getSportsCSVData: getting sport data from file=" + file.getAbsolutePath());
@@ -87,18 +97,18 @@ public class SeedDatabaseWorker extends Worker {
                 else {
                     String sport = commaSeparatedLine.get(0);
                     String url = commaSeparatedLine.get(2);
-                    sports.add(new Sport(sport, url));
+                    sports.add(new SportData(sport, url));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return sports.toArray(new Sport[0]);
+        return sports;
     }
 
-    private static TrophyAward[] getTrophiesCSVData(String sport) {
+    private static List<TrophyAwardData> getTrophiesCSVData(String sport) {
         Log.d(TAG, "getTrophiesCSVData: ");
-        List<TrophyAward> trophyData = new ArrayList<>();
+        List<TrophyAwardData> trophyData = new ArrayList<>();
 
         try {
             File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + sport + "/");
@@ -118,7 +128,7 @@ public class SeedDatabaseWorker extends Worker {
                                 String uri = line.get(2);
                                 String category = "TBD";
                                 Log.d(TAG, "getTrophiesCSVData: line.get(0)=" + line.get(0) + " line.get(1)=" + line.get(1));
-                                trophyData.add(new TrophyAward(sport, Integer.parseInt(year), title, uri, player, category));
+                                trophyData.add(new TrophyAwardData(sport, Integer.parseInt(year), title, uri, player, category));
                             }
 
                         }
@@ -133,6 +143,7 @@ public class SeedDatabaseWorker extends Worker {
         }
 
 
-        return trophyData.toArray(new TrophyAward[0]);
+        //return trophyData.toArray(new TrophyAwardData[0]);
+        return trophyData;
     }
 }
