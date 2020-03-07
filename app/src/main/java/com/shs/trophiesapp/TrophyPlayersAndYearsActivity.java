@@ -67,7 +67,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
         RecyclerView recyclerView = findViewById(R.id.trophy_players_and_years_recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         awards = new ArrayList<>();
-        adapter = new TrophyPlayersAndYearsAdapter(this, awards);
+        adapter = new TrophyPlayersAndYearsAdapter(this, awards, color);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
 
         // set adapter for recyclerview

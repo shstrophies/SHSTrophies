@@ -23,22 +23,22 @@ import java.util.List;
 public class TrophyPlayersAndYearsAdapter extends RecyclerView.Adapter<TrophyPlayerAndYearViewHolder> implements Filterable {
     private static final String TAG = "TrophiesAdapter";
     private Context context;
-    private List<TrophyAward> trophies;
-    private List<TrophyAward> trophiesFiltered;
+    private List<TrophyAward> awards;
+    private List<TrophyAward> awardsFiltered;
+    private int trophyColor;
 
 
-
-
-    public TrophyPlayersAndYearsAdapter(Context context, List<TrophyAward> trophies) {
+    public TrophyPlayersAndYearsAdapter(Context context, List<TrophyAward> trophies, int trophyColor) {
         this.context = context;
-        this.trophies = trophies;
-        this.trophiesFiltered = trophies;
+        this.awards = trophies;
+        this.awardsFiltered = trophies;
+        this.trophyColor = trophyColor;
     }
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, "getItemCount: trophiesFiltered.size()=" + trophiesFiltered.size());
-        return trophiesFiltered.size();
+        Log.d(TAG, "getItemCount: awardsFiltered.size()=" + awardsFiltered.size());
+        return awardsFiltered.size();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class TrophyPlayersAndYearsAdapter extends RecyclerView.Adapter<TrophyPla
 
     @Override
     public void onBindViewHolder(TrophyPlayerAndYearViewHolder holder, int position) {
-        TrophyAward trophyAward = trophiesFiltered.get(position);
+        TrophyAward trophyAward = awardsFiltered.get(position);
         holder.setDetails(trophyAward);
 
 
@@ -62,11 +62,11 @@ public class TrophyPlayersAndYearsAdapter extends RecyclerView.Adapter<TrophyPla
                 Intent intent = new Intent(context, TrophyDetailsActivity.class);
 
                 // passing data
-                intent.putExtra("trophyId", trophiesFiltered.get(position).getTrophyId());
-                intent.putExtra("year", trophiesFiltered.get(position).getYear());
-                intent.putExtra("player", trophiesFiltered.get(position).getPlayer());
-                intent.putExtra("category", trophiesFiltered.get(position).getCategory());
-                intent.putExtra("color", trophiesFiltered.get(position).getColor());
+                intent.putExtra("trophyId", awardsFiltered.get(position).getTrophyId());
+                intent.putExtra("year", awardsFiltered.get(position).getYear());
+                intent.putExtra("player", awardsFiltered.get(position).getPlayer());
+                intent.putExtra("category", awardsFiltered.get(position).getCategory());
+                intent.putExtra("color", trophyColor);
 
                 // start activity
                 context.startActivity(intent);
@@ -81,28 +81,28 @@ public class TrophyPlayersAndYearsAdapter extends RecyclerView.Adapter<TrophyPla
             Log.d(TAG, "performFiltering: constraint=" + constraint);
             String charString = constraint.toString().toLowerCase();
             if (charString.isEmpty()) {
-                trophiesFiltered = trophies;
+                awardsFiltered = awards;
             } else {
                 Log.d(TAG, "performFiltering: charString=" + charString);
                 List<TrophyAward> filteredList = new ArrayList<>();
-//                for (TrophyAward row : trophies) {
+//                for (TrophyAward row : awards) {
 //                    // name match condition. this might differ depending on your requirement
 //                    // here we are looking for title or description match
 //                    if (row.title.toLowerCase().contains(charString) || row.player.toLowerCase().contains(charString)) {
 //                        filteredList.add(row);
 //                    }
 //                }
-                trophiesFiltered = filteredList;
+                awardsFiltered = filteredList;
             }
 
             FilterResults filterResults = new FilterResults();
-            filterResults.values = trophiesFiltered;
+            filterResults.values = awardsFiltered;
             return filterResults;
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            trophiesFiltered = (ArrayList<TrophyAward>) results.values;
+            awardsFiltered = (ArrayList<TrophyAward>) results.values;
             notifyDataSetChanged();
         }
     }
