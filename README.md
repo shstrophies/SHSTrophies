@@ -24,6 +24,23 @@ https://drive.google.com/file/d/1zOlNzaB-VGyegnQ_3UWZtq64KsVLK4Q7/view?usp=shari
 
 Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load database from then on
 
+# To extract the database from the device or emulator:
+
+* download SQLLiteStudio
+* Use the following command to get the name of your device or emulator:
+    > adb devices
+* set environment variable DEVICE with the name of your device or emulator:
+    > export DEVICE=emulator-5554
+* run the following commands:
+    > adb -s $DEVICE shell run-as com.shs.trophiesapp chmod -R 777 databases &&
+        adb -s $DEVICE shell "mkdir -p /sdcard/tempDB" && 
+        adb -s $DEVICE shell run-as com.shs.trophiesapp "cp -r databases /sdcard/tempDB/." && 
+        adb -s $DEVICE pull sdcard/tempDB/ && 
+        adb -s $DEVICE shell "rm -r /sdcard/tempDB/*"
+
+
+
+
 ## TODO:
 
 # Backend:
