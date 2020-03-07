@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.TrophyPlayersAndYearsActivity;
-import com.shs.trophiesapp.database.entities.SportWithTrophies;
+import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.entities.Trophy;
 
 public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> implements Filterable {
@@ -60,7 +60,9 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
                 Intent intent = new Intent(context, TrophyPlayersAndYearsActivity.class);
 
                 // passing data
-                intent.putExtra("name", sportWithTrophiesFiltered.sport.getName());
+                intent.putExtra("sportId", sportWithTrophiesFiltered.sport.getId());
+                intent.putExtra("sportName", sportWithTrophiesFiltered.sport.getName());
+                intent.putExtra("trophyId", sportWithTrophiesFiltered.trophies.get(position).getId());
                 intent.putExtra("title", sportWithTrophiesFiltered.trophies.get(position).getTitle());
                 intent.putExtra("url", sportWithTrophiesFiltered.trophies.get(position).getUrl());
                 intent.putExtra("color", sportWithTrophiesFiltered.trophies.get(position).getColor());

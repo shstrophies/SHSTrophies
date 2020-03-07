@@ -20,6 +20,7 @@ import com.shs.trophiesapp.adapters.TrophyPlayersAndYearsAdapter;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.TrophyRepository;
 import com.shs.trophiesapp.database.entities.TrophyAward;
+import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 import com.shs.trophiesapp.utils.Utils;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
     private MaterialSearchBar searchBar;
 
     private TrophyPlayersAndYearsAdapter adapter;
-    private ArrayList<TrophyAward> trophies;
+    private ArrayList<TrophyAward> awards;
 
 
     @Override
@@ -49,20 +50,20 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
 
         //Receive data
         Intent intent = getIntent();
-        String trophy_title = intent.getExtras().getString("title");
+        String title = intent.getExtras().getString("title");
+        String url = intent.getExtras().getString("url");
         int color = intent.getExtras().getInt("color");
-        String tr_image_url = intent.getExtras().getString("url");
 
 
-        tvTitle.setText(trophy_title);
-        Utils.imageFromUrl(img, tr_image_url);
+        tvTitle.setText(title);
+        Utils.imageFromUrl(img, url);
         trophyView.setBackgroundColor(color);
 
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.trophy_players_and_years_recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        trophies = new ArrayList<>();
-        adapter = new TrophyPlayersAndYearsAdapter(this, trophies);
+        awards = new ArrayList<>();
+        adapter = new TrophyPlayersAndYearsAdapter(this, awards);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
 
         // set adapter for recyclerview
@@ -125,14 +126,14 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
         Log.d(TAG, "getData: getData");
 
         //Receive data
-        String sport_name = intent.getExtras().getString("name");
-        String trophy_title = intent.getExtras().getString("title");
+        long trophyId = intent.getExtras().getLong("trophyId");
 
         Context context = this;
         TrophyRepository trophyRepository = DataManager.getTrophyRepository(context);
-        List<TrophyAward> _trophies = trophyRepository.getTrophiesBySportAndTitle(sport_name.toLowerCase(), trophy_title);
-        trophies.addAll(_trophies);
-        Log.d(TAG, "getData: recyclerview trophies size=" + trophies.size());
+        List<TrophyWithAwards> trophyWithAwards = trophyRepository.getAwardsByTrophyId(trophyId);
+        List<TrophyAward> _awards = trophyWithAwards.get(0).awards;
+        awards.addAll(_awards);
+        Log.d(TAG, "getData: recyclerview awards size=" + awards.size());
         adapter.notifyDataSetChanged();
 
     }

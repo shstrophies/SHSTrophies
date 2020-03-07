@@ -5,19 +5,31 @@ import android.graphics.Color;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 //@Fts4
-@Entity(tableName = "TrophyAward")
+@Entity(tableName = "TrophyAward",
+        foreignKeys = {
+                @ForeignKey(entity = Trophy.class,
+                        parentColumns = "id",
+                        childColumns = "trophyId",
+                        onDelete = CASCADE)
+        },
+        indices = {
+                @Index(value = {"trophyId", "year", "player"}, unique = true)
+        }
+)
 public class TrophyAward {
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") public long id = 0;
-    @ColumnInfo(name = "SportName") public String sportName;
-    @ColumnInfo(name = "Year") public int year;
-    @ColumnInfo(name = "Title") public String title;
-    @ColumnInfo(name = "url") public String url;
-    @ColumnInfo(name = "Player") public String player;
-    @ColumnInfo(name = "Category") public String category;
+    @ColumnInfo(name = "trophyId") private long trophyId;
+    @ColumnInfo(name = "year") public int year;
+    @ColumnInfo(name = "player") public String player;
+    @ColumnInfo(name = "category") public String category;
 
     @Ignore
     int color = Color.RED;
@@ -28,29 +40,16 @@ public class TrophyAward {
         this.color = color;
     }
 
-    public TrophyAward(String sportName, int year, String title, String url, String player, String category) {
-        this.sportName = sportName;
+    public TrophyAward(long trophyId, int year, String player, String category) {
+        this.trophyId = trophyId;
         this.year = year;
-        this.title = title;
-        this.url = url;
         this.player = player;
         this.category = category;
     }
 
-    public String getSportName() {
-        return sportName;
-    }
 
     public int getYear() {
         return year;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getUrl() {
-        return url;
     }
 
     public String getPlayer() {
@@ -61,19 +60,7 @@ public class TrophyAward {
         return category;
     }
 
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        return (this.id == ((TrophyAward)obj).id);
+    public long getTrophyId() {
+        return trophyId;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = hash + (this.getTitle() != null ? this.getTitle().hashCode() : 0);
-        hash = hash + (int) (this.id ^ (this.id >>> 32));
-        hash = hash +(this.getPlayer() != null ? this.getPlayer().hashCode() : 0);
-        return hash;
-    }
-
-
 }

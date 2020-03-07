@@ -43,6 +43,9 @@ public class Trophy {
         this.url = url;
     }
 
+    public long getId() {
+        return id;
+    }
     public long getSportId() {
         return sportId;
     }
@@ -59,6 +62,9 @@ public class Trophy {
         this.sportId = sportId;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
     public void setTitle(String title) {
         this.title = title;
     }
@@ -77,4 +83,6 @@ public class Trophy {
 
     @Ignore
     int color = Color.RED;
+
+
 }

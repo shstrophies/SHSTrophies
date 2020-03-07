@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "dfdc9f6fb7d6dc2b40aca6224330ae31",
+    "identityHash": "91c418710deeb1002bec33d7064db926",
     "entities": [
       {
         "tableName": "sport",
@@ -36,11 +36,11 @@
         "indices": [
           {
             "name": "index_sport_name",
-            "unique": true,
+            "unique": false,
             "columnNames": [
               "name"
             ],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_sport_name` ON `${TABLE_NAME}` (`name`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_sport_name` ON `${TABLE_NAME}` (`name`)"
           }
         ],
         "foreignKeys": []
@@ -108,7 +108,7 @@
       },
       {
         "tableName": "TrophyAward",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `SportName` TEXT, `Year` INTEGER NOT NULL, `Title` TEXT, `url` TEXT, `Player` TEXT, `Category` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `trophyId` INTEGER NOT NULL, `year` INTEGER NOT NULL, `player` TEXT, `category` TEXT, FOREIGN KEY(`trophyId`) REFERENCES `Trophy`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -117,38 +117,26 @@
             "notNull": true
           },
           {
-            "fieldPath": "sportName",
-            "columnName": "SportName",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "year",
-            "columnName": "Year",
+            "fieldPath": "trophyId",
+            "columnName": "trophyId",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "title",
-            "columnName": "Title",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "url",
-            "columnName": "url",
-            "affinity": "TEXT",
-            "notNull": false
+            "fieldPath": "year",
+            "columnName": "year",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "player",
-            "columnName": "Player",
+            "columnName": "player",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "category",
-            "columnName": "Category",
+            "columnName": "category",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -159,14 +147,37 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_TrophyAward_trophyId_year_player",
+            "unique": true,
+            "columnNames": [
+              "trophyId",
+              "year",
+              "player"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_TrophyAward_trophyId_year_player` ON `${TABLE_NAME}` (`trophyId`, `year`, `player`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Trophy",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "trophyId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dfdc9f6fb7d6dc2b40aca6224330ae31')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '91c418710deeb1002bec33d7064db926')"
     ]
   }
 }

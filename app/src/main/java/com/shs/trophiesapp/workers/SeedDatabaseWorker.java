@@ -60,6 +60,7 @@ public class SeedDatabaseWorker extends Worker {
                 List<TrophyAwardData> trophyAwardCSVData = getTrophiesCSVData(sport.name);
                 Log.d(TAG, "onCreate: trophyAwardCSVData length=" + trophyAwardCSVData.size());
                 ArrayList<Trophy> trophies = new ArrayList();
+                ArrayList<TrophyAward> awards = new ArrayList<>();
                 HashMap<String, Trophy> map = new HashMap<>();
                 for(TrophyAwardData awarditem : trophyAwardCSVData) {
                     Trophy trophy = new Trophy(awarditem.getTitle(), awarditem.getUrl());
@@ -67,10 +68,17 @@ public class SeedDatabaseWorker extends Worker {
                     if(trophyItem == null) {
                         map.put(awarditem.getUrl(), trophy);
                         trophies.add(trophy);
+                        long sportId = appDatabase.trophyDao().insert(sport);
+                        trophy.setSportId(sportId);
+                        long id = appDatabase.trophyDao().insert(trophy);
+                        trophy.setId(id);
                     }
+                    else trophy.setId(trophyItem.getId());
+                    TrophyAward award = new TrophyAward(trophy.getId(), awarditem.getYear(), awarditem.getPlayer(), awarditem.getCategory());
+                    awards.add(award);
                 }
                 appDatabase.trophyDao().insert(sport, trophies);
-                appDatabase.trophyAwardDao().insertAll(trophyAwardCSVData);
+                appDatabase.trophyAwardDao().insertAll(awards.toArray(new TrophyAward[0]));
                 Log.d(TAG, "doWork: trophy data loaded");
             }
 

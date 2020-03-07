@@ -6,7 +6,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 //@Fts4
-@Entity(tableName = "sport", indices = @Index(value = "name", unique = true)) public class Sport {
+@Entity(tableName = "sport", indices = @Index(value = "name")) public class Sport {
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") public long id = 0;
     @ColumnInfo(name = "name") public String name;
     @ColumnInfo(name = "imageUrl") public String imageUrl;

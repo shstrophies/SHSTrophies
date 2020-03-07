@@ -8,7 +8,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.shs.trophiesapp.database.entities.Sport;
-import com.shs.trophiesapp.database.entities.SportWithTrophies;
+import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.entities.Trophy;
 
 import java.util.List;
@@ -20,6 +20,10 @@ public abstract class TrophyDao {
 
     @Query("SELECT * FROM sport")
     public abstract List<Sport> getAllSports();
+
+    @Transaction
+    @Query("SELECT * FROM trophy WHERE id LIKE :id")
+    public abstract List<Trophy> getTrophyById(long id);
 
     @Transaction
     @Query("SELECT * FROM sport WHERE name LIKE :sportName")
@@ -47,6 +51,6 @@ public abstract class TrophyDao {
     public abstract long insert(Sport Sport);
 
     @Insert
-    public abstract void insert(Trophy trophy);
+    public abstract long insert(Trophy trophy);
 
 }

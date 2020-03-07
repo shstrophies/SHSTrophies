@@ -4,8 +4,10 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.shs.trophiesapp.database.entities.TrophyAward;
+import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 
 import java.util.List;
 
@@ -13,31 +15,22 @@ import java.util.List;
     @Query("SELECT * FROM TrophyAward") List<TrophyAward> getAll();
 
     @Query("SELECT * FROM TrophyAward")
-    List<TrophyAward> getTrophies();
+    List<TrophyAward> getAwards();
 
-    @Query("SELECT * FROM TrophyAward WHERE rowid IN (:userIds)") List<TrophyAward> loadAllByIds(int[] userIds);
     @Insert void insertAll(TrophyAward... trophies);
     @Delete void delete(TrophyAward trophyAward);
 
+    @Transaction
+    @Query("SELECT * FROM trophy WHERE id LIKE :trophyId")
+    public abstract List<TrophyWithAwards> getAwardsByTrophyId(long trophyId);
+
     // User-defined Queries
-    @Query("SELECT * FROM TrophyAward WHERE title LIKE :trophy_title")
-    List<TrophyAward> findByTrophyTitle(String trophy_title);
-    @Query("SELECT * FROM TrophyAward WHERE Player LIKE :player") //TODO: Normalize DB Structure (IF NECESSARY)
-    List<TrophyAward> findByName(String player);
     @Query("SELECT * FROM TrophyAward WHERE Year LIKE :year")
     List<TrophyAward> findByYear(int year);
-    @Query("SELECT * FROM TrophyAward WHERE sportName LIKE :sport_name")
-    List<TrophyAward> findBySport(String sport_name);
+    @Query("SELECT * FROM TrophyAward WHERE (player LIKE :player)")
+    List<TrophyAward> findByPlayer(String player);
     @Query("SELECT * FROM TrophyAward WHERE Category LIKE :category")
     List<TrophyAward> findByCategory(String category);
 
 
-    @Query("SELECT * FROM TrophyAward WHERE (sportName LIKE :sport_name) AND (Player LIKE :player)")
-    List<TrophyAward> findBySportAndPlayer(String sport_name, String player);
-
-    @Query("SELECT * FROM TrophyAward WHERE (sportName LIKE :sport_name) AND (Year LIKE :year)")
-    List<TrophyAward> findBySportAndYear(String sport_name, int year);
-
-    @Query("SELECT * FROM TrophyAward WHERE (sportName LIKE :sport_name) AND (title LIKE :trophy_title)")
-    List<TrophyAward> findBySportAndTitle(String sport_name, String trophy_title);
 }

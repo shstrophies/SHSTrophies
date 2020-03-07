@@ -62,13 +62,10 @@ public class TrophyPlayersAndYearsAdapter extends RecyclerView.Adapter<TrophyPla
                 Intent intent = new Intent(context, TrophyDetailsActivity.class);
 
                 // passing data
-                intent.putExtra("Category", trophiesFiltered.get(position).getCategory());
-                intent.putExtra("name", trophiesFiltered.get(position).getSportName());
+                intent.putExtra("trophyId", trophiesFiltered.get(position).getTrophyId());
                 intent.putExtra("year", trophiesFiltered.get(position).getYear());
-                intent.putExtra("title", trophiesFiltered.get(position).getTitle());
                 intent.putExtra("player", trophiesFiltered.get(position).getPlayer());
                 intent.putExtra("category", trophiesFiltered.get(position).getCategory());
-                intent.putExtra("url", trophiesFiltered.get(position).getUrl());
                 intent.putExtra("color", trophiesFiltered.get(position).getColor());
 
                 // start activity
@@ -88,13 +85,13 @@ public class TrophyPlayersAndYearsAdapter extends RecyclerView.Adapter<TrophyPla
             } else {
                 Log.d(TAG, "performFiltering: charString=" + charString);
                 List<TrophyAward> filteredList = new ArrayList<>();
-                for (TrophyAward row : trophies) {
-                    // name match condition. this might differ depending on your requirement
-                    // here we are looking for title or description match
-                    if (row.title.toLowerCase().contains(charString) || row.player.toLowerCase().contains(charString)) {
-                        filteredList.add(row);
-                    }
-                }
+//                for (TrophyAward row : trophies) {
+//                    // name match condition. this might differ depending on your requirement
+//                    // here we are looking for title or description match
+//                    if (row.title.toLowerCase().contains(charString) || row.player.toLowerCase().contains(charString)) {
+//                        filteredList.add(row);
+//                    }
+//                }
                 trophiesFiltered = filteredList;
             }
 
