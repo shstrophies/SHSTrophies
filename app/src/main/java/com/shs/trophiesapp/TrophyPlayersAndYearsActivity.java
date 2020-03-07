@@ -36,6 +36,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
     private MaterialSearchBar searchBar;
 
     private TrophyPlayersAndYearsAdapter adapter;
+
     private ArrayList<TrophyAward> awards;
 
 
@@ -50,9 +51,12 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
 
         //Receive data
         Intent intent = getIntent();
+        long trophyId = intent.getExtras().getLong("trophyId");
         String title = intent.getExtras().getString("title");
         String url = intent.getExtras().getString("url");
         int color = intent.getExtras().getInt("color");
+
+
 
 
         tvTitle.setText(title);
