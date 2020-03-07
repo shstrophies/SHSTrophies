@@ -9,8 +9,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
-import com.shs.trophiesapp.data.entities.Trophy;
-import com.shs.trophiesapp.data.entities.TrophyAward;
+import com.shs.trophiesapp.database.entities.Trophy;
 import com.shs.trophiesapp.utils.ColorGenerator;
 import com.shs.trophiesapp.utils.Utils;
 

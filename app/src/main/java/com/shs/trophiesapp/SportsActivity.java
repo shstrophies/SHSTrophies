@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.shs.trophiesapp.adapters.SportsAdapter;
-import com.shs.trophiesapp.data.DataManager;
-import com.shs.trophiesapp.data.SportRepository;
-import com.shs.trophiesapp.data.entities.Sport;
+import com.shs.trophiesapp.database.DataManager;
+import com.shs.trophiesapp.database.SportRepository;
+import com.shs.trophiesapp.database.entities.Sport;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;

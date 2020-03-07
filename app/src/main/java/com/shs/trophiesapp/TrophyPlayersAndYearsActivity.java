@@ -17,9 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.shs.trophiesapp.adapters.TrophyPlayersAndYearsAdapter;
-import com.shs.trophiesapp.data.DataManager;
-import com.shs.trophiesapp.data.TrophyRepository;
-import com.shs.trophiesapp.data.entities.TrophyAward;
+import com.shs.trophiesapp.database.DataManager;
+import com.shs.trophiesapp.database.TrophyRepository;
+import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.utils.Utils;
 
 import java.util.ArrayList;

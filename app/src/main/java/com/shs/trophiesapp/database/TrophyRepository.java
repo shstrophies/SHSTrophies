@@ -1,10 +1,10 @@
-package com.shs.trophiesapp.data;
+package com.shs.trophiesapp.database;
 
-import com.shs.trophiesapp.data.daos.TrophyAwardDao;
-import com.shs.trophiesapp.data.daos.TrophyDao;
-import com.shs.trophiesapp.data.entities.SportWithTrophies;
-import com.shs.trophiesapp.data.entities.Trophy;
-import com.shs.trophiesapp.data.entities.TrophyAward;
+import com.shs.trophiesapp.database.daos.TrophyAwardDao;
+import com.shs.trophiesapp.database.daos.TrophyDao;
+import com.shs.trophiesapp.database.entities.SportWithTrophies;
+import com.shs.trophiesapp.database.entities.Trophy;
+import com.shs.trophiesapp.database.entities.TrophyAward;
 
 import java.util.ArrayList;
 import java.util.List;

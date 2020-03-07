@@ -1,11 +1,11 @@
-package com.shs.trophiesapp.data.daos;
+package com.shs.trophiesapp.database.daos;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.shs.trophiesapp.data.entities.TrophyAward;
+import com.shs.trophiesapp.database.entities.TrophyAward;
 
 import java.util.List;
 

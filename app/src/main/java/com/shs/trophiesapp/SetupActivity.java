@@ -26,10 +26,10 @@ import androidx.work.Operation;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
-import com.shs.trophiesapp.data.AppDatabase;
-import com.shs.trophiesapp.data.DataManager;
-import com.shs.trophiesapp.data.entities.Sport;
-import com.shs.trophiesapp.data.entities.TrophyAward;
+import com.shs.trophiesapp.database.AppDatabase;
+import com.shs.trophiesapp.database.DataManager;
+import com.shs.trophiesapp.database.entities.Sport;
+import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.utils.Assert;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;

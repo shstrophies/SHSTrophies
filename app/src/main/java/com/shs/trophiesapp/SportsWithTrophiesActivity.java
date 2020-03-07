@@ -12,15 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.adapters.SportsWithTrophiesAdapter;
-import com.shs.trophiesapp.data.DataManager;
-import com.shs.trophiesapp.data.TrophyRepository;
-import com.shs.trophiesapp.data.entities.SportWithTrophies;
-import com.shs.trophiesapp.data.entities.TrophyAward;
+import com.shs.trophiesapp.database.entities.SportWithTrophies;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class SportsWithTrophiesActivity extends AppCompatActivity
 //        implements MaterialSearchBar.OnSearchActionListener

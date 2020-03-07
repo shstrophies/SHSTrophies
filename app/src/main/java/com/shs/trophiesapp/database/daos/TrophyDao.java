@@ -1,4 +1,4 @@
-package com.shs.trophiesapp.data.daos;
+package com.shs.trophiesapp.database.daos;
 
 
 import androidx.room.Dao;
@@ -7,9 +7,9 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.shs.trophiesapp.data.entities.Sport;
-import com.shs.trophiesapp.data.entities.SportWithTrophies;
-import com.shs.trophiesapp.data.entities.Trophy;
+import com.shs.trophiesapp.database.entities.Sport;
+import com.shs.trophiesapp.database.entities.SportWithTrophies;
+import com.shs.trophiesapp.database.entities.Trophy;
 
 import java.util.List;
 

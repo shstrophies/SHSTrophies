@@ -1,4 +1,4 @@
-package com.shs.trophiesapp.data;
+package com.shs.trophiesapp.database;
 
 import android.content.Context;
 

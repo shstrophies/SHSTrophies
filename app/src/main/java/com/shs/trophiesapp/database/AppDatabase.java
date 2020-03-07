@@ -1,4 +1,4 @@
-package com.shs.trophiesapp.data;
+package com.shs.trophiesapp.database;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,12 +11,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
-import com.shs.trophiesapp.data.daos.SportDao;
-import com.shs.trophiesapp.data.daos.TrophyAwardDao;
-import com.shs.trophiesapp.data.daos.TrophyDao;
-import com.shs.trophiesapp.data.entities.Sport;
-import com.shs.trophiesapp.data.entities.Trophy;
-import com.shs.trophiesapp.data.entities.TrophyAward;
+import com.shs.trophiesapp.database.daos.SportDao;
+import com.shs.trophiesapp.database.daos.TrophyAwardDao;
+import com.shs.trophiesapp.database.daos.TrophyDao;
+import com.shs.trophiesapp.database.entities.Sport;
+import com.shs.trophiesapp.database.entities.Trophy;
+import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.workers.SeedDatabaseWorker;
 

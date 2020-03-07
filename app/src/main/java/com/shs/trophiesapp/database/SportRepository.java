@@ -1,7 +1,7 @@
-package com.shs.trophiesapp.data;
+package com.shs.trophiesapp.database;
 
-import com.shs.trophiesapp.data.daos.SportDao;
-import com.shs.trophiesapp.data.entities.Sport;
+import com.shs.trophiesapp.database.daos.SportDao;
+import com.shs.trophiesapp.database.entities.Sport;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.shs.trophiesapp.data.entities;
+package com.shs.trophiesapp.database.entities;
 
 import androidx.room.Embedded;
 import androidx.room.Relation;

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.TrophyDetailsActivity;
-import com.shs.trophiesapp.data.entities.TrophyAward;
+import com.shs.trophiesapp.database.entities.TrophyAward;
 
 import java.util.ArrayList;
 import java.util.List;
