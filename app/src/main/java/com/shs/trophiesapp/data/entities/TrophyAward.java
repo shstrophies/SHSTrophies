@@ -5,6 +5,7 @@ import android.graphics.Color;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 //@Fts4
@@ -18,15 +19,14 @@ public class TrophyAward {
     @ColumnInfo(name = "Player") public String player;
     @ColumnInfo(name = "Category") public String category;
 
+    @Ignore
+    int color = Color.RED;
     public int getColor() {
         return color;
     }
-
     public void setColor(int color) {
         this.color = color;
     }
-
-    int color = Color.RED;
 
     public TrophyAward(String sportName, int year, String title, String url, String player, String category) {
         this.sportName = sportName;

@@ -51,11 +51,11 @@ public class SeedDatabaseWorker extends Worker {
                 Log.d(TAG, "onCreate: trophyAwardCSVData length=" + trophyAwardCSVData.length);
                 ArrayList<Trophy> trophies = new ArrayList();
                 HashMap<String, Trophy> map = new HashMap<>();
-                for(TrophyAward item : trophyAwardCSVData) {
-                    Trophy trophy = new Trophy(item.getTitle(), item.getUrl());
-                    Trophy trophyItem = map.get(item.getUrl());
+                for(TrophyAward awarditem : trophyAwardCSVData) {
+                    Trophy trophy = new Trophy(awarditem.getTitle(), awarditem.getUrl());
+                    Trophy trophyItem = map.get(awarditem.getUrl());
                     if(trophyItem == null) {
-                        map.put(item.getUrl(), trophy);
+                        map.put(awarditem.getUrl(), trophy);
                         trophies.add(trophy);
                     }
                 }
