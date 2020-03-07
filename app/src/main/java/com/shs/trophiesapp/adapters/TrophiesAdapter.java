@@ -25,7 +25,6 @@ import java.util.List;
 public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> implements Filterable {
     private static final String TAG = "TrophiesAdapter";
     private Context context;
-    private Sport sport;
     private SportWithTrophies sportWithTrophies;
     private SportWithTrophies sportWithTrophiesFiltered;
 
@@ -66,7 +65,7 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
                 Intent intent = new Intent(context, TrophyPlayersAndYearsActivity.class);
 
                 // passing data
-                intent.putExtra("name", sport.getName());
+                intent.putExtra("name", sportWithTrophiesFiltered.sport.getName());
                 intent.putExtra("title", sportWithTrophiesFiltered.trophies.get(position).getTitle());
                 intent.putExtra("url", sportWithTrophiesFiltered.trophies.get(position).getUrl());
                 intent.putExtra("color", sportWithTrophiesFiltered.trophies.get(position).getColor());
