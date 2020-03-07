@@ -75,7 +75,7 @@ public class SportsAdapter extends RecyclerView.Adapter<SportViewHolder> impleme
                 List<Sport> filteredList = new ArrayList<>();
                 for (Sport row : sports) {
                     // name match condition. this might differ depending on your requirement
-                    // here we are looking for title or description match
+                    // "Search for a sport name, trophy name, player name, or year..."
                     if (row.name.toLowerCase().contains(charString)) {
                         filteredList.add(row);
                     }

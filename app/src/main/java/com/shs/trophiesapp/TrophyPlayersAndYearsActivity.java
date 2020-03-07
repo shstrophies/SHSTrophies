@@ -82,7 +82,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
         searchBar = findViewById(R.id.trophies_search);
         searchBar.setOnSearchActionListener(this);
         searchBar.inflateMenu(R.menu.main);
-        searchBar.setHint("Search for trophy, player, year...");
+        searchBar.setHint("Search for trophy name, player name, or year...");
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
         searchBar.setCardViewElevation(10);
         searchBar.addTextChangeListener(new TextWatcher() {
