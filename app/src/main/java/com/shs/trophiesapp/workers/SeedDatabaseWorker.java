@@ -15,10 +15,10 @@ import java.util.Scanner;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.shs.trophiesapp.data.AppDatabase;
-import com.shs.trophiesapp.data.entities.Sport;
-import com.shs.trophiesapp.data.entities.Trophy;
-import com.shs.trophiesapp.data.entities.TrophyAward;
+import com.shs.trophiesapp.database.AppDatabase;
+import com.shs.trophiesapp.database.entities.Sport;
+import com.shs.trophiesapp.database.entities.Trophy;
+import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
 
