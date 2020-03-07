@@ -26,9 +26,12 @@ import com.shs.trophiesapp.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.shs.trophiesapp.TrophiesActivity.TROPHIES_BY_SPORT_NAME;
+
 public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener  {
     private static final String TAG = "TrophyPlayersAndYearsAc";
 
+    private TextView tvSportTitle;
     private TextView tvTitle;
     private ImageView img;
     private View trophyView;
@@ -45,6 +48,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trophy_players_and_years_activity);
 
+        tvSportTitle = findViewById(R.id.trophies_sport_title);
         tvTitle = findViewById(R.id.trophy_players_and_years_title);
         img = findViewById(R.id.trophy_players_and_years_thumbnail);
         trophyView = findViewById(R.id.trophy_players_and_years_trophy);
@@ -52,13 +56,14 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
         //Receive data
         Intent intent = getIntent();
         long trophyId = intent.getExtras().getLong("trophyId");
+        String sport = intent.getExtras().getString("sportName");
         String title = intent.getExtras().getString("title");
         String url = intent.getExtras().getString("url");
         int color = intent.getExtras().getInt("color");
 
 
 
-
+        tvSportTitle.setText(sport + " Trophies");
         tvTitle.setText(title);
         Utils.imageFromUrl(img, url);
         trophyView.setBackgroundColor(color);

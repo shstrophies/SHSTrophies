@@ -17,6 +17,8 @@ import com.shs.trophiesapp.TrophyPlayersAndYearsActivity;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.entities.Trophy;
 
+import static com.shs.trophiesapp.TrophiesActivity.TROPHIES_BY_SPORT_NAME;
+
 public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> implements Filterable {
     private static final String TAG = "TrophiesAdapter";
     private Context context;
