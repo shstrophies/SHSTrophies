@@ -10,6 +10,7 @@ import androidx.room.Transaction;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.entities.Trophy;
+import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 
 import java.util.List;
 
@@ -26,8 +27,17 @@ public abstract class TrophyDao {
     public abstract List<Trophy> getTrophyById(long id);
 
     @Transaction
+    @Query("SELECT * FROM sport")
+    public abstract List<SportWithTrophies> getSportWithTrophies();
+
+
+    @Transaction
     @Query("SELECT * FROM sport WHERE name LIKE :sportName")
-    public abstract List<SportWithTrophies> getTrophiesBySportName(String sportName);
+    public abstract List<SportWithTrophies> getSportWithTrophiesBySportName(String sportName);
+
+    @Transaction
+    @Query("SELECT * FROM trophy t join trophyaward a ON a.trophyid = t.id JOIN sport s ON s.id = t.sportid WHERE (a.year = :year) OR (s.name LIKE :sportName) OR (a.player LIKE :player)")
+    public abstract List<TrophyWithAwards> getTrophiesWithAwardsByYearORSportORPlayer(int year, String sportName, String player);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)  // or OnConflictStrategy.IGNORE
     @Transaction

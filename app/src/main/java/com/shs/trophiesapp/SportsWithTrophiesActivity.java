@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.adapters.SportsWithTrophiesAdapter;
+import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SportsWithTrophiesActivity extends AppCompatActivity
 //        implements MaterialSearchBar.OnSearchActionListener
@@ -41,7 +43,7 @@ public class SportsWithTrophiesActivity extends AppCompatActivity
         searchStrings = searchString.split(",");
 
         // create sports_activity layout object
-        setContentView(R.layout.sports_and_trophies_activity);
+        setContentView(R.layout.sports_with_trophies_activity);
 
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.sports_and_trophies_recyclerview);
@@ -131,46 +133,52 @@ public class SportsWithTrophiesActivity extends AppCompatActivity
     private void getData() {
         Log.d(TAG, "getData: getData");
         Context context = this;
+        List<SportWithTrophies> list = DataManager.getTrophyRepository(context).getSportWithTrophies();
+
+        for(SportWithTrophies s: list) {
+            Log.d(TAG, "getData: " + s);
+        }
+        sportsWithTrophies.addAll(list);
         // CAROLINA HERE
         // Search for a sport name, trophy name, player name, or year...
-//        TrophyRepository trophyRepository = DataManager.getTrophyRepository(context);
-//        List<List<TrophyAward>> listOfTrophies = new ArrayList();
+//        TrophyRepository tropyRepository = DataManager.getTrophyRepository(context);
+//        List<List<Trophy>> listOfTrophies = new ArrayList();
 //        for(int i = 0; i< searchStrings.length; i++) {
 //            String searchString = searchStrings[i];
-//            List<SportWithTrophies> sportTrophies  = trophyRepository.getTrophiesBySport("%" + searchString + "%");
-//            List<TrophyAward> playerTrophies = trophyRepository.getTrophiesByPlayer("%" + searchString + "%");
+//            List<Trophy> sportTrophies  = tropyRepository.getSportWithTrophiesBySportName("%" + searchString + "%");
+//            List<Trophy> playerTrophies = tropyRepository.getTrophiesByPlayer("%" + searchString + "%");
 //
 //
-//            List<SportWithTrophies> trophies = sportTrophies;
+//            List<Trophy> trophies = sportTrophies;
 //            trophies.addAll(playerTrophies);
 //            if(searchString.matches("-?(0|[1-9]\\d*)")) {
 //                int year = Integer.parseInt(searchString);
-//                List<TrophyAward> yearTrophies = trophyRepository.getTrophiesByYear(year);
+//                List<Trophy> yearTrophies = tropyRepository.getTrophiesByYear(year);
 //                trophies.addAll(yearTrophies);
 //            }
 //
-//            List<TrophyAward> distinctList = trophies.stream().distinct().collect(Collectors.toList());
-//            for(TrophyAward t : distinctList) {
-//                List<TrophyAward> l = new ArrayList();
+//            List<Trophy> distinctList = trophies.stream().distinct().collect(Collectors.toList());
+//            for(Trophy t : distinctList) {
+//                List<Trophy> l = new ArrayList();
 //                l.add(t);
 //                listOfTrophies.add(l);
 //            }
 //        }
 //
-//        Map<String, List<TrophyAward>> map =
-//                listOfTrophies.stream().collect(Collectors.groupingBy(e -> e.get(0).sportName,
+//        Map<String, List<Trophy>> map =
+//                listOfTrophies.stream().collect(Collectors.groupingBy(e -> e.get(0).sport_name,
 //                        Collectors.mapping(e -> e.get(0),
 //                                Collectors.toList())));
 //
-//        for (Map.Entry<String, List<TrophyAward>> entry : map.entrySet()) {
+//        for (Map.Entry<String, List<Trophy>> entry : map.entrySet()) {
 //            System.out.println(entry.getKey() + " = " + entry.getValue());
 //            Log.d(TAG, "getData: " + entry.getKey() + " = " + entry.getValue());
 //            String sport_name = entry.getKey();
-//            List<TrophyAward> trophyAwardList = entry.getValue();
-//            List<TrophyAward> distinctTrophiesList = trophyAwardList.stream().distinct().collect(Collectors.toList());
+//            List<Trophy> trophyList = entry.getValue();
+//            List<Trophy> distinctTrophiesList = trophyList.stream().distinct().collect(Collectors.toList());
 //
-//            SportsWithTrophies data = new SportsWithTrophies(distinctTrophiesList, sport_name.substring(0,1).toUpperCase() + sport_name.substring(1).toLowerCase());
-//            sportsWithTrophies.add(data);
+//            SportsAndTrophiesData data = new SportsAndTrophiesData(distinctTrophiesList, sport_name.substring(0,1).toUpperCase() + sport_name.substring(1).toLowerCase());
+//            sportsAndTrophies.add(data);
 //        }
 
         Log.d(TAG, "getData: recyclerview sportsWithTrophies size=" + sportsWithTrophies.size());

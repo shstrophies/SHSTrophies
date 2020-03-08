@@ -2,25 +2,29 @@ package com.shs.trophiesapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
-import com.shs.trophiesapp.TrophyPlayersAndYearsActivity;
+import com.shs.trophiesapp.TrophyWithAwardsActivity;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.entities.Trophy;
+import com.shs.trophiesapp.utils.ColorGenerator;
+import com.shs.trophiesapp.utils.Utils;
 
-import static com.shs.trophiesapp.TrophiesActivity.TROPHIES_BY_SPORT_NAME;
-
-public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> implements Filterable {
-    private static final String TAG = "TrophiesAdapter";
+public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrophiesAdapter.TrophyViewHolder> implements Filterable {
+    private static final String TAG = "SportWithTrophiesAdapter";
     private Context context;
     private SportWithTrophies sportWithTrophies;
     private SportWithTrophies sportWithTrophiesFiltered;
@@ -28,7 +32,7 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
 
 
 
-    public TrophiesAdapter(Context context, SportWithTrophies sportWithTrophies) {
+    public SportWithTrophiesAdapter(Context context, SportWithTrophies sportWithTrophies) {
         this.context = context;
         this.sportWithTrophies = sportWithTrophies;
         this.sportWithTrophiesFiltered = sportWithTrophies;
@@ -59,7 +63,7 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(context, TrophyPlayersAndYearsActivity.class);
+                Intent intent = new Intent(context, TrophyWithAwardsActivity.class);
 
                 // passing data
                 intent.putExtra("sportId", sportWithTrophiesFiltered.sport.getId());
@@ -73,6 +77,32 @@ public class TrophiesAdapter extends RecyclerView.Adapter<TrophyViewHolder> impl
                 context.startActivity(intent);
             }
         });
+    }
+
+    static ColorGenerator newColor = new ColorGenerator(new int[]{Color.parseColor("#009A28"), Color.parseColor("#FF3232"), Color.parseColor("#FF8900"),  Color.parseColor("#00CB0C"), Color.parseColor("#FF5C00"), Color.parseColor("#009A95"), Color.parseColor("#006E9A"), Color.parseColor("#004CCB"), Color.parseColor("#A8C100")     });
+
+    class TrophyViewHolder extends RecyclerView.ViewHolder {
+        private TextView txtTitle;
+        private ImageView imgView;
+        CardView cardView;
+
+
+        TrophyViewHolder(View itemView) {
+            super(itemView);
+            txtTitle = itemView.findViewById(R.id.txtTitle);
+            imgView = itemView.findViewById(R.id.my_image_view);
+            cardView = itemView.findViewById(R.id.cardview_trophy_id);
+        }
+
+        void setDetails(Trophy trophy) {
+            txtTitle.setText(trophy.getTitle());
+            String imageUrl = trophy.getUrl();
+            Utils.imageFromUrl(imgView, imageUrl);
+
+            newColor = newColor.getNextColor();
+            trophy.setColor(newColor.getColor());
+            this.cardView.setBackgroundColor(trophy.getColor());
+        }
     }
 
     private class TrophyFilter extends Filter {

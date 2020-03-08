@@ -30,7 +30,7 @@ public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTr
     private List<SportWithTrophies> data;
     private List<SportWithTrophies> dataFiltered;
 
-    private TrophiesAdapter horizontalAdapter;
+    private SportWithTrophiesAdapter horizontalAdapter;
     private RecyclerView.RecycledViewPool recycledViewPool;
 
     public SportsWithTrophiesAdapter(Context context, List<SportWithTrophies> data) {
@@ -47,7 +47,7 @@ public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTr
     @Override
     public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View theView = LayoutInflater.from(context).inflate(R.layout.sports_and_trophies_row_layout_horizontal, parent, false);
+        View theView = LayoutInflater.from(context).inflate(R.layout.sports_with_trophies_row_layout_horizontal, parent, false);
 
 
         return new HomeViewHolder(theView);
@@ -58,7 +58,7 @@ public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTr
 
         holder.textViewSport.setText(data.get(position).sport.name);
 
-        horizontalAdapter = new TrophiesAdapter(context, data.get(position));
+        horizontalAdapter = new SportWithTrophiesAdapter(context, data.get(position));
         holder.recyclerViewHorizontal.setAdapter(horizontalAdapter);
         holder.recyclerViewHorizontal.setLayoutManager(new GridLayoutManager(context, 5));
 
@@ -97,7 +97,7 @@ public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTr
         }
     }
 
-    private class SportsAndTrophiesDataFilter extends Filter {
+    private class SportsWithTrophiesDataFilter extends Filter {
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -129,6 +129,6 @@ public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTr
 
     @Override
     public Filter getFilter() {
-        return new SportsAndTrophiesDataFilter();
+        return new SportsWithTrophiesDataFilter();
     }
 }

@@ -25,32 +25,28 @@ public class TrophyRepository {
         return trophyAwardDao.getAwards();
     }
 
-    public List<SportWithTrophies>  getTrophiesBySport(String sport_name) {
+    public List<SportWithTrophies> getSportWithTrophies() {
         // Gets List holding @Relation object
-        List<SportWithTrophies> sportwithTrophiesList = trophyDao.getTrophiesBySportName(sport_name);
-
-//        final List<Trophy> trophies = new ArrayList<>();
-//
-//        if (!sportwithTrophiesList.isEmpty()) {
-//            // Room always returns List or Set when @Relation is used
-//            // https://issuetracker.google.com/issues/62905145
-//            // So we get first element from it
-//            SportWithTrophies relationHolder = sportwithTrophiesList.get(0);
-//            List<Trophy> trophyEntities =
-//                    relationHolder.trophies;
-//            for (Trophy trophy : trophyEntities) {
-//                trophies.add(trophy);
-//            }
-//        }
-//        return sportwithTrophiesList;
+        List<SportWithTrophies> sportwithTrophiesList = trophyDao.getSportWithTrophies();
         return sportwithTrophiesList;
+    }
+
+    public List<SportWithTrophies> getSportWithTrophiesBySportName(String sportName) {
+        // Gets List holding @Relation object
+        List<SportWithTrophies> sportwithTrophiesList = trophyDao.getSportWithTrophiesBySportName(sportName);
+        return sportwithTrophiesList;
+    }
+
+    public List<TrophyWithAwards> getTrophiesWithAwardsByYearORSportORPlayer(int year, String sportName, String player) {
+        List<TrophyWithAwards> trophiesWithAwardsList = trophyDao.getTrophiesWithAwardsByYearORSportORPlayer(year, sportName, player);
+        return trophiesWithAwardsList;
     }
 
     public Trophy getTropyById(long id) {
         return trophyDao.getTrophyById(id).get(0);
     }
 
-    public List<TrophyWithAwards>  getAwardsByTrophyId(long trophyId) {
+    public List<TrophyWithAwards> getTrophyWithAwardsByTrophyId(long trophyId) {
         return trophyAwardDao.getAwardsByTrophyId(trophyId);
     }
 

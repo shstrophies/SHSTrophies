@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
-import com.shs.trophiesapp.adapters.TrophiesAdapter;
+import com.shs.trophiesapp.adapters.SportWithTrophiesAdapter;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.entities.Trophy;
@@ -31,7 +31,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
 
     private MaterialSearchBar searchBar;
 
-    private TrophiesAdapter adapter;
+    private SportWithTrophiesAdapter adapter;
     private SportWithTrophies sportWithTrophies;
 
 
@@ -52,7 +52,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<Trophy> trophies = new ArrayList();
         sportWithTrophies = new SportWithTrophies();
-        adapter = new TrophiesAdapter(this, sportWithTrophies);
+        adapter = new SportWithTrophiesAdapter(this, sportWithTrophies);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
 
         // set adapter for recyclerview
@@ -175,7 +175,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
     private void getData(String sport) {
         Log.d(TAG, "getData: getData");
         Context context = this;
-        List<SportWithTrophies> list = DataManager.getTrophyRepository(context).getTrophiesBySport(sport.toLowerCase());
+        List<SportWithTrophies> list = DataManager.getTrophyRepository(context).getSportWithTrophiesBySportName(sport.toLowerCase());
         sportWithTrophies.sport = list.get(0).sport;
         sportWithTrophies.trophies = list.get(0).trophies;
 

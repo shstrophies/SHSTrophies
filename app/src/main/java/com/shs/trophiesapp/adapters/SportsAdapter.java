@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,11 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.TrophiesActivity;
+import com.shs.trophiesapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SportsAdapter extends RecyclerView.Adapter<SportViewHolder> implements Filterable {
+public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.SportViewHolder> implements Filterable {
     private static final String TAG = "SportsAdapter";
 
     private Context context;
@@ -60,6 +63,23 @@ public class SportsAdapter extends RecyclerView.Adapter<SportViewHolder> impleme
             // start activity
             context.startActivity(intent);
         });
+    }
+
+    class SportViewHolder extends RecyclerView.ViewHolder {
+        private TextView txtTitle;
+        private ImageView imgView;
+
+        SportViewHolder(View itemView) {
+            super(itemView);
+            txtTitle = itemView.findViewById(R.id.sport_title_id);
+            imgView = itemView.findViewById(R.id.my_image_view);
+        }
+
+        void setDetails(Sport sport) {
+            txtTitle.setText(sport.name);
+            String imageUrl = sport.imageUrl;
+            Utils.imageFromUrl(imgView, imageUrl);
+        }
     }
 
     private class SportFilter extends Filter {

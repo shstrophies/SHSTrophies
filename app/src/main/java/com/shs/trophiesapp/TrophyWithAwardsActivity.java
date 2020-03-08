@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
-import com.shs.trophiesapp.adapters.TrophyPlayersAndYearsAdapter;
+import com.shs.trophiesapp.adapters.TrophyWithAwardsAdapter;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.TrophyRepository;
 import com.shs.trophiesapp.database.entities.TrophyAward;
@@ -26,9 +26,7 @@ import com.shs.trophiesapp.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.shs.trophiesapp.TrophiesActivity.TROPHIES_BY_SPORT_NAME;
-
-public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener  {
+public class TrophyWithAwardsActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener  {
     private static final String TAG = "TrophyPlayersAndYearsAc";
 
     private TextView tvSportTitle;
@@ -38,7 +36,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
 
     private MaterialSearchBar searchBar;
 
-    private TrophyPlayersAndYearsAdapter adapter;
+    private TrophyWithAwardsAdapter adapter;
 
     private ArrayList<TrophyAward> awards;
 
@@ -46,7 +44,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.trophy_players_and_years_activity);
+        setContentView(R.layout.trophy_with_awards_activity);
 
         tvSportTitle = findViewById(R.id.trophies_sport_title);
         tvTitle = findViewById(R.id.trophy_players_and_years_title);
@@ -72,7 +70,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
         RecyclerView recyclerView = findViewById(R.id.trophy_players_and_years_recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         awards = new ArrayList<>();
-        adapter = new TrophyPlayersAndYearsAdapter(this, awards, color);
+        adapter = new TrophyWithAwardsAdapter(this, awards, color);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
 
         // set adapter for recyclerview
@@ -139,7 +137,7 @@ public class TrophyPlayersAndYearsActivity extends AppCompatActivity implements 
 
         Context context = this;
         TrophyRepository trophyRepository = DataManager.getTrophyRepository(context);
-        List<TrophyWithAwards> trophyWithAwards = trophyRepository.getAwardsByTrophyId(trophyId);
+        List<TrophyWithAwards> trophyWithAwards = trophyRepository.getTrophyWithAwardsByTrophyId(trophyId);
         List<TrophyAward> _awards = trophyWithAwards.get(0).awards;
         awards.addAll(_awards);
         Log.d(TAG, "getData: recyclerview awards size=" + awards.size());
