@@ -131,19 +131,21 @@ public class SportsWithTrophiesActivity extends AppCompatActivity
     private void getData() {
         Log.d(TAG, "getData: getData");
         Context context = this;
-//        TrophyRepository tropyRepository = DataManager.getTrophyRepository(context);
+        // CAROLINA HERE
+        // Search for a sport name, trophy name, player name, or year...
+//        TrophyRepository trophyRepository = DataManager.getTrophyRepository(context);
 //        List<List<TrophyAward>> listOfTrophies = new ArrayList();
 //        for(int i = 0; i< searchStrings.length; i++) {
 //            String searchString = searchStrings[i];
-//            List<SportWithTrophies> sportTrophies  = tropyRepository.getTrophiesBySport("%" + searchString + "%");
-//            List<TrophyAward> playerTrophies = tropyRepository.getTrophiesByPlayer("%" + searchString + "%");
+//            List<SportWithTrophies> sportTrophies  = trophyRepository.getTrophiesBySport("%" + searchString + "%");
+//            List<TrophyAward> playerTrophies = trophyRepository.getTrophiesByPlayer("%" + searchString + "%");
 //
 //
 //            List<SportWithTrophies> trophies = sportTrophies;
 //            trophies.addAll(playerTrophies);
 //            if(searchString.matches("-?(0|[1-9]\\d*)")) {
 //                int year = Integer.parseInt(searchString);
-//                List<TrophyAward> yearTrophies = tropyRepository.getTrophiesByYear(year);
+//                List<TrophyAward> yearTrophies = trophyRepository.getTrophiesByYear(year);
 //                trophies.addAll(yearTrophies);
 //            }
 //
