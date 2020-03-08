@@ -61,7 +61,7 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
 
 
 
-        tvSportTitle.setText(sport + " Trophies");
+        tvSportTitle.setText(sport + " Trophy Awards");
         tvTitle.setText(title);
         Utils.imageFromUrl(img, url);
         trophyView.setBackgroundColor(color);
