@@ -31,6 +31,7 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
     private static final String TAG = "TrophiesWithAwardsActivity";
 
     public static final String AWARDS_SEARCH_STRING = "AWARDS_SEARCH_STRING";
+    String searchString;
     String[] searchStrings;
 
 //    private MaterialSearchBar searchBar;
@@ -45,7 +46,7 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
 
         //Receive data
         Intent intent = getIntent();
-        String searchString = intent.getExtras().getString(AWARDS_SEARCH_STRING);
+        searchString = intent.getExtras().getString(AWARDS_SEARCH_STRING);
         searchStrings = searchString.split(",");
 
         // create sports_activity layout object
@@ -96,13 +97,19 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
 
         // Search for player, year, or trophy title. For example, '1976', or 'Williamson', or 'Williamson, 1976', or 'Most Inspirational'
 
+        int searchStrIndex = 0;
         String keyword = "sportId:";
-        String str = searchStrings[0];
-        int index = str.indexOf(keyword) + keyword.length();
-        String sportIdstr = str.substring(index);
-        int sportId = Integer.parseInt(sportIdstr);
+        int sportId = -1;
+        if(searchStrings[0].contains(keyword)) {
+            String str = searchStrings[0];
+            int index = str.indexOf(keyword) + keyword.length();
+            String sportIdstr = str.substring(index);
+            sportId = Integer.parseInt(sportIdstr);
+            searchStrIndex = 1;
+        }
+
         HashMap<Long, List<TrophyAward>> map = new HashMap<Long, List<TrophyAward>>();
-        for (int i = 1; i < searchStrings.length; i++) {
+        for (int i = searchStrIndex; i < searchStrings.length; i++) {
             String searchString = searchStrings[i];
 
             // search by year

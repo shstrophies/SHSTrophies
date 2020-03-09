@@ -49,7 +49,6 @@ public class TrophyRepository {
 
     public List<TrophyAward> getTrophyAwardsByPlayer(String player) {
         List<TrophyAward> trophiesWithAwardsList = trophyDao.getTrophyAwardsByPlayer("%" + player + "%");
-//        List<TrophyAward> trophiesWithAwardsList = trophyDao.getTrophyAwardsByPlayer(player);
         return trophiesWithAwardsList;
     }
 
@@ -62,9 +61,9 @@ public class TrophyRepository {
 
     public List<TrophyAward> getTrophyAwardsBySportAndPlayer(long sportId, String player) {
         if(sportId == -1)
-            return trophyDao.getTrophyAwardsByPlayer(player);
+            return getTrophyAwardsByPlayer(player);
         else
-            return trophyDao.getTrophyAwardsBySportAndPlayer(sportId, player);
+            return trophyDao.getTrophyAwardsBySportAndPlayer(sportId, "%" + player + "%");
     }
 
     public List<TrophyWithAwards> getTrophiesWithAwardsByYearORSportORPlayer(int year, String sportName, String player) {
