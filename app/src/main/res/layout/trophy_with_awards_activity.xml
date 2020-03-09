@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_trophy_players_and_years"
+    android:id="@+id/activity_trophy_with_awards"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:background="#f2f2f2"
@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:translationZ="90dp"
-        android:id="@+id/trophy_players_and_years_trophy"
+        android:id="@+id/trophy_with_awards_trophy"
         android:layout_width="80dp"
         android:layout_height="110dp"
         android:background="#fff"
@@ -23,7 +23,7 @@
 
 
         <ImageView
-            android:id="@+id/trophy_players_and_years_thumbnail"
+            android:id="@+id/trophy_with_awards_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="83dp"
             android:background="#2d2d2d"
@@ -32,7 +32,7 @@
             android:translationZ="90dp" />
 
         <com.lb.auto_fit_textview.AutoResizeTextView
-            android:id="@+id/trophy_players_and_years_title"
+            android:id="@+id/trophy_with_awards_title"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:fontFamily="@font/montserrat_bold"
@@ -111,7 +111,7 @@
 
         android:elevation="8dp"
         android:paddingTop="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/trophy_players_and_years_recycleview"
+        app:layout_constraintBottom_toTopOf="@+id/trophy_with_awards_recycleview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view"
@@ -121,7 +121,7 @@
         app:mt_speechMode="false"></com.mancj.materialsearchbar.MaterialSearchBar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/trophy_players_and_years_recycleview"
+        android:id="@+id/trophy_with_awards_recycleview"
         android:layout_width="1268dp"
         android:layout_height="519dp"
         android:layout_gravity="center|center_horizontal"

@@ -32,10 +32,10 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
     private int trophyColor;
 
 
-    public TrophyWithAwardsAdapter(Context context, List<TrophyAward> trophies, int trophyColor) {
+    public TrophyWithAwardsAdapter(Context context, List<TrophyAward> awards, int trophyColor) {
         this.context = context;
-        this.awards = trophies;
-        this.awardsFiltered = trophies;
+        this.awards = awards;
+        this.awardsFiltered = awards;
         this.trophyColor = trophyColor;
     }
 

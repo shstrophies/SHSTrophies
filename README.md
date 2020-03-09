@@ -63,8 +63,8 @@ Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load da
       - search for people's names(Shayan)
       - search for year(Shayan)
 - add more of the trophyAward info (Ujjwal & Carolina)
-      - add 'trophy_players_and_years_activity' page
-      - add 'corner_view_trophy_players_and_years_activity.xml' which contains cards that go inside of      'trophy_players_and_years_activity' page
+      - add 'trophy_with_awards_activity' page
+      - add 'corner_view_trophy_with_awards_activity.xml' which contains cards that go inside of      'trophy_with_awards_activity' page
 - add cleanup code to clean export files (Shayan)
 - try to assign a certain color to a certain year. ex: lets say we have 10 colors in our array ["red","green","blue","orange", etc....]. Then if the first date we have is 1960, then all trophies from 1960 will be red, from 1961 will be green, and so on... and then once we run out of the colors, we loop back from the start until everything is colored.
 

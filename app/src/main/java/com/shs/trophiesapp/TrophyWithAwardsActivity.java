@@ -47,9 +47,9 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
         setContentView(R.layout.trophy_with_awards_activity);
 
         tvSportTitle = findViewById(R.id.trophies_sport_title);
-        tvTitle = findViewById(R.id.trophy_players_and_years_title);
-        img = findViewById(R.id.trophy_players_and_years_thumbnail);
-        trophyView = findViewById(R.id.trophy_players_and_years_trophy);
+        tvTitle = findViewById(R.id.trophy_with_awards_title);
+        img = findViewById(R.id.trophy_with_awards_thumbnail);
+        trophyView = findViewById(R.id.trophy_with_awards_trophy);
 
         //Receive data
         Intent intent = getIntent();
@@ -61,13 +61,13 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
 
 
 
-        tvSportTitle.setText(sport + " Trophy Awards");
+        tvSportTitle.setText(sport + " Trophy Award(s)");
         tvTitle.setText(title);
         Utils.imageFromUrl(img, url);
         trophyView.setBackgroundColor(color);
 
         // set recyclerview layout manager
-        RecyclerView recyclerView = findViewById(R.id.trophy_players_and_years_recycleview);
+        RecyclerView recyclerView = findViewById(R.id.trophy_with_awards_recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         awards = new ArrayList<>();
         adapter = new TrophyWithAwardsAdapter(this, awards, color);

@@ -6,7 +6,7 @@
     tools:context=".SportsWithTrophiesActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/sports_with_trophies_recyclerview"
+        android:id="@+id/trophies_with_awards_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

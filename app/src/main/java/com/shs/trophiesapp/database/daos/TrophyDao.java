@@ -36,6 +36,11 @@ public abstract class TrophyDao {
     public abstract List<SportWithTrophies> getSportWithTrophiesBySportName(String sportName);
 
     @Transaction
+    @Query("SELECT * FROM trophy t")
+    public abstract List<TrophyWithAwards> getTrophiesWithAwards();
+
+
+    @Transaction
     @Query("SELECT * FROM trophy t join trophyaward a ON a.trophyid = t.id JOIN sport s ON s.id = t.sportid WHERE (a.year = :year) OR (s.name LIKE :sportName) OR (a.player LIKE :player)")
     public abstract List<TrophyWithAwards> getTrophiesWithAwardsByYearORSportORPlayer(int year, String sportName, String player);
 

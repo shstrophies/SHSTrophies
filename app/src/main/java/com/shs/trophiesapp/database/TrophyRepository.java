@@ -37,6 +37,12 @@ public class TrophyRepository {
         return sportwithTrophiesList;
     }
 
+    public List<TrophyWithAwards> getTrophiesWithAwards() {
+        List<TrophyWithAwards> trophiesWithAwardsList = trophyDao.getTrophiesWithAwards();
+        return trophiesWithAwardsList;
+    }
+
+
     public List<TrophyWithAwards> getTrophiesWithAwardsByYearORSportORPlayer(int year, String sportName, String player) {
         List<TrophyWithAwards> trophiesWithAwardsList = trophyDao.getTrophiesWithAwardsByYearORSportORPlayer(year, sportName, player);
         return trophiesWithAwardsList;

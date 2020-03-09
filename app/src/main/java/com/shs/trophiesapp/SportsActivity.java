@@ -128,11 +128,18 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
     public void onSearchConfirmed(CharSequence text) {
         Log.d(TAG, "onSearchConfirmed: ");
         //HERE
-        Intent intent = new Intent(this, SportsWithTrophiesActivity.class);
+        String searchString = text.toString();
+//        if(searchString.isEmpty()) {
+//            Intent intent = new Intent(this, SportsWithTrophiesActivity.class);
+//            intent.putExtra(SportsWithTrophiesActivity.TROPHIES_SEARCH_STRING, searchString);
+//            startActivity(intent);
+//        }
+//        else {
+            Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
+            intent.putExtra(TrophiesWithAwardsActivity.AWARDS_SEARCH_STRING, searchString);
+            startActivity(intent);
+//        }
 
-        intent.putExtra(SportsWithTrophiesActivity.TROPHIES_SEARCH_STRING, text.toString());
-
-        startActivity(intent);
 
     }
 

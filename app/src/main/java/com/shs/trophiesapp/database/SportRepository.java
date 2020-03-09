@@ -2,6 +2,7 @@ package com.shs.trophiesapp.database;
 
 import com.shs.trophiesapp.database.daos.SportDao;
 import com.shs.trophiesapp.database.entities.Sport;
+import com.shs.trophiesapp.database.entities.Trophy;
 
 import java.util.List;
 
@@ -15,6 +16,10 @@ public class SportRepository {
 
     public List<Sport> getSports() {
         return sportDao.getSports();
+    }
+
+    public Sport getSportById(long id) {
+        return sportDao.getSportById(id).get(0);
     }
 
     static SportRepository getInstance(SportDao SportDao) {

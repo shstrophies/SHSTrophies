@@ -4,8 +4,10 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.shs.trophiesapp.database.entities.Sport;
+import com.shs.trophiesapp.database.entities.Trophy;
 
 import java.util.List;
 
@@ -15,6 +17,10 @@ import java.util.List;
 
     @Query("SELECT * FROM sport")
     List<Sport> getSports();
+
+    @Transaction
+    @Query("SELECT * FROM sport WHERE id LIKE :id")
+    public abstract List<Sport> getSportById(long id);
 
     @Query("SELECT * FROM sport WHERE rowId IN (:userIds)") List<Sport> loadAllByIds(int[] userIds);
     @Query("SELECT * FROM sport WHERE name LIKE :sportName AND " +
