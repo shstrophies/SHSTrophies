@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.navigation.NavigationView;
 import com.shs.trophiesapp.adapters.SportWithTrophiesAdapter;
 import com.shs.trophiesapp.database.DataManager;
+import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.entities.Trophy;
 import com.mancj.materialsearchbar.MaterialSearchBar;
@@ -134,19 +135,11 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
+//        if (id == R.id.action1) {
+//            // Handle the action1 action
+//        } else if (id == R.id.action2) {
+//
+//        }
 
         return true;
     }
@@ -159,7 +152,8 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
     public void onSearchConfirmed(CharSequence text) {
         Log.d(TAG, "onSearchConfirmed: ");
         //HERE
-        String searchString = text.toString();
+        Sport sport = sportWithTrophies.sport;
+        String searchString = "sportId:" + sport.getId() + "," + text.toString();
         if(searchString.isEmpty()) {
             Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
             intent.putExtra(TrophiesWithAwardsActivity.AWARDS_SEARCH_STRING, searchString);

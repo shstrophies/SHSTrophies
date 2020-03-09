@@ -25,7 +25,7 @@ import java.util.List;
 
 
 public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwardsAdapter.TrophyWithAwardsViewHolder> implements Filterable {
-    private static final String TAG = "SportWithTrophiesAdapter";
+    private static final String TAG = "TrophyWithAwardsAdapter";
     private Context context;
     private List<TrophyAward> awards;
     private List<TrophyAward> awardsFiltered;

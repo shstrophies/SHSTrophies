@@ -96,14 +96,19 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
 
         // Search for player, year, or trophy title. For example, '1976', or 'Williamson', or 'Williamson, 1976', or 'Most Inspirational'
 
+        String keyword = "sportId:";
+        String str = searchStrings[0];
+        int index = str.indexOf(keyword) + keyword.length();
+        String sportIdstr = str.substring(index);
+        int sportId = Integer.parseInt(sportIdstr);
         HashMap<Long, List<TrophyAward>> map = new HashMap<Long, List<TrophyAward>>();
-        for (int i = 0; i < searchStrings.length; i++) {
+        for (int i = 1; i < searchStrings.length; i++) {
             String searchString = searchStrings[i];
 
             // search by year
             if (searchString.matches("-?(0|[1-9]\\d*)")) {
                 int year = Integer.parseInt(searchString);
-                List<TrophyAward> list = DataManager.getTrophyRepository(context).getTrophyAwardsByYear(year);
+                List<TrophyAward> list = DataManager.getTrophyRepository(context).getTrophyAwardsBySportAndYear(sportId, year);
 
                 for (TrophyAward a : list) {
                     Log.d(TAG, "getData: " + a);
@@ -117,7 +122,7 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
             }
             else {
                 // search by player
-                List<TrophyAward> list = DataManager.getTrophyRepository(context).getTrophyAwardsByPlayer(searchString);
+                List<TrophyAward> list = DataManager.getTrophyRepository(context).getTrophyAwardsBySportAndPlayer(sportId, searchString);
 
                 for (TrophyAward a : list) {
                     Log.d(TAG, "getData: " + a);
