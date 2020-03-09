@@ -19,14 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SportsWithTrophiesActivity extends AppCompatActivity
-//        implements MaterialSearchBar.OnSearchActionListener
 {
     private static final String TAG = "SportsWithTrophiesActivity";
 
-    public static final String TROPHIES_SEARCH_STRING = "AWARDS_SEARCH_STRING";
-    String[] searchStrings;
-
-//    private MaterialSearchBar searchBar;
 
     private SportsWithTrophiesAdapter adapter;
     private ArrayList<SportWithTrophies> sportsWithTrophies = new ArrayList<>();
@@ -39,8 +34,6 @@ public class SportsWithTrophiesActivity extends AppCompatActivity
 
         //Receive data
         Intent intent = getIntent();
-        String searchString = intent.getExtras().getString(TROPHIES_SEARCH_STRING);
-        searchStrings = searchString.split(",");
 
         // create sports_activity layout object
         setContentView(R.layout.sports_with_trophies_activity);
@@ -56,33 +49,6 @@ public class SportsWithTrophiesActivity extends AppCompatActivity
 
         // get data and notify adapter
         getData();
-
-//        searchBar = findViewById(R.id.sports_with_trophies_search);
-//        searchBar.setOnSearchActionListener(this);
-//        searchBar.inflateMenu(R.menu.main);
-//        searchBar.setHint("???...");
-//
-//        Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
-//        searchBar.setCardViewElevation(10);
-//        searchBar.addTextChangeListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                Log.d(TAG, "beforeTextChanged: ");
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                Log.d(TAG, "afterTextChanged: ");
-//                doSearch(searchBar.getText());
-//
-//            }
-//
-//        });
 
     }
 
@@ -110,85 +76,15 @@ public class SportsWithTrophiesActivity extends AppCompatActivity
     }
 
 
-//    @Override
-//    public void onSearchStateChanged(boolean enabled) {
-//    }
-//
-//    @Override
-//    public void onSearchConfirmed(CharSequence text) {
-//
-//    }
-//
-//    @Override
-//    public void onButtonClicked(int buttonCode) {
-//        switch (buttonCode) {
-//            case MaterialSearchBar.BUTTON_SPEECH:
-//                break;
-//            case MaterialSearchBar.BUTTON_BACK:
-//                searchBar.closeSearch();
-//                break;
-//        }
-//    }
-
     private void getData() {
         Log.d(TAG, "getData: getData");
         Context context = this;
         List<SportWithTrophies> list = DataManager.getTrophyRepository(context).getSportWithTrophies();
 
-        for(SportWithTrophies s: list) {
-            Log.d(TAG, "getData: " + s);
-        }
         sportsWithTrophies.addAll(list);
-        // CAROLINA HERE
-        // Search for a sport name, trophy name, player name, or year...
-//        TrophyRepository tropyRepository = DataManager.getTrophyRepository(context);
-//        List<List<Trophy>> listOfTrophies = new ArrayList();
-//        for(int i = 0; i< searchStrings.length; i++) {
-//            String searchString = searchStrings[i];
-//            List<Trophy> sportTrophies  = tropyRepository.getSportWithTrophiesBySportName("%" + searchString + "%");
-//            List<Trophy> playerTrophies = tropyRepository.getTrophiesByPlayer("%" + searchString + "%");
-//
-//
-//            List<Trophy> trophies = sportTrophies;
-//            trophies.addAll(playerTrophies);
-//            if(searchString.matches("-?(0|[1-9]\\d*)")) {
-//                int year = Integer.parseInt(searchString);
-//                List<Trophy> yearTrophies = tropyRepository.getTrophiesByYear(year);
-//                trophies.addAll(yearTrophies);
-//            }
-//
-//            List<Trophy> distinctList = trophies.stream().distinct().collect(Collectors.toList());
-//            for(Trophy t : distinctList) {
-//                List<Trophy> l = new ArrayList();
-//                l.add(t);
-//                listOfTrophies.add(l);
-//            }
-//        }
-//
-//        Map<String, List<Trophy>> map =
-//                listOfTrophies.stream().collect(Collectors.groupingBy(e -> e.get(0).sport_name,
-//                        Collectors.mapping(e -> e.get(0),
-//                                Collectors.toList())));
-//
-//        for (Map.Entry<String, List<Trophy>> entry : map.entrySet()) {
-//            System.out.println(entry.getKey() + " = " + entry.getValue());
-//            Log.d(TAG, "getData: " + entry.getKey() + " = " + entry.getValue());
-//            String sport_name = entry.getKey();
-//            List<Trophy> trophyList = entry.getValue();
-//            List<Trophy> distinctTrophiesList = trophyList.stream().distinct().collect(Collectors.toList());
-//
-//            SportsAndTrophiesData data = new SportsAndTrophiesData(distinctTrophiesList, sport_name.substring(0,1).toUpperCase() + sport_name.substring(1).toLowerCase());
-//            sportsAndTrophies.add(data);
-//        }
 
         Log.d(TAG, "getData: recyclerview sportsWithTrophies size=" + sportsWithTrophies.size());
         adapter.notifyDataSetChanged();
 
     }
-
-//    // search data
-//    private void doSearch(String searchText) {
-//        Log.d(TAG, "doSearch: " + searchBar.getText());
-//        adapter.getFilter().filter(searchText);
-//    }
 }

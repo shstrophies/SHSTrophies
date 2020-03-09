@@ -55,7 +55,7 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         searchBar = findViewById(R.id.sports_search);
         searchBar.setOnSearchActionListener(this);
         searchBar.inflateMenu(R.menu.main);
-        searchBar.setHint("Search for a sport name, trophy name, player name, or year...");
+        searchBar.setHint(getResources().getString(R.string.search_info));
 
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
         searchBar.setCardViewElevation(10);
@@ -129,16 +129,16 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         Log.d(TAG, "onSearchConfirmed: ");
         //HERE
         String searchString = text.toString();
-//        if(searchString.isEmpty()) {
-//            Intent intent = new Intent(this, SportsWithTrophiesActivity.class);
+        if(searchString.isEmpty()) {
+            Intent intent = new Intent(this, SportsWithTrophiesActivity.class);
 //            intent.putExtra(SportsWithTrophiesActivity.TROPHIES_SEARCH_STRING, searchString);
-//            startActivity(intent);
-//        }
-//        else {
+            startActivity(intent);
+        }
+        else {
             Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
             intent.putExtra(TrophiesWithAwardsActivity.AWARDS_SEARCH_STRING, searchString);
             startActivity(intent);
-//        }
+        }
 
 
     }

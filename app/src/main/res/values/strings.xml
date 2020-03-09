@@ -25,6 +25,7 @@
     <string name="tap_a_trophy_or_search">Tap a trophy or search</string>
     <string name="title">Trophy Title</string>
     <string name="clean">Clean</string>
+    <string name="search_info">Search for player, year, or trophy title. For example, \'1976\', or \'Williamson\', or \'Williamson, 1976\', or \'Most Inspirational\'</string>
 
 
 </resources>

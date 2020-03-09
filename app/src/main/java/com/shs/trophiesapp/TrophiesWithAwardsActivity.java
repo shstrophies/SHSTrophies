@@ -100,7 +100,9 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity
         }
         trophiesWithAwards.addAll(list);
         // CAROLINA HERE
-        // Search for a sport name, trophy name, player name, or year...
+        // Search for player, year, or trophy title. For example, '1976', or 'Williamson', or 'Williamson, 1976', or 'Most Inspirational'
+
+
 //        TrophyRepository tropyRepository = DataManager.getTrophyRepository(context);
 //        List<List<Trophy>> listOfTrophies = new ArrayList();
 //        for(int i = 0; i< searchStrings.length; i++) {
