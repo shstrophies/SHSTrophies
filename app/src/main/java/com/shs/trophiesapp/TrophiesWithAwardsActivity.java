@@ -94,8 +94,6 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
         Context context = this;
         TrophyRepository trophyRepository = DataManager.getTrophyRepository(this);
 
-
-        // CAROLINA HERE
         // Search for player, year, or trophy title. For example, '1976', or 'Williamson', or 'Williamson, 1976', or 'Most Inspirational'
 
         HashMap<Long, List<TrophyAward>> map = new HashMap<Long, List<TrophyAward>>();

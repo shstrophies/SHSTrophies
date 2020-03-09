@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwardsAdapter.TrophyPlayerAndYearViewHolder> implements Filterable {
+public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwardsAdapter.TrophyWithAwardsViewHolder> implements Filterable {
     private static final String TAG = "SportWithTrophiesAdapter";
     private Context context;
     private List<TrophyAward> awards;
@@ -47,13 +47,13 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
 
     @Override
     @NonNull
-    public TrophyPlayerAndYearViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TrophyWithAwardsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.cardview_item_trophy_player_and_year, parent, false);
-        return new TrophyPlayerAndYearViewHolder(view);
+        return new TrophyWithAwardsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(TrophyPlayerAndYearViewHolder holder, int position) {
+    public void onBindViewHolder(TrophyWithAwardsViewHolder holder, int position) {
         TrophyAward trophyAward = awardsFiltered.get(position);
         holder.setDetails(trophyAward);
 
@@ -80,13 +80,13 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
 
     static ColorGenerator newColor = new ColorGenerator(new int[]{Color.parseColor("#009A28"), Color.parseColor("#FF3232"), Color.parseColor("#FF8900"),  Color.parseColor("#00CB0C"), Color.parseColor("#FF5C00"), Color.parseColor("#009A95"), Color.parseColor("#006E9A"), Color.parseColor("#004CCB"), Color.parseColor("#A8C100")     });
 
-    class TrophyPlayerAndYearViewHolder extends RecyclerView.ViewHolder {
+    class TrophyWithAwardsViewHolder extends RecyclerView.ViewHolder {
         private TextView txtPlayer;
         private TextView txtYear;
         CardView cardView;
 
 
-        TrophyPlayerAndYearViewHolder(View itemView) {
+        TrophyWithAwardsViewHolder(View itemView) {
             super(itemView);
             txtPlayer = itemView.findViewById(R.id.txtPlayer);
             txtYear = itemView.findViewById(R.id.txtYear);
@@ -122,6 +122,8 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
 //                        filteredList.add(row);
 //                    }
 //                }
+
+
                 awardsFiltered = filteredList;
             }
 

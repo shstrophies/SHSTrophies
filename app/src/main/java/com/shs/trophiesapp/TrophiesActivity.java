@@ -157,7 +157,19 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public void onSearchConfirmed(CharSequence text) {
-
+        Log.d(TAG, "onSearchConfirmed: ");
+        //HERE
+        String searchString = text.toString();
+        if(searchString.isEmpty()) {
+            Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
+            intent.putExtra(TrophiesWithAwardsActivity.AWARDS_SEARCH_STRING, searchString);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
+            intent.putExtra(TrophiesWithAwardsActivity.AWARDS_SEARCH_STRING, searchString);
+            startActivity(intent);
+        }
     }
 
     @Override

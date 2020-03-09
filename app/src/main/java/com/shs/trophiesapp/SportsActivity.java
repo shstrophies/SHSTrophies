@@ -138,8 +138,6 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
             intent.putExtra(TrophiesWithAwardsActivity.AWARDS_SEARCH_STRING, searchString);
             startActivity(intent);
         }
-
-
     }
 
     @Override
