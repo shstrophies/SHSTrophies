@@ -12,8 +12,8 @@
     <LinearLayout
         android:translationZ="90dp"
         android:id="@+id/trophy_with_awards_trophy"
-        android:layout_width="80dp"
-        android:layout_height="110dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="#fff"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,22 +24,21 @@
 
         <ImageView
             android:id="@+id/trophy_with_awards_thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="83dp"
+            android:layout_width="100dp"
+            android:layout_height="70dp"
             android:background="#2d2d2d"
-            android:contentDescription="@string/todo"
             android:scaleType="centerCrop"
             android:translationZ="90dp" />
 
         <com.lb.auto_fit_textview.AutoResizeTextView
             android:id="@+id/trophy_with_awards_title"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="48dp"
             android:fontFamily="@font/montserrat_bold"
             android:gravity="center_vertical"
             android:textAlignment="center"
             android:textColor="#fff"
-            android:textSize=".1dp"
+            android:textSize=".02dp"
             android:translationZ="90dp" />
 
     </LinearLayout>
