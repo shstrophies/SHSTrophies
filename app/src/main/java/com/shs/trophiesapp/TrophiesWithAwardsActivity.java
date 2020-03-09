@@ -14,15 +14,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.shs.trophiesapp.adapters.SportsWithTrophiesAdapter;
 import com.shs.trophiesapp.adapters.TrophiesWithAwardsAdapter;
 import com.shs.trophiesapp.database.DataManager;
+import com.shs.trophiesapp.database.TrophyRepository;
+import com.shs.trophiesapp.database.entities.Trophy;
+import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
-public class TrophiesWithAwardsActivity extends AppCompatActivity
-{
+public class TrophiesWithAwardsActivity extends AppCompatActivity {
     private static final String TAG = "TrophiesWithAwardsActivity";
 
     public static final String AWARDS_SEARCH_STRING = "AWARDS_SEARCH_STRING";
@@ -32,7 +37,6 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity
 
     private TrophiesWithAwardsAdapter adapter;
     private ArrayList<TrophyWithAwards> trophiesWithAwards = new ArrayList<>();
-
 
 
     @Override
@@ -88,34 +92,76 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity
     private void getData() {
         Log.d(TAG, "getData: getData");
         Context context = this;
-        int year = 1976;
-        String sport = "ba";
-        String player = "ba";
+        TrophyRepository trophyRepository = DataManager.getTrophyRepository(this);
 
-        List<TrophyWithAwards> list = DataManager.getTrophyRepository(context).getTrophiesWithAwards();
-//        List<TrophyWithAwards> list = DataManager.getTrophyRepository(context).getTrophiesWithAwardsByYearORSportORPlayer(year, sport, player);
 
-        for(TrophyWithAwards s: list) {
-            Log.d(TAG, "getData: " + s);
-        }
-        trophiesWithAwards.addAll(list);
         // CAROLINA HERE
         // Search for player, year, or trophy title. For example, '1976', or 'Williamson', or 'Williamson, 1976', or 'Most Inspirational'
+
+        HashMap<Long, List<TrophyAward>> map = new HashMap<Long, List<TrophyAward>>();
+        for (int i = 0; i < searchStrings.length; i++) {
+            String searchString = searchStrings[i];
+
+            // search by year
+            if (searchString.matches("-?(0|[1-9]\\d*)")) {
+                int year = Integer.parseInt(searchString);
+                List<TrophyAward> list = DataManager.getTrophyRepository(context).getTrophyAwardsByYear(year);
+
+                for (TrophyAward a : list) {
+                    Log.d(TAG, "getData: " + a);
+                    long trophyId = a.getTrophyId();
+                    if (!map.containsKey(trophyId)) {
+                        map.put(trophyId, new ArrayList());
+                    }
+                    List<TrophyAward> awardList = map.get(trophyId);
+                    awardList.add(a);
+                }
+            }
+            else {
+                // search by player
+                List<TrophyAward> list = DataManager.getTrophyRepository(context).getTrophyAwardsByPlayer(searchString);
+
+                for (TrophyAward a : list) {
+                    Log.d(TAG, "getData: " + a);
+                    long trophyId = a.getTrophyId();
+                    if (!map.containsKey(trophyId)) {
+                        map.put(trophyId, new ArrayList());
+                    }
+                    List<TrophyAward> awardList = map.get(trophyId);
+                    awardList.add(a);
+                }
+            }
+        }
+
+        for (Map.Entry<Long, List<TrophyAward>> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + " = " + entry.getValue());
+            Log.d(TAG, "getData: " + entry.getKey() + " = " + entry.getValue());
+            long trophyId = entry.getKey();
+            Trophy trophy = trophyRepository.getTropyById(trophyId);
+            List<TrophyAward> awardList = entry.getValue();
+            TrophyWithAwards trophyWithAwards = new TrophyWithAwards();
+            trophyWithAwards.trophy = trophy;
+            trophyWithAwards.awards = awardList;
+            trophiesWithAwards.add(trophyWithAwards);
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////
 
 
 //        TrophyRepository tropyRepository = DataManager.getTrophyRepository(context);
 //        List<List<Trophy>> listOfTrophies = new ArrayList();
 //        for(int i = 0; i< searchStrings.length; i++) {
 //            String searchString = searchStrings[i];
-//            List<Trophy> sportTrophies  = tropyRepository.getSportWithTrophiesBySportName("%" + searchString + "%");
-//            List<Trophy> playerTrophies = tropyRepository.getTrophiesByPlayer("%" + searchString + "%");
+//            List<Trophy> sportTrophies  = null;
+//            List<Trophy> playerTrophies = null;
 //
 //
 //            List<Trophy> trophies = sportTrophies;
 //            trophies.addAll(playerTrophies);
 //            if(searchString.matches("-?(0|[1-9]\\d*)")) {
 //                int year = Integer.parseInt(searchString);
-//                List<Trophy> yearTrophies = tropyRepository.getTrophiesByYear(year);
+//                List<Trophy> yearTrophies = null;
 //                trophies.addAll(yearTrophies);
 //            }
 //

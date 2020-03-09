@@ -131,7 +131,6 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         String searchString = text.toString();
         if(searchString.isEmpty()) {
             Intent intent = new Intent(this, SportsWithTrophiesActivity.class);
-//            intent.putExtra(SportsWithTrophiesActivity.TROPHIES_SEARCH_STRING, searchString);
             startActivity(intent);
         }
         else {

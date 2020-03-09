@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.shs.trophiesapp.database.entities.Sport;
+import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.entities.Trophy;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
@@ -40,6 +41,13 @@ public abstract class TrophyDao {
     public abstract List<TrophyWithAwards> getTrophiesWithAwards();
 
 
+    @Query("SELECT * FROM trophyaward WHERE (year = :year)")
+    public abstract List<TrophyAward> getTrophyAwardsByYear(int year);
+
+    @Query("SELECT * FROM trophyaward WHERE (player LIKE :player)")
+    public abstract List<TrophyAward> getTrophyAwardsByPlayer(String player);
+
+    // SELECT s.name as sportName, t.id as trophyid, t.title, t.url, year, player  FROM trophy t join trophyaward a ON a.trophyid = t.id JOIN sport s ON s.id = t.sportid WHERE (a.year = 1976) OR (s.name like 'ba') OR (a.player like 'ba')
     @Transaction
     @Query("SELECT * FROM trophy t join trophyaward a ON a.trophyid = t.id JOIN sport s ON s.id = t.sportid WHERE (a.year = :year) OR (s.name LIKE :sportName) OR (a.player LIKE :player)")
     public abstract List<TrophyWithAwards> getTrophiesWithAwardsByYearORSportORPlayer(int year, String sportName, String player);
