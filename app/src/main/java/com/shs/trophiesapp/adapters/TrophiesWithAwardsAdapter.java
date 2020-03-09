@@ -106,7 +106,7 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
             recyclerViewHorizontal.setLayoutManager(horizontalManager);
             recyclerViewHorizontal.setItemAnimator(new DefaultItemAnimator());
 
-            textViewSport = itemView.findViewById(R.id.tv_sport);
+            textViewSport = itemView.findViewById(R.id.tv_sport_and_trophy);
             tvTitle = itemView.findViewById(R.id.trophies_with_awards_title);
             img = itemView.findViewById(R.id.trophies_with_awards_thumbnail);
             trophyView = itemView.findViewById(R.id.trophies_with_awards_trophy);

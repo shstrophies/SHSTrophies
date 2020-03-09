@@ -21,6 +21,7 @@
         android:background="#2d2d2d"
         android:scaleType="centerCrop" />
 
+    <!--
     <TextView
         android:id="@+id/txt_title"
         android:layout_width="fill_parent"
@@ -32,5 +33,19 @@
         android:textColor="#FFF"
         android:textSize="30dp"
         android:textStyle="bold" />
+        -->
+
+    <com.lb.auto_fit_textview.AutoResizeTextView
+        android:id="@+id/txt_title"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="630dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:textSize="30dp"
+        android:translationZ="90dp"
+        android:textStyle="bold"/>
 
 </androidx.cardview.widget.CardView>

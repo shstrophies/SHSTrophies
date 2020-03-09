@@ -34,9 +34,8 @@
         <com.lb.auto_fit_textview.AutoResizeTextView
             android:id="@+id/trophy_with_awards_title"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:fontFamily="@font/montserrat_bold"
-
             android:gravity="center_vertical"
             android:textAlignment="center"
             android:textColor="#fff"
