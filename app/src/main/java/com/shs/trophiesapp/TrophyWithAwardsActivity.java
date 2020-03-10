@@ -46,7 +46,7 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trophy_with_awards_activity);
 
-        tvSportTitle = findViewById(R.id.trophies_sport_title);
+        tvSportTitle = findViewById(R.id.trophy_with_awards_title);
         tvTitle = findViewById(R.id.trophy_with_awards_title);
         img = findViewById(R.id.trophy_with_awards_thumbnail);
         trophyView = findViewById(R.id.trophy_with_awards_trophy);
