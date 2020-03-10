@@ -12,12 +12,14 @@
     <LinearLayout
         android:translationZ="90dp"
         android:id="@+id/trophy_with_awards_trophy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="105dp"
         android:background="#fff"
         android:orientation="vertical"
+        android:layout_marginTop="5dp"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.277"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -25,21 +27,12 @@
         <ImageView
             android:id="@+id/trophy_with_awards_thumbnail"
             android:layout_width="100dp"
-            android:layout_height="70dp"
+
+            android:layout_height="105dp"
             android:background="#2d2d2d"
             android:scaleType="centerCrop"
             android:translationZ="90dp" />
 
-        <com.lb.auto_fit_textview.AutoResizeTextView
-            android:id="@+id/trophy_with_awards_title"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:gravity="center_vertical"
-            android:textAlignment="center"
-            android:textColor="#fff"
-            android:textSize=".02dp"
-            android:translationZ="90dp" />
 
     </LinearLayout>
 
@@ -57,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/trophies_sport_title"
+        android:id="@+id/trophy_with_awards_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
