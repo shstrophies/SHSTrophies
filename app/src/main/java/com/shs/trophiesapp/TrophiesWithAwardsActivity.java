@@ -143,15 +143,17 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
             }
         }
 
+
         for (Map.Entry<Long, List<TrophyAward>> entry : map.entrySet()) {
             System.out.println(entry.getKey() + " = " + entry.getValue());
             Log.d(TAG, "getData: " + entry.getKey() + " = " + entry.getValue());
             long trophyId = entry.getKey();
             Trophy trophy = trophyRepository.getTropyById(trophyId);
             List<TrophyAward> awardList = entry.getValue();
+            List<TrophyAward> distinctList = awardList.stream().distinct().collect(Collectors.toList());
             TrophyWithAwards trophyWithAwards = new TrophyWithAwards();
             trophyWithAwards.trophy = trophy;
-            trophyWithAwards.awards = awardList;
+            trophyWithAwards.awards = distinctList;
             trophiesWithAwards.add(trophyWithAwards);
         }
 
