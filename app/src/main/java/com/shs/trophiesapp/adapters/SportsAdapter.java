@@ -63,6 +63,14 @@ public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.SportViewH
             // start activity
             context.startActivity(intent);
         });
+        holder.txtTitle.setOnClickListener(view -> {
+            Intent intent = new Intent(context, TrophiesActivity.class);
+            // passing data
+            intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sports.get(position).name);
+
+            // start activity
+            context.startActivity(intent);
+        });
     }
 
     class SportViewHolder extends RecyclerView.ViewHolder {

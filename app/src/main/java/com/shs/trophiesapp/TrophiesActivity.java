@@ -60,7 +60,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         recyclerView.setAdapter(adapter);
 
         TextView sport_trophies = findViewById(R.id.trophy_with_awards_title);
-        sport_trophies.setText(sport);
+        sport_trophies.setText(sport+ " Trophies");
 
         getData(sport);
 
