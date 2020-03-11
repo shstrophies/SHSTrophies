@@ -50,23 +50,32 @@ Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load da
 - new DB schema (Ujjwal)
   
 - download images in case wifi is slow? (Ujjwal & Carolina)
-- add more search capability especially with homepage (Shayan)
-  - homepage searching
-    - <s> search for sports within homepage</s>
-    ~~- search for trophies within homepage~~
-    ~~- search for names within homepage~~
-      - possible suggestion: should we allow search by year? If we decide yes, then we need it so if you type in 2005 on homepage search bar, cards will be organized with the year on the top instead of the Sport
-   - trophyAward page searching
-      ~~- search for trophies within trophyAward page~~
-      - search for names within trophyAward page (i'll check if it works when im home)
-   - trophyAward players and years page searching
-      - search for people's names(Shayan)
-      - search for year(Shayan)
+
+- remaining search tasks
+     - homepage: add functionality for '{sport}, {name}'(ex: Football Goni), '{name}, {year}' (ex: Goni 1990), '{sport}, {year}' (ex: Football, 1990)
+     - homepage: add a search by trophy functionality on homepage 
+     - have a "no results found: we support these types of searches..." page if someone types in something and no results are found.
+     
+  
+   
 - add more of the trophyAward info (Ujjwal & Carolina)
       - add 'trophy_with_awards_activity' page
       - add 'corner_view_trophy_with_awards_activity.xml' which contains cards that go inside of      'trophy_with_awards_activity' page
 - add cleanup code to clean export files (Shayan)
-- try to assign a certain color to a certain year. ex: lets say we have 10 colors in our array ["red","green","blue","orange", etc....]. Then if the first date we have is 1960, then all trophies from 1960 will be red, from 1961 will be green, and so on... and then once we run out of the colors, we loop back from the start until everything is colored.
+
+- players&years page: make the color matching so each year is associated with one color. Right now it does not work properly!
+
+Here is an example of how color matching should work on players&years page--it's fine for trophy page:
+
+If this is the Array of all colors:
+[red, orange, green, blue, yellow, purple]
+
+1960 cards --> all are red
+1961 cards --> all are orange
+...
+1966 cards --> all are purple
+Then it goes back to 1967 is red. And so on.
+
 
 # UI:
 
