@@ -66,7 +66,6 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
         Sport sport = DataManager.getSportRepository(context).getSportById(data.get(position).trophy.getSportId());
         Trophy trophy = data.get(position).trophy;
         holder.textViewSport.setText(trophy.getTitle() + " - " + sport.getName() + " - " + " Trophy Award(s)");
-        holder.tvTitle.setText(trophy.getTitle());
         Utils.imageFromUrl(holder.img, trophy.getUrl());
         holder.trophyView.setBackgroundColor(trophy.getColor());
 
@@ -91,7 +90,6 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
 
         private RecyclerView recyclerViewHorizontal;
         private TextView textViewSport;
-        private TextView tvTitle;
         private ImageView img;
         private View trophyView;
 
@@ -107,7 +105,6 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
             recyclerViewHorizontal.setItemAnimator(new DefaultItemAnimator());
 
             textViewSport = itemView.findViewById(R.id.tv_sport_and_trophy);
-            tvTitle = itemView.findViewById(R.id.trophies_with_awards_title);
             img = itemView.findViewById(R.id.trophies_with_awards_thumbnail);
             trophyView = itemView.findViewById(R.id.trophies_with_awards_trophy);
 
