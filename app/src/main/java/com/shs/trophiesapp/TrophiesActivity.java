@@ -69,7 +69,7 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         searchBar.inflateMenu(R.menu.main);
         searchBar.setHint(getResources().getString(R.string.search_info));
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
-        searchBar.setCardViewElevation(10);
+        searchBar.setCardViewElevation(1);
         searchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
