@@ -65,7 +65,7 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
 
         Sport sport = DataManager.getSportRepository(context).getSportById(data.get(position).trophy.getSportId());
         Trophy trophy = data.get(position).trophy;
-        holder.textViewSport.setText(trophy.getTitle() + " - " + sport.getName() + " - " + " Trophy Award(s)");
+        holder.textViewSport.setText(sport.getName() + ": " + trophy.getTitle()  );
         Utils.imageFromUrl(holder.img, trophy.getUrl());
         holder.trophyView.setBackgroundColor(trophy.getColor());
 

@@ -64,7 +64,7 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
         tvSportTitle.setText(sport + " Trophy Award(s)");
         tvTitle.setText(title);
         Utils.imageFromUrl(img, url);
-        trophyView.setBackgroundColor(color);
+        //trophyView.setBackgroundColor(color);
 
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.trophy_with_awards_recycleview);
