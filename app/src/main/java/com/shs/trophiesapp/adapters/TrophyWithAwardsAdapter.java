@@ -58,6 +58,8 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
         holder.setDetails(trophyAward);
 
 
+
+
         // set click listener
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,9 +69,9 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
 
                 // passing data
                 intent.putExtra("trophyId", awardsFiltered.get(position).getTrophyId());
-                intent.putExtra("year", awardsFiltered.get(position).getYear());
-                intent.putExtra("player", awardsFiltered.get(position).getPlayer());
-                intent.putExtra("category", awardsFiltered.get(position).getCategory());
+//                intent.putExtra("year", awardsFiltered.get(position).getYear());
+//                intent.putExtra("player", awardsFiltered.get(position).getPlayer());
+//                intent.putExtra("category", awardsFiltered.get(position).getCategory());
                 intent.putExtra("color", trophyColor);
 
                 // start activity
