@@ -13,7 +13,7 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="115dp"
-        android:background="#fff"
+        android:background="#f9f9f9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -62,13 +62,11 @@
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
 
-
-
     <com.mancj.materialsearchbar.MaterialSearchBar
         android:id="@+id/trophies_search"
         style="@style/MaterialSearchBarLight"
         android:layout_width="1100dp"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
 
 
         android:elevation="8dp"

@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
@@ -46,6 +45,7 @@
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="@font/montserrat_extrabold"
+
             android:gravity="center_horizontal"
             android:textAlignment="center"
             android:textColor="@color/white"

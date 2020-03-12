@@ -3,7 +3,7 @@
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardview_trophy_details_id"
-    android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="20dp"
@@ -11,6 +11,7 @@
     android:layout_marginRight="10dp"
     android:clickable="true"
     android:focusable="true"
+    android:background="#f2f2f2"
     cardview:cardCornerRadius="10dp">
 
 
@@ -19,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="625dp"
         android:background="#fff"
-        android:scaleType="fitCenter" />
+        android:scaleType="centerCrop" />
 
     <!--
     <TextView
@@ -37,8 +38,10 @@
 
     <com.lb.auto_fit_textview.AutoResizeTextView
         android:id="@+id/txt_title"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
         android:layout_marginTop="630dp"
         android:fontFamily="@font/montserrat_bold"
         android:gravity="center_vertical"

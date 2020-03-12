@@ -9,7 +9,6 @@
     android:layout_marginRight="10dp"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
     cardview:cardCornerRadius="10dp"
     cardview:cardElevation="5dp">
 
@@ -19,8 +18,10 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
+        android:foreground="?android:attr/selectableItemBackground"
         cardview:cardCornerRadius="0dp"
         cardview:cardElevation="5dp"
+
         >
 
 
@@ -54,6 +55,7 @@
                 android:textAlignment="center"
                 android:textColor="#fff"
                 android:textSize="20dp"
+
                 android:maxLines="2"
                 android:ellipsize="end"/>
 
