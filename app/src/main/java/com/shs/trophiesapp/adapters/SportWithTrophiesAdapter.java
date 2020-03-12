@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mikepenz.fastadapter.listeners.OnClickListener;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.TrophyWithAwardsActivity;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
@@ -56,10 +57,9 @@ public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrop
     public void onBindViewHolder(TrophyViewHolder holder, int position) {
         Trophy trophy = sportWithTrophiesFiltered.trophies.get(position);
         holder.setDetails(trophy);
+        
 
-
-        // set click listener
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -76,7 +76,11 @@ public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrop
                 // start activity
                 context.startActivity(intent);
             }
-        });
+        };
+
+        holder.txtTitle.setOnClickListener(listener);
+        // set click listener
+        holder.cardView.setOnClickListener(listener);
     }
 
     static ColorGenerator newColor = new ColorGenerator(new int[]{Color.parseColor("#009A28"), Color.parseColor("#FF3232"), Color.parseColor("#FF8900"),  Color.parseColor("#00CB0C"), Color.parseColor("#FF5C00"), Color.parseColor("#009A95"), Color.parseColor("#006E9A"), Color.parseColor("#004CCB"), Color.parseColor("#A8C100")     });
