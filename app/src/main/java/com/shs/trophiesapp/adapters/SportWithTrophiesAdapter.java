@@ -57,7 +57,7 @@ public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrop
     public void onBindViewHolder(TrophyViewHolder holder, int position) {
         Trophy trophy = sportWithTrophiesFiltered.trophies.get(position);
         holder.setDetails(trophy);
-        
+
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override

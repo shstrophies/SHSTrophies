@@ -106,6 +106,23 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
 
         });
 
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                long trophyId = intent.getExtras().getLong("trophyId");
+
+                Intent intent = new Intent(getApplicationContext(), TrophyDetailsActivity.class);
+
+                // passing data
+                intent.putExtra("trophyId", trophyId);
+                intent.putExtra("color", color);
+
+                // start activity
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
