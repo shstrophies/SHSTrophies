@@ -7,10 +7,7 @@
     android:layout_margin="10dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    cardview:cardCornerRadius="10dp"
+        cardview:cardCornerRadius="10dp"
     >
 
     <androidx.cardview.widget.CardView

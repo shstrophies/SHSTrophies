@@ -61,23 +61,7 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
 
 
         // set click listener
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Intent intent = new Intent(context, TrophyDetailsActivity.class);
-
-                // passing data
-                intent.putExtra("trophyId", awardsFiltered.get(position).getTrophyId());
-//                intent.putExtra("year", awardsFiltered.get(position).getYear());
-//                intent.putExtra("player", awardsFiltered.get(position).getPlayer());
-//                intent.putExtra("category", awardsFiltered.get(position).getCategory());
-                intent.putExtra("color", trophyColor);
-
-                // start activity
-                context.startActivity(intent);
-            }
-        });
     }
 
     static ColorGenerator newColor = new ColorGenerator(new int[]{Color.parseColor("#009A28"), Color.parseColor("#FF3232"), Color.parseColor("#FF8900"),  Color.parseColor("#00CB0C"), Color.parseColor("#FF5C00"), Color.parseColor("#009A95"), Color.parseColor("#006E9A"), Color.parseColor("#004CCB"), Color.parseColor("#A8C100")     });

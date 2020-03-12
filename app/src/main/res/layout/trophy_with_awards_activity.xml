@@ -31,7 +31,7 @@
             <ImageView
                 android:id="@+id/trophy_with_awards_thumbnail"
                 android:layout_width="100dp"
-
+                android:foreground="?android:attr/selectableItemBackground"
                 android:layout_height="105dp"
                 android:elevation="10dp"
                 android:scaleType="centerCrop"
