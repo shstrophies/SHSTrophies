@@ -52,6 +52,8 @@ ___________________________________________________
   - fix seedDatabaseWorker.java
   
 - new DB schema (Ujjwal)
+
+- make a seamless app restart process for loading new data into the app 
 ___________________________________________________
 **Remaining Search Features**
 ___________________________________________________
