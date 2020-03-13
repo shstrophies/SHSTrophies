@@ -40,9 +40,9 @@ Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load da
 
 
 
-### TODO:
+## TODO:
 
-#### Backend:
+### Backend:
 - new spreadsheet (Shayan and Carolina)
   - fix seedDatabaseWorker.java
   
@@ -89,7 +89,7 @@ Then it goes back to 1967 is red. And so on.
 - add cleanup code to clean export files (Shayan)
 
 
-#### UI:
+### UI:
   
 For torrens to do:
 - update spreadsheet with real data and see if there will be storage and load time issues (S)
