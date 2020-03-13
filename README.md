@@ -104,10 +104,15 @@ ___________________________________________________
 ### UI:
 ___________________________________________________
 
+  - Refine search results page
   
+  - eventually add an 'info page' so ppl see the history of the app, instructions on how to use it, etc.
   
- 
+
+___________________________________________________
 ___________________________________________________
 
-For torrens to do:
-- update spreadsheet with real data and see if there will be storage and load time issues (S)
+### Torrens/Leadership Kids
+___________________________________________________
+
+- update spreadsheet with real data so we can see if there will be storage and load time issues (S)
