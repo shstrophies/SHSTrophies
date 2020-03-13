@@ -1,6 +1,5 @@
 # SHS Trophies 
 ___________________________________________________
-___________________________________________________
 ### Links to original data:
 - Figma UI Designs: https://www.figma.com/file/q213rSM1bDSIGCbETgCeAL/Official-SHS-Trophy-UI?node-id=1%3A2
 - Images provided by Mr. Torrens: https://drive.google.com/drive/folders/1jjymid-BPNTvE8sj15OUT0PvNo9TRVqW
@@ -38,11 +37,10 @@ ___________________________________________________
         adb -s $DEVICE shell run-as com.shs.trophiesapp "cp -r databases /sdcard/tempDB/." && 
         adb -s $DEVICE pull sdcard/tempDB/ && 
         adb -s $DEVICE shell "rm -r /sdcard/tempDB/*"
-___________________________________________________
+
 ___________________________________________________
 
 ## TODO:
-___________________________________________________
 ___________________________________________________
 
 ### Backend:
@@ -110,8 +108,6 @@ ___________________________________________________
   
 
 ___________________________________________________
-___________________________________________________
-
 ### Torrens/Leadership Kids
 ___________________________________________________
 
