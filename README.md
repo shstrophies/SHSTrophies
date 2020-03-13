@@ -1,6 +1,7 @@
 # SHS Trophies 
-
-#### Links to original data:
+___________________________________________________
+___________________________________________________
+### Links to original data:
 - Figma UI Designs: https://www.figma.com/file/q213rSM1bDSIGCbETgCeAL/Official-SHS-Trophy-UI?node-id=1%3A2
 - Images provided by Mr. Torrens: https://drive.google.com/drive/folders/1jjymid-BPNTvE8sj15OUT0PvNo9TRVqW
 - Spreadsheet provided by Mr. Torrens of trophyAward information: https://drive.google.com/drive/folders/1uUnlIY1g8QrJMeidAtESJx-MJrDoLoLm
@@ -18,10 +19,11 @@
 
 https://drive.google.com/file/d/1zOlNzaB-VGyegnQ_3UWZtq64KsVLK4Q7/view?usp=sharing
 
-
+___________________________________________________
 ## Setup:
 
 Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load database from then on.
+___________________________________________________
 
 ## To extract the database from the device or emulator:
 
@@ -36,19 +38,25 @@ Use a 10.1 inch WXGA Tablet running API 28. Press download data and then load da
         adb -s $DEVICE shell run-as com.shs.trophiesapp "cp -r databases /sdcard/tempDB/." && 
         adb -s $DEVICE pull sdcard/tempDB/ && 
         adb -s $DEVICE shell "rm -r /sdcard/tempDB/*"
-
-
-
+___________________________________________________
+___________________________________________________
 
 ## TODO:
+___________________________________________________
+___________________________________________________
 
 ### Backend:
+___________________________________________________
+**Database related**
+___________________________________________________
+
 - new spreadsheet (Shayan and Carolina)
   - fix seedDatabaseWorker.java
   
 - new DB schema (Ujjwal)
-  
+___________________________________________________
 **Remaining Search Features**
+___________________________________________________
 
 Firstly, there are two types of searching that we can do.
 1) I call it 'filter search'. When you type in 'f' on the homescreen, the cards which don't contain 'f' disappear.
@@ -65,15 +73,21 @@ add functionality for:
 
 - On players&trophies page: when you start typing, it should do a filter search for the names -- filter search
 - On players&trophies page: when you start typing, it should do a filter search for the years -- filter search
-- We don't need any 'real search' for this page. 
+- On players&trophies page: We don't need any 'real search' for this page. 
 
-
+___________________________________________________
+**Misc. Backend**
+___________________________________________________
 
 - have a "no results found: we support these types of searches..." page if someone types in something and no results are found.
-
 - download images in case wifi is slow? (Ujjwal & Carolina)
+- add cleanup code to clean export files (Shayan)
 
-**players&years page: make the color matching so each year is associated with one color. Right now it does not work properly!**
+___________________________________________________
+**UI Related Backend**
+___________________________________________________
+
+- players&years page: make the color matching so each year is associated with one color. Right now it does not work properly!
 
 Here is an example of how color matching should work on players&years page
 
@@ -86,10 +100,14 @@ If this is the Array of all colors:
 1966 cards --> all are purple
 Then it goes back to 1967 is red. And so on.
 
-- add cleanup code to clean export files (Shayan)
-
-
+___________________________________________________
 ### UI:
+___________________________________________________
+
   
+  
+ 
+___________________________________________________
+
 For torrens to do:
 - update spreadsheet with real data and see if there will be storage and load time issues (S)
