@@ -58,10 +58,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.lb.auto_fit_textview.AutoResizeTextView
+
         android:id="@+id/trophy_with_awards_title"
-        android:layout_width="wrap_content"
+        android:layout_width="800dp"
         android:layout_height="wrap_content"
+        android:maxLines="1"
 
         android:fontFamily="@font/montserrat_extrabold"
         android:paddingTop="5dp"
