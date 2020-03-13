@@ -85,6 +85,8 @@ ___________________________________________________
 **UI Related Backend**
 ___________________________________________________
 
+- be able to process the '--' in the spreadsheet. What I mean is that when the app reads a '--' in the spreadsheet, it knows to not create the players&trophy page for it.
+
 - players&years page: make the color matching so each year is associated with one color. Right now it does not work properly!
 
 Here is an example of how color matching should work on players&years page
