@@ -79,7 +79,7 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
 
         searchBar = findViewById(R.id.trophies_search);
         searchBar.setOnSearchActionListener(this);
-        searchBar.inflateMenu(R.menu.main);
+//        searchBar.inflateMenu(R.menu.main);
         searchBar.setHint(getResources().getString(R.string.search_info));
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
         searchBar.setCardViewElevation(1);

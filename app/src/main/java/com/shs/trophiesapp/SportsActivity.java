@@ -54,7 +54,7 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
 
         searchBar = findViewById(R.id.sports_search);
         searchBar.setOnSearchActionListener(this);
-        searchBar.inflateMenu(R.menu.main);
+//        searchBar.inflateMenu(R.menu.main);
         searchBar.setHint(getResources().getString(R.string.search_info));
 
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
@@ -86,7 +86,7 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        return false;
     }
 
     @Override
