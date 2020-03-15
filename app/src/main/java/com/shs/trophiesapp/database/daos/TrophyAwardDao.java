@@ -6,10 +6,13 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
+import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 
 import java.util.List;
+
+import static androidx.room.OnConflictStrategy.REPLACE;
 
 @Dao public interface TrophyAwardDao {
     @Query("SELECT * FROM TrophyAward") List<TrophyAward> getAll();
@@ -17,6 +20,8 @@ import java.util.List;
     @Query("SELECT * FROM TrophyAward")
     List<TrophyAward> getAwards();
 
+    @Insert(onConflict = REPLACE)
+    public abstract long insert(TrophyAward award);
     @Insert void insertAll(TrophyAward... trophies);
     @Delete void delete(TrophyAward trophyAward);
 

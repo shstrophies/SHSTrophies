@@ -31,7 +31,7 @@
             <ImageView
                 android:id="@+id/trophy_with_awards_thumbnail"
                 android:layout_width="100dp"
-
+                android:foreground="?android:attr/selectableItemBackground"
                 android:layout_height="105dp"
                 android:elevation="10dp"
                 android:scaleType="centerCrop"
@@ -58,10 +58,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.lb.auto_fit_textview.AutoResizeTextView
+
         android:id="@+id/trophy_with_awards_title"
-        android:layout_width="wrap_content"
+        android:layout_width="800dp"
         android:layout_height="wrap_content"
+        android:maxLines="1"
 
         android:fontFamily="@font/montserrat_extrabold"
         android:paddingTop="5dp"
@@ -80,7 +82,7 @@
 
         android:layout_marginBottom="12dp"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Tap a trophy award or search"
+        android:text="Tap the trophy image or search"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="23dp"
@@ -123,15 +125,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trophy_with_awards_recycleview"
         android:layout_width="1268dp"
-        android:layout_height="576dp"
+        android:layout_height="555dp"
         android:layout_gravity="center|center_horizontal"
         android:clipToPadding="false"
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trophies_search"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/trophies_search" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

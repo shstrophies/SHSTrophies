@@ -72,13 +72,18 @@ public class SeedDatabaseWorker extends Worker {
                         trophy.setSportId(sportId);
                         long id = appDatabase.trophyDao().insert(trophy);
                         trophy.setId(id);
+                        Log.d(TAG, "doWork: inserted trophy for sport(" + sport.getName() + ")" + trophy.toString());
                     }
                     else trophy.setId(trophyItem.getId());
                     TrophyAward award = new TrophyAward(trophy.getId(), awarditem.getYear(), awarditem.getPlayer(), awarditem.getCategory());
                     awards.add(award);
                 }
                 appDatabase.trophyDao().insert(sport, trophies);
-                appDatabase.trophyAwardDao().insertAll(awards.toArray(new TrophyAward[0]));
+//                appDatabase.trophyAwardDao().insertAll(awards.toArray(new TrophyAward[0]));
+                awards.forEach(item -> appDatabase.trophyAwardDao().insert(item));
+                Log.d(TAG, "doWork: inserted awards=");
+                List<TrophyAward> trophyAwards = appDatabase.trophyDao().getAllTrophyAwards();
+                trophyAwards.forEach(item-> Log.d(TAG, "          " + item.toString()));
                 Log.d(TAG, "doWork: trophy data loaded");
             }
 

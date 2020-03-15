@@ -256,7 +256,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
             if ((sports.size() != 0) && (awards.size() != 0)) {
                 Toast.makeText(SetupActivity.this, "sports size=" + sports.size(), Toast.LENGTH_LONG).show();
-                Toast.makeText(SetupActivity.this, "trophies size=" + awards.size(), Toast.LENGTH_LONG).show();
+                Toast.makeText(SetupActivity.this, "awards size=" + awards.size(), Toast.LENGTH_LONG).show();
 
                 startActivity(new Intent(SetupActivity.this, SportsActivity.class));
             }

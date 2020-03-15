@@ -40,6 +40,8 @@ public abstract class TrophyDao {
     @Query("SELECT * FROM trophy t")
     public abstract List<TrophyWithAwards> getTrophiesWithAwards();
 
+    @Query("SELECT * FROM trophyaward")
+    public abstract List<TrophyAward> getAllTrophyAwards();
 
     @Query("SELECT * FROM trophyaward WHERE (year = :year)")
     public abstract List<TrophyAward> getTrophyAwardsByYear(int year);

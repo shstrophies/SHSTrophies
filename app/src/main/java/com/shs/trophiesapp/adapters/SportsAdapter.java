@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.shs.trophiesapp.R;
+import com.shs.trophiesapp.TrophyWithAwardsActivity;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.TrophiesActivity;
 import com.shs.trophiesapp.utils.Utils;
@@ -51,26 +52,24 @@ public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.SportViewH
 
     @Override
     public void onBindViewHolder(SportViewHolder holder, int position) {
-        Sport Sport = sportsFiltered.get(position);
-        holder.setDetails(Sport);
+        Sport sport = sportsFiltered.get(position);
+        holder.setDetails(sport);
 
-        // set click listener
-        holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, TrophiesActivity.class);
-            // passing data
-            intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sports.get(position).name);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-            // start activity
-            context.startActivity(intent);
-        });
-        holder.txtTitle.setOnClickListener(view -> {
-            Intent intent = new Intent(context, TrophiesActivity.class);
-            // passing data
-            intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sports.get(position).name);
+                Intent intent = new Intent(context, TrophiesActivity.class);
+                // passing data
+                intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sport.name);
 
-            // start activity
-            context.startActivity(intent);
-        });
+                // start activity
+                context.startActivity(intent);
+            }
+        };
+        // set click listeners
+        holder.itemView.setOnClickListener(listener);
+        holder.txtTitle.setOnClickListener(listener);
     }
 
     class SportViewHolder extends RecyclerView.ViewHolder {
