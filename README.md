@@ -129,15 +129,18 @@ ___________________________________________________
   - Refine search results page
   
   - figure out which cropping attribute to use
-  
-  - cut out search bar dots
-  
+    
   - eventually add an 'info page' so ppl see the history of the app, instructions on how to use it, etc.
   
   - remove dots on search bar
   
   - look into back buttons
   
+  - create a footer for a icon to the credits page
+  
+  - add question mark to search bar with search options
+  
+  - adjust search page and tapping onto the card pages
 
 ___________________________________________________
 ### Torrens/Leadership Kids
