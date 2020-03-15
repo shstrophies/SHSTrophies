@@ -8,17 +8,16 @@ import androidx.annotation.NonNull;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.MemoryCategory;
 import com.shs.trophiesapp.data.SportData;
 import com.shs.trophiesapp.data.TrophyAwardData;
 import com.shs.trophiesapp.database.AppDatabase;
@@ -37,6 +36,7 @@ public class SeedDatabaseWorker extends Worker {
             @NonNull Context context,
             @NonNull WorkerParameters params) {
         super(context, params);
+        //Glide.get(context).setMemoryCategory(MemoryCategory.HIGH);
     }
 
     @NonNull
@@ -50,16 +50,16 @@ public class SeedDatabaseWorker extends Worker {
             Log.d(TAG, "onCreate: sportCSVData length=" + sportCSVData.size());
             AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
 
-            List<Sport> list = sportCSVData.stream()
+            Sport[] sportArray = sportCSVData.stream()
                     .filter(Objects::nonNull)
-                    .map(sd -> new Sport(sd.name, sd.imageUrl)).collect(Collectors.toList());
-            appDatabase.sportDao().insertAll(list.toArray(new Sport[0]));
+                    .map(sd -> new Sport(sd.name, sd.imageUrl)).toArray(Sport[]::new);
+            appDatabase.sportDao().insertAll(sportArray);
             List<Sport> sports = appDatabase.sportDao().getAll();
             for (Sport sport : sports) {
                 Log.d(TAG, "doWork: got sport=" + sport.name);
                 List<TrophyAwardData> trophyAwardCSVData = getTrophiesCSVData(sport.name);
                 Log.d(TAG, "onCreate: trophyAwardCSVData length=" + trophyAwardCSVData.size());
-                ArrayList<Trophy> trophies = new ArrayList();
+                ArrayList<Trophy> trophies = new ArrayList<>();
                 ArrayList<TrophyAward> awards = new ArrayList<>();
                 HashMap<String, Trophy> map = new HashMap<>();
                 for(TrophyAwardData awarditem : trophyAwardCSVData) {
