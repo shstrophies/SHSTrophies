@@ -22,6 +22,8 @@ import com.shs.trophiesapp.TrophyWithAwardsActivity;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.entities.Trophy;
 import com.shs.trophiesapp.utils.ColorGenerator;
+import com.shs.trophiesapp.utils.ColorGeneratorByTrophyTitle;
+import com.shs.trophiesapp.utils.ColorGeneratorByYear;
 import com.shs.trophiesapp.utils.Utils;
 
 public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrophiesAdapter.TrophyViewHolder> implements Filterable {
@@ -83,7 +85,6 @@ public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrop
         holder.cardView.setOnClickListener(listener);
     }
 
-    static ColorGenerator newColor = new ColorGenerator(new int[]{Color.parseColor("#FF3232"), Color.parseColor("#FF5C00"), Color.parseColor("#FF8900"),  Color.parseColor("#009A28"), Color.parseColor("#00CB0C"), Color.parseColor("#009A95"), Color.parseColor("#006E9A"), Color.parseColor("#004CCB"), Color.parseColor("#4761FF"), Color.parseColor("#7A2AFF"), Color.parseColor("#6900B2"), Color.parseColor("#910094"), Color.parseColor("#8A0013"), Color.parseColor("#C62DDF") , Color.parseColor("#A8C100")    });
 
     class TrophyViewHolder extends RecyclerView.ViewHolder {
         private TextView txtTitle;
@@ -103,8 +104,8 @@ public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrop
             String imageUrl = trophy.getUrl();
             Utils.imageFromUrl(imgView, imageUrl);
 
-            newColor = newColor.getNextColor();
-            trophy.setColor(newColor.getColor());
+            int color = ColorGeneratorByTrophyTitle.getInstance().getColorForTrophyTitle(trophy.getTitle());
+            trophy.setColor(color);
             this.cardView.setBackgroundColor(trophy.getColor());
         }
     }

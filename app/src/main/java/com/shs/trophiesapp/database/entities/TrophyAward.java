@@ -63,4 +63,16 @@ public class TrophyAward {
     public long getTrophyId() {
         return trophyId;
     }
+
+    @Override
+    public String toString() {
+        return "TrophyAward{" +
+                "id=" + id +
+                ", trophyId=" + trophyId +
+                ", year=" + year +
+                ", player='" + player + '\'' +
+                ", category='" + category + '\'' +
+                ", color=" + color +
+                '}';
+    }
 }

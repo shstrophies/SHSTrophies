@@ -19,6 +19,7 @@ import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.TrophyDetailsActivity;
 import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.utils.ColorGenerator;
+import com.shs.trophiesapp.utils.ColorGeneratorByYear;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +65,6 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
 
     }
 
-    static ColorGenerator newColor = new ColorGenerator(new int[]{Color.parseColor("#009A28"), Color.parseColor("#FF3232"), Color.parseColor("#FF8900"),  Color.parseColor("#00CB0C"), Color.parseColor("#FF5C00"), Color.parseColor("#009A95"), Color.parseColor("#006E9A"), Color.parseColor("#004CCB"), Color.parseColor("#A8C100")     });
-
     class TrophyWithAwardsViewHolder extends RecyclerView.ViewHolder {
         private TextView txtPlayer;
         private TextView txtYear;
@@ -84,8 +83,8 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
             txtYear.setText(String.valueOf(trophyAward.getYear()));
 
 
-            newColor = newColor.getNextColor();
-            trophyAward.setColor(newColor.getColor());
+            int color = ColorGeneratorByYear.getInstance().getColorForYear(trophyAward.getYear());
+            trophyAward.setColor(color);
             this.cardView.setBackgroundColor(trophyAward.getColor());
         }
     }
@@ -101,15 +100,6 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
             } else {
                 Log.d(TAG, "performFiltering: charString=" + charString);
                 List<TrophyAward> filteredList = new ArrayList<>();
-//                for (TrophyAward row : awards) {
-//                    // name match condition. this might differ depending on your requirement
-//                    // here we are looking for title or description match
-//                    if (row.title.toLowerCase().contains(charString) || row.player.toLowerCase().contains(charString)) {
-//                        filteredList.add(row);
-//                    }
-//                }
-
-
                 awardsFiltered = filteredList;
             }
 

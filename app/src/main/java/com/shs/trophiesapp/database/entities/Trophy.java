@@ -85,4 +85,14 @@ public class Trophy {
     int color = Color.RED;
 
 
+    @Override
+    public String toString() {
+        return "Trophy{" +
+                "id=" + id +
+                ", sportId=" + sportId +
+                ", title='" + title + '\'' +
+                ", url='" + url + '\'' +
+                ", color=" + color +
+                '}';
+    }
 }
