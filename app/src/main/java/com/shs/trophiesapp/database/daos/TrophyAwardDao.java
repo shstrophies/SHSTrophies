@@ -32,5 +32,28 @@ import java.util.List;
     @Query("SELECT * FROM TrophyAward WHERE Category LIKE :category")
     List<TrophyAward> findByCategory(String category);
 
+    //Enumerated Queries
+    @Transaction
+    @Query("SELECT * FROM TrophyAward " +
+            "WHERE id LIKE :id " +
+            "ORDER BY year ASC " +
+            "LIMIT :limit " +
+            "OFFSET ((:page - 1) * :limit)")
+    List<TrophyAward> findByIdLimited(long id, int limit, int page);
 
+    @Transaction
+    @Query("SELECT * FROM TrophyAward " +
+            "WHERE year LIKE :year " +
+            "ORDER BY trophyId ASC " +
+            "LIMIT :limit " +
+            "OFFSET ((:page - 1) * :limit)")
+    List<TrophyAward> findByYearLimited(int year, int limit, int page); //Ordered by Trophy ID – ordering by Trophy Name requires INNER JOIN or DB View
+
+    @Transaction
+    @Query("SELECT * FROM TrophyAward " +
+            "WHERE player LIKE :player " +
+            "ORDER BY year ASC " +
+            "LIMIT :limit " +
+            "OFFSET ((:page - 1) * :limit)")
+    List<TrophyAward> findByPlayer(String player, int limit, int page); //Ordered by year – ordering by Trophy Name requires INNER JOIN or DB View
 }

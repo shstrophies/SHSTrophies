@@ -36,7 +36,7 @@ public class SeedDatabaseWorker extends Worker {
             @NonNull Context context,
             @NonNull WorkerParameters params) {
         super(context, params);
-        Glide.get(context).setMemoryCategory(MemoryCategory.HIGH);
+        //Glide.get(context).setMemoryCategory(MemoryCategory.HIGH);
     }
 
     @NonNull
