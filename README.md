@@ -48,23 +48,39 @@ ___________________________________________________
 **Database related**
 ___________________________________________________
 
-- new spreadsheet (Shayan and Carolina)
-  - fix seedDatabaseWorker.java
-  
-- new DB schema (Ujjwal)
+- add FTS in the Database (Ujjwal & Carolina)
 
-- make a seamless app restart process for loading new data into the app 
+- enable recyclerview pagination (Ujjwal & Carolina)
+
+- add limit statements and offsets to the database(Ujjwal & Carolina)
+  
+- finish downloading images (Ujjwal)
+
+- file hashing for seamless app restarts (ujjwal)
+
 ___________________________________________________
 **Remaining Search Features**
 ___________________________________________________
+
+add Hints using this- https://www.journaldev.com/14073/android-multi-search-filter-contacts (Ujjwal & Vignav)
+
+
+- have autocomplete. if you type in foo, you want 'football in sports'
+
+- show # of results found on search
+
+
 
 Firstly, there are two types of searching that we can do.
 1) I call it 'filter search'. When you type in 'f' on the homescreen, the cards which don't contain 'f' disappear.
 2) I call it 'real search'. When you type in a name on the homescreen and press enter, you are taken to a new page with the search results
 
+
+
+
 add functionality for:
-- On Homepage: '{sport}, {name}'(ex: Football Goni) -- real search
-- On Homepage: '{name}, {year}' (ex: Goni 1990) -- real search
+- On Homepage: '{sport}, {name}'(ex: Football, Goni) -- real search
+- On Homepage: '{name}, {year}' (ex: Goni, 1990) -- real search
 - On Homepage: '{sport}, {year}' (ex: Football, 1990) -- real search
 - On Homepage: be able to search for a trophy title IF there are no matches for the options above  -- real search
 
@@ -75,19 +91,23 @@ add functionality for:
 - On players&trophies page: when you start typing, it should do a filter search for the years -- filter search
 - On players&trophies page: We don't need any 'real search' for this page. 
 
+
+
 ___________________________________________________
 **Misc. Backend**
 ___________________________________________________
 
 - have a "no results found: we support these types of searches..." page if someone types in something and no results are found.
-- download images in case wifi is slow? (Ujjwal & Carolina)
-- add cleanup code to clean export files (Shayan)
 
 ___________________________________________________
 **UI Related Backend**
 ___________________________________________________
 
-- be able to process the '--' in the spreadsheet. What I mean is that when the app reads a '--' in the spreadsheet, it knows to not create the players&trophy page for it.
+- have the players&years cards clickable and have them show a screen with all trophies that person won.
+
+- replace "--" with "Team Trophy"
+
+
 
 - players&years page: make the color matching so each year is associated with one color. Right now it does not work properly!
 
@@ -108,8 +128,19 @@ ___________________________________________________
 
   - Refine search results page
   
+  - figure out which cropping attribute to use
+    
   - eventually add an 'info page' so ppl see the history of the app, instructions on how to use it, etc.
   
+  - remove dots on search bar
+  
+  - look into back buttons
+  
+  - create a footer for a icon to the credits page
+  
+  - add question mark to search bar with search options
+  
+  - adjust search page and tapping onto the card pages
 
 ___________________________________________________
 ### Torrens/Leadership Kids
