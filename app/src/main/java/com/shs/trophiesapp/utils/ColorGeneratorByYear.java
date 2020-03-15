@@ -7,6 +7,8 @@ import java.util.HashMap;
 public class ColorGeneratorByYear {
 
     int colors[] = Constants.colors;
+    int nextColorIndex = 0;
+
 
     private static ColorGeneratorByYear single_instance = null;
 
@@ -25,6 +27,8 @@ public class ColorGeneratorByYear {
 
     public int getColorForYear(int year) {
         // TODO
-        return colors[0];
+        nextColorIndex++;
+        nextColorIndex = nextColorIndex % colors.length;
+        return colors[nextColorIndex];
     }
 }
