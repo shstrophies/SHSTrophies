@@ -11,9 +11,11 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Set;
 
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
@@ -134,6 +136,7 @@ public class SeedDatabaseWorker extends Worker {
         List<TrophyAwardData> trophyData = new ArrayList<>();
 
         try {
+            Set<String> urlSet = new HashSet<>();
             File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + sport + "/");
             if (file != null) {
                 Log.d(TAG, "getTrophiesCSVData: getting trophy data from file=" + file.getAbsolutePath());
@@ -149,7 +152,8 @@ public class SeedDatabaseWorker extends Worker {
                                 String year = line.get(0);
                                 String title = line.get(1);
                                 String uri = line.get(2);
-                                Utils.synchronousImageDownload(contextWeakReference.get(), uri);
+                                if(!urlSet.contains(uri)) Utils.synchronousImageDownload(contextWeakReference.get(), uri);
+                                urlSet.add(uri);
                                 String category = "TBD";
                                 Log.d(TAG, "getTrophiesCSVData: line.get(0)=" + line.get(0) + " line.get(1)=" + line.get(1));
                                 trophyData.add(new TrophyAwardData(sport, Integer.parseInt(year), title, uri, player, category));
