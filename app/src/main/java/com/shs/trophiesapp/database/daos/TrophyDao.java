@@ -47,7 +47,7 @@ public abstract class TrophyDao {
     public abstract List<TrophyAward> getTrophyAwardsByYear(int year);
 
     @Transaction
-    @Query("SELECT * FROM trophyaward ta INNER JOIN trophy t ON t.id = ta.trophyId WHERE (year LIKE :year) ORDER BY t.title ASC LIMIT :limit OFFSET ((:page - 1) * :limit)")
+    @Query("SELECT * FROM trophyaward INNER JOIN trophy ON trophy.id = trophyId WHERE (year LIKE :year) ORDER BY trophy.title ASC LIMIT :limit OFFSET ((:page - 1) * :limit)")
     public abstract List<TrophyAward> getTrophyAwardsByYearLimited(int year, int limit, int page);
 
     @Query("SELECT * FROM trophyaward WHERE (player LIKE :player)")
@@ -57,18 +57,18 @@ public abstract class TrophyDao {
     @Query("SELECT * FROM trophyaward WHERE (player LIKE :player) ORDER BY year ASC LIMIT :limit OFFSET ((:page - 1) * :limit)")
     public abstract List<TrophyAward> getTrophyAwardsByPlayerLimited(String player, int limit, int page);
 
-    @Query("SELECT * FROM trophyaward ta JOIN trophy t ON t.id = ta.trophyId WHERE (t.sportId LIKE :sportId) AND (player LIKE :player)")
+    @Query("SELECT * FROM trophyaward JOIN trophy ON trophy.id = trophyId WHERE (trophy.sportId LIKE :sportId) AND (player LIKE :player)")
     public abstract List<TrophyAward> getTrophyAwardsBySportAndPlayer(long sportId, String player);
 
     @Transaction
-    @Query("SELECT * FROM TrophyAward ta INNER JOIN trophy t ON t.id = ta.trophyId WHERE ((t.sportId=:sportId) AND (player LIKE :player)) ORDER BY year ASC LIMIT :limit OFFSET ((:page - 1) * :limit)")
+    @Query("SELECT * FROM TrophyAward INNER JOIN trophy ON trophy.id = trophyId WHERE ((trophy.sportId=:sportId) AND (player LIKE :player)) ORDER BY year ASC LIMIT :limit OFFSET ((:page - 1) * :limit)")
     public abstract List<TrophyAward> getTrophyAwardsBySportAndPlayerLimited(long sportId, String player, int limit, int page);
 
-    @Query("SELECT * FROM trophyaward ta JOIN trophy t ON t.id = ta.trophyId WHERE (t.sportId LIKE :sportId) AND (year LIKE :year)")
+    @Query("SELECT * FROM trophyaward JOIN trophy ON trophy.id = trophyId WHERE (trophy.sportId LIKE :sportId) AND (year LIKE :year)")
     public abstract List<TrophyAward> getTrophyAwardsBySportAndYear(long sportId, int year);
 
     @Transaction
-    @Query("SELECT * FROM trophyaward ta INNER JOIN trophy t ON t.id=ta.trophyId WHERE ((t.sportId LIKE :sportId) AND (year LIKE :year)) ORDER BY t.title ASC LIMIT :limit OFFSET ((:page - 1) * :limit)")
+    @Query("SELECT * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE ((trophy.sportId LIKE :sportId) AND (year LIKE :year)) ORDER BY trophy.title ASC LIMIT :limit OFFSET ((:page - 1) * :limit)")
     public abstract List<TrophyAward> getTrophyAwardsBySportAndYearLimited(long sportId, int year, int limit, int page);
 
     // SELECT s.name as sportName, t.id as trophyid, t.title, t.url, year, player  FROM trophy t join trophyaward a ON a.trophyid = t.id JOIN sport s ON s.id = t.sportid WHERE (a.year = 1976) OR (s.name like 'ba') OR (a.player like 'ba')

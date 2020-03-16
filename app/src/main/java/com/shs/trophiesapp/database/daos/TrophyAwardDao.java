@@ -47,10 +47,10 @@ import static androidx.room.OnConflictStrategy.REPLACE;
     List<TrophyAward> findByIdLimited(long id, int limit, int page);
 
     @Transaction
-    @Query("SELECT * FROM TrophyAward ta " +
-            "INNER JOIN Trophy t ON t.id=ta.trophyId " +
+    @Query("SELECT * FROM TrophyAward " +
+            "INNER JOIN Trophy ON trophy.id=trophyId " +
             "WHERE year LIKE :year " +
-            "ORDER BY t.title ASC " +
+            "ORDER BY trophy.title ASC " +
             "LIMIT :limit " +
             "OFFSET ((:page - 1) * :limit)")
     List<TrophyAward> findByYearLimited(int year, int limit, int page);
