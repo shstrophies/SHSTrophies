@@ -29,8 +29,11 @@ public class DirectoryHelper extends ContextWrapper {
     }
 
     public void createFolderDirectories() {
-        if (isExternalStorageAvailable())
+        if (isExternalStorageAvailable()) {
             createDirectory(ROOT_DIRECTORY_NAME);
+            createDirectory(Constants.DATA_DIRECTORY_SPORT_IMAGES);
+            createDirectory(Constants.DATA_DIRECTORY_TROPHY_IMAGES);
+        }
     }
 
     public void createDirectory(String directoryName) {
@@ -113,9 +116,6 @@ public class DirectoryHelper extends ContextWrapper {
         }
 
     }
-
-
-
 
     public static boolean doesDirectoryExist(String directoryName) {
         File file = new File(Environment.getExternalStorageDirectory() + "/" + directoryName);
