@@ -102,7 +102,7 @@ public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrop
         void setDetails(Trophy trophy) {
             txtTitle.setText(trophy.getTitle());
             String imageUrl = trophy.getUrl();
-            Utils.imageFromUrl(imgView, imageUrl);
+            Utils.imageFromCache(imgView, imageUrl);
 
             int color = ColorGeneratorByTrophyTitle.getInstance().getColorForTrophyTitle(trophy.getTitle());
             trophy.setColor(color);

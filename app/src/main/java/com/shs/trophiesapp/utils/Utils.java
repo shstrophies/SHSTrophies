@@ -3,21 +3,13 @@ package com.shs.trophiesapp.utils;
 import android.content.Context;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.request.FutureTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-
-import java.io.File;
-import java.util.HashMap;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.Target;
 
 public class Utils {
 
-    public static HashMap<String, String> linkedImages = new HashMap<>();
+    /*public static HashMap<String, String> linkedImages = new HashMap<>();
 
     public static void imageFromUrl(ImageView view, String imageUrl) {
         String[] p = imageUrl.split("/");
@@ -30,7 +22,7 @@ public class Utils {
 
             }
         }
-    }
+    }*/
 
     public static void imageFromCache(ImageView view, String imageUrl) {
         String[] p = imageUrl.split("/");
@@ -45,18 +37,23 @@ public class Utils {
         }
     }
 
-    public static File synchronousImageDownload(Context context, String imageUrl) {
+    public static void synchronousImageDownload(Context context, String imageUrl) {
         String[] p = imageUrl.split("/");
         if (p.length > 5) {
             String imageLink = Constants.DRIVE_URL + p[5];
             if(!imageUrl.isEmpty() && !imageUrl.trim().equals("")) {
                 try {
-                    return Glide.with(context)
+                    /*Glide.with(context)
                             .load(imageLink)
-                            .downloadOnly(500, 500).get();
+                            .downloadOnly(500, 500).get();*/
+                    Glide.with(context)
+                            .load(imageLink)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .skipMemoryCache(true)
+                            .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                            .get();
                 } catch (Exception e) {e.printStackTrace();}
             }
         }
-        return null;
     }
 }

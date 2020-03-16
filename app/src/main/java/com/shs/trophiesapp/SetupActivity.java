@@ -1,6 +1,5 @@
 package com.shs.trophiesapp;
 
-import android.Manifest;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -22,7 +20,6 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.work.OneTimeWorkRequest;
-import androidx.work.Operation;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
@@ -58,8 +55,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     Button cleanButton = null;
 
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
-    HashMap downloadInfoMap = new HashMap();
-    ArrayList downloadInfoList = new ArrayList();
+    HashMap<Long, DownloadInfo> downloadInfoMap = new HashMap<>();
+    ArrayList<Long> downloadInfoList = new ArrayList<>();
     private LifecycleOwner lifecycleOwner = this;
 
 
@@ -76,10 +73,10 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
             return;
-        }
+        }*/
     }
 
 
@@ -111,13 +108,13 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    class DownloadInfo {
+    static class DownloadInfo {
         long id;
         Downloader downloader;
         String downloadPath;
         String destinationPath;
 
-        public DownloadInfo(long id, Downloader downloader, String downloadPath, String destinationPath) {
+        DownloadInfo(long id, Downloader downloader, String downloadPath, String destinationPath) {
             this.id = id;
             this.downloader = downloader;
             this.downloadPath = downloadPath;
@@ -173,41 +170,36 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             Log.d(TAG, "onReceive: found downloadInfo, downloadInfo.id=" + downloadInfo.id + " downloadInfo.downloadPath=" + downloadInfo.downloadPath + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
             HashMap downloadStatus = downloadInfo.downloader.checkDownloadStatus(downloadInfo.id);
             String status = downloadStatus.get("status").toString();
-            switch (status) {
-                case "STATUS_SUCCESSFUL":
-                    Toast.makeText(context, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "onReceive: Download Completed for id=" + id + " downloadInfo.id=" + downloadInfo.id + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
-                    DirectoryHelper.listFilesInDirectory(downloadInfo.destinationPath);
+            if(status.equals("STATUS_SUCCESSFUL")) {
+                Toast.makeText(context, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
+                Log.d(TAG, "onReceive: Download Completed for id=" + id + " downloadInfo.id=" + downloadInfo.id + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
+                DirectoryHelper.listFilesInDirectory(downloadInfo.destinationPath);
 
-                    // if this is the sports spreadsheet, then read it and get all the GIDs from that file
-                    File destinationPath = new File(downloadInfo.destinationPath);
-                    if(destinationPath.getName().compareToIgnoreCase(SPORTS_DIRECTORY_NAME) == 0) {
-                        try {
-                            File file = DirectoryHelper.getLatestFilefromDir(downloadInfo.destinationPath);
-                            Scanner scanner = new Scanner(file);
-                            boolean first = true;
-                            while (scanner.hasNext()) {
-                                String line = scanner.nextLine();
-                                Log.d(TAG, "onReceive: line=" + line);
-                                List<String> commaSeparatedLine = parseLine(line);
-                                if (first) first = false;
-                                else {
-                                    String sport = commaSeparatedLine.get(0);
-                                    String gid = commaSeparatedLine.get(1);
-                                    downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", gid), sport);
-                                }
+                // if this is the sports spreadsheet, then read it and get all the GIDs from that file
+                File destinationPath = new File(downloadInfo.destinationPath);
+                if(destinationPath.getName().compareToIgnoreCase(SPORTS_DIRECTORY_NAME) == 0) {
+                    try {
+                        File file = DirectoryHelper.getLatestFilefromDir(downloadInfo.destinationPath);
+                        Scanner scanner = new Scanner(file);
+                        boolean first = true;
+                        while (scanner.hasNext()) {
+                            String line = scanner.nextLine();
+                            Log.d(TAG, "onReceive: line=" + line);
+                            List<String> commaSeparatedLine = parseLine(line);
+                            if (first) first = false;
+                            else {
+                                String sport = commaSeparatedLine.get(0);
+                                String gid = commaSeparatedLine.get(1);
+                                downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", gid), sport);
                             }
-                        } catch (Exception e) { e.printStackTrace(); }
-                    }
-                    break;
-
-                default:
-                    String reason = downloadStatus.get("reason").toString();
-                    Toast.makeText(context, "Download NOT SUCCESSFUL because " + reason, Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "**** onReceive: Download failed because " + reason);
-                    break;
+                        }
+                    } catch (Exception e) { e.printStackTrace(); }
+                }
+            } else {
+                String reason = downloadStatus.get("reason").toString();
+                Toast.makeText(context, "Download NOT SUCCESSFUL because " + reason, Toast.LENGTH_LONG).show();
+                Log.d(TAG, "**** onReceive: Download failed because " + reason);
             }
-
             Log.d(TAG, "onReceive: *** downloadInfoList remove " + downloadInfo.id);
             Log.d(TAG, "onReceive: downloadInfoList=" + Arrays.asList(downloadInfoList));
             downloadInfoList.remove(downloadInfo.id);
@@ -235,8 +227,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                     super.onCreate(db);
                     OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SeedDatabaseWorker.class).build();
                     WorkManager workManager = WorkManager.getInstance(context);
-                    Operation operation = workManager.enqueue(workRequest);
-                    UUID id = workRequest.getId();
+                    workManager.enqueue(workRequest);
+                    //UUID id = workRequest.getId();
                     WorkManager.getInstance(context).getWorkInfoByIdLiveData(workRequest.getId())
                             .observe(lifecycleOwner, workInfo -> {
                                 if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
@@ -247,7 +239,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 }
             };
 
-            AppDatabase db = AppDatabase.getInstance(context, rdc);
+            AppDatabase.getInstance(context, rdc);
             Toast.makeText(SetupActivity.this, "Loading database...", Toast.LENGTH_LONG).show();
             List<Sport> sports = DataManager.getSportRepository(context).getSports();
 
