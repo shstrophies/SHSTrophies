@@ -67,6 +67,7 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
         tvTitle.setText(title);
         //searchHeader.setText( "{Number} results for" + searchBar.getText());
         Utils.imageFromCache(img, url);
+        //Utils.imageFromUrl(img, url);
         //trophyView.setBackgroundColor(color);
 
         // set recyclerview layout manager
