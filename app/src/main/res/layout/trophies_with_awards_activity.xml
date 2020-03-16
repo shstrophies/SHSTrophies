@@ -20,12 +20,12 @@
         app:layout_constraintTop_toTopOf="parent"></View>
 
     <TextView
-        android:id="@+id/subTextView"
+        android:id="@+id/HeaderWithSearchResults"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:layout_marginBottom="28dp"
-        android:fontFamily="@font/montserrat_bold"
+        android:fontFamily="@font/montserrat_extrabold"
         android:text='{# of results} results for "{Search Query}"'
         android:textAlignment="center"
         android:textColor="#000"
