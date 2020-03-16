@@ -37,9 +37,6 @@ public class ColorGeneratorByTrophyTitle {
             nextColorIndex = nextColorIndex % colors.length;
 
             map.put(trophyTitle, colors[nextColorIndex]);
-
-
-            return nextColorIndex;
         }
 
         // if it is in hashmap, dont do anything key-wise and return the color of the key

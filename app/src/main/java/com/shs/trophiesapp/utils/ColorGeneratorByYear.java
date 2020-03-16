@@ -39,8 +39,6 @@ public class ColorGeneratorByYear {
             nextColorIndex = nextColorIndex % colors.length;
 
             map.put(year, colors[nextColorIndex]);
-
-            return nextColorIndex;
         }
 
         // if it is in hashmap, dont do anything key-wise and return the color of the key
