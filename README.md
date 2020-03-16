@@ -48,16 +48,15 @@ ___________________________________________________
 **Database related**
 ___________________________________________________
 
-- add FTS in the Database (Ujjwal & Carolina)
+~~- finish downloading images (Ujjwal)~~
 
 - enable recyclerview pagination (Ujjwal & Carolina)
 
 - add limit statements and offsets to the database(Ujjwal & Carolina)
   
-- finish downloading images (Ujjwal)
-
 - file hashing for seamless app restarts (ujjwal)
 
+(POSTPONED)- add FTS in the Database (Ujjwal & Carolina)
 ___________________________________________________
 **Remaining Search Features**
 ___________________________________________________
