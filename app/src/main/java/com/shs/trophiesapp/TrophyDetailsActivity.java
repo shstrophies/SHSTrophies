@@ -45,7 +45,7 @@ public class TrophyDetailsActivity extends AppCompatActivity {
 
         tvTitle.setText(title);
 
-        Utils.imageFromUrl(img, url);
+        Utils.imageFromCache(img, url);
         cardView.setBackgroundColor(color);
 
     }

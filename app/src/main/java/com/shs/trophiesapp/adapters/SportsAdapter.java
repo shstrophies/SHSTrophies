@@ -85,7 +85,8 @@ public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.SportViewH
         void setDetails(Sport sport) {
             txtTitle.setText(sport.name);
             String imageUrl = sport.imageUrl;
-            Utils.imageFromUrl(imgView, imageUrl);
+            //Utils.imageFromUrl(imgView, imageUrl);
+            Utils.imageFromCache(imgView, imageUrl);
         }
     }
 

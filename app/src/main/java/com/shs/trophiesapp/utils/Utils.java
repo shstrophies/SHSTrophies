@@ -45,18 +45,17 @@ public class Utils {
         }
     }
 
-    public static File synchronousImageDownload(Context context, String imageUrl) {
+    public static void synchronousImageDownload(Context context, String imageUrl) {
         String[] p = imageUrl.split("/");
         if (p.length > 5) {
             String imageLink = Constants.DRIVE_URL + p[5];
             if(!imageUrl.isEmpty() && !imageUrl.trim().equals("")) {
                 try {
-                    return Glide.with(context)
+                    Glide.with(context)
                             .load(imageLink)
                             .downloadOnly(500, 500).get();
                 } catch (Exception e) {e.printStackTrace();}
             }
         }
-        return null;
     }
 }

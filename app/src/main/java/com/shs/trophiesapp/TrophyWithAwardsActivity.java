@@ -33,7 +33,7 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
     private TextView tvTitle;
     private ImageView img;
     private View trophyView;
-    private TextView searchHeader;
+    //private TextView searchHeader;
 
     private MaterialSearchBar searchBar;
 
@@ -51,7 +51,7 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
         tvTitle = findViewById(R.id.trophy_with_awards_title);
         img = findViewById(R.id.trophy_with_awards_thumbnail);
         trophyView = findViewById(R.id.trophy_with_awards_trophy);
-        searchHeader = findViewById(R.id.HeaderWithSearchResults);
+        //searchHeader = findViewById(R.id.HeaderWithSearchResults);
 
         //Receive data
         Intent intent = getIntent();
@@ -65,8 +65,8 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
 
         tvSportTitle.setText(sport + " Trophy Award(s)");
         tvTitle.setText(title);
-        searchHeader.setText( "{Number} results for" + searchBar.getText());
-        Utils.imageFromUrl(img, url);
+        //searchHeader.setText( "{Number} results for" + searchBar.getText());
+        Utils.imageFromCache(img, url);
         //trophyView.setBackgroundColor(color);
 
         // set recyclerview layout manager

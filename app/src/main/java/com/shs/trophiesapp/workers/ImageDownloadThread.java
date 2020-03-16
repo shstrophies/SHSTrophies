@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.shs.trophiesapp.utils.Constants;
 
@@ -48,7 +49,7 @@ public class ImageDownloadThread extends Thread {
                     .asBitmap()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .load(imageLink)
-                    .into(new SimpleTarget<Bitmap>(100, 100) {
+                    .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                             writeBitmapToFile(resource, img_name);
