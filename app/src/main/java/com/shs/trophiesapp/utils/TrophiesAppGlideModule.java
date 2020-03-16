@@ -17,7 +17,9 @@ public class TrophiesAppGlideModule extends AppGlideModule {
     public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
         super.applyOptions(context, builder);
         int diskCacheSizeBytes = 1024 * 1024 * 2000;
-        builder.setDiskCache(new ExternalPreferredCacheDiskCacheFactory(context, diskCacheSizeBytes));
+        builder.setDiskCache(
+                new ExternalPreferredCacheDiskCacheFactory(context, Constants.DATA_DIRECTORY_DISK_CACHE_IMAGES, diskCacheSizeBytes)
+        );
 
         builder.setLogLevel(Log.DEBUG);
     }

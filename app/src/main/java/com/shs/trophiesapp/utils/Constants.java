@@ -19,6 +19,7 @@ public final class Constants {
     public static final String DATA_DIRECTORY_NAME = "SHSDATA";
     public static final String DATA_DIRECTORY_TROPHY_IMAGES = "SHSDATA/TROPHY_IMAGES/";
     public static final String DATA_DIRECTORY_SPORT_IMAGES = "SHSDATA/SPORT_IMAGES/";
+    public static final String DATA_DIRECTORY_DISK_CACHE_IMAGES = "SHSDATA/DISK_CACHE_IMAGES/";
     public static final String SPORTS_GID ="0";
 
 
