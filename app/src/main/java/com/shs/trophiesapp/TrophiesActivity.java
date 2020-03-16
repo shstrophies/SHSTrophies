@@ -16,10 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
-import com.shs.trophiesapp.adapters.TrophiesAdapter;
-import com.shs.trophiesapp.data.DataManager;
-import com.shs.trophiesapp.data.TrophyRepository;
-import com.shs.trophiesapp.data.entities.Trophy;
+import com.shs.trophiesapp.adapters.SportWithTrophiesAdapter;
+import com.shs.trophiesapp.database.DataManager;
+import com.shs.trophiesapp.database.entities.Sport;
+import com.shs.trophiesapp.database.relations.SportWithTrophies;
+import com.shs.trophiesapp.database.entities.Trophy;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
@@ -31,8 +32,8 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
 
     private MaterialSearchBar searchBar;
 
-    private TrophiesAdapter adapter;
-    private ArrayList<Trophy> trophies;
+    private SportWithTrophiesAdapter adapter;
+    private SportWithTrophies sportWithTrophies;
 
 
     @Override
@@ -50,24 +51,25 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.trophies_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        trophies = new ArrayList<>();
-        adapter = new TrophiesAdapter(this, trophies);
+        ArrayList<Trophy> trophies = new ArrayList();
+        sportWithTrophies = new SportWithTrophies();
+        adapter = new SportWithTrophiesAdapter(this, sportWithTrophies);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
 
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);
 
-        TextView sport_trophies = findViewById(R.id.trophies_sport_title);
-        sport_trophies.setText(sport);
+        TextView sport_trophies = findViewById(R.id.trophy_with_awards_title);
+        sport_trophies.setText(sport+ " Trophies");
 
         getData(sport);
 
         searchBar = findViewById(R.id.trophies_search);
         searchBar.setOnSearchActionListener(this);
-        searchBar.inflateMenu(R.menu.main);
-        searchBar.setHint("Search for trophy, player, year...");
+//        searchBar.inflateMenu(R.menu.main);
+        searchBar.setHint(getResources().getString(R.string.search_info));
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
-        searchBar.setCardViewElevation(10);
+        searchBar.setCardViewElevation(1);
         searchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -133,19 +135,11 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
+//        if (id == R.id.action1) {
+//            // Handle the action1 action
+//        } else if (id == R.id.action2) {
+//
+//        }
 
         return true;
     }
@@ -156,7 +150,20 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public void onSearchConfirmed(CharSequence text) {
-
+        Log.d(TAG, "onSearchConfirmed: ");
+        //HERE
+        Sport sport = sportWithTrophies.sport;
+        String searchString = "sportId:" + sport.getId() + "," + text.toString();
+        if(searchString.isEmpty()) {
+            Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
+            intent.putExtra(TrophiesWithAwardsActivity.AWARDS_SEARCH_STRING, searchString);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
+            intent.putExtra(TrophiesWithAwardsActivity.AWARDS_SEARCH_STRING, searchString);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -174,10 +181,11 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
     private void getData(String sport) {
         Log.d(TAG, "getData: getData");
         Context context = this;
-        TrophyRepository trophyRepository = DataManager.getTrophyRepository(context);
-        List<Trophy> _trophies = trophyRepository.getTrophiesBySport(sport.toLowerCase());
-        trophies.addAll(_trophies);
-        Log.d(TAG, "getData: recyclerview trophies size=" + trophies.size());
+        List<SportWithTrophies> list = DataManager.getTrophyRepository(context).getSportWithTrophiesBySportName(sport.toLowerCase());
+        sportWithTrophies.sport = list.get(0).sport;
+        sportWithTrophies.trophies = list.get(0).trophies;
+
+        Log.d(TAG, "getData: recyclerview trophies size=" + sportWithTrophies.trophies.size());
         adapter.notifyDataSetChanged();
 
     }

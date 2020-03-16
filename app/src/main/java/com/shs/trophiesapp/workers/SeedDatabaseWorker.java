@@ -9,7 +9,9 @@ import androidx.annotation.NonNull;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,11 +20,12 @@ import java.util.concurrent.TimeUnit;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.MemoryCategory;
-import com.shs.trophiesapp.data.AppDatabase;
-import com.shs.trophiesapp.data.entities.Sport;
-import com.shs.trophiesapp.data.entities.Trophy;
+import com.shs.trophiesapp.data.SportData;
+import com.shs.trophiesapp.data.TrophyAwardData;
+import com.shs.trophiesapp.database.AppDatabase;
+import com.shs.trophiesapp.database.entities.Sport;
+import com.shs.trophiesapp.database.entities.Trophy;
+import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
 
@@ -35,9 +38,7 @@ public class SeedDatabaseWorker extends Worker {
 
     public SeedDatabaseWorker(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
-        mES = Executors.newCachedThreadPool();
-        contextWeakReference = new WeakReference<>(context);
-        Glide.get(context).setMemoryCategory(MemoryCategory.HIGH);
+        //Glide.get(context).setMemoryCategory(MemoryCategory.HIGH);
     }
 
     @NonNull
@@ -46,72 +47,118 @@ public class SeedDatabaseWorker extends Worker {
         try {
             Log.d(TAG, "doWork: loading data (into database)");
             DirectoryHelper.createDirectory(getApplicationContext());
-            Sport[] sportCSVData = getSportCSVData();
-            Log.d(TAG, "onCreate: sportCSVData length=" + sportCSVData.length);
+            DirectoryHelper.listFilesInDirectoryRecursively(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
+            List<SportData> sportCSVData = getSportsCSVData();
+            Log.d(TAG, "onCreate: sportCSVData length=" + sportCSVData.size());
             AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
-            appDatabase.sportDao().insertAll(sportCSVData);
-            Log.d(TAG, "doWork: sport data loaded");
-            Trophy[] trophyCSVData = getTrophyCSVData();
-            Log.d(TAG, "onCreate: trophyCSVData length=" + trophyCSVData.length);
-            appDatabase.trophyDao().insertAll(trophyCSVData);
-            Log.d(TAG, "doWork: trophy data loaded");
-            mES.shutdown();
-            Log.d(TAG, "doWork: waiting on image loading into hard disk");
-            boolean done = mES.awaitTermination(10, TimeUnit.MINUTES);
-            Log.d(TAG, "doWork: images loaded into database");
-            if(done) return Result.success();
-            else return Result.failure();
+
+            Sport[] sportArray = sportCSVData.stream()
+                    .filter(Objects::nonNull)
+                    .map(sd -> new Sport(sd.name, sd.imageUrl)).toArray(Sport[]::new);
+            appDatabase.sportDao().insertAll(sportArray);
+            List<Sport> sports = appDatabase.sportDao().getAll();
+            for (Sport sport : sports) {
+                Log.d(TAG, "doWork: got sport=" + sport.name);
+                List<TrophyAwardData> trophyAwardCSVData = getTrophiesCSVData(sport.name);
+                Log.d(TAG, "onCreate: trophyAwardCSVData length=" + trophyAwardCSVData.size());
+                ArrayList<Trophy> trophies = new ArrayList<>();
+                ArrayList<TrophyAward> awards = new ArrayList<>();
+                HashMap<String, Trophy> map = new HashMap<>();
+                for(TrophyAwardData awarditem : trophyAwardCSVData) {
+                    Trophy trophy = new Trophy(awarditem.getTitle(), awarditem.getUrl());
+                    Trophy trophyItem = map.get(awarditem.getUrl());
+                    if(trophyItem == null) {
+                        map.put(awarditem.getUrl(), trophy);
+                        trophies.add(trophy);
+                        long sportId = appDatabase.trophyDao().insert(sport);
+                        trophy.setSportId(sportId);
+                        long id = appDatabase.trophyDao().insert(trophy);
+                        trophy.setId(id);
+                        Log.d(TAG, "doWork: inserted trophy for sport(" + sport.getName() + ")" + trophy.toString());
+                    }
+                    else trophy.setId(trophyItem.getId());
+                    TrophyAward award = new TrophyAward(trophy.getId(), awarditem.getYear(), awarditem.getPlayer(), awarditem.getCategory());
+                    awards.add(award);
+                }
+                appDatabase.trophyDao().insert(sport, trophies);
+//                appDatabase.trophyAwardDao().insertAll(awards.toArray(new TrophyAward[0]));
+                awards.forEach(item -> appDatabase.trophyAwardDao().insert(item));
+                Log.d(TAG, "doWork: inserted awards=");
+                List<TrophyAward> trophyAwards = appDatabase.trophyDao().getAllTrophyAwards();
+                trophyAwards.forEach(item-> Log.d(TAG, "          " + item.toString()));
+                Log.d(TAG, "doWork: trophy data loaded");
+            }
+
+            return Result.success();
         } catch (Exception e) {
             e.printStackTrace();
             return Result.failure();
         }
     }
 
-    private static Sport[] getSportCSVData() {
-        Log.d(TAG, "getSportCSVData: ");
-        List<Sport> sports = new ArrayList<>();
+    private static List<SportData> getSportsCSVData() {
+        Log.d(TAG, "getSportsCSVData: ");
+        List<SportData> sports = new ArrayList<>();
         try {
-            File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME + "/" + Constants.titleSports + "/");
-            Log.d(TAG, "getSportCSVData: getting sport data from file=" + file.getAbsolutePath());
+            File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.SPORTS_DIRECTORY_NAME + "/");
+            Log.d(TAG, "getSportsCSVData: getting sport data from file=" + file.getAbsolutePath());
             Scanner scanner = new Scanner(file);
             boolean first = true;
             while (scanner.hasNext()) {
-                List<String> line = parseLine(scanner.nextLine());
+                String line = scanner.nextLine();
+                Log.d(TAG, "getSportsCSVData: line=" + line);
+                List<String> commaSeparatedLine = parseLine(line);
                 if (first) first = false;
                 else {
-                    mES.execute(new ImageDownloadThread(contextWeakReference.get(), line.get(2), true));
-                    sports.add(new Sport(line.get(1), line.get(2)));
+                    String sport = commaSeparatedLine.get(0);
+                    String url = commaSeparatedLine.get(2);
+                    sports.add(new SportData(sport, url));
                 }
             }
-        } catch (Exception e) { e.printStackTrace(); }
-        return sports.toArray(new Sport[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sports;
     }
 
-    private static Trophy[] getTrophyCSVData() {
-        Log.d(TAG, "getTrophyCSVData: ");
-        List<Trophy> trophies = new ArrayList<>();
-        try {
-            File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + Constants.titleTrophies + "/");
-            Log.d(TAG, "getTrophyCSVData: getting trophy data from file=" + file.getAbsolutePath());
-            Scanner scanner = new Scanner(file);
-            boolean first = true;
-            while (scanner.hasNext()) {
-                List<String> line = parseLine(scanner.nextLine());
-                if (first) first = false;
-                else {
-                    String[] players = line.get(5).split(",");
-                    for(String player : players) {
-                        if(!line.get(2).isEmpty()) {
-                            Log.d(TAG, "getTrophyCSVData: line.get(0)=" + line.get(0) + " line.get(1)=" + line.get(1));
-                            mES.execute(new ImageDownloadThread(contextWeakReference.get(), line.get(4), false));
-                            trophies.add(new Trophy(line.get(1), Integer.parseInt(line.get(2)),
-                                    line.get(3), line.get(4), player, line.get(6)));
-                        }
+    private static List<TrophyAwardData> getTrophiesCSVData(String sport) {
+        Log.d(TAG, "getTrophiesCSVData: ");
+        List<TrophyAwardData> trophyData = new ArrayList<>();
 
+        try {
+            File file = DirectoryHelper.getLatestFilefromDir(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + sport + "/");
+            if (file != null) {
+                Log.d(TAG, "getTrophiesCSVData: getting trophy data from file=" + file.getAbsolutePath());
+                Scanner scanner = new Scanner(file);
+                boolean first = true;
+                while (scanner.hasNext()) {
+                    List<String> line = parseLine(scanner.nextLine());
+                    if (first) first = false;
+                    else {
+                        String[] players = line.get(3).replaceAll("\"", "").split(",");
+                        for (String player : players) {
+                            if (!line.get(0).isEmpty()) {
+                                String year = line.get(0);
+                                String title = line.get(1);
+                                String uri = line.get(2);
+                                String category = "TBD";
+                                Log.d(TAG, "getTrophiesCSVData: line.get(0)=" + line.get(0) + " line.get(1)=" + line.get(1));
+                                trophyData.add(new TrophyAwardData(sport, Integer.parseInt(year), title, uri, player, category));
+                            }
+
+                        }
                     }
                 }
+            } else {
+                Log.d(TAG, "getTrophiesCSVData: no files found ...");
             }
-        } catch (Exception e) { e.printStackTrace(); }
-        return trophies.toArray(new Trophy[0]);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        //return trophyData.toArray(new TrophyAwardData[0]);
+        return trophyData;
     }
 }

@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.shs.trophiesapp.database.DataManager;
+import com.shs.trophiesapp.database.TrophyRepository;
+import com.shs.trophiesapp.database.entities.Trophy;
 import com.shs.trophiesapp.utils.Utils;
 
 public class TrophyDetailsActivity extends AppCompatActivity {
@@ -29,15 +32,20 @@ public class TrophyDetailsActivity extends AppCompatActivity {
 
         //Receive data
         Intent intent = getIntent();
-        String sport_name = intent.getExtras().getString("sport_name");
-        int year = intent.getExtras().getInt("year");
-        String trophy_title = intent.getExtras().getString("trophy_title");
-        String tr_image_url = intent.getExtras().getString("tr_image_url");
+        long trophyId = intent.getExtras().getLong("trophyId");
+
+//        String title = intent.getExtras().getString("title");
+//        String trophyUrl = intent.getExtras().getString("url");
         int color = intent.getExtras().getInt("color");
 
-        tvTitle.setText(trophy_title);
+        TrophyRepository trophyRepository = DataManager.getTrophyRepository(this);
+        Trophy trophy = trophyRepository.getTropyById(trophyId);
+        String title = trophy.getTitle();
+        String url = trophy.getUrl();
 
-        Utils.imageFromUrl(img, tr_image_url);
+        tvTitle.setText(title);
+
+        Utils.imageFromUrl(img, url);
         cardView.setBackgroundColor(color);
 
     }

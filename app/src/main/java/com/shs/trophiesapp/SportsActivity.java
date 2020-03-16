@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.shs.trophiesapp.adapters.SportsAdapter;
-import com.shs.trophiesapp.data.DataManager;
-import com.shs.trophiesapp.data.SportRepository;
-import com.shs.trophiesapp.data.entities.Sport;
+import com.shs.trophiesapp.database.DataManager;
+import com.shs.trophiesapp.database.SportRepository;
+import com.shs.trophiesapp.database.entities.Sport;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
@@ -54,11 +54,11 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
 
         searchBar = findViewById(R.id.sports_search);
         searchBar.setOnSearchActionListener(this);
-        searchBar.inflateMenu(R.menu.main);
-        searchBar.setHint("Search for a sport, trophy, player, year...");
+//        searchBar.inflateMenu(R.menu.main);
+        searchBar.setHint(getResources().getString(R.string.search_info));
 
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
-        searchBar.setCardViewElevation(10);
+        searchBar.setCardViewElevation(1);
         searchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -86,7 +86,7 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        return false;
     }
 
     @Override
@@ -110,19 +110,11 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
+//        if (id == R.id.action1) {
+//            // Handle the action1 action
+//        } else if (id == R.id.action2) {
+//
+//        }
 
         return true;
     }
@@ -136,12 +128,16 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
     public void onSearchConfirmed(CharSequence text) {
         Log.d(TAG, "onSearchConfirmed: ");
         //HERE
-        Intent intent = new Intent(this, SportsAndTrophiesActivity.class);
-
-        intent.putExtra(SportsAndTrophiesActivity.TROPHIES_SEARCH_STRING, text.toString());
-
-        startActivity(intent);
-
+        String searchString = text.toString();
+        if(searchString.isEmpty()) {
+            Intent intent = new Intent(this, SportsWithTrophiesActivity.class);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
+            intent.putExtra(TrophiesWithAwardsActivity.AWARDS_SEARCH_STRING, searchString);
+            startActivity(intent);
+        }
     }
 
     @Override

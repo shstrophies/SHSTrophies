@@ -23,7 +23,13 @@
         android:text="@string/load_database"
         android:textSize="40sp" />
 
-
+    <Button
+        android:id="@+id/cleanButton"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/clean"
+        android:textSize="40sp" />
 
 
 </LinearLayout>

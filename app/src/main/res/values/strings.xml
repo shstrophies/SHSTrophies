@@ -23,7 +23,9 @@
     <string name="sport_trophies">Sport Trophies</string>
     <string name="tap_a_sport_or_search">Tap a sport or search</string>
     <string name="tap_a_trophy_or_search">Tap a trophy or search</string>
-    <string name="trophy_title">Trophy Title</string>
+    <string name="title">Trophy Title</string>
+    <string name="clean">Clean</string>
+    <string name="search_info">Search for player, year, or trophy title. For example, \'1991\', or \'Kyle Goni\', or \'Goni, 1991\', or \'Rotary International\'</string>
 
 
 </resources>

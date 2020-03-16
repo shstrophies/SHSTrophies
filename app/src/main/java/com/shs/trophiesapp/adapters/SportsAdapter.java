@@ -8,19 +8,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.shs.trophiesapp.R;
-import com.shs.trophiesapp.data.entities.Sport;
+import com.shs.trophiesapp.TrophyWithAwardsActivity;
+import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.TrophiesActivity;
+import com.shs.trophiesapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SportsAdapter extends RecyclerView.Adapter<SportViewHolder> implements Filterable {
+public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.SportViewHolder> implements Filterable {
     private static final String TAG = "SportsAdapter";
 
     private Context context;
@@ -48,18 +52,41 @@ public class SportsAdapter extends RecyclerView.Adapter<SportViewHolder> impleme
 
     @Override
     public void onBindViewHolder(SportViewHolder holder, int position) {
-        Sport Sport = sportsFiltered.get(position);
-        holder.setDetails(Sport);
+        Sport sport = sportsFiltered.get(position);
+        holder.setDetails(sport);
 
-        // set click listener
-        holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, TrophiesActivity.class);
-            // passing data
-            intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sports.get(position).sport_name);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-            // start activity
-            context.startActivity(intent);
-        });
+                Intent intent = new Intent(context, TrophiesActivity.class);
+                // passing data
+                intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sport.name);
+
+                // start activity
+                context.startActivity(intent);
+            }
+        };
+        // set click listeners
+        holder.itemView.setOnClickListener(listener);
+        holder.txtTitle.setOnClickListener(listener);
+    }
+
+    class SportViewHolder extends RecyclerView.ViewHolder {
+        private TextView txtTitle;
+        private ImageView imgView;
+
+        SportViewHolder(View itemView) {
+            super(itemView);
+            txtTitle = itemView.findViewById(R.id.sport_title_id);
+            imgView = itemView.findViewById(R.id.my_image_view);
+        }
+
+        void setDetails(Sport sport) {
+            txtTitle.setText(sport.name);
+            String imageUrl = sport.imageUrl;
+            Utils.imageFromUrl(imgView, imageUrl);
+        }
     }
 
     private class SportFilter extends Filter {
@@ -75,8 +102,8 @@ public class SportsAdapter extends RecyclerView.Adapter<SportViewHolder> impleme
                 List<Sport> filteredList = new ArrayList<>();
                 for (Sport row : sports) {
                     // name match condition. this might differ depending on your requirement
-                    // here we are looking for title or description match
-                    if (row.sport_name.toLowerCase().contains(charString)) {
+                    // "Search for a sport name, trophy name, player name, or year..."
+                    if (row.name.toLowerCase().contains(charString)) {
                         filteredList.add(row);
                     }
                 }
