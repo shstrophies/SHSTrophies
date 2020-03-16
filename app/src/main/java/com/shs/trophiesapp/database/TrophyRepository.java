@@ -6,6 +6,7 @@ import com.shs.trophiesapp.database.entities.Trophy;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
+import com.shs.trophiesapp.utils.Constants;
 
 import java.util.List;
 
@@ -50,6 +51,10 @@ public class TrophyRepository {
     public List<TrophyAward> getTrophyAwardsByPlayer(String player) {
         List<TrophyAward> trophiesWithAwardsList = trophyDao.getTrophyAwardsByPlayer("%" + player + "%");
         return trophiesWithAwardsList;
+    }
+
+    public List<TrophyAward> getTrophyAwardsByPlayerLimited(String player, int page) {
+        return trophyAwardDao.findByPlayerLimited(player, Constants.TROPHIES_PER_PAGE, page);
     }
 
     public List<TrophyAward> getTrophyAwardsBySportAndYear(long sportId, int year) {

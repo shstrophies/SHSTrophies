@@ -37,4 +37,6 @@ public final class Constants {
             Color.parseColor("#C62DDF") ,
             Color.parseColor("#A8C100")
     };
+
+    public static int TROPHIES_PER_PAGE = 12;
 }
