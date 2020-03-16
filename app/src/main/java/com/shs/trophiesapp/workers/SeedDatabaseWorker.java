@@ -2,6 +2,7 @@ package com.shs.trophiesapp.workers;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,8 @@ import java.util.Scanner;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.MemoryCategory;
 import com.shs.trophiesapp.data.SportData;
 import com.shs.trophiesapp.data.TrophyAwardData;
 import com.shs.trophiesapp.database.AppDatabase;
@@ -36,7 +39,12 @@ public class SeedDatabaseWorker extends Worker {
     public SeedDatabaseWorker(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
         contextWeakReference = new WeakReference<>(context);
-        //Glide.get(context).setMemoryCategory(MemoryCategory.HIGH);
+        setMemoryCategory(context);
+    }
+
+    private void setMemoryCategory(@NonNull Context context) {
+        Handler handler = new Handler(context.getMainLooper());
+        handler.post(() -> Glide.get(context).setMemoryCategory(MemoryCategory.HIGH));
     }
 
     @NonNull
