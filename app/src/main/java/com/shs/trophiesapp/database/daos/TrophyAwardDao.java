@@ -47,12 +47,13 @@ import static androidx.room.OnConflictStrategy.REPLACE;
     List<TrophyAward> findByIdLimited(long id, int limit, int page);
 
     @Transaction
-    @Query("SELECT * FROM TrophyAward " +
+    @Query("SELECT * FROM TrophyAward ta " +
+            "INNER JOIN Trophy t ON t.id=ta.trophyId " +
             "WHERE year LIKE :year " +
-            "ORDER BY trophyId ASC " +
+            "ORDER BY t.title ASC " +
             "LIMIT :limit " +
             "OFFSET ((:page - 1) * :limit)")
-    List<TrophyAward> findByYearLimited(int year, int limit, int page); //Ordered by Trophy ID – ordering by Trophy Name requires INNER JOIN or DB View
+    List<TrophyAward> findByYearLimited(int year, int limit, int page);
 
     @Transaction
     @Query("SELECT * FROM TrophyAward " +
@@ -60,5 +61,5 @@ import static androidx.room.OnConflictStrategy.REPLACE;
             "ORDER BY year ASC " +
             "LIMIT :limit " +
             "OFFSET ((:page - 1) * :limit)")
-    List<TrophyAward> findByPlayer(String player, int limit, int page); //Ordered by year – ordering by Trophy Name requires INNER JOIN or DB View
+    List<TrophyAward> findByPlayerLimited(String player, int limit, int page); //Ordered by year – ordering by Trophy Name requires INNER JOIN or DB View
 }
