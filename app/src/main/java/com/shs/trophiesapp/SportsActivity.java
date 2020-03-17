@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.shs.trophiesapp.adapters.CustomSuggestionsAdapter;
 import com.shs.trophiesapp.adapters.SportsAdapter;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.SportRepository;
@@ -22,12 +25,16 @@ import com.shs.trophiesapp.database.entities.Sport;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class SportsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener {
+public class SportsActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener {
     private static final String TAG = "SportsActivity";
 
     private MaterialSearchBar searchBar;
+    private List<String> suggestions = new ArrayList<>();
+    private CustomSuggestionsAdapter customSuggestionsAdapter;
+
 
     private SportsAdapter adapter;
     private ArrayList<Sport> sports;
@@ -53,12 +60,18 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         getData();
 
         searchBar = findViewById(R.id.sports_search);
-        searchBar.setOnSearchActionListener(this);
-//        searchBar.inflateMenu(R.menu.main);
+//        searchBar.setOnSearchActionListener(this);
+        searchBar.setMaxSuggestionCount(10);
         searchBar.setHint(getResources().getString(R.string.search_info));
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
+        getSuggestions();
+        customSuggestionsAdapter.setSuggestions(suggestions);
+        searchBar.setCustomSuggestionAdapter(customSuggestionsAdapter);
+
 
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
-        searchBar.setCardViewElevation(1);
+//        searchBar.setCardViewElevation(1);
         searchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -68,17 +81,16 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
+                // send the entered text to our filter and let it manage everything
+                customSuggestionsAdapter.getFilter().filter(searchBar.getText());
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 Log.d(TAG, "afterTextChanged: ");
                 doSearch(searchBar.getText());
-
             }
-
         });
-
     }
 
 
@@ -129,11 +141,10 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         Log.d(TAG, "onSearchConfirmed: ");
         //HERE
         String searchString = text.toString();
-        if(searchString.isEmpty()) {
+        if (searchString.isEmpty()) {
             Intent intent = new Intent(this, SportsWithTrophiesActivity.class);
             startActivity(intent);
-        }
-        else {
+        } else {
             Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
             intent.putExtra(TrophiesWithAwardsActivity.AWARDS_SEARCH_STRING, searchString);
             startActivity(intent);
@@ -142,13 +153,30 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     public void onButtonClicked(int buttonCode) {
-        switch (buttonCode) {
-            case MaterialSearchBar.BUTTON_SPEECH:
-                break;
-            case MaterialSearchBar.BUTTON_BACK:
-                searchBar.closeSearch();
-                break;
-        }
+//        switch (buttonCode) {
+//            case MaterialSearchBar.BUTTON_SPEECH:
+//                break;
+//            case MaterialSearchBar.BUTTON_BACK:
+//                searchBar.closeSearch();
+//                break;
+//        }
+    }
+
+    private List<String> getSuggestions() {
+        // Sample data
+        final String[] suggestions = {
+                "Simvastatin",
+                "Carrot Daucus carota",
+                "Sodium Fluoride",
+                "White Kidney Beans",
+                "Salicylic Acid",
+                "cetirizine hydrochloride",
+                "Mucor racemosus",
+                "Thymol",
+                "TOLNAFTATE",
+                "Albumin Human"
+        };
+        return Arrays.asList(suggestions);
     }
 
     private void getData() {
@@ -166,6 +194,11 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
     private void doSearch(String searchText) {
         Log.d(TAG, "doSearch: " + searchBar.getText());
         adapter.getFilter().filter(searchText);
+    }
+
+    @Override
+    public void onClick(View view) {
+        customSuggestionsAdapter.addSuggestion("Hi");
     }
 
 }

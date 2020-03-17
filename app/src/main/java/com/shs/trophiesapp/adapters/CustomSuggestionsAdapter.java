@@ -21,9 +21,10 @@ import java.util.ArrayList;
  * Created by mancj on 27.01.17.
  */
 
-public class CustomSuggestionsAdapter extends SuggestionsAdapter<Trophy, CustomSuggestionsAdapter.SuggestionHolder> {
+public class CustomSuggestionsAdapter extends SuggestionsAdapter<String, CustomSuggestionsAdapter.SuggestionHolder> {
 
     public CustomSuggestionsAdapter(LayoutInflater inflater) {
+
         super(inflater);
     }
 
@@ -39,8 +40,8 @@ public class CustomSuggestionsAdapter extends SuggestionsAdapter<Trophy, CustomS
     }
 
     @Override
-    public void onBindSuggestionHolder(Trophy suggestion, SuggestionHolder holder, int position) {
-        holder.title.setText(suggestion.getTitle());
+    public void onBindSuggestionHolder(String suggestion, SuggestionHolder holder, int position) {
+        holder.title.setText(suggestion);
 //        holder.subtitle.setText("The player is " + suggestion.trophies.() + "$");
     }
 
@@ -65,8 +66,8 @@ public class CustomSuggestionsAdapter extends SuggestionsAdapter<Trophy, CustomS
                     suggestions = suggestions_clone;
                 else {
                     suggestions = new ArrayList<>();
-                    for (Trophy item: suggestions_clone)
-                        if(item.getTitle().toLowerCase().contains(term.toLowerCase()))
+                    for (String item: suggestions_clone)
+                        if(item.toLowerCase().contains(term.toLowerCase()))
                             suggestions.add(item);
                 }
                 results.values = suggestions;
@@ -75,7 +76,7 @@ public class CustomSuggestionsAdapter extends SuggestionsAdapter<Trophy, CustomS
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                suggestions = (ArrayList<Trophy>) results.values;
+                suggestions = (ArrayList<String>) results.values;
                 notifyDataSetChanged();
             }
         };
