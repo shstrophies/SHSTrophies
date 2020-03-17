@@ -1,14 +1,17 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar"></style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        ]
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+
+    </style>
         <!-- Customize your theme here. -->
         <style name = "CustomToolbarStyle" parent= "Theme.AppCompat.Light.NoActionBar">
 
         <item name="colorPrimary">@color/colorPrimary</item>
-            <item name="android:background">@color/colorPrimary</item>
-            <item name="android:windowBackground">@color/colorPrimary</item>
-            <item name="android:colorBackground">@color/colorPrimary</item>
+
         </style>
     <style name = "CustomPopupStyle" parent= "Theme.AppCompat.Light.NoActionBar">
 
@@ -35,6 +38,9 @@
     </style>
 
     <style name="AppTheme.NoActionBar">
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
