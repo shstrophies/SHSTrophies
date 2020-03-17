@@ -30,7 +30,6 @@ public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTr
     private List<SportWithTrophies> data;
     private List<SportWithTrophies> dataFiltered;
 
-    private SportWithTrophiesAdapter horizontalAdapter;
     private RecyclerView.RecycledViewPool recycledViewPool;
 
     public SportsWithTrophiesAdapter(Context context, List<SportWithTrophies> data) {
@@ -58,7 +57,7 @@ public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTr
 
         holder.textViewSport.setText(data.get(position).sport.name);
 
-        horizontalAdapter = new SportWithTrophiesAdapter(context, data.get(position));
+        SportWithTrophiesAdapter horizontalAdapter = new SportWithTrophiesAdapter(context, data.get(position));
         holder.recyclerViewHorizontal.setAdapter(horizontalAdapter);
         holder.recyclerViewHorizontal.setLayoutManager(new GridLayoutManager(context, 5));
 
@@ -75,19 +74,18 @@ public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTr
     }
 
 
-    public class HomeViewHolder extends RecyclerView.ViewHolder {
+    class HomeViewHolder extends RecyclerView.ViewHolder {
 
         private RecyclerView recyclerViewHorizontal;
         private TextView textViewSport;
 
-        private LinearLayoutManager horizontalManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-
-        public HomeViewHolder(View itemView) {
+        HomeViewHolder(View itemView) {
             super(itemView);
 
             recyclerViewHorizontal = itemView.findViewById(R.id.home_recycler_view_horizontal);
             recyclerViewHorizontal.setHasFixedSize(true);
             recyclerViewHorizontal.setNestedScrollingEnabled(false);
+            LinearLayoutManager horizontalManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             recyclerViewHorizontal.setLayoutManager(horizontalManager);
             recyclerViewHorizontal.setItemAnimator(new DefaultItemAnimator());
 
@@ -108,10 +106,9 @@ public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTr
             } else {
                 Log.d(TAG, "performFiltering: charString=" + charString);
                 List<SportWithTrophies> filteredList = new ArrayList<>();
-                for (SportWithTrophies row : data) {
+                /*for (SportWithTrophies row : data) {
                     // name match condition. this might differ depending on your requirement
-
-                }
+                }*/ //TODO: Filter the Lists Here
                 dataFiltered = filteredList;
             }
 

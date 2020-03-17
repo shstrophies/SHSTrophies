@@ -11,13 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.shs.trophiesapp.adapters.SportsWithTrophiesAdapter;
 import com.shs.trophiesapp.adapters.TrophiesWithAwardsAdapter;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.TrophyRepository;
 import com.shs.trophiesapp.database.entities.Trophy;
 import com.shs.trophiesapp.database.entities.TrophyAward;
-import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 
 import java.util.ArrayList;
@@ -55,7 +53,7 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.trophies_with_awards_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        trophiesWithAwards = new ArrayList<TrophyWithAwards>();
+        trophiesWithAwards = new ArrayList<>();
         adapter = new TrophiesWithAwardsAdapter(this, trophiesWithAwards);
 
         // set adapter for recyclerview
@@ -108,7 +106,7 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
             searchStrIndex = 1;
         }
 
-        HashMap<Long, List<TrophyAward>> map = new HashMap<Long, List<TrophyAward>>();
+        HashMap<Long, List<TrophyAward>> map = new HashMap<>();
         for (int i = searchStrIndex; i < searchStrings.length; i++) {
             String searchString = searchStrings[i];
 
@@ -121,7 +119,7 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
                     Log.d(TAG, "getData: " + a);
                     long trophyId = a.getTrophyId();
                     if (!map.containsKey(trophyId)) {
-                        map.put(trophyId, new ArrayList());
+                        map.put(trophyId, new ArrayList<>());
                     }
                     List<TrophyAward> awardList = map.get(trophyId);
                     awardList.add(a);
@@ -135,7 +133,7 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
                     Log.d(TAG, "getData: " + a);
                     long trophyId = a.getTrophyId();
                     if (!map.containsKey(trophyId)) {
-                        map.put(trophyId, new ArrayList());
+                        map.put(trophyId, new ArrayList<>());
                     }
                     List<TrophyAward> awardList = map.get(trophyId);
                     awardList.add(a);

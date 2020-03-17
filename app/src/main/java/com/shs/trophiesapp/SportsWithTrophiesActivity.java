@@ -33,7 +33,7 @@ public class SportsWithTrophiesActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         //Receive data
-        Intent intent = getIntent();
+        //Intent intent = getIntent();
 
         // create sports_activity layout object
         setContentView(R.layout.sports_with_trophies_activity);
@@ -41,7 +41,7 @@ public class SportsWithTrophiesActivity extends AppCompatActivity
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.sports_with_trophies_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        sportsWithTrophies = new ArrayList<SportWithTrophies>();
+        sportsWithTrophies = new ArrayList<>();
         adapter = new SportsWithTrophiesAdapter(this, sportsWithTrophies);
 
         // set adapter for recyclerview

@@ -1,8 +1,6 @@
 package com.shs.trophiesapp.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
-import com.shs.trophiesapp.TrophyDetailsActivity;
 import com.shs.trophiesapp.database.entities.TrophyAward;
-import com.shs.trophiesapp.utils.ColorGenerator;
 import com.shs.trophiesapp.utils.ColorGeneratorByYear;
 
 import java.util.ArrayList;
@@ -65,7 +61,7 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
 
     }
 
-    class TrophyWithAwardsViewHolder extends RecyclerView.ViewHolder {
+    static class TrophyWithAwardsViewHolder extends RecyclerView.ViewHolder {
         private TextView txtPlayer;
         private TextView txtYear;
         CardView cardView;
@@ -99,8 +95,7 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
                 awardsFiltered = awards;
             } else {
                 Log.d(TAG, "performFiltering: charString=" + charString);
-                List<TrophyAward> filteredList = new ArrayList<>();
-                awardsFiltered = filteredList;
+                awardsFiltered = new ArrayList<>();
             }
 
             FilterResults filterResults = new FilterResults();

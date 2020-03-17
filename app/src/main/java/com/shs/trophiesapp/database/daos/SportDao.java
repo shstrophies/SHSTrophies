@@ -7,7 +7,6 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.shs.trophiesapp.database.entities.Sport;
-import com.shs.trophiesapp.database.entities.Trophy;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ import java.util.List;
 
     @Transaction
     @Query("SELECT * FROM sport WHERE id LIKE :id")
-    public abstract List<Sport> getSportById(long id);
+    List<Sport> getSportById(long id);
 
     @Query("SELECT * FROM sport WHERE id IN (:userIds)") List<Sport> loadAllByIds(int[] userIds);
     @Query("SELECT * FROM sport WHERE name LIKE :sportName AND " +

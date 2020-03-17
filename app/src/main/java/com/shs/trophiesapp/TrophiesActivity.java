@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,10 +21,8 @@ import com.shs.trophiesapp.adapters.SportWithTrophiesAdapter;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
-import com.shs.trophiesapp.database.entities.Trophy;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TrophiesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener {
@@ -51,7 +50,6 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.trophies_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Trophy> trophies = new ArrayList();
         sportWithTrophies = new SportWithTrophies();
         adapter = new SportWithTrophiesAdapter(this, sportWithTrophies);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
@@ -60,8 +58,10 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         recyclerView.setAdapter(adapter);
 
         TextView sport_trophies = findViewById(R.id.trophy_with_awards_title);
-        sport_trophies.setText(sport+ " Trophies");
+        String sport_trophies_text = sport + " Trophies";
+        sport_trophies.setText(sport_trophies_text);
 
+        assert sport != null; //Pretty bad solution, but shouldn't cause breaks right now
         getData(sport);
 
         searchBar = findViewById(R.id.trophies_search);
@@ -129,18 +129,8 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-//        if (id == R.id.action1) {
-//            // Handle the action1 action
-//        } else if (id == R.id.action2) {
-//
-//        }
-
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return true;
     }
 

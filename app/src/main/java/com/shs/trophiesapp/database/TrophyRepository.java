@@ -28,29 +28,24 @@ public class TrophyRepository {
 
     public List<SportWithTrophies> getSportWithTrophies() {
         // Gets List holding @Relation object
-        List<SportWithTrophies> sportwithTrophiesList = trophyDao.getSportWithTrophies();
-        return sportwithTrophiesList;
+        return trophyDao.getSportWithTrophies();
     }
 
     public List<SportWithTrophies> getSportWithTrophiesBySportName(String sportName) {
         // Gets List holding @Relation object
-        List<SportWithTrophies> sportwithTrophiesList = trophyDao.getSportWithTrophiesBySportName(sportName);
-        return sportwithTrophiesList;
+        return trophyDao.getSportWithTrophiesBySportName(sportName);
     }
 
     public List<TrophyWithAwards> getTrophiesWithAwards() {
-        List<TrophyWithAwards> trophiesWithAwardsList = trophyDao.getTrophiesWithAwards();
-        return trophiesWithAwardsList;
+        return trophyDao.getTrophiesWithAwards();
     }
 
     public List<TrophyAward> getTrophyAwardsByYear(int year) {
-        List<TrophyAward> trophiesWithAwardsList = trophyDao.getTrophyAwardsByYear(year);
-        return trophiesWithAwardsList;
+        return trophyDao.getTrophyAwardsByYear(year);
     }
 
     public List<TrophyAward> getTrophyAwardsByPlayer(String player) {
-        List<TrophyAward> trophiesWithAwardsList = trophyDao.getTrophyAwardsByPlayer("%" + player + "%");
-        return trophiesWithAwardsList;
+        return trophyDao.getTrophyAwardsByPlayer("%" + player + "%");
     }
 
     public List<TrophyAward> getTrophyAwardsByPlayerLimited(String player, int page) {
@@ -72,8 +67,7 @@ public class TrophyRepository {
     }
 
     public List<TrophyWithAwards> getTrophiesWithAwardsByYearORSportORPlayer(int year, String sportName, String player) {
-        List<TrophyWithAwards> trophiesWithAwardsList = trophyDao.getTrophiesWithAwardsByYearORSportORPlayer(year, sportName, player);
-        return trophiesWithAwardsList;
+        return trophyDao.getTrophiesWithAwardsByYearORSportORPlayer(year, sportName, player);
     }
 
     public Trophy getTropyById(long id) {

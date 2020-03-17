@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -49,7 +50,7 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.sport_recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        sports = new ArrayList<Sport>();
+        sports = new ArrayList<>();
         adapter = new SportsAdapter(this, this.sports);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
@@ -108,21 +109,6 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-//        if (id == R.id.action1) {
-//            // Handle the action1 action
-//        } else if (id == R.id.action2) {
-//
-//        }
-
-        return true;
-    }
-
     @Override
     public void onSearchStateChanged(boolean enabled) {
         Log.d(TAG, "onSearchStateChanged: ");
@@ -172,4 +158,8 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         adapter.getFilter().filter(searchText);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return true;
+    }
 }

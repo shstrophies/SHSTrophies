@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.shs.trophiesapp.R;
-import com.shs.trophiesapp.TrophyWithAwardsActivity;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.TrophiesActivity;
 import com.shs.trophiesapp.utils.Utils;
@@ -55,24 +54,21 @@ public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.SportViewH
         Sport sport = sportsFiltered.get(position);
         holder.setDetails(sport);
 
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        View.OnClickListener listener = view -> {
 
-                Intent intent = new Intent(context, TrophiesActivity.class);
-                // passing data
-                intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sport.name);
+            Intent intent = new Intent(context, TrophiesActivity.class);
+            // passing data
+            intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sport.name);
 
-                // start activity
-                context.startActivity(intent);
-            }
+            // start activity
+            context.startActivity(intent);
         };
         // set click listeners
         holder.itemView.setOnClickListener(listener);
         holder.txtTitle.setOnClickListener(listener);
     }
 
-    class SportViewHolder extends RecyclerView.ViewHolder {
+    static class SportViewHolder extends RecyclerView.ViewHolder {
         private TextView txtTitle;
         private ImageView imgView;
 

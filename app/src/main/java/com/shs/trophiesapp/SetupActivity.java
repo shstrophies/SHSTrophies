@@ -35,11 +35,10 @@ import com.shs.trophiesapp.workers.SeedDatabaseWorker;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 import static com.shs.trophiesapp.utils.CSVUtils.parseLine;
 import static com.shs.trophiesapp.utils.Constants.DOWNLOAD_URL;
@@ -132,7 +131,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         String destinationPath = DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + directoryName;
         String fullDirectory = Environment.getExternalStorageDirectory() + "/" + destinationPath;
 
-        File[] files = DirectoryHelper.listFilesInDirectory(fullDirectory);
+        DirectoryHelper.listFilesInDirectory(fullDirectory);
         DirectoryHelper.deleteOlderFiles(fullDirectory, 5);
         DirectoryHelper.createDirectory(this);
 
@@ -143,12 +142,12 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         downloadInfoList.add(downloadInfo.id);
 
         Toast.makeText(SetupActivity.this, "Download Started for id=" + downloadInfo.id, Toast.LENGTH_LONG).show();
-        Log.d(TAG, "downloadDataFromURL: Download Started for id=" + downloadInfo.id + " downloadDataFromURL: downloadInfoMap=" + Arrays.asList(downloadInfoMap));
+        Log.d(TAG, "downloadDataFromURL: Download Started for id=" + downloadInfo.id + " downloadDataFromURL: downloadInfoMap=" + Collections.singletonList(downloadInfoMap));
     }
 
     private DownloadInfo startDownload(String downloadPath, String destinationPath) {
         Log.d(TAG, "startDownload: url=" + downloadPath + ", directory=" + destinationPath);
-        Uri uri = Uri.parse(downloadPath);
+        Uri.parse(downloadPath);
         Downloader downloader = new Downloader(this);
         DownloadManager.Request request = downloader.createRequest(downloadPath, destinationPath, Constants.DATA_FILENAME_NAME);
         long downloadId = downloader.queueDownload(request);// This will start downloading
@@ -162,7 +161,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             //Fetching the download id received with the broadcast
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             Log.d(TAG, "onReceive: downloaded id=" + id);
-            DownloadInfo downloadInfo = (DownloadInfo) downloadInfoMap.get(id);
+            DownloadInfo downloadInfo = downloadInfoMap.get(id);
             Assert.that(downloadInfo != null, "downloadInfo should not be null");
 
             //Checking if the received broadcast is for our enqueued download by matching download id
@@ -201,7 +200,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 Log.d(TAG, "**** onReceive: Download failed because " + reason);
             }
             Log.d(TAG, "onReceive: *** downloadInfoList remove " + downloadInfo.id);
-            Log.d(TAG, "onReceive: downloadInfoList=" + Arrays.asList(downloadInfoList));
+            Log.d(TAG, "onReceive: downloadInfoList=" + Collections.singletonList(downloadInfoList));
             downloadInfoList.remove(downloadInfo.id);
             if (downloadInfoList.isEmpty()) {
                 if (downloadButton != null) downloadButton.setEnabled(true);

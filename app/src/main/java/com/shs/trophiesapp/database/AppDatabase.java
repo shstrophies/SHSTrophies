@@ -20,8 +20,6 @@ import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.workers.SeedDatabaseWorker;
 
-import java.util.UUID;
-
 @Database(entities = {Sport.class, Trophy.class, TrophyAward.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     
@@ -38,7 +36,7 @@ public abstract class AppDatabase extends RoomDatabase {
             OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SeedDatabaseWorker.class).build();
             WorkManager workManager = WorkManager.getInstance();
             workManager.enqueue(workRequest);
-            UUID id = workRequest.getId();
+            //UUID id = workRequest.getId();
         }
     };
 

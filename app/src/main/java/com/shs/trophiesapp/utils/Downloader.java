@@ -17,7 +17,7 @@ public class Downloader {
     private DownloadManager downloadManager;
     private Context context;
 
-    class DownloadInfo {
+    static class DownloadInfo {
         long id;
         Downloader downloader;
         String downloadPath;

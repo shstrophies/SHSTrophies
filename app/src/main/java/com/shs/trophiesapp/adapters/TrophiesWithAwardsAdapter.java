@@ -20,14 +20,11 @@ import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.entities.Trophy;
-import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 import com.shs.trophiesapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWithAwardsAdapter.HomeViewHolder> implements Filterable {
 
@@ -37,7 +34,6 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
     private List<TrophyWithAwards> data;
     private List<TrophyWithAwards> dataFiltered;
 
-    private TrophyWithAwardsAdapter horizontalAdapter;
     private RecyclerView.RecycledViewPool recycledViewPool;
 
     public TrophiesWithAwardsAdapter(Context context, List<TrophyWithAwards> data) {
@@ -65,11 +61,12 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
 
         Sport sport = DataManager.getSportRepository(context).getSportById(data.get(position).trophy.getSportId());
         Trophy trophy = data.get(position).trophy;
-        holder.textViewSport.setText(sport.getName() + ": " + trophy.getTitle()  );
+        String textViewSportText = sport.getName() + ": " + trophy.getTitle();
+        holder.textViewSport.setText(textViewSportText);
         Utils.imageFromCache(holder.img, trophy.getUrl());
         holder.trophyView.setBackgroundColor(trophy.getColor());
 
-        horizontalAdapter = new TrophyWithAwardsAdapter(context, data.get(position).awards, data.get(position).trophy.getColor());
+        TrophyWithAwardsAdapter horizontalAdapter = new TrophyWithAwardsAdapter(context, data.get(position).awards, data.get(position).trophy.getColor());
         holder.recyclerViewHorizontal.setAdapter(horizontalAdapter);
         holder.recyclerViewHorizontal.setLayoutManager(new GridLayoutManager(context, 5));
 
@@ -86,21 +83,20 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
     }
 
 
-    public class HomeViewHolder extends RecyclerView.ViewHolder {
+    class HomeViewHolder extends RecyclerView.ViewHolder {
 
         private RecyclerView recyclerViewHorizontal;
         private TextView textViewSport;
         private ImageView img;
         private View trophyView;
 
-        private LinearLayoutManager horizontalManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-
-        public HomeViewHolder(View itemView) {
+        HomeViewHolder(View itemView) {
             super(itemView);
 
             recyclerViewHorizontal = itemView.findViewById(R.id.trophies_with_awards_recycler_view_horizontal);
             recyclerViewHorizontal.setHasFixedSize(true);
             recyclerViewHorizontal.setNestedScrollingEnabled(false);
+            LinearLayoutManager horizontalManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             recyclerViewHorizontal.setLayoutManager(horizontalManager);
             recyclerViewHorizontal.setItemAnimator(new DefaultItemAnimator());
 
@@ -121,12 +117,11 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
                 dataFiltered = data;
             } else {
                 Log.d(TAG, "performFiltering: charString=" + charString);
-                List<TrophyWithAwards> filteredList = new ArrayList<>();
-                for (TrophyWithAwards row : data) {
+                /*for (TrophyWithAwards row : data) {
                     // name match condition. this might differ depending on your requirement
 
-                }
-                dataFiltered = filteredList;
+                }*/ //TODO: Filtering of Trophy Results
+                dataFiltered = new ArrayList<>();
             }
 
             FilterResults filterResults = new FilterResults();

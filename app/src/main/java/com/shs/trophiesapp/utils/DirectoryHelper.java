@@ -7,7 +7,6 @@ import android.util.Log;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class DirectoryHelper extends ContextWrapper {
 
@@ -95,11 +94,7 @@ public class DirectoryHelper extends ContextWrapper {
         File[] files = dir.listFiles(); //important
 
         // sort files from lowest to biggest number, oldest to newest
-        Arrays.sort(files, new Comparator<File>(){
-            public int compare(File f1, File f2)
-            {
-                return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
-            } });
+        Arrays.sort(files, (f1, f2) -> Long.compare(f1.lastModified(), f2.lastModified()));
 
         Log.d(TAG, "deleteOlderFiles: "+ Arrays.toString(files));
         // no need to remove files
