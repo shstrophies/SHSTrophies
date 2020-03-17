@@ -108,35 +108,13 @@ ___________________________________________________
 
 
 
-- players&years page: make the color matching so each year is associated with one color. Right now it does not work properly!
-
-Here is an example of how color matching should work on players&years page
-
-If this is the Array of all colors:
-[red, orange, green, blue, yellow, purple]
-
-1960 cards --> all are red
-1961 cards --> all are orange
-...
-1966 cards --> all are purple
-Then it goes back to 1967 is red. And so on.
-
 ___________________________________________________
 ### UI:
 ___________________________________________________
 
   - Refine search results page
-  
-  - figure out which cropping attribute to use
-    
-  - eventually add an 'info page' so ppl see the history of the app, instructions on how to use it, etc.
-  
-  - remove dots on search bar
-  
   - look into back buttons
-  
-  - create a footer for a icon to the credits page
-  
+    
   - add question mark to search bar with search options
   
   - adjust search page and tapping onto the card pages
