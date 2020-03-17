@@ -51,7 +51,7 @@
                 android:elevation="20dp"
                 android:focusable="true"
                 android:fontFamily="@font/montserrat_bold"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:textAlignment="center"
                 android:padding="1dp"
                 android:textColor="#fff"
