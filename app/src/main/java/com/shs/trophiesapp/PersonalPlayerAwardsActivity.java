@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.*;
 
 import androidx.annotation.LongDef;
 import androidx.annotation.Nullable;
@@ -67,7 +68,15 @@ public class PersonalPlayerAwardsActivity extends AppCompatActivity {
         int color = intent.getExtras().getInt("color");
         String thePlayerName = getIntent().getStringExtra("playerName");
         String url = intent.getExtras().getString("url");
-        setPlayerNameText( "Awards for "+thePlayerName);
+        String lastLetter = thePlayerName.substring(thePlayerName.length() - 1);
+        if(lastLetter.equals("s")){
+            setPlayerNameText(thePlayerName+"\' awards");
+        }
+        else{
+            setPlayerNameText(thePlayerName+"\'s awards");
+        }
+
+
 
 
         searchString = thePlayerName;
