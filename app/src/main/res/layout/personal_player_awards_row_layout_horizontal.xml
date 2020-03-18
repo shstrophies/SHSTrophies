@@ -79,7 +79,7 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/trophies_with_awards_recycler_view_horizontal"
+            android:id="@+id/personal_trophies_with_awards_recycler_view_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/trophies_with_awards_trophy_layout"

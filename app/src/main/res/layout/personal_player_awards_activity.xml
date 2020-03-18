@@ -23,17 +23,21 @@
             android:id="@+id/playersName"
             android:layout_width="800dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_extrabold"
+            android:layout_marginBottom="40dp"
 
+            android:fontFamily="@font/montserrat_extrabold"
             android:maxLines="1"
             android:paddingTop="5dp"
             android:text="Person's Name"
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
         <View
             android:id="@+id/view2"
             android:layout_width="1300dp"
@@ -46,7 +50,23 @@
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/personal_trophies_with_awards_recyclerview"
+            android:layout_width="1273dp"
+            android:layout_height="680dp"
+            android:layout_alignParentTop="true"
 
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/trophies_with_awards_recyclerview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:layout_constraintVertical_bias="0.0">
+
+
+        </androidx.recyclerview.widget.RecyclerView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

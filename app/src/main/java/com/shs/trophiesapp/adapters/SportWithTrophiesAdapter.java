@@ -22,7 +22,7 @@ import com.shs.trophiesapp.database.entities.Trophy;
 import com.shs.trophiesapp.utils.ColorGeneratorByTrophyTitle;
 import com.shs.trophiesapp.utils.Utils;
 
-public class  SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrophiesAdapter.TrophyViewHolder> implements Filterable {
+public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrophiesAdapter.TrophyViewHolder> implements Filterable {
     private static final String TAG = "SportWithTrophiesAdapter";
     private Context context;
     private SportWithTrophies sportWithTrophies;

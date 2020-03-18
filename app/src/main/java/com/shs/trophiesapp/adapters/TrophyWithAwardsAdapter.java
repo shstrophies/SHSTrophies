@@ -65,6 +65,11 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
 
             // passing data
             intent.putExtra("playerName", trophyAward.getPlayer());
+            intent.putExtra("color", trophyAward.getColor());
+            intent.putExtra("trophyId", trophyAward.getTrophyId());
+
+
+
 
             // start activity
             context.startActivity(intent);
