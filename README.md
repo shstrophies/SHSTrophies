@@ -102,22 +102,21 @@ ___________________________________________________
 **UI Related Backend**
 ___________________________________________________
 
-- have the players&years cards clickable and have them show a screen with all trophies that person won.
-
 - replace "--" with "Team Trophy"
 
+-Fix possibility of looping bug if someone keeps on pressing on a name. have it be able to be clicked max once
 
 
 ___________________________________________________
 ### UI:
 ___________________________________________________
 
-  - Refine search results page
+  - Add the exact search result to search results page
+  
   - look into back buttons
     
   - add question mark to search bar with search options
   
-  - adjust search page and tapping onto the card pages
 
 ___________________________________________________
 ### Torrens/Leadership Kids
