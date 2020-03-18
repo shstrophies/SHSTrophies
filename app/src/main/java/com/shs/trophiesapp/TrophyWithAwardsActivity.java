@@ -25,7 +25,7 @@ import com.shs.trophiesapp.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrophyWithAwardsActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener  {
+public class TrophyWithAwardsActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener   {
     private static final String TAG = "TrophyPlayersAndYearsAc";
 
     //private TextView searchHeader;
