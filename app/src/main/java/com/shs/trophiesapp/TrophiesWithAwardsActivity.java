@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,17 +51,37 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
         // create sports_activity layout object
         setContentView(R.layout.trophies_with_awards_activity);
 
+
+
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.trophies_with_awards_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         trophiesWithAwards = new ArrayList<>();
         adapter = new TrophiesWithAwardsAdapter(this, trophiesWithAwards);
 
+
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);
 
+        TextView searchHeader = findViewById(R.id.HeaderWithSearchResults);
+
+
+
+
         // get data and notify adapter
         getData();
+
+        if(searchString.contains("sportId")){
+            String searchResultText = searchString.substring(searchString.indexOf(",")+1);
+            searchHeader.setText(trophiesWithAwards.size() +" result(s) for \""+searchResultText+"\"");
+        }
+        else{
+            searchHeader.setText(trophiesWithAwards.size() +" result(s) for \""+searchString+"\"");
+
+        }
+
+
+
 
 
     }
