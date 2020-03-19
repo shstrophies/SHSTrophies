@@ -38,7 +38,8 @@ public class Downloader {
 
     public DownloadManager.Request createRequest(String url, String directory, String saveAsName) {
         String downloadDescription = "url=" + url + " directory=" + directory + " saveAsName=" + saveAsName;
-
+        DirectoryHelper.createDirectory(directory);
+        DirectoryHelper.listFilesInDirectory(directory);
         Uri downloadUri = Uri.parse(url);
         DownloadManager.Request request = new DownloadManager.Request(downloadUri);
 
