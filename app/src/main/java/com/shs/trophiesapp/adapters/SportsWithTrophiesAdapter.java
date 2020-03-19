@@ -82,14 +82,15 @@ public class  SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithT
         HomeViewHolder(View itemView) {
             super(itemView);
 
-            recyclerViewHorizontal = itemView.findViewById(R.id.trophies_with_awards_recycler_view_horizontal);
+            // home_recycler_view_horizontal
+            recyclerViewHorizontal = itemView.findViewById(R.id.home_recycler_view_horizontal);
             recyclerViewHorizontal.setHasFixedSize(true);
             recyclerViewHorizontal.setNestedScrollingEnabled(false);
             LinearLayoutManager horizontalManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             recyclerViewHorizontal.setLayoutManager(horizontalManager);
             recyclerViewHorizontal.setItemAnimator(new DefaultItemAnimator());
 
-            textViewSport = itemView.findViewById(R.id.tv_sport_and_trophy);
+            textViewSport = itemView.findViewById(R.id.tv_sport);
 
 
         }
