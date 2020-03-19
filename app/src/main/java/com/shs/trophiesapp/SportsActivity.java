@@ -9,9 +9,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,7 +30,7 @@ import com.mancj.materialsearchbar.MaterialSearchBar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SportsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener {
+public class SportsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener, PopupMenu.OnMenuItemClickListener {
     private static final String TAG = "SportsActivity";
 
     private MaterialSearchBar searchBar;
@@ -42,9 +45,15 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         // create sports_activity layout object
         setContentView(R.layout.sports_activity);
 
+
+
         //create action bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+
+        AboutDialogActivity loadingDialog = new AboutDialogActivity(SportsActivity.this);
+
+
 
 
         // set recyclerview layout manager
@@ -104,9 +113,18 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        AboutDialogActivity loadingDialog = new AboutDialogActivity(SportsActivity.this);
+        switch (item.getItemId()){
+            case R.id.action_about:
+                loadingDialog.startAboutDialogActivity();
+                return true;
+            case R.id.action_report_bug:
+                return true;
+            default:
+                return false;
+        }
 
 
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -162,4 +180,19 @@ public class SportsActivity extends AppCompatActivity implements NavigationView.
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return true;
     }
+
+    public void showPopup(View v){
+        PopupMenu popup = new PopupMenu(this,v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.main);
+        popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        return false;
+    }
 }
+
+
+
