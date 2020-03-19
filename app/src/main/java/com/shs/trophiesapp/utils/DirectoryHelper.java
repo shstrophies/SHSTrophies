@@ -30,8 +30,6 @@ public class DirectoryHelper extends ContextWrapper {
     public void createFolderDirectories() {
         if (isExternalStorageAvailable()) {
             createDirectory(ROOT_DIRECTORY_NAME);
-            createDirectory(Constants.DATA_DIRECTORY_SPORT_IMAGES);
-            createDirectory(Constants.DATA_DIRECTORY_TROPHY_IMAGES);
         }
     }
 

@@ -56,6 +56,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
     HashMap<Long, DownloadInfo> downloadInfoMap = new HashMap<>();
     ArrayList<Long> downloadInfoList = new ArrayList<>();
+    ArrayList<String> destinationPaths = new ArrayList<>();
     private LifecycleOwner lifecycleOwner = this;
 
 
@@ -63,6 +64,9 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
+
+        setupHashes();
+
         downloadButton = findViewById(R.id.downloadDataButton);
         downloadButton.setOnClickListener(this);
         loadDatabaseButton = findViewById(R.id.loadDatabaseButton);
@@ -71,11 +75,28 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         cleanButton.setOnClickListener(this);
 
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+    }
 
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
-            return;
-        }*/
+    private void setupHashes() {
+        destinationPaths.add(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + SPORTS_DIRECTORY_NAME);
+        downloadData();
+        // Check if each file hash is different, if the file hashes are the same, then don't download them again.
+        for(String destPath : destinationPaths) {
+            File[] files = new File(destPath).listFiles();
+            Assert.that(files != null, "No Files in Destination Path: " + destPath);
+
+            if(files.length == 1) {
+                //TODO: Need to write this cxv as exported_cached.csv after database is loaded, and every time DownloadManager runs, it should rewrite file as opposed to creating exported-1 or -n.csv
+                //This is the first time booting up the app
+                loadDatabase();
+            }
+            else {
+                //String fileName = Constants.DATA_FILENAME_NAME.replace(".csv", "-" + (files.length - 1) + ".csv");
+                String fileName = Constants.DATA_FILENAME_NAME;
+                File currFile = new File(destPath, fileName);
+                Assert.that(currFile.exists(), "Export CSV Does Not Exist");
+            }
+        }
     }
 
 
@@ -188,6 +209,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                             if (first) first = false;
                             else {
                                 String sport = commaSeparatedLine.get(0);
+                                destinationPaths.add(sport);
                                 String gid = commaSeparatedLine.get(1);
                                 downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", gid), sport);
                             }
