@@ -111,7 +111,6 @@ ___________________________________________________
 ### UI:
 ___________________________________________________
 
-  - Add the exact search result to search results page
   
   - look into back buttons
     
