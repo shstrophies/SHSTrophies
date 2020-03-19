@@ -1,5 +1,6 @@
 package com.shs.trophiesapp;
 
+import android.Manifest;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -72,10 +74,10 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
             return;
-        }*/
+        }
     }
 
 
@@ -134,7 +136,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         DirectoryHelper.listFilesInDirectory(fullDirectory);
         DirectoryHelper.deleteOlderFiles(fullDirectory, 5);
         DirectoryHelper.createDirectory(this);
-
+        DirectoryHelper.createDirectory(Constants.DATA_DIRECTORY_SPORT_IMAGES);
+        DirectoryHelper.createDirectory(Constants.DATA_DIRECTORY_TROPHY_IMAGES);
 
         DownloadInfo downloadInfo = startDownload(downloadPath, destinationPath);
         downloadInfoMap.put(downloadInfo.id, downloadInfo);
@@ -149,6 +152,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         Log.d(TAG, "startDownload: url=" + downloadPath + ", directory=" + destinationPath);
         Uri.parse(downloadPath);
         Downloader downloader = new Downloader(this);
+
         DownloadManager.Request request = downloader.createRequest(downloadPath, destinationPath, Constants.DATA_FILENAME_NAME);
         long downloadId = downloader.queueDownload(request);// This will start downloading
         String fullDirectory = Environment.getExternalStorageDirectory() + "/" + destinationPath;
