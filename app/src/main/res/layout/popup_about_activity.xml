@@ -15,30 +15,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="464dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center_horizontal"
+            android:text="About"
+            android:textColor="#000"
+            android:textSize="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></TextView>
 
         <ScrollView
-            android:layout_width="484dp"
-            android:layout_height="558dp"
+            android:id="@+id/scrollView2"
+            android:layout_width="545dp"
+            android:layout_height="580dp"
+            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
 
-            =
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="476dp"
-                android:layout_height="552dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:gravity="center_horizontal"
-                android:text="About"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id vehicula erat. Praesent sit amet ipsum nec turpis cursus pellentesque. Aliquam erat volutpat. Sed a volutpat ipsum. Etiam viverra a nulla sit amet scelerisque. Duis sed diam mauris. Ut quis vehicula risus, non sollicitudin orci.  Ut non dolor quis magna tempus tristique. Aliquam ligula lacus, vulputate ut dui sed, iaculis pretium nulla. Nunc ex nunc, tincidunt quis tempus vel, tincidunt a est. Duis tristique, est et tincidunt congue, augue metus luctus dui, sit amet efficitur orci ex cursus sem. In a lorem sed libero mattis consectetur ac bibendum nisl. Integer orci nisl, maximus ac risus non, lacinia ullamcorper felis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas varius eros eget tincidunt pulvinar. Duis cursus elit bibendum fringilla tempus. Sed vestibulum nulla a sapien posuere, a cursus leo ultricies. Morbi feugiat, ex vel cursus mattis, neque tellus facilisis ligula, at tincidunt enim magna non augue. Integer eu erat lectus. Aenean consectetur elit purus, quis viverra dolor eleifend eget. Duis fermentum efficitur dapibus."
                 android:textColor="#000"
-                android:textSize="30dp"
-               >
+                android:textSize="20dp"></TextView>
 
 
-            </TextView>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
