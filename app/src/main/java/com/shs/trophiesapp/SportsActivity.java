@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
-import com.shs.trophiesapp.adapters.CustomSuggestionsAdapter;
 import com.shs.trophiesapp.adapters.SportsAdapter;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.SportRepository;
@@ -25,7 +24,6 @@ import com.shs.trophiesapp.database.entities.Sport;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,8 +32,6 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 
     private MaterialSearchBar searchBar;
     private List<String> suggestions = new ArrayList<>();
-    private CustomSuggestionsAdapter customSuggestionsAdapter;
-
 
     private SportsAdapter adapter;
     private ArrayList<Sport> sports;
@@ -65,10 +61,8 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         searchBar.setMaxSuggestionCount(5);
         searchBar.setHint(getResources().getString(R.string.search_info));
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
         getSuggestions();
-        customSuggestionsAdapter.setSuggestions(suggestions);
-        searchBar.setCustomSuggestionAdapter(customSuggestionsAdapter);
+        searchBar.setLastSuggestions(suggestions);
 
 
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
@@ -83,7 +77,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
                 // send the entered text to our filter and let it manage everything
-                customSuggestionsAdapter.getFilter().filter(searchBar.getText());
+//                customSuggestionsAdapter.getFilter().filter(searchBar.getxText());
             }
 
             @Override
@@ -196,7 +190,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        customSuggestionsAdapter.addSuggestion("Hi");
+
     }
 
 }
