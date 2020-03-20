@@ -165,12 +165,13 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
     private List<String> getSuggestions() {
         // Sample data
         final String[] suggestions = {
-                "Basketball, Glenn, Most Inspirational",
+                "Basketball, Most Inspirational, Glenn",
                 "Most Inspirational",
+                "Football, Most Inspirational",
+                "Glenn, 1976",
                 "1976",
                 "Football, 1976"
         };
-//        this.suggestions = Arrays.asList(suggestions);
         Collections.addAll( this.suggestions, suggestions );
 
         return this.suggestions;
