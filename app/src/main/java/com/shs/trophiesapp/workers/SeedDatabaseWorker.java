@@ -85,7 +85,14 @@ public class SeedDatabaseWorker extends Worker {
                         Log.d(TAG, "doWork: inserted trophy for sport(" + sport.getName() + ")" + trophy.toString());
                     }
                     else trophy.setId(trophyItem.getId());
-                    TrophyAward award = new TrophyAward(trophy.getId(), awarditem.getYear(), awarditem.getPlayer(), awarditem.getCategory());
+                    
+                    // check here if awarditem.getPlayer() is '--',
+                    // if so, then set the player to "Team Trophy" instead.
+                    String player = awarditem.getPlayer();
+                    if(awarditem.getPlayer().equals("--")){
+                        player = "Team Trophy";
+                    }
+                    TrophyAward award = new TrophyAward(trophy.getId(), awarditem.getYear(), player, awarditem.getCategory());
                     awards.add(award);
                 }
                 appDatabase.trophyDao().insert(sport, trophies);
