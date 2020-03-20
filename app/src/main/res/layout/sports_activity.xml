@@ -102,7 +102,7 @@
                 android:id="@+id/sports_search"
                 style="@style/MaterialSearchBarLight"
                 android:layout_width="1100dp"
-                android:layout_height="65dp"
+                android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/sport_recycleview"
                 app:layout_constraintEnd_toEndOf="parent"

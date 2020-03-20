@@ -26,6 +26,7 @@ import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class SportsActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener {
@@ -60,8 +61,8 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         getData();
 
         searchBar = findViewById(R.id.sports_search);
-//        searchBar.setOnSearchActionListener(this);
-        searchBar.setMaxSuggestionCount(10);
+        searchBar.setOnSearchActionListener(this);
+        searchBar.setMaxSuggestionCount(5);
         searchBar.setHint(getResources().getString(R.string.search_info));
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
@@ -165,18 +166,15 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
     private List<String> getSuggestions() {
         // Sample data
         final String[] suggestions = {
-                "Simvastatin",
-                "Carrot Daucus carota",
-                "Sodium Fluoride",
-                "White Kidney Beans",
-                "Salicylic Acid",
-                "cetirizine hydrochloride",
-                "Mucor racemosus",
-                "Thymol",
-                "TOLNAFTATE",
-                "Albumin Human"
+                "Basketball, Glenn, Most Inspirational",
+                "Most Inspirational",
+                "1976",
+                "Football, 1976"
         };
-        return Arrays.asList(suggestions);
+//        this.suggestions = Arrays.asList(suggestions);
+        Collections.addAll( this.suggestions, suggestions );
+
+        return this.suggestions;
     }
 
     private void getData() {

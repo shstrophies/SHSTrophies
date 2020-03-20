@@ -1,5 +1,6 @@
 package com.shs.trophiesapp.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 
 public class CustomSuggestionsAdapter extends SuggestionsAdapter<String, CustomSuggestionsAdapter.SuggestionHolder> {
 
+    private static final String TAG = "CustomSuggestionsAdapte";
     public CustomSuggestionsAdapter(LayoutInflater inflater) {
 
         super(inflater);
@@ -30,8 +32,12 @@ public class CustomSuggestionsAdapter extends SuggestionsAdapter<String, CustomS
 
     @Override
     public int getSingleViewHeight() {
-        return 80;
+        return 30;
     }
+
+    public int getCount() { return suggestions.size(); }
+
+
 
     @Override
     public SuggestionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -41,8 +47,9 @@ public class CustomSuggestionsAdapter extends SuggestionsAdapter<String, CustomS
 
     @Override
     public void onBindSuggestionHolder(String suggestion, SuggestionHolder holder, int position) {
+        Log.d(TAG, "onBindSuggestionHolder: suggestion=" + suggestion);
         holder.title.setText(suggestion);
-//        holder.subtitle.setText("The player is " + suggestion.trophies.() + "$");
+//        holder.subtitle.setText("The player is " + "TBD" + "$");
     }
 
     /**
@@ -84,13 +91,13 @@ public class CustomSuggestionsAdapter extends SuggestionsAdapter<String, CustomS
 
     static class SuggestionHolder extends RecyclerView.ViewHolder{
         protected TextView title;
-        protected TextView subtitle;
+//        protected TextView subtitle;
         protected ImageView image;
 
         public SuggestionHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
-            subtitle = (TextView) itemView.findViewById(R.id.subtitle);
+//            subtitle = (TextView) itemView.findViewById(R.id.subtitle);
         }
     }
 
