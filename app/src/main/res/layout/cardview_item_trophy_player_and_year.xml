@@ -8,6 +8,9 @@
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
         cardview:cardCornerRadius="10dp"
+    android:clickable="true"
+    android:focusable="true"
+    cardview:cardElevation="5dp"
     >
 
     <androidx.cardview.widget.CardView
@@ -31,11 +34,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold"
-                android:gravity="center_vertical"
+                android:gravity="center_horizontal"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:paddingRight="10dp"
-                android:textAlignment="center"
+                android:textAlignment="gravity"
                 android:textColor="#fff"
                 android:textSize="25sp"
                 android:maxLines="1"/>

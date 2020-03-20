@@ -16,19 +16,15 @@ import com.shs.trophiesapp.utils.Utils;
 
 public class TrophyDetailsActivity extends AppCompatActivity {
 
-    private TextView tvTitle;
-    private ImageView img;
-    private CardView cardView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cardview_trophy_details);
 
-        cardView = findViewById(R.id.cardview_trophy_details_id);
-        tvTitle = findViewById(R.id.txt_title);
+        CardView cardView = findViewById(R.id.cardview_trophy_details_id);
+        TextView tvTitle = findViewById(R.id.txt_title);
 
-        img = findViewById(R.id.trophythumbnail);
+        ImageView img = findViewById(R.id.trophythumbnail);
 
         //Receive data
         Intent intent = getIntent();
@@ -45,7 +41,7 @@ public class TrophyDetailsActivity extends AppCompatActivity {
 
         tvTitle.setText(title);
 
-        Utils.imageFromUrl(img, url);
+        Utils.imageFromCache(img, url);
         cardView.setBackgroundColor(color);
 
     }

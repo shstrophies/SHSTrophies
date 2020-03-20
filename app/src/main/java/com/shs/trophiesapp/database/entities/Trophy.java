@@ -2,7 +2,6 @@ package com.shs.trophiesapp.database.entities;
 
 import android.graphics.Color;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -31,10 +30,8 @@ public class Trophy {
     public long id = 0;
     @ColumnInfo(name = "sportId")
     private long sportId;
-    @NonNull
     @ColumnInfo(name = "title")
     private String title;
-    @NonNull
     @ColumnInfo(name = "url")
     private String url;
 
@@ -81,8 +78,7 @@ public class Trophy {
         this.color = color;
     }
 
-    @Ignore
-    int color = Color.RED;
+    @Ignore public int color = Color.RED;
 
 
     @Override

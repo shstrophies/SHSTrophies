@@ -4,16 +4,16 @@ buildscript {
     ext {
         constraintLayoutVersion = '1.1.2'
         espressoVersion = '3.0.1'
-        glideVersion = '4.4.0'
+        glideVersion = '4.11.0'
         gsonVersion = '2.8.2'
         junitVersion = '4.12'
         lifecycleVersion = '1.1.1'
         navigationVersion = '1.0.0-alpha03'
         ktxVersion = '0.3'
-        roomVersion = '2.2.3'
+        roomVersion = '2.2.4'
         runnerVersion = '1.0.1'
         supportLibraryVersion = '28.0.0-alpha3'
-        workVersion = '2.3.2'
+        workVersion = '2.3.3'
     }
     repositories {
         google()
@@ -22,7 +22,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.android.tools.build:gradle:3.6.1'
         
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

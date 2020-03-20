@@ -22,6 +22,7 @@
         cardview:cardCornerRadius="0dp"
         cardview:cardElevation="5dp"
 
+
         >
 
 
@@ -38,7 +39,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="325dp"
                 android:layout_marginBottom="4dp"
-                android:background="#000"
+                android:background="#f2f2f2"
 
                 android:scaleType="centerCrop" />
 
@@ -50,9 +51,9 @@
                 android:elevation="20dp"
                 android:focusable="true"
                 android:fontFamily="@font/montserrat_bold"
-                android:gravity="center_vertical"
-                android:padding="1dp"
+                android:gravity="center"
                 android:textAlignment="center"
+                android:padding="1dp"
                 android:textColor="#fff"
                 android:textSize="20dp"
 

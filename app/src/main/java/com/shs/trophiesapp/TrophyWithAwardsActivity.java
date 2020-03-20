@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,13 +25,9 @@ import com.shs.trophiesapp.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrophyWithAwardsActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener  {
+public class TrophyWithAwardsActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener   {
     private static final String TAG = "TrophyPlayersAndYearsAc";
 
-    private TextView tvSportTitle;
-    private TextView tvTitle;
-    private ImageView img;
-    private View trophyView;
 
     private MaterialSearchBar searchBar;
 
@@ -46,24 +41,24 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trophy_with_awards_activity);
 
-        tvSportTitle = findViewById(R.id.trophy_with_awards_title);
-        tvTitle = findViewById(R.id.trophy_with_awards_title);
-        img = findViewById(R.id.trophy_with_awards_thumbnail);
-        trophyView = findViewById(R.id.trophy_with_awards_trophy);
+        TextView tvSportTitle = findViewById(R.id.trophy_with_awards_title);
+        TextView tvTitle = findViewById(R.id.trophy_with_awards_title);
+        ImageView img = findViewById(R.id.trophy_with_awards_thumbnail);
+        //searchHeader = findViewById(R.id.HeaderWithSearchResults);
 
         //Receive data
         Intent intent = getIntent();
-        long trophyId = intent.getExtras().getLong("trophyId");
         String sport = intent.getExtras().getString("sportName");
         String title = intent.getExtras().getString("title");
         String url = intent.getExtras().getString("url");
         int color = intent.getExtras().getInt("color");
 
 
-
-        tvSportTitle.setText(sport + " Trophy Award(s)");
+        String tvSportTitleText = sport + " Trophy Award(s)";
+        tvSportTitle.setText(tvSportTitleText);
         tvTitle.setText(title);
-        Utils.imageFromUrl(img, url);
+        //searchHeader.setText( "{Number} results for" + searchBar.getText());
+        Utils.imageFromCache(img, url);
         //trophyView.setBackgroundColor(color);
 
         // set recyclerview layout manager
@@ -106,21 +101,18 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
 
         });
 
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        img.setOnClickListener(view -> {
 
-                long trophyId = intent.getExtras().getLong("trophyId");
+            long trophyId1 = intent.getExtras().getLong("trophyId");
 
-                Intent intent = new Intent(getApplicationContext(), TrophyDetailsActivity.class);
+            Intent intent1 = new Intent(getApplicationContext(), TrophyDetailsActivity.class);
 
-                // passing data
-                intent.putExtra("trophyId", trophyId);
-                intent.putExtra("color", color);
+            // passing data
+            intent1.putExtra("trophyId", trophyId1);
+            intent1.putExtra("color", color);
 
-                // start activity
-                startActivity(intent);
-            }
+            // start activity
+            startActivity(intent1);
         });
 
     }

@@ -1,8 +1,5 @@
 package com.shs.trophiesapp.data;
 
-import androidx.room.ColumnInfo;
-import androidx.room.PrimaryKey;
-
 public class SportData {
     public String name;
     public String imageUrl;

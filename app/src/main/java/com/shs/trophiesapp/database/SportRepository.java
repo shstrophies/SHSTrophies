@@ -2,7 +2,6 @@ package com.shs.trophiesapp.database;
 
 import com.shs.trophiesapp.database.daos.SportDao;
 import com.shs.trophiesapp.database.entities.Sport;
-import com.shs.trophiesapp.database.entities.Trophy;
 
 import java.util.List;
 

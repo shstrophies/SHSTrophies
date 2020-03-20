@@ -8,10 +8,15 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +32,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SportsActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener {
+
+public class SportsActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener, PopupMenu.OnMenuItemClickListener {
     private static final String TAG = "SportsActivity";
 
     private MaterialSearchBar searchBar;
@@ -43,10 +49,18 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         // create sports_activity layout object
         setContentView(R.layout.sports_activity);
 
+
+
+//        //create action bar
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+//        setSupportActionBar(toolbar);
+//        AboutDialogActivity loadingDialog = new AboutDialogActivity(SportsActivity.this);
+
+
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.sport_recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        sports = new ArrayList<Sport>();
+        sports = new ArrayList<>();
         adapter = new SportsAdapter(this, this.sports);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
@@ -89,11 +103,13 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return false;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -101,29 +117,18 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        AboutDialogActivity loadingDialog = new AboutDialogActivity(SportsActivity.this);
+        switch (item.getItemId()){
+            case R.id.action_about:
+                loadingDialog.startAboutDialogActivity();
+                return true;
+            case R.id.action_report_bug:
+                return true;
+            default:
+                return false;
         }
 
-        return super.onOptionsItemSelected(item);
-    }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-//        if (id == R.id.action1) {
-//            // Handle the action1 action
-//        } else if (id == R.id.action2) {
-//
-//        }
-
-        return true;
     }
 
     @Override
@@ -193,4 +198,22 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return true;
+    }
+
+    public void showPopup(View v){
+        PopupMenu popup = new PopupMenu(this,v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.main);
+        popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        return false;
+    }
 }
+
+
+

@@ -2,7 +2,6 @@ package com.shs.trophiesapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mikepenz.fastadapter.listeners.OnClickListener;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.TrophyWithAwardsActivity;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.entities.Trophy;
-import com.shs.trophiesapp.utils.ColorGenerator;
 import com.shs.trophiesapp.utils.ColorGeneratorByTrophyTitle;
-import com.shs.trophiesapp.utils.ColorGeneratorByYear;
 import com.shs.trophiesapp.utils.Utils;
 
 public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrophiesAdapter.TrophyViewHolder> implements Filterable {
@@ -61,23 +57,20 @@ public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrop
         holder.setDetails(trophy);
 
 
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        View.OnClickListener listener = view -> {
 
-                Intent intent = new Intent(context, TrophyWithAwardsActivity.class);
+            Intent intent = new Intent(context, TrophyWithAwardsActivity.class);
 
-                // passing data
-                intent.putExtra("sportId", sportWithTrophiesFiltered.sport.getId());
-                intent.putExtra("sportName", sportWithTrophiesFiltered.sport.getName());
-                intent.putExtra("trophyId", sportWithTrophiesFiltered.trophies.get(position).getId());
-                intent.putExtra("title", sportWithTrophiesFiltered.trophies.get(position).getTitle());
-                intent.putExtra("url", sportWithTrophiesFiltered.trophies.get(position).getUrl());
-                intent.putExtra("color", sportWithTrophiesFiltered.trophies.get(position).getColor());
+            // passing data
+            intent.putExtra("sportId", sportWithTrophiesFiltered.sport.getId());
+            intent.putExtra("sportName", sportWithTrophiesFiltered.sport.getName());
+            intent.putExtra("trophyId", sportWithTrophiesFiltered.trophies.get(position).getId());
+            intent.putExtra("title", sportWithTrophiesFiltered.trophies.get(position).getTitle());
+            intent.putExtra("url", sportWithTrophiesFiltered.trophies.get(position).getUrl());
+            intent.putExtra("color", sportWithTrophiesFiltered.trophies.get(position).getColor());
 
-                // start activity
-                context.startActivity(intent);
-            }
+            // start activity
+            context.startActivity(intent);
         };
 
         holder.txtTitle.setOnClickListener(listener);
@@ -86,7 +79,7 @@ public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrop
     }
 
 
-    class TrophyViewHolder extends RecyclerView.ViewHolder {
+    static class TrophyViewHolder extends RecyclerView.ViewHolder {
         private TextView txtTitle;
         private ImageView imgView;
         CardView cardView;
@@ -102,7 +95,7 @@ public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrop
         void setDetails(Trophy trophy) {
             txtTitle.setText(trophy.getTitle());
             String imageUrl = trophy.getUrl();
-            Utils.imageFromUrl(imgView, imageUrl);
+            Utils.imageFromCache(imgView, imageUrl);
 
             int color = ColorGeneratorByTrophyTitle.getInstance().getColorForTrophyTitle(trophy.getTitle());
             trophy.setColor(color);
