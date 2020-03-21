@@ -39,11 +39,12 @@ import static androidx.room.OnConflictStrategy.REPLACE;
     //Enumerated Queries
     @Transaction
     @Query("SELECT * FROM TrophyAward " +
-            "WHERE id LIKE :id " +
+            "INNER JOIN Trophy ON trophy.id=trophyaward.trophyId " +
+            "WHERE trophyId LIKE :trophyId " +
             "ORDER BY year ASC " +
             "LIMIT :limit " +
             "OFFSET ((:page - 1) * :limit)")
-    List<TrophyAward> findByIdLimited(long id, int limit, int page);
+    List<TrophyAward> getAwardsByTrophyIdLimited(long trophyId, int limit, int page);
 
     @Transaction
     @Query("SELECT * FROM TrophyAward " +

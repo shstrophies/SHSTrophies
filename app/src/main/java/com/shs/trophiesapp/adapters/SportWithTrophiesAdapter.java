@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,14 +20,11 @@ import com.shs.trophiesapp.database.entities.Trophy;
 import com.shs.trophiesapp.utils.ColorGeneratorByTrophyTitle;
 import com.shs.trophiesapp.utils.Utils;
 
-public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrophiesAdapter.TrophyViewHolder> implements Filterable {
+public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrophiesAdapter.TrophyViewHolder> {
     private static final String TAG = "SportWithTrophiesAdapter";
     private Context context;
     private SportWithTrophies sportWithTrophies;
     private SportWithTrophies sportWithTrophiesFiltered;
-
-
-
 
     public SportWithTrophiesAdapter(Context context, SportWithTrophies sportWithTrophies) {
         this.context = context;
@@ -102,47 +97,4 @@ public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrop
             this.cardView.setBackgroundColor(trophy.getColor());
         }
     }
-
-    private class TrophyFilter extends Filter {
-
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            Log.d(TAG, "performFiltering: constraint=" + constraint);
-            String charString = constraint.toString().toLowerCase();
-            if (charString.isEmpty()) {
-                sportWithTrophiesFiltered = sportWithTrophies;
-            }
-//            else {
-//                Log.d(TAG, "performFiltering: charString=" + charString);
-//                List<Trophy> filteredList = new ArrayList<>();
-//                for (Trophy row : trophies) {
-//                    // name match condition. this might differ depending on your requirement
-//                    // here we are looking for title or description match
-//                    // TODO: search for trophies by
-//                    if (row.getTitle().toLowerCase().contains(charString)
-////                            || row.player.toLowerCase().contains(charString)
-//                    ) {
-//                        filteredList.add(row);
-//                    }
-//                }
-//                trophiesFiltered = filteredList;
-//            }
-
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = sportWithTrophiesFiltered;
-            return filterResults;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            sportWithTrophiesFiltered = (SportWithTrophies) results.values;
-            notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public Filter getFilter() {
-        return new TrophyFilter();
-    }
-
 }

@@ -1,10 +1,8 @@
 package com.shs.trophiesapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.shs.trophiesapp.adapters.TrophyWithAwardsAdapter;
@@ -23,23 +22,39 @@ import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 import com.shs.trophiesapp.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-public class TrophyWithAwardsActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener   {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class TrophyWithAwardsActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "TrophyPlayersAndYearsAc";
 
-
-    private MaterialSearchBar searchBar;
+    @BindView(R.id.trophy_swipeRefresh) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.trophy_with_awards_recycleview) RecyclerView mRecyclerView;
+    @BindView(R.id.trophies_search) MaterialSearchBar searchBar;
 
     private TrophyWithAwardsAdapter adapter;
-
     private ArrayList<TrophyAward> awards;
+    private GridLayoutManager gridLayoutManager;
 
+    private int currentPage = TrophyWithAwardsAdapter.TrophyPaginationListener.PAGE_START;
+    private int totalPages = 0;
+    private boolean isLastPage = false;
+    private boolean isLoading = false;
+    private int itemCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trophy_with_awards_activity);
+        ButterKnife.bind(this);
+
+        swipeRefreshLayout.setOnRefreshListener(this);
+        mRecyclerView.setHasFixedSize(true);
 
         TextView tvSportTitle = findViewById(R.id.trophy_with_awards_title);
         TextView tvTitle = findViewById(R.id.trophy_with_awards_title);
@@ -62,23 +77,23 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
         //trophyView.setBackgroundColor(color);
 
         // set recyclerview layout manager
-        RecyclerView recyclerView = findViewById(R.id.trophy_with_awards_recycleview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         awards = new ArrayList<>();
         adapter = new TrophyWithAwardsAdapter(this, awards, color);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
+        gridLayoutManager = new GridLayoutManager(this, 5);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
 
         // set adapter for recyclerview
-        recyclerView.setAdapter(adapter);
+        mRecyclerView.setAdapter(adapter);
+        setTotalPages(intent);
         getData(intent);
 
-        searchBar = findViewById(R.id.trophies_search);
         searchBar.setOnSearchActionListener(this);
 //        searchBar.inflateMenu(R.menu.main);
         searchBar.setHint(getResources().getString(R.string.search_info));
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
         searchBar.setCardViewElevation(1);
-        searchBar.addTextChangeListener(new TextWatcher() {
+        /*searchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "beforeTextChanged: ");
@@ -99,10 +114,9 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
 
             }
 
-        });
+        });*/
 
         img.setOnClickListener(view -> {
-
             long trophyId1 = intent.getExtras().getLong("trophyId");
 
             Intent intent1 = new Intent(getApplicationContext(), TrophyDetailsActivity.class);
@@ -115,16 +129,29 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
             startActivity(intent1);
         });
 
+        mRecyclerView.addOnScrollListener(new TrophyWithAwardsAdapter.TrophyPaginationListener(gridLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                isLoading = true;
+                currentPage++;
+                getData(intent);
+                Log.d(TAG, "Awards Size: " + awards.size());
+            }
+
+            @Override
+            public boolean isLastPage() { return isLastPage; }
+
+            @Override
+            public boolean isLoading() { return isLoading; }
+        });
+
     }
 
     @Override
-    public void onSearchStateChanged(boolean enabled) {
-    }
+    public void onSearchStateChanged(boolean enabled) {}
 
     @Override
-    public void onSearchConfirmed(CharSequence text) {
-
-    }
+    public void onSearchConfirmed(CharSequence text) {}
 
     @Override
     public void onButtonClicked(int buttonCode) {
@@ -139,29 +166,49 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
 
 
     private void getData(Intent intent) {
-        Log.d(TAG, "getData: getData");
+        new Handler().postDelayed(() -> {
+            Log.d(TAG, "getData: getData");
+            long trophyId = intent.getExtras().getLong("trophyId");
 
-        //Receive data
+            TrophyRepository trophyRepository = DataManager.getTrophyRepository(this);
+            List<TrophyAward> _awards = trophyRepository.getTrophyWithAwardsByTrophyIdLimited(trophyId, 29, currentPage);
+            Log.d(TAG, "_awards size: " + _awards.size() + ", currentPage: " + currentPage);
+            itemCount += _awards.size();
+
+            if(currentPage != TrophyWithAwardsAdapter.TrophyPaginationListener.PAGE_START) adapter.removeLoading();
+            awards.addAll(_awards);
+
+            swipeRefreshLayout.setRefreshing(false);
+
+            if(currentPage < totalPages) _awards.forEach(trophyAward -> adapter.addLoading(trophyAward));
+            else if(currentPage == totalPages) {_awards.forEach(trophyAward -> adapter.addLoading(trophyAward)); isLastPage = true;}
+            else isLastPage = true;
+
+            Log.d(TAG, "getData: recyclerview awards size=" + awards.size());
+            isLoading = false;
+        }, 1000);
+    }
+
+    private void setTotalPages(Intent intent) {
+        Log.d(TAG, "setTotalPages: setTotalPages");
         long trophyId = intent.getExtras().getLong("trophyId");
 
-        Context context = this;
-        TrophyRepository trophyRepository = DataManager.getTrophyRepository(context);
+        TrophyRepository trophyRepository = DataManager.getTrophyRepository(this);
         List<TrophyWithAwards> trophyWithAwards = trophyRepository.getTrophyWithAwardsByTrophyId(trophyId);
         List<TrophyAward> _awards = trophyWithAwards.get(0).awards;
-        awards.addAll(_awards);
-        Log.d(TAG, "getData: recyclerview awards size=" + awards.size());
-        adapter.notifyDataSetChanged();
-
+        Log.d(TAG, "Total Awards Size: " + _awards.size());
+        int totalPage = 29;
+        double pageNum = (double) _awards.size() / (double) totalPage;
+        totalPages = (int) Math.ceil(pageNum);
     }
 
-
-    // search data
-    private void doSearch(String searchText) {
-        Log.d(TAG, "doSearch: " + searchBar.getText());
-        adapter.getFilter().filter(searchText);
-
+    @Override
+    public void onRefresh() {
+        itemCount = gridLayoutManager.getChildCount();
+        currentPage = TrophyWithAwardsAdapter.TrophyPaginationListener.PAGE_START;
+        isLastPage = false;
+        adapter.clear();
+        getData(getIntent());
     }
-
-
 }
 

@@ -31,10 +31,17 @@ public abstract class TrophyDao {
     @Query("SELECT * FROM sport")
     public abstract List<SportWithTrophies> getSportWithTrophies();
 
+    @Transaction
+    @Query("SELECT * FROM sport ORDER BY name ASC LIMIT :limit OFFSET ((:page - 1) * :limit)")
+    public abstract List<SportWithTrophies> getSportWithTrophiesLimited(int limit, int page);
 
     @Transaction
     @Query("SELECT * FROM sport WHERE name LIKE :sportName")
     public abstract List<SportWithTrophies> getSportWithTrophiesBySportName(String sportName);
+
+    @Transaction
+    @Query("SELECT * FROM sport INNER JOIN trophy ON trophy.sportId=sport.id WHERE name LIKE :sportName ORDER BY trophy.title ASC LIMIT :limit OFFSET ((:page - 1) * :limit)")
+    public abstract List<SportWithTrophies> getSportWithTrophiesBySportNameLimited(String sportName, int limit, int page);
 
     @Transaction
     @Query("SELECT * FROM trophy")

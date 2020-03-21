@@ -8,7 +8,6 @@
     android:background="#f2f2f2"
     tools:context=".TrophiesActivity">
 
-
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
@@ -38,13 +37,12 @@
         android:id="@+id/HeaderWithSearchResults"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_marginBottom="12dp"
         android:fontFamily="@font/montserrat_bold"
         android:text="Tap a trophy or search"
         android:textAlignment="center"
         android:textColor="#000"
-        android:textSize="23dp"
+        android:textSize="23sp"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,24 +59,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
-
     <com.mancj.materialsearchbar.MaterialSearchBar
         android:id="@+id/trophies_search"
         style="@style/MaterialSearchBarLight"
         android:layout_width="1100dp"
         android:layout_height="65dp"
-
-
         android:elevation="8dp"
         android:paddingTop="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/sport_recycleview"
+        app:layout_constraintBottom_toTopOf="@+id/trophies_recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view"
         app:layout_constraintVertical_bias="0.0"
         app:mt_maxSuggestionsCount="10"
         app:mt_placeholder=""
-        app:mt_speechMode="false"></com.mancj.materialsearchbar.MaterialSearchBar>
+        app:mt_speechMode="false" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trophies_recyclerView"
@@ -94,5 +89,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trophies_search" />
 
+    <!--<ProgressBar
+        android:id="@+id/trophies_progress_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/trophies_recyclerView"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

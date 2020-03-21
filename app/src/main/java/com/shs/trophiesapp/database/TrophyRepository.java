@@ -31,9 +31,17 @@ public class TrophyRepository {
         return trophyDao.getSportWithTrophies();
     }
 
+    public List<SportWithTrophies> getSportWithTrophiesLimited(int limit, int page) {
+        return trophyDao.getSportWithTrophiesLimited(limit, page);
+    }
+
     public List<SportWithTrophies> getSportWithTrophiesBySportName(String sportName) {
         // Gets List holding @Relation object
         return trophyDao.getSportWithTrophiesBySportName(sportName);
+    }
+
+    public List<SportWithTrophies> getSportWithTrophiesBySportNameLimited(String sportName, int limit, int page) {
+        return trophyDao.getSportWithTrophiesBySportNameLimited(sportName, limit, page);
     }
 
     public List<TrophyWithAwards> getTrophiesWithAwards() {
@@ -76,6 +84,10 @@ public class TrophyRepository {
 
     public List<TrophyWithAwards> getTrophyWithAwardsByTrophyId(long trophyId) {
         return trophyAwardDao.getAwardsByTrophyId(trophyId);
+    }
+
+    public List<TrophyAward> getTrophyWithAwardsByTrophyIdLimited(long trophyId, int limit, int page) {
+        return trophyAwardDao.getAwardsByTrophyIdLimited(trophyId, limit, page);
     }
 
     public List<TrophyAward>  getTrophiesByYear(int year) {
