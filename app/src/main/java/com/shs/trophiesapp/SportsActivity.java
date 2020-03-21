@@ -122,6 +122,8 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
                     Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
                     System.out.println(cartesianProduct);
                 }
+                Collections.shuffle(suggestions);
+                suggestions.subList(6, suggestions.size()).clear();
                 searchBar.setLastSuggestions(suggestions);
             }
 
