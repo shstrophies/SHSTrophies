@@ -48,63 +48,31 @@ ___________________________________________________
 **Database related**
 ___________________________________________________
 
-~~- finish downloading images (Ujjwal)~~
-
-- enable recyclerview pagination (Ujjwal & Carolina)
-
-- add limit statements and offsets to the database(Ujjwal & Carolina)
+- enable recyclerview pagination (Ujjwal)
   
-- file hashing for seamless app restarts (ujjwal)
+- file hashing for seamless app restarts (Ujjwal)
 
 (POSTPONED)- add FTS in the Database (Ujjwal & Carolina)
 ___________________________________________________
 **Remaining Search Features**
 ___________________________________________________
 
-add Hints using this- https://www.journaldev.com/14073/android-multi-search-filter-contacts (Ujjwal & Vignav)
+- have search bar start without any suggestions at start
+- have autocomplete with catergies. if you type in foo, you want 'football in sports' 
+- add icons to search results (Arman)
+- nice to have: show # of results found on search bar
+
+(add amazon image here)
 
 
-- have autocomplete. if you type in foo, you want 'football in sports'
-
-- show # of results found on search
-
-
-
-Firstly, there are two types of searching that we can do.
-1) I call it 'filter search'. When you type in 'f' on the homescreen, the cards which don't contain 'f' disappear.
-2) I call it 'real search'. When you type in a name on the homescreen and press enter, you are taken to a new page with the search results
-
-
-
-
-add functionality for:
-- On Homepage: '{sport}, {name}'(ex: Football, Goni) -- real search
-- On Homepage: '{name}, {year}' (ex: Goni, 1990) -- real search
-- On Homepage: '{sport}, {year}' (ex: Football, 1990) -- real search
-- On Homepage: be able to search for a trophy title IF there are no matches for the options above  -- real search
-
-- On Trophy Page: when you start typing, it should do a filter search for the trophies -- filter search
-- On Trophy Page: '{name}, {year}' (ex: Goni 1990) -- real search
-
-- On players&trophies page: when you start typing, it should do a filter search for the names -- filter search
-- On players&trophies page: when you start typing, it should do a filter search for the years -- filter search
-- On players&trophies page: We don't need any 'real search' for this page. 
-
-
-
-___________________________________________________
-**Misc. Backend**
-___________________________________________________
-
-- have a "no results found: we support these types of searches..." page if someone types in something and no results are found.
 
 ___________________________________________________
 **UI Related Backend**
 ___________________________________________________
 
-- replace "--" with "Team Trophy"
+- think about Team Trophy Text
 
--Fix possibility of looping bug if someone keeps on pressing on a name. have it be able to be clicked max once
+- Fix possibility of looping bug if someone keeps on pressing on a name. have it be able to be clicked max once
 
 
 ___________________________________________________
@@ -112,9 +80,8 @@ ___________________________________________________
 ___________________________________________________
 
   
-  - look into back buttons
+  - look into back buttons (nice to have, but not needed)
     
-  - add question mark to search bar with search options
   
 
 ___________________________________________________
