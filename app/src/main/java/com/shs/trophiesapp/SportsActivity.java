@@ -2,6 +2,7 @@ package com.shs.trophiesapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,6 +15,7 @@ import android.view.View;
 
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
@@ -30,9 +32,21 @@ import com.shs.trophiesapp.database.TrophyRepository;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
+import org.paukov.combinatorics.CombinatoricsFactory;
+import org.paukov.combinatorics.Generator;
+import org.paukov.combinatorics.ICombinatoricsVector;
+import org.paukov.combinatorics.cartesian.CartesianProductGenerator;
+import org.paukov.combinatorics.util.ComplexCombinationGenerator;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
+
+import static org.paukov.combinatorics.CombinatoricsFactory.createCartesianProductGenerator;
+import static org.paukov.combinatorics.CombinatoricsFactory.createVector;
 
 
 public class SportsActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener, PopupMenu.OnMenuItemClickListener {
@@ -40,6 +54,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 
     private MaterialSearchBar searchBar;
     private List<String> suggestions = new ArrayList<>();
+    SportRepository sportRepository;
     TrophyRepository trophyRepository;
 
     private SportsAdapter adapter;
@@ -51,14 +66,6 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 
         // create sports_activity layout object
         setContentView(R.layout.sports_activity);
-
-
-
-//        //create action bar
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-//        setSupportActionBar(toolbar);
-//        AboutDialogActivity loadingDialog = new AboutDialogActivity(SportsActivity.this);
-
 
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.sport_recycleview);
@@ -80,6 +87,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         getSuggestions();
         searchBar.setLastSuggestions(suggestions);
+        sportRepository = DataManager.getSportRepository(getApplicationContext());
         trophyRepository = DataManager.getTrophyRepository(getApplicationContext());
 
 
@@ -91,12 +99,30 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
                 Log.d(TAG, "beforeTextChanged: ");
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
                 // CAROLINA TODO
-                List<String> playerStrings = trophyRepository.searchPlayerName("%" + searchBar.getText() + "%");
-                searchBar.setLastSuggestions(playerStrings);
+                List<String> sportStrings = sportRepository.searchSportName("%" + searchBar.getText() + "%", 5);
+                List<String> trophyTitles = trophyRepository.searchTrophyTitle("%" + searchBar.getText() + "%", 5);
+                List<String> playerStrings = trophyRepository.searchPlayerName("%" + searchBar.getText() + "%", 5);
+
+                ArrayList<String> suggestions = new ArrayList<>();
+
+                ICombinatoricsVector<String> set01 = createVector(sportStrings);
+                ICombinatoricsVector<String> set02 = createVector(trophyTitles);
+                ICombinatoricsVector<String> set03 = createVector(playerStrings);
+
+                Generator<String> generator = createCartesianProductGenerator(set01, set02, set03);
+                for (ICombinatoricsVector<String> cartesianProduct : generator) {
+                    String str = cartesianProduct.getVector().stream()
+                            .collect(Collectors.joining(", "));
+                    suggestions.add(str);
+                    Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
+                    System.out.println(cartesianProduct);
+                }
+                searchBar.setLastSuggestions(suggestions);
             }
 
             @Override

@@ -36,8 +36,13 @@ import static androidx.room.OnConflictStrategy.REPLACE;
     @Query("SELECT * FROM TrophyAward WHERE Category LIKE :category")
     List<TrophyAward> findByCategory(String category);
 
-    @Query("SELECT player FROM TrophyAward WHERE (player LIKE :player)")
-    List<String> searchPlayerName(String player);
+    @Query("SELECT player FROM TrophyAward WHERE (player LIKE :player) LIMIT :limit")
+    List<String> searchPlayerName(String player, int limit);
+
+
+
+
+
 
     //Enumerated Queries
     @Transaction

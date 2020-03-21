@@ -83,4 +83,6 @@ dependencies {
 
     implementation 'com.github.AndroidDeveloperLB:AutoFitTextView:8'
 
+    implementation 'com.googlecode.combinatoricslib:combinatoricslib:2.2'
+
 }
