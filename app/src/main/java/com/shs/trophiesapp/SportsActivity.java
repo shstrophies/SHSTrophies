@@ -85,7 +85,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         searchBar.setMaxSuggestionCount(5);
         searchBar.setHint(getResources().getString(R.string.search_info));
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        getSuggestions();
+//        getSuggestions();
         searchBar.setLastSuggestions(suggestions);
         sportRepository = DataManager.getSportRepository(getApplicationContext());
         trophyRepository = DataManager.getTrophyRepository(getApplicationContext());
@@ -103,6 +103,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
+                if(searchBar.getText().length() == 0) return;
                 // SHAYAN TODO
                 List<String> sportStrings = sportRepository.searchSportName(searchBar.getText(), 5);
                 List<String> trophyTitles = trophyRepository.searchTrophyTitle(searchBar.getText(), 5);
