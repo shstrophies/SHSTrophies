@@ -119,7 +119,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
                 ICombinatoricsVector<String> set03 = createVector(playerStrings);
 
                 Generator<String> generator = createCartesianProductGenerator(set01, set02, set03);
-                
+
                 for (ICombinatoricsVector<String> cartesianProduct : generator) {
                     String str = cartesianProduct.getVector().stream()
                             .collect(Collectors.joining(", "));
