@@ -103,10 +103,10 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
-                // CAROLINA TODO
-                List<String> sportStrings = sportRepository.searchSportName("%" + searchBar.getText() + "%", 5);
-                List<String> trophyTitles = trophyRepository.searchTrophyTitle("%" + searchBar.getText() + "%", 5);
-                List<String> playerStrings = trophyRepository.searchPlayerName("%" + searchBar.getText() + "%", 5);
+                // SHAYAN TODO
+                List<String> sportStrings = sportRepository.searchSportName(searchBar.getText(), 5);
+                List<String> trophyTitles = trophyRepository.searchTrophyTitle(searchBar.getText(), 5);
+                List<String> playerStrings = trophyRepository.searchPlayerName(searchBar.getText(), 5);
 
                 ArrayList<String> suggestions = new ArrayList<>();
 
