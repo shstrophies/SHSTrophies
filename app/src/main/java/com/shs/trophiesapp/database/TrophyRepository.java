@@ -86,6 +86,10 @@ public class TrophyRepository {
         return trophyAwardDao.findByPlayer(player);
     }
 
+    public List<String>  searchPlayerName(String str) {
+        return trophyAwardDao.searchPlayerName("%" + str + "%");
+    }
+
     static TrophyRepository getInstance(
             TrophyDao trophyDao,
             TrophyAwardDao trophyAwardDao

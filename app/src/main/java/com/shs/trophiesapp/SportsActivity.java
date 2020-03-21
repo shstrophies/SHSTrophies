@@ -23,8 +23,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.shs.trophiesapp.adapters.SportsAdapter;
+import com.shs.trophiesapp.database.AppDatabase;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.SportRepository;
+import com.shs.trophiesapp.database.TrophyRepository;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
@@ -38,6 +40,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 
     private MaterialSearchBar searchBar;
     private List<String> suggestions = new ArrayList<>();
+    TrophyRepository trophyRepository;
 
     private SportsAdapter adapter;
     private ArrayList<Sport> sports;
@@ -77,10 +80,11 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         getSuggestions();
         searchBar.setLastSuggestions(suggestions);
+        trophyRepository = DataManager.getTrophyRepository(getApplicationContext());
 
 
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
-//        searchBar.setCardViewElevation(1);
+        searchBar.setCardViewElevation(10);
         searchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -90,8 +94,9 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
-                // send the entered text to our filter and let it manage everything
-//                customSuggestionsAdapter.getFilter().filter(searchBar.getxText());
+                // CAROLINA TODO
+                List<String> playerStrings = trophyRepository.searchPlayerName("%" + searchBar.getText() + "%");
+                searchBar.setLastSuggestions(playerStrings);
             }
 
             @Override
