@@ -123,7 +123,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
                     System.out.println(cartesianProduct);
                 }
                 Collections.shuffle(suggestions);
-                suggestions.subList(6, suggestions.size()).clear();
+                suggestions.subList(Integer.min(6, suggestions.size()), suggestions.size()).clear();
                 searchBar.setLastSuggestions(suggestions);
             }
 
