@@ -110,17 +110,21 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 
                 ArrayList<String> suggestions = new ArrayList<>();
 
+                suggestions.addAll(sportStrings);
+                suggestions.addAll(trophyTitles);
+                suggestions.addAll(playerStrings);
+
                 ICombinatoricsVector<String> set01 = createVector(sportStrings);
                 ICombinatoricsVector<String> set02 = createVector(trophyTitles);
                 ICombinatoricsVector<String> set03 = createVector(playerStrings);
 
                 Generator<String> generator = createCartesianProductGenerator(set01, set02, set03);
+                
                 for (ICombinatoricsVector<String> cartesianProduct : generator) {
                     String str = cartesianProduct.getVector().stream()
                             .collect(Collectors.joining(", "));
                     suggestions.add(str);
                     Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
-                    System.out.println(cartesianProduct);
                 }
                 Collections.shuffle(suggestions);
                 suggestions.subList(Integer.min(6, suggestions.size()), suggestions.size()).clear();
@@ -134,7 +138,6 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
     }
-
 
 
     @Override
@@ -151,7 +154,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         AboutDialogActivity loadingDialog = new AboutDialogActivity(SportsActivity.this);
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_about:
                 loadingDialog.startAboutDialogActivity();
                 return true;
@@ -205,7 +208,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
                 "1976",
                 "Football, 1976"
         };
-        Collections.addAll( this.suggestions, suggestions );
+        Collections.addAll(this.suggestions, suggestions);
 
         return this.suggestions;
     }
@@ -236,8 +239,8 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         return true;
     }
 
-    public void showPopup(View v){
-        PopupMenu popup = new PopupMenu(this,v);
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
         popup.setOnMenuItemClickListener(this);
         popup.inflate(R.menu.main);
         popup.show();
