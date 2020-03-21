@@ -70,13 +70,22 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
 
         // get data and notify adapter
         getData();
+        int result = 0;
+
+
+        for(int i =0;i<trophiesWithAwards.size();i++){
+
+            TrophyWithAwards item = trophiesWithAwards.get(i);
+            result+=item.awards.size();
+
+        }
 
         if(searchString.contains("sportId")){
             String searchResultText = searchString.substring(searchString.indexOf(",")+1);
-            searchHeader.setText(trophiesWithAwards.size() +" result(s) for \""+searchResultText+"\"");
+            searchHeader.setText(result +" result(s) for \""+searchResultText+"\"");
         }
         else{
-            searchHeader.setText(trophiesWithAwards.size() +" result(s) for \""+searchString+"\"");
+            searchHeader.setText(result +" result(s) for \""+searchString+"\"");
 
         }
 
