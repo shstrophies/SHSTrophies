@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,14 +32,18 @@ import com.shs.trophiesapp.utils.Assert;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
 import com.shs.trophiesapp.utils.Downloader;
+import com.shs.trophiesapp.utils.Utils;
 import com.shs.trophiesapp.workers.SeedDatabaseWorker;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import static com.shs.trophiesapp.utils.CSVUtils.parseLine;
 import static com.shs.trophiesapp.utils.Constants.DOWNLOAD_URL;
@@ -48,6 +53,7 @@ import static com.shs.trophiesapp.utils.Constants.SPORTS_DIRECTORY_NAME;
 
 public class SetupActivity extends AppCompatActivity implements View.OnClickListener, LifecycleOwner {
     private static final String TAG = "SetupActivity";
+    private static final String SHARED_PREFERENCES_TITLE = "Trophy_Shared_Preferences";
 
     Button downloadButton = null;
     Button loadDatabaseButton = null;
@@ -56,16 +62,13 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
     HashMap<Long, DownloadInfo> downloadInfoMap = new HashMap<>();
     ArrayList<Long> downloadInfoList = new ArrayList<>();
-    ArrayList<String> destinationPaths = new ArrayList<>();
+    Set<String> destinationPaths = new HashSet<>();
     private LifecycleOwner lifecycleOwner = this;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
-
-        setupHashes();
 
         downloadButton = findViewById(R.id.downloadDataButton);
         downloadButton.setOnClickListener(this);
@@ -75,26 +78,45 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         cleanButton.setOnClickListener(this);
 
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
+        downloadData();
     }
 
     private void setupHashes() {
+        // Check the sharedpreferences to see if the hashes exist
+        // If they exist, then go through each and hash the directory exported.csv which it corresponds to, and check if the hashes are the same
+        // If all the hashes are the same, then create the database from it's previous asset
+        // If there are differences, then run loadDatabase again (make sure this works with Glide to download the images correspondingly too)
+        // If they don't exist, then boot normally (It's the first time that the app is booted up)
+        Log.d(TAG, "SetupHashes Method Started");
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE);
+        Map<String, String> hashes = (Map<String, String>) sharedPreferences.getAll();
         destinationPaths.add(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + SPORTS_DIRECTORY_NAME);
-        downloadData();
-        // Check if each file hash is different, if the file hashes are the same, then don't download them again.
-        for(String destPath : destinationPaths) {
-            File[] files = new File(destPath).listFiles();
-            Assert.that(files != null, "No Files in Destination Path: " + destPath);
 
-            if(files.length == 1) {
-                //TODO: Need to write this cxv as exported_cached.csv after database is loaded, and every time DownloadManager runs, it should rewrite file as opposed to creating exported-1 or -n.csv
-                //This is the first time booting up the app
-                loadDatabase();
+        if(hashes == null || hashes.isEmpty()) {
+            Log.d(TAG, "No Hashes present");
+            loadDatabase();
+        } else {
+            int sameHashCounter = 0;
+            for(String destPath : destinationPaths) {
+                if(hashes.containsKey(destPath)) {
+                    // Not the first time booting up the app
+                    String prevHash = hashes.get(destPath);
+                    String currHash = Utils.getFileHash(destPath + "/" + "exported.csv");
+                    Log.d(TAG, "Previous Hash: " + prevHash + ", Current Hash:" + currHash);
+                    if(!currHash.equals(prevHash)) loadDatabase();
+                    else sameHashCounter++;
+                } else {
+                    Log.d(TAG, "Hash is new and not in Shared Preferences file");
+                    loadDatabase();
+                    break;
+                }
             }
-            else {
-                //String fileName = Constants.DATA_FILENAME_NAME.replace(".csv", "-" + (files.length - 1) + ".csv");
-                String fileName = Constants.DATA_FILENAME_NAME;
-                File currFile = new File(destPath, fileName);
-                Assert.that(currFile.exists(), "Export CSV Does Not Exist");
+            if(sameHashCounter == destinationPaths.size()) {
+                Log.d(TAG, "Exact same db, creating from previous DB file");
+                AppDatabase.prepopulateDatabase(getApplicationContext());
+                setupFutureHashing();
+                startActivity(new Intent(SetupActivity.this, SportsActivity.class));
             }
         }
     }
@@ -194,6 +216,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(context, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
                 Log.d(TAG, "onReceive: Download Completed for id=" + id + " downloadInfo.id=" + downloadInfo.id + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
                 DirectoryHelper.listFilesInDirectory(downloadInfo.destinationPath);
+                destinationPaths.add(downloadInfo.destinationPath + "/");
 
                 // if this is the sports spreadsheet, then read it and get all the GIDs from that file
                 File destinationPath = new File(downloadInfo.destinationPath);
@@ -209,7 +232,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                             if (first) first = false;
                             else {
                                 String sport = commaSeparatedLine.get(0);
-                                destinationPaths.add(sport);
                                 String gid = commaSeparatedLine.get(1);
                                 downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", gid), sport);
                             }
@@ -228,7 +250,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 if (downloadButton != null) downloadButton.setEnabled(true);
                 Log.d(TAG, "onReceive: DOWNLOADS complete");
                 DirectoryHelper.listFilesInDirectoryRecursively(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
-                loadDatabase();
+                //loadDatabase();
+                setupHashes();
             }
 
         }
@@ -254,6 +277,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                             .observe(lifecycleOwner, workInfo -> {
                                 if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                                     Toast.makeText(SetupActivity.this, "DONE Loading database...", Toast.LENGTH_LONG).show();
+                                    setupFutureHashing();
                                     startActivity(new Intent(SetupActivity.this, SportsActivity.class));
                                 }
                             });
@@ -271,11 +295,24 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(SetupActivity.this, "sports size=" + sports.size(), Toast.LENGTH_LONG).show();
                 Toast.makeText(SetupActivity.this, "awards size=" + awards.size(), Toast.LENGTH_LONG).show();
 
+                setupFutureHashing();
                 startActivity(new Intent(SetupActivity.this, SportsActivity.class));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void setupFutureHashing() {
+        Log.d(TAG, "Setup Future Hashing");
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        for (String path : destinationPaths) {
+            String hash = Utils.getFileHash(path + "/" + "exported.csv");
+            Log.d(TAG, "Hash Key: " + path + ", Hash: " + hash);
+            editor.putString(path, hash);
+        }
+        editor.apply();
     }
 
     @Override
