@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        app:srcCompat="@drawable/ic_player_circle_black_24dp" />
+        app:srcCompat="@drawable/trophy" />
 
 
     <LinearLayout

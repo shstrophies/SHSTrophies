@@ -127,7 +127,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
                 for (ICombinatoricsVector<String> cartesianProduct : generator) {
                     String str = cartesianProduct.getVector().stream()
                             .collect(Collectors.joining(", "));
-                    suggestions.add(new Suggestion(str, "   sport, trophy title, player"));
+                    suggestions.add(new Suggestion(str, "   in \"Sports\", \"Trophies\", \"Players\""));
                     Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
                 }
                 Collections.shuffle(suggestions);
