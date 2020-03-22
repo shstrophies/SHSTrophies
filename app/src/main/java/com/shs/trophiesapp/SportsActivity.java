@@ -152,7 +152,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void OnItemDeleteListener(int position, View v) {
-
+                // TODO
             }
         });
     }
