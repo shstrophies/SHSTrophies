@@ -122,7 +122,6 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void afterTextChanged(Editable editable) {
                 Log.d(TAG, "afterTextChanged: ");
-                doSearch(searchBar.getText());
                 suggestions = SearchSuggestionsGenerator.getInstance(getApplicationContext(), suggestions).getDefaultSuggestions();
             }
         });
@@ -132,8 +131,6 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
                 Suggestion s = (Suggestion)v.getTag();
                 searchBar.setText(s.getTitle());
                 customSuggestionsAdapter.clearSuggestions();
-
-//                customSuggestionsAdapter.setSuggestions(suggestions);
             }
 
             @Override
@@ -213,12 +210,6 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         Log.d(TAG, "getData: recyclerview sports size=" + sports.size());
         adapter.notifyDataSetChanged();
 
-    }
-
-    // search data
-    private void doSearch(String searchText) {
-        Log.d(TAG, "doSearch: " + searchBar.getText());
-        adapter.getFilter().filter(searchText);
     }
 
     @Override
