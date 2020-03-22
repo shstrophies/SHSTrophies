@@ -24,7 +24,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.shs.trophiesapp.adapters.CustomSuggestionsAdapter;
 import com.shs.trophiesapp.adapters.SportsAdapter;
+import com.shs.trophiesapp.data.Suggestion;
 import com.shs.trophiesapp.database.AppDatabase;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.SportRepository;
@@ -53,7 +55,8 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
     private static final String TAG = "SportsActivity";
 
     private MaterialSearchBar searchBar;
-    private List<String> suggestions = new ArrayList<>();
+    private List<Suggestion> suggestions = new ArrayList<>();
+    private CustomSuggestionsAdapter customSuggestionsAdapter;
     SportRepository sportRepository;
     TrophyRepository trophyRepository;
 
@@ -85,8 +88,10 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         searchBar.setMaxSuggestionCount(5);
         searchBar.setHint(getResources().getString(R.string.search_info));
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-//        getSuggestions();
-        searchBar.setLastSuggestions(suggestions);
+        customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
+        getSuggestions();
+        customSuggestionsAdapter.setSuggestions(suggestions);
+        searchBar.setCustomSuggestionAdapter(customSuggestionsAdapter);
         sportRepository = DataManager.getSportRepository(getApplicationContext());
         trophyRepository = DataManager.getTrophyRepository(getApplicationContext());
 
@@ -103,17 +108,18 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
-                if(searchBar.getText().length() == 0) return;
+//                if(searchBar.getText().length() == 0) return;
                 // SHAYAN TODO
                 List<String> sportStrings = sportRepository.searchSportName(searchBar.getText(), 5);
                 List<String> trophyTitles = trophyRepository.searchTrophyTitle(searchBar.getText(), 5);
                 List<String> playerStrings = trophyRepository.searchPlayerName(searchBar.getText(), 5);
 
-                ArrayList<String> suggestions = new ArrayList<>();
+                ArrayList<Suggestion> suggestions = new ArrayList<>();
 
-                suggestions.addAll(sportStrings);
-                suggestions.addAll(trophyTitles);
-                suggestions.addAll(playerStrings);
+
+                suggestions.addAll(sportStrings.stream().map(e -> new Suggestion(e, "   sport")).collect(Collectors.toList()));
+                suggestions.addAll(trophyTitles.stream().map(e -> new Suggestion(e, "   trophy title")).collect(Collectors.toList()));
+                suggestions.addAll(playerStrings.stream().map(e -> new Suggestion(e, "   player")).collect(Collectors.toList()));
 
                 ICombinatoricsVector<String> set01 = createVector(sportStrings);
                 ICombinatoricsVector<String> set02 = createVector(trophyTitles);
@@ -124,12 +130,13 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
                 for (ICombinatoricsVector<String> cartesianProduct : generator) {
                     String str = cartesianProduct.getVector().stream()
                             .collect(Collectors.joining(", "));
-                    suggestions.add(str);
+                    suggestions.add(new Suggestion(str, "   sport, trophy title, player"));
                     Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
                 }
                 Collections.shuffle(suggestions);
                 suggestions.subList(Integer.min(6, suggestions.size()), suggestions.size()).clear();
-                searchBar.setLastSuggestions(suggestions);
+                customSuggestionsAdapter.setSuggestions(suggestions);
+
             }
 
             @Override
@@ -199,15 +206,16 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 //        }
     }
 
-    private List<String> getSuggestions() {
+    private List<Suggestion> getSuggestions() {
         // Sample data
-        final String[] suggestions = {
-                "Basketball, Most Inspirational, Glenn",
-                "Most Inspirational",
-                "Football, Most Inspirational",
-                "Glenn, 1976",
-                "1976",
-                "Football, 1976"
+        final Suggestion[] suggestions = {
+                new Suggestion("Glen", "   player"),
+                new Suggestion("Most Inspirational", "   trophy title"),
+                new Suggestion("1976", "   year"),
+                new Suggestion("Glenn, 1976", "   player, year"),
+                new Suggestion("Football, 1976", "   sport, year"),
+                new Suggestion("Football, Most Inspirational", "   sport, trophy title"),
+                new Suggestion("Basketball, Most Inspirational, Glenn", "   sport, trophy title, player")
         };
         Collections.addAll(this.suggestions, suggestions);
 
