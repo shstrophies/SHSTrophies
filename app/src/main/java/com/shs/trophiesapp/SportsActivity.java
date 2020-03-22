@@ -85,7 +85,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 
         searchBar = findViewById(R.id.sports_search);
         searchBar.setOnSearchActionListener(this);
-        searchBar.setMaxSuggestionCount(5);
+        searchBar.setMaxSuggestionCount(3);
         searchBar.setHint(getResources().getString(R.string.search_info));
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
@@ -209,13 +209,13 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
     private List<Suggestion> getSuggestions() {
         // Sample data
         final Suggestion[] suggestions = {
-                new Suggestion("Glen", "   player"),
-                new Suggestion("Most Inspirational", "   trophy title"),
-                new Suggestion("1976", "   year"),
-                new Suggestion("Glenn, 1976", "   player, year"),
-                new Suggestion("Football, 1976", "   sport, year"),
-                new Suggestion("Football, Most Inspirational", "   sport, trophy title"),
-                new Suggestion("Basketball, Most Inspirational, Glenn", "   sport, trophy title, player")
+                new Suggestion("Sample Name", "   in \"Players\""),
+                new Suggestion("Sample Trophy Title", "   in \"Trophies\""),
+                new Suggestion("Sample Year", "   in \"Years\""),
+                new Suggestion("Name, Year", ""),
+//                new Suggestion("Football, 1976", "   sport, year"),
+//                new Suggestion("Football, Most Inspirational", "   sport, trophy title"),
+//                new Suggestion("Basketball, Most Inspirational, Glenn", "   sport, trophy title, player")
         };
         Collections.addAll(this.suggestions, suggestions);
 
