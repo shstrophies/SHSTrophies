@@ -62,6 +62,19 @@ ___________________________________________________
 - add icons to search results (Arman)
 - nice to have: show # of results found on search bar
 
+
+
+type in "Arman Rafati"
+suggest sports or years or trophies that would have a result
+
+search results are:
+
+"Arman Rafati"
+"Arman Rafati Basketball" (make sure I have basketball trophies)
+"Arman Rafati 2006" (because I have trophies in 2006)
+"Arman Rafati most valuable player" (because I won an MVP trophy)
+
+
 (add amazon image here)
 
 
