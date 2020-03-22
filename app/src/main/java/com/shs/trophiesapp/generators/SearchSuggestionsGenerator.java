@@ -71,25 +71,25 @@ public class SearchSuggestionsGenerator {
         _suggestions.addAll(trophies.stream().map(e -> new Suggestion(e, "   in \"Trophies\"")).collect(Collectors.toList()));
         _suggestions.addAll(players.stream().map(e -> new Suggestion(e, "   in \"Players\"")).collect(Collectors.toList()));
 
-        ICombinatoricsVector<String> set01 = createVector(sports);
-        ICombinatoricsVector<String> set02 = createVector(trophies);
-        ICombinatoricsVector<String> set03 = createVector(players);
+        ICombinatoricsVector<String> sportsSet = createVector(sports);
+        ICombinatoricsVector<String> trophiesSet = createVector(trophies);
+        ICombinatoricsVector<String> playersSet = createVector(players);
 
-        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(set01, set02)) {
+        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(sportsSet, trophiesSet)) {
             String str = cartesianProduct.getVector().stream()
                     .collect(Collectors.joining(", "));
             _suggestions.add(new Suggestion(str, "   in \"Sports\", \"Trophies\""));
             Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
         }
 
-        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(set02, set03)) {
+        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(trophiesSet, playersSet)) {
             String str = cartesianProduct.getVector().stream()
                     .collect(Collectors.joining(", "));
             _suggestions.add(new Suggestion(str, "   in \"Trophies\", \"Players\""));
             Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
         }
 
-        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(set01, set03)) {
+        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(sportsSet, playersSet)) {
             String str = cartesianProduct.getVector().stream()
                     .collect(Collectors.joining(", "));
             _suggestions.add(new Suggestion(str, "   in \"Sports\", \"Players\""));
