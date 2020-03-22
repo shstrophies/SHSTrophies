@@ -71,6 +71,11 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         // create sports_activity layout object
         setContentView(R.layout.sports_activity);
 
+        //create action bar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+
+        AboutDialogActivity loadingDialog = new AboutDialogActivity(SportsActivity.this);
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.sport_recycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -172,7 +177,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         AboutDialogActivity loadingDialog = new AboutDialogActivity(SportsActivity.this);
-        switch (item.getItemId()) {
+        switch (item.getItemId()){
             case R.id.action_about:
                 loadingDialog.startAboutDialogActivity();
                 return true;
@@ -184,6 +189,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 
 
     }
+
 
     @Override
     public void onSearchStateChanged(boolean enabled) {
