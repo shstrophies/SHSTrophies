@@ -70,6 +70,8 @@ ___________________________________________________
 **UI Related Backend**
 ___________________________________________________
 
+- We should create a wrapper activity called MenuActivity that each Activity extends, and have that override onOptionsMenuItemClicked (whatever the method is), and have that deal with the menu options instead of copy pasting code between each activity.
+
 - think about Team Trophy Text
 
 - Fix possibility of looping bug if someone keeps on pressing on a name. have it be able to be clicked max once
