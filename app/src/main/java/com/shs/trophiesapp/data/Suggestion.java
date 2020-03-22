@@ -18,4 +18,12 @@ public class Suggestion implements Serializable {
     public String getSubtitle() {
         return subtitle;
     }
+
+    @Override
+    public String toString() {
+        return "Suggestion{" +
+                "title='" + title + '\'' +
+                ", subtitle='" + subtitle + '\'' +
+                '}';
+    }
 }
