@@ -115,7 +115,7 @@ public class SearchSuggestionsGenerator {
         try{
             x = Integer.parseInt(str);
         }catch(Exception e){
-            return new YearRange(0, Integer.MAX_VALUE);
+            return new YearRange(0, 0);
         }
         // if str is a single digit number, return range for that
         // ex. if x=1, return YearRange(1000, 1999)
