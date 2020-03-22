@@ -86,7 +86,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 
         searchBar = findViewById(R.id.sports_search);
         searchBar.setOnSearchActionListener(this);
-        searchBar.setMaxSuggestionCount(5);
+        searchBar.setMaxSuggestionCount(3);
         searchBar.setHint(getResources().getString(R.string.search_info));
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
@@ -109,8 +109,6 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
-//                if(searchBar.getText().length() == 0) return;
-                // SHAYAN TODO
                 List<String> sportStrings = sportRepository.searchSportName(searchBar.getText(), 5);
                 List<String> trophyTitles = trophyRepository.searchTrophyTitle(searchBar.getText(), 5);
                 List<String> playerStrings = trophyRepository.searchPlayerName(searchBar.getText(), 5);
@@ -118,9 +116,9 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
                 ArrayList<Suggestion> suggestions = new ArrayList<>();
 
 
-                suggestions.addAll(sportStrings.stream().map(e -> new Suggestion(e, "   sport")).collect(Collectors.toList()));
-                suggestions.addAll(trophyTitles.stream().map(e -> new Suggestion(e, "   trophy title")).collect(Collectors.toList()));
-                suggestions.addAll(playerStrings.stream().map(e -> new Suggestion(e, "   player")).collect(Collectors.toList()));
+                suggestions.addAll(sportStrings.stream().map(e -> new Suggestion(e, "   in \"Sports\"")).collect(Collectors.toList()));
+                suggestions.addAll(trophyTitles.stream().map(e -> new Suggestion(e, "   in \"Trophies\"")).collect(Collectors.toList()));
+                suggestions.addAll(playerStrings.stream().map(e -> new Suggestion(e, "   in \"Players\"")).collect(Collectors.toList()));
 
                 ICombinatoricsVector<String> set01 = createVector(sportStrings);
                 ICombinatoricsVector<String> set02 = createVector(trophyTitles);
@@ -222,13 +220,13 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
     private List<Suggestion> getSuggestions() {
         // Sample data
         final Suggestion[] suggestions = {
-                new Suggestion("Glen", "   player"),
-                new Suggestion("Most Inspirational", "   trophy title"),
-                new Suggestion("1976", "   year"),
-                new Suggestion("Glenn, 1976", "   player, year"),
-                new Suggestion("Football, 1976", "   sport, year"),
-                new Suggestion("Football, Most Inspirational", "   sport, trophy title"),
-                new Suggestion("Basketball, Most Inspirational, Glenn", "   sport, trophy title, player")
+                new Suggestion("Sample Name", "   in \"Players\""),
+                new Suggestion("Sample Trophy Title", "   in \"Trophies\""),
+                new Suggestion("Sample Year", "   in \"Years\""),
+                new Suggestion("Name, Year", ""),
+//                new Suggestion("Football, 1976", "   sport, year"),
+//                new Suggestion("Football, Most Inspirational", "   sport, trophy title"),
+//                new Suggestion("Basketball, Most Inspirational, Glenn", "   sport, trophy title, player")
         };
         Collections.addAll(this.suggestions, suggestions);
 
