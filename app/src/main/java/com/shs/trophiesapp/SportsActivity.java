@@ -34,6 +34,8 @@ import com.shs.trophiesapp.database.SportRepository;
 import com.shs.trophiesapp.database.TrophyRepository;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.shs.trophiesapp.generators.ColorGeneratorByTrophyTitle;
+import com.shs.trophiesapp.generators.SearchSuggestionsGenerator;
 
 import org.paukov.combinatorics.CombinatoricsFactory;
 import org.paukov.combinatorics.Generator;
@@ -58,8 +60,6 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
     private MaterialSearchBar searchBar;
     private List<Suggestion> suggestions = new ArrayList<>();
     private CustomSuggestionsAdapter customSuggestionsAdapter;
-    SportRepository sportRepository;
-    TrophyRepository trophyRepository;
 
     private SportsAdapter adapter;
     private ArrayList<Sport> sports;
@@ -90,12 +90,9 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         searchBar.setHint(getResources().getString(R.string.search_info));
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
-        getSuggestions();
+        suggestions = SearchSuggestionsGenerator.getInstance(getApplicationContext(), suggestions).getDefaultSuggestions();
         customSuggestionsAdapter.setSuggestions(suggestions);
         searchBar.setCustomSuggestionAdapter(customSuggestionsAdapter);
-        sportRepository = DataManager.getSportRepository(getApplicationContext());
-        trophyRepository = DataManager.getTrophyRepository(getApplicationContext());
-
 
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
         searchBar.setCardViewElevation(10);
@@ -109,31 +106,10 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
-                if(charSequence.length() == 0) return;
-                List<String> sportStrings = sportRepository.searchSportName(searchBar.getText(), 5);
-                List<String> trophyTitles = trophyRepository.searchTrophyTitle(searchBar.getText(), 5);
-                List<String> playerStrings = trophyRepository.searchPlayerName(searchBar.getText(), 5);
-
-                suggestions.addAll(sportStrings.stream().map(e -> new Suggestion(e, "   in \"Sports\"")).collect(Collectors.toList()));
-                suggestions.addAll(trophyTitles.stream().map(e -> new Suggestion(e, "   in \"Trophies\"")).collect(Collectors.toList()));
-                suggestions.addAll(playerStrings.stream().map(e -> new Suggestion(e, "   in \"Players\"")).collect(Collectors.toList()));
-
-                ICombinatoricsVector<String> set01 = createVector(sportStrings);
-                ICombinatoricsVector<String> set02 = createVector(trophyTitles);
-                ICombinatoricsVector<String> set03 = createVector(playerStrings);
-
-                Generator<String> generator = createCartesianProductGenerator(set01, set02, set03);
-
-                for (ICombinatoricsVector<String> cartesianProduct : generator) {
-                    String str = cartesianProduct.getVector().stream()
-                            .collect(Collectors.joining(", "));
-                    suggestions.add(new Suggestion(str, "   in \"Sports\", \"Trophies\", \"Players\""));
-                    Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
-                }
-                Collections.shuffle(suggestions);
-                suggestions.subList(Integer.min(6, suggestions.size()), suggestions.size()).clear();
+                List<Suggestion> generatedSuggestions = SearchSuggestionsGenerator.getInstance(getApplicationContext(), suggestions).getSuggestions(searchBar.getText());
+                generatedSuggestions.forEach(e -> Log.d(TAG, "onTextChanged: suggestion=" + e.toString()));
+                suggestions.clear(); suggestions.addAll(generatedSuggestions);
                 customSuggestionsAdapter.setSuggestions(suggestions);
-
             }
 
             @Override
@@ -216,27 +192,12 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 //        }
     }
 
-    private List<Suggestion> getSuggestions() {
-        // Sample data
-        final Suggestion[] suggestions = {
-                new Suggestion("Sample Name", "   in \"Players\""),
-                new Suggestion("Sample Trophy Title", "   in \"Trophies\""),
-                new Suggestion("Sample Year", "   in \"Years\""),
-                new Suggestion("Name, Year", ""),
-//                new Suggestion("Football, 1976", "   sport, year"),
-//                new Suggestion("Football, Most Inspirational", "   sport, trophy title"),
-//                new Suggestion("Basketball, Most Inspirational, Glenn", "   sport, trophy title, player")
-        };
-        Collections.addAll(this.suggestions, suggestions);
-
-        return this.suggestions;
-    }
 
     private void getData() {
         Log.d(TAG, "getData: getData");
         Context context = this;
-        SportRepository SportRepository = DataManager.getSportRepository(context);
-        List<Sport> _sports = SportRepository.getSports();
+        SportRepository sportRepository = DataManager.getSportRepository(context);
+        List<Sport> _sports = sportRepository.getSports();
         sports.addAll(_sports);
         Log.d(TAG, "getData: recyclerview sports size=" + sports.size());
         adapter.notifyDataSetChanged();

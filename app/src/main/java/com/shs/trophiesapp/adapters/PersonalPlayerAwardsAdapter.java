@@ -1,7 +1,6 @@
 package com.shs.trophiesapp.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,21 +10,17 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.shs.trophiesapp.PersonalPlayerAwardsActivity;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.entities.Trophy;
-import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
-import com.shs.trophiesapp.utils.ColorGeneratorByYear;
 import com.shs.trophiesapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
