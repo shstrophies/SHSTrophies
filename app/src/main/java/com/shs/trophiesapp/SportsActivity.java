@@ -117,9 +117,9 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
                 ArrayList<Suggestion> suggestions = new ArrayList<>();
 
 
-                suggestions.addAll(sportStrings.stream().map(e -> new Suggestion(e, "   sport")).collect(Collectors.toList()));
-                suggestions.addAll(trophyTitles.stream().map(e -> new Suggestion(e, "   trophy title")).collect(Collectors.toList()));
-                suggestions.addAll(playerStrings.stream().map(e -> new Suggestion(e, "   player")).collect(Collectors.toList()));
+                suggestions.addAll(sportStrings.stream().map(e -> new Suggestion(e, "   in \"Sports\"")).collect(Collectors.toList()));
+                suggestions.addAll(trophyTitles.stream().map(e -> new Suggestion(e, "   in \"Trophies\"")).collect(Collectors.toList()));
+                suggestions.addAll(playerStrings.stream().map(e -> new Suggestion(e, "   in \"Players\"")).collect(Collectors.toList()));
 
                 ICombinatoricsVector<String> set01 = createVector(sportStrings);
                 ICombinatoricsVector<String> set02 = createVector(trophyTitles);
