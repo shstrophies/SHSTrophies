@@ -109,12 +109,10 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
+                if(charSequence.length() == 0) return;
                 List<String> sportStrings = sportRepository.searchSportName(searchBar.getText(), 5);
                 List<String> trophyTitles = trophyRepository.searchTrophyTitle(searchBar.getText(), 5);
                 List<String> playerStrings = trophyRepository.searchPlayerName(searchBar.getText(), 5);
-
-                ArrayList<Suggestion> suggestions = new ArrayList<>();
-
 
                 suggestions.addAll(sportStrings.stream().map(e -> new Suggestion(e, "   in \"Sports\"")).collect(Collectors.toList()));
                 suggestions.addAll(trophyTitles.stream().map(e -> new Suggestion(e, "   in \"Trophies\"")).collect(Collectors.toList()));
@@ -149,6 +147,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             public void OnItemClickListener(int position, View v) {
                 Suggestion s = (Suggestion)v.getTag();
                 searchBar.setText(s.getTitle());
+                customSuggestionsAdapter.setSuggestions(suggestions);
             }
 
             @Override
