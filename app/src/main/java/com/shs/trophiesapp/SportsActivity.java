@@ -104,12 +104,14 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         searchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d(TAG, "beforeTextChanged: ");
+                Log.d(TAG, "beforeTextChanged: parameters: charSequence " + charSequence.toString() + ", i=" + i + ", i1=" + i1 + ", i2=" + i2);
             }
 
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d(TAG, "onTextChanged: parameters: charSequence " + charSequence.toString() + ", i=" + i + ", i1=" + i1 + ", i2=" + i2);
+
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
                 List<Suggestion> generatedSuggestions = SearchSuggestionsGenerator.getInstance(getApplicationContext(), suggestions).getSuggestions(searchBar.getText());
                 generatedSuggestions.forEach(e -> Log.d(TAG, "onTextChanged: suggestion=" + e.toString()));
@@ -121,6 +123,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             public void afterTextChanged(Editable editable) {
                 Log.d(TAG, "afterTextChanged: ");
                 doSearch(searchBar.getText());
+                suggestions = SearchSuggestionsGenerator.getInstance(getApplicationContext(), suggestions).getDefaultSuggestions();
             }
         });
         customSuggestionsAdapter.setListener(new SuggestionsAdapter.OnItemViewClickListener() {
@@ -128,7 +131,9 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             public void OnItemClickListener(int position, View v) {
                 Suggestion s = (Suggestion)v.getTag();
                 searchBar.setText(s.getTitle());
-                customSuggestionsAdapter.setSuggestions(suggestions);
+                customSuggestionsAdapter.clearSuggestions();
+
+//                customSuggestionsAdapter.setSuggestions(suggestions);
             }
 
             @Override
