@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
 import com.shs.trophiesapp.adapters.CustomSuggestionsAdapter;
 import com.shs.trophiesapp.adapters.SportsAdapter;
 import com.shs.trophiesapp.data.Suggestion;
@@ -145,6 +146,18 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
                 doSearch(searchBar.getText());
             }
         });
+        customSuggestionsAdapter.setListener(new SuggestionsAdapter.OnItemViewClickListener() {
+            @Override
+            public void OnItemClickListener(int position, View v) {
+                Suggestion s = (Suggestion)v.getTag();
+                searchBar.setText(s.getTitle());
+            }
+
+            @Override
+            public void OnItemDeleteListener(int position, View v) {
+
+            }
+        });
     }
 
 
@@ -259,6 +272,8 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
     public boolean onMenuItemClick(MenuItem item) {
         return false;
     }
+
+
 }
 
 

@@ -1,6 +1,8 @@
 package com.shs.trophiesapp.data;
 
-public class Suggestion {
+import java.io.Serializable;
+
+public class Suggestion implements Serializable {
     String title;
     String subtitle;
 

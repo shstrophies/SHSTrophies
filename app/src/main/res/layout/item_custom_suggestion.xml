@@ -34,6 +34,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/subtitle"
             android:layout_marginTop="4dp" />
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:tint="@color/material_grey_600"
+            android:src="@drawable/ic_close_black_48dp"
+            android:background="?attr/selectableItemBackground"
+            android:padding="13dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
     </LinearLayout>
 
 </LinearLayout>

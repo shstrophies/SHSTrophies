@@ -26,8 +26,14 @@ import java.util.ArrayList;
 public class CustomSuggestionsAdapter extends SuggestionsAdapter<Suggestion, CustomSuggestionsAdapter.SuggestionHolder> {
 
     private static final String TAG = "CustomSuggestionsAdapte";
-    public CustomSuggestionsAdapter(LayoutInflater inflater) {
 
+    private SuggestionsAdapter.OnItemViewClickListener listener;
+
+    public void setListener(SuggestionsAdapter.OnItemViewClickListener listener) {
+        this.listener = listener;
+    }
+
+    public CustomSuggestionsAdapter(LayoutInflater inflater) {
         super(inflater);
     }
 
@@ -38,7 +44,9 @@ public class CustomSuggestionsAdapter extends SuggestionsAdapter<Suggestion, Cus
 
     public int getCount() { return suggestions.size(); }
 
-
+    public Suggestion getItem(int position) {
+        return suggestions_clone.get(position);
+    }
 
     @Override
     public SuggestionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,9 +56,15 @@ public class CustomSuggestionsAdapter extends SuggestionsAdapter<Suggestion, Cus
 
     @Override
     public void onBindSuggestionHolder(Suggestion suggestion, SuggestionHolder holder, int position) {
-        Log.d(TAG, "onBindSuggestionHolder: suggestion=" + suggestion);
+        Log.d(TAG, "onBindSuggestionHolder: suggestion=" + suggestion.getTitle() + " --- " + suggestion.getSubtitle());
         holder.title.setText(suggestion.getTitle());
         holder.subtitle.setText(suggestion.getSubtitle());
+    }
+
+    public interface OnItemViewClickListener {
+        void OnItemClickListener(int position, View v);
+
+        void OnItemDeleteListener(int position, View v);
     }
 
     /**
@@ -90,16 +104,40 @@ public class CustomSuggestionsAdapter extends SuggestionsAdapter<Suggestion, Cus
         };
     }
 
-    static class SuggestionHolder extends RecyclerView.ViewHolder{
+    class SuggestionHolder extends RecyclerView.ViewHolder{
         protected TextView title;
-                protected TextView subtitle;
+        protected TextView subtitle;
         protected ImageView image;
+        private ImageView iv_delete;
+
 
         public SuggestionHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
             subtitle = (TextView) itemView.findViewById(R.id.subtitle);
+            iv_delete = itemView.findViewById(R.id.iv_delete);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    v.setTag(getSuggestions().get(getAdapterPosition()));
+                    listener.OnItemClickListener(getAdapterPosition(), v);
+                }
+            });
+
+            iv_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position > 0 && position < getSuggestions().size()) {
+                        v.setTag(getSuggestions().get(getAdapterPosition()));
+                        listener.OnItemDeleteListener(getAdapterPosition(), v);
+                    }
+                }
+            });
         }
+
+
     }
 
 }
