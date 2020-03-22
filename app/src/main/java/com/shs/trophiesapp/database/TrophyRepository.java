@@ -11,6 +11,7 @@ import com.shs.trophiesapp.utils.Constants;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class TrophyRepository {
@@ -99,11 +100,19 @@ public class TrophyRepository {
     public List<String>  searchYear(int from, int to, int limit) {
         List<Integer> listOfYears = trophyAwardDao.searchYear(from, to, limit);
         // convert listOfYears to list of year strings
-        ArrayList<String> listOfStrings = new ArrayList<String>();
+        //ArrayList<String> listOfStrings = new ArrayList<String>();
+
+        //converting integer array to string array
+        List<String> listOfStrings = listOfYears.stream().map(elem -> String.valueOf(elem)).collect(Collectors.toList());
+
+
+        /*
         for(int i=0; i<listOfYears.size(); i++){
             listOfStrings.add(""+listOfYears.get(i));
         }
+        */
         return listOfStrings;
+
     }
 
     static TrophyRepository getInstance(
