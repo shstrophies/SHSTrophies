@@ -8,6 +8,8 @@ import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 import com.shs.trophiesapp.utils.Constants;
 
+import java.util.ArrayList;
+
 import java.util.List;
 
 
@@ -92,6 +94,16 @@ public class TrophyRepository {
 
     public List<String>  searchTrophyTitle(String str, int limit) {
         return trophyDao.searchTrophyTitle("%" + str + "%", limit);
+    }
+
+    public List<String>  searchYear(int from, int to, int limit) {
+        List<Integer> listOfYears = trophyAwardDao.searchYear(from, to, limit);
+        // convert listOfYears to list of year strings
+        ArrayList<String> listOfStrings = new ArrayList<String>();
+        for(int i=0; i<listOfYears.size(); i++){
+            listOfStrings.add(""+listOfYears.get(i));
+        }
+        return listOfStrings;
     }
 
     static TrophyRepository getInstance(

@@ -65,11 +65,15 @@ public class SearchSuggestionsGenerator {
         List<String> sports = sportRepository.searchSportName(searchString, 5);
         List<String> trophies = trophyRepository.searchTrophyTitle(searchString, 5);
         List<String> players = trophyRepository.searchPlayerName(searchString, 5);
+        YearRange range = getYearRange(searchString);
+        List<String> years = trophyRepository.searchYear(range.getYearFrom(), range.getYearTo(), 5);
 
-        ArrayList<Suggestion> _suggestions = new ArrayList<Suggestion>();
-        _suggestions.addAll(sports.stream().map(e -> new Suggestion(e, "   in \"Sports\"")).collect(Collectors.toList()));
-        _suggestions.addAll(trophies.stream().map(e -> new Suggestion(e, "   in \"Trophies\"")).collect(Collectors.toList()));
-        _suggestions.addAll(players.stream().map(e -> new Suggestion(e, "   in \"Players\"")).collect(Collectors.toList()));
+        ArrayList<Suggestion> allSuggestions = new ArrayList<Suggestion>();
+        allSuggestions.addAll(sports.stream().map(e -> new Suggestion(e, "   in \"Sports\"")).collect(Collectors.toList()));
+        allSuggestions.addAll(trophies.stream().map(e -> new Suggestion(e, "   in \"Trophies\"")).collect(Collectors.toList()));
+        allSuggestions.addAll(players.stream().map(e -> new Suggestion(e, "   in \"Players\"")).collect(Collectors.toList()));
+        allSuggestions.addAll(years.stream().map(e -> new Suggestion(e, "   in \"Years\"")).collect(Collectors.toList()));
+
 
         ICombinatoricsVector<String> sportsSet = createVector(sports);
         ICombinatoricsVector<String> trophiesSet = createVector(trophies);
@@ -78,28 +82,71 @@ public class SearchSuggestionsGenerator {
         for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(sportsSet, trophiesSet)) {
             String str = cartesianProduct.getVector().stream()
                     .collect(Collectors.joining(", "));
-            _suggestions.add(new Suggestion(str, "   in \"Sports\", \"Trophies\""));
+            allSuggestions.add(new Suggestion(str, "   in \"Sports\", \"Trophies\""));
             Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
         }
 
         for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(trophiesSet, playersSet)) {
             String str = cartesianProduct.getVector().stream()
                     .collect(Collectors.joining(", "));
-            _suggestions.add(new Suggestion(str, "   in \"Trophies\", \"Players\""));
+            allSuggestions.add(new Suggestion(str, "   in \"Trophies\", \"Players\""));
             Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
         }
 
         for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(sportsSet, playersSet)) {
             String str = cartesianProduct.getVector().stream()
                     .collect(Collectors.joining(", "));
-            _suggestions.add(new Suggestion(str, "   in \"Sports\", \"Players\""));
+            allSuggestions.add(new Suggestion(str, "   in \"Sports\", \"Players\""));
             Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
         }
 
-        Collections.shuffle(_suggestions);
-        _suggestions.subList(Integer.min(6, _suggestions.size()), _suggestions.size()).clear();
-        return _suggestions;
+        Collections.shuffle(allSuggestions);
+        allSuggestions.subList(Integer.min(6, allSuggestions.size()), allSuggestions.size()).clear();
+        return allSuggestions;
     }
+
+
+    public YearRange getYearRange(String str){
+
+        int yearFrom = 0 ;
+        int yearTo = 0;
+
+        int x = 0;
+        try{
+            x = Integer.parseInt(str);
+        }catch(Exception e){
+            return new YearRange(0, Integer.MAX_VALUE);
+        }
+        // if str is a single digit number, return range for that
+        // ex. if x=1, return YearRange(1000, 1999)
+        if(x>=0 && x<19){
+            yearFrom = x * 1000;
+            yearTo = x * 1000 + 999;
+        }else if(  x>=10 && x<100 ){
+            yearFrom = x * 100;
+            yearTo = x * 100 + 99;
+
+        }else if( x>=100 && x<1000){
+            yearFrom = x * 10;
+            yearTo = x * 10 + 9;
+
+        }else if( x>=1000 && x<10000){
+            yearTo = yearFrom = x;
+        }else{
+            yearFrom = 0;
+            yearTo = Integer.MAX_VALUE;
+        }
+
+
+
+
+
+
+
+        return new YearRange(yearFrom,yearTo);
+    }
+
+
 
 
 }

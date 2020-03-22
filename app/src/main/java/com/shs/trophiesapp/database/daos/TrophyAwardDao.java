@@ -8,6 +8,7 @@ import androidx.room.Transaction;
 
 import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
+import com.shs.trophiesapp.generators.YearRange;
 
 import java.util.List;
 
@@ -40,7 +41,9 @@ import static androidx.room.OnConflictStrategy.REPLACE;
     List<String> searchPlayerName(String player, int limit);
 
 
-
+    // select year from TrophyAward where ( year<1979 and  year>1970  )
+    @Query("SELECT year FROM TrophyAward WHERE ( year >= :from AND year <= :to  ) LIMIT :limit")
+    List<Integer> searchYear(int from, int to, int limit);
 
 
 
