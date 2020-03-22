@@ -62,27 +62,40 @@ public class SearchSuggestionsGenerator {
 
     public List<Suggestion> getSuggestions(String searchString) {
         if (searchString.length() == 0) return getDefaultSuggestions();
-        List<String> sportStrings = sportRepository.searchSportName(searchString, 5);
-        List<String> trophyTitles = trophyRepository.searchTrophyTitle(searchString, 5);
-        List<String> playerStrings = trophyRepository.searchPlayerName(searchString, 5);
+        List<String> sports = sportRepository.searchSportName(searchString, 5);
+        List<String> trophies = trophyRepository.searchTrophyTitle(searchString, 5);
+        List<String> players = trophyRepository.searchPlayerName(searchString, 5);
 
         ArrayList<Suggestion> _suggestions = new ArrayList<Suggestion>();
-        _suggestions.addAll(sportStrings.stream().map(e -> new Suggestion(e, "   in \"Sports\"")).collect(Collectors.toList()));
-        _suggestions.addAll(trophyTitles.stream().map(e -> new Suggestion(e, "   in \"Trophies\"")).collect(Collectors.toList()));
-        _suggestions.addAll(playerStrings.stream().map(e -> new Suggestion(e, "   in \"Players\"")).collect(Collectors.toList()));
+        _suggestions.addAll(sports.stream().map(e -> new Suggestion(e, "   in \"Sports\"")).collect(Collectors.toList()));
+        _suggestions.addAll(trophies.stream().map(e -> new Suggestion(e, "   in \"Trophies\"")).collect(Collectors.toList()));
+        _suggestions.addAll(players.stream().map(e -> new Suggestion(e, "   in \"Players\"")).collect(Collectors.toList()));
 
-        ICombinatoricsVector<String> set01 = createVector(sportStrings);
-        ICombinatoricsVector<String> set02 = createVector(trophyTitles);
-        ICombinatoricsVector<String> set03 = createVector(playerStrings);
+        ICombinatoricsVector<String> set01 = createVector(sports);
+        ICombinatoricsVector<String> set02 = createVector(trophies);
+        ICombinatoricsVector<String> set03 = createVector(players);
 
-        Generator<String> generator = createCartesianProductGenerator(set01, set02, set03);
-
-        for (ICombinatoricsVector<String> cartesianProduct : generator) {
+        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(set01, set02)) {
             String str = cartesianProduct.getVector().stream()
                     .collect(Collectors.joining(", "));
-            _suggestions.add(new Suggestion(str, "   in \"Sports\", \"Trophies\", \"Players\""));
+            _suggestions.add(new Suggestion(str, "   in \"Sports\", \"Trophies\""));
             Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
         }
+
+        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(set02, set03)) {
+            String str = cartesianProduct.getVector().stream()
+                    .collect(Collectors.joining(", "));
+            _suggestions.add(new Suggestion(str, "   in \"Trophies\", \"Players\""));
+            Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
+        }
+
+        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(set01, set03)) {
+            String str = cartesianProduct.getVector().stream()
+                    .collect(Collectors.joining(", "));
+            _suggestions.add(new Suggestion(str, "   in \"Sports\", \"Players\""));
+            Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
+        }
+
         Collections.shuffle(_suggestions);
         _suggestions.subList(Integer.min(6, _suggestions.size()), _suggestions.size()).clear();
         return _suggestions;
