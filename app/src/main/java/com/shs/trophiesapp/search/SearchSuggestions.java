@@ -1,4 +1,4 @@
-package com.shs.trophiesapp.generators;
+package com.shs.trophiesapp.search;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,9 +7,7 @@ import com.shs.trophiesapp.data.Suggestion;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.SportRepository;
 import com.shs.trophiesapp.database.TrophyRepository;
-import com.shs.trophiesapp.database.entities.Trophy;
 
-import org.paukov.combinatorics.Generator;
 import org.paukov.combinatorics.ICombinatoricsVector;
 
 import java.util.ArrayList;
@@ -20,7 +18,7 @@ import java.util.stream.Collectors;
 import static org.paukov.combinatorics.CombinatoricsFactory.createCartesianProductGenerator;
 import static org.paukov.combinatorics.CombinatoricsFactory.createVector;
 
-public class SearchSuggestionsGenerator {
+public class SearchSuggestions {
     private static final String TAG = "SearchSuggestionsGenera";
 
     Context context;
@@ -29,10 +27,10 @@ public class SearchSuggestionsGenerator {
     TrophyRepository trophyRepository;
 
     // Singleton code
-    private static SearchSuggestionsGenerator single_instance = null;
+    private static SearchSuggestions single_instance = null;
 
     // private constructor restricted to this class itself
-    private SearchSuggestionsGenerator(Context context, List<Suggestion> suggestions) {
+    private SearchSuggestions(Context context, List<Suggestion> suggestions) {
         this.context = context;
         this.suggestions = suggestions;
         sportRepository = DataManager.getSportRepository(context);
@@ -40,9 +38,9 @@ public class SearchSuggestionsGenerator {
     }
 
     // static method to create instance of Singleton class
-    public static SearchSuggestionsGenerator getInstance(Context context, List suggestions) {
+    public static SearchSuggestions getInstance(Context context, List suggestions) {
         if (single_instance == null)
-            single_instance = new SearchSuggestionsGenerator(context, suggestions);
+            single_instance = new SearchSuggestions(context, suggestions);
         return single_instance;
     }
 

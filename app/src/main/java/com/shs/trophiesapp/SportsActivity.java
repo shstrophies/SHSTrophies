@@ -28,29 +28,16 @@ import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
 import com.shs.trophiesapp.adapters.CustomSuggestionsAdapter;
 import com.shs.trophiesapp.adapters.SportsAdapter;
 import com.shs.trophiesapp.data.Suggestion;
-import com.shs.trophiesapp.database.AppDatabase;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.SportRepository;
-import com.shs.trophiesapp.database.TrophyRepository;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.mancj.materialsearchbar.MaterialSearchBar;
-import com.shs.trophiesapp.generators.ColorGeneratorByTrophyTitle;
-import com.shs.trophiesapp.generators.SearchSuggestionsGenerator;
-
-import org.paukov.combinatorics.CombinatoricsFactory;
-import org.paukov.combinatorics.Generator;
-import org.paukov.combinatorics.ICombinatoricsVector;
-import org.paukov.combinatorics.cartesian.CartesianProductGenerator;
-import org.paukov.combinatorics.util.ComplexCombinationGenerator;
+import com.shs.trophiesapp.search.SearchSuggestions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
-import static org.paukov.combinatorics.CombinatoricsFactory.createCartesianProductGenerator;
 import static org.paukov.combinatorics.CombinatoricsFactory.createVector;
 
 
@@ -95,7 +82,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         searchBar.setHint(getResources().getString(R.string.search_info));
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
-        suggestions = SearchSuggestionsGenerator.getInstance(getApplicationContext(), suggestions).getDefaultSuggestions();
+        suggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getDefaultSuggestions();
         customSuggestionsAdapter.setSuggestions(suggestions);
         searchBar.setCustomSuggestionAdapter(customSuggestionsAdapter);
 
@@ -113,7 +100,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
                 Log.d(TAG, "onTextChanged: parameters: charSequence " + charSequence.toString() + ", i=" + i + ", i1=" + i1 + ", i2=" + i2);
 
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
-                List<Suggestion> generatedSuggestions = SearchSuggestionsGenerator.getInstance(getApplicationContext(), suggestions).getSuggestions(searchBar.getText());
+                List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getSuggestions(searchBar.getText());
                 generatedSuggestions.forEach(e -> Log.d(TAG, "onTextChanged: suggestion=" + e.toString()));
                 suggestions.clear(); suggestions.addAll(generatedSuggestions);
                 customSuggestionsAdapter.setSuggestions(suggestions);
@@ -122,7 +109,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void afterTextChanged(Editable editable) {
                 Log.d(TAG, "afterTextChanged: ");
-                suggestions = SearchSuggestionsGenerator.getInstance(getApplicationContext(), suggestions).getDefaultSuggestions();
+                suggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getDefaultSuggestions();
             }
         });
         customSuggestionsAdapter.setListener(new SuggestionsAdapter.OnItemViewClickListener() {

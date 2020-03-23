@@ -8,7 +8,6 @@ import androidx.room.Transaction;
 
 import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
-import com.shs.trophiesapp.generators.YearRange;
 
 import java.util.List;
 

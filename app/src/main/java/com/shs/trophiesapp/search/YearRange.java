@@ -1,4 +1,4 @@
-package com.shs.trophiesapp.generators;
+package com.shs.trophiesapp.search;
 
 public class YearRange {
 
