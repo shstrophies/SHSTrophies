@@ -117,6 +117,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 AppDatabase.prepopulateDatabase(getApplicationContext());
                 setupFutureHashing();
                 startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+                finish();
             }
         }
     }
