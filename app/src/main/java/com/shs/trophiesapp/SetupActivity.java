@@ -139,6 +139,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 Context context = getApplicationContext();
                 context.deleteDatabase(Constants.DATABASE_NAME);
                 DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
+                getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE).edit().clear().apply();
                 break;
             }
 
