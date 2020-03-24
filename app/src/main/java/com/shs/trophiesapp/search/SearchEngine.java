@@ -12,6 +12,7 @@ import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,7 @@ public class SearchEngine {
     }
 
     // Search for player, year, or trophy title. For example, '1976', or 'Williamson', or 'Williamson, 1976', or 'Most Inspirational'
+    // another example: "Shaq, 1982, Glen, 1976, Most Inspirational"
     public ArrayList<TrophyWithAwards> doSearch(String searchStr) {
 
         ArrayList<TrophyWithAwards> trophiesWithAwards = new ArrayList<>();
@@ -56,6 +58,13 @@ public class SearchEngine {
             sportId = Integer.parseInt(sportIdstr);
             searchStrIndex = 1;
         }
+
+        // select * from trophyaward where year in (1976, 1991)
+        // find list of numbers in the the string
+        // Example: "Shaq, 1982, Glen, 1976, Most Inspirational" should return "1982, 1976"
+        String numberStrings = searchStr.replaceAll("[^0-9]+", " ").trim().replaceAll(" ", ", ");
+        String nonNumberStrings = searchStr.replaceAll("[0-9]+\\s*[,]", " ").trim();
+
 
         HashMap<Long, List<TrophyAward>> map = new HashMap<>();
         for (int i = searchStrIndex; i < searchStrings.length; i++) {
