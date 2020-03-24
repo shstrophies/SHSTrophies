@@ -1,6 +1,6 @@
-package com.shs.trophiesapp.utils;
+package com.shs.trophiesapp.generators;
 
-import android.graphics.Color;
+import com.shs.trophiesapp.utils.Constants;
 
 import java.util.HashMap;
 
@@ -27,7 +27,7 @@ public class ColorGeneratorByYear {
 
 
     public int getColorForYear(int year) {
-        // TODO: check if the trophyTitle is in the hashmap, if it is, get it and return the color for it,
+        // check if the trophyTitle is in the hashmap, if it is, get it and return the color for it,
         //       if it isn't then add it to the map with the next color
 
         // At the beginning of method, already on next color

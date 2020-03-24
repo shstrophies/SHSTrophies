@@ -15,7 +15,7 @@ public class DirectoryHelper extends ContextWrapper {
 
     private DirectoryHelper(Context context) {
         super(context);
-        createFolderDirectories();
+        createDirectory(ROOT_DIRECTORY_NAME);
     }
 
     public static void createDirectory(Context context) {
@@ -33,9 +33,11 @@ public class DirectoryHelper extends ContextWrapper {
         }
     }
 
-    public void createDirectory(String directoryName) {
+
+    public static void createDirectory(String directoryName) {
         if (!doesDirectoryExist(directoryName)) {
             File file = new File(Environment.getExternalStorageDirectory(), directoryName);
+            Log.d(TAG, "createDirectory: creating directory " + file.getAbsolutePath());
             file.mkdir();
         }
     }

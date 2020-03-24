@@ -76,6 +76,9 @@ public abstract class TrophyDao {
     @Query("SELECT * FROM trophy t join trophyaward a ON a.trophyid = t.id JOIN sport s ON s.id = t.sportid WHERE (a.year = :year) OR (s.name LIKE :sportName) OR (a.player LIKE :player)")
     public abstract List<TrophyWithAwards> getTrophiesWithAwardsByYearORSportORPlayer(int year, String sportName, String player);
 
+    @Query("SELECT title FROM Trophy WHERE (title LIKE :title) LIMIT :limit")
+    public abstract List<String> searchTrophyTitle(String title, int limit);
+
     @Transaction
     @Query("SELECT * FROM trophy t INNER JOIN trophyaward ta ON ta.trophyId=t.id INNER JOIN sport s ON s.id=t.sportId WHERE ((ta.year = :year) OR (s.name LIKE :sportName) OR (ta.player LIKE :player)) ORDER BY ta.id ASC LIMIT :limit OFFSET ((:page - 1) * :limit)")
     public abstract List<TrophyWithAwards> getTrophiesWithAwardsByYearORSportORPlayerLimited(int year, String sportName, String player, int limit, int page);

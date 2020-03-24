@@ -41,7 +41,8 @@ public class Downloader {
         String downloadDescription = "url=" + url + " directory=" + directory + " saveAsName=" + saveAsName;
         Log.d("Downloader", downloadDescription);
         deleteIfExists(directory, saveAsName);
-
+        DirectoryHelper.createDirectory(directory);
+        DirectoryHelper.listFilesInDirectory(directory);
         Uri downloadUri = Uri.parse(url);
         DownloadManager.Request request = new DownloadManager.Request(downloadUri);
 

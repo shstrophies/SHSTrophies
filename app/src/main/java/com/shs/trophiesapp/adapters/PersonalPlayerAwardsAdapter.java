@@ -7,7 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.shs.trophiesapp.R;
+import com.shs.trophiesapp.database.DataManager;
+import com.shs.trophiesapp.database.entities.Sport;
+import com.shs.trophiesapp.database.entities.Trophy;
+import com.shs.trophiesapp.database.relations.TrophyWithAwards;
+import com.shs.trophiesapp.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -15,24 +26,17 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.shs.trophiesapp.R;
-import com.shs.trophiesapp.database.relations.SportWithTrophies;
+public class PersonalPlayerAwardsAdapter extends RecyclerView.Adapter<PersonalPlayerAwardsAdapter.HomeViewHolder> implements Filterable {
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-public class  SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTrophiesAdapter.HomeViewHolder> implements Filterable {
-
-    private static final String TAG = "SportsAndTrophiesAdapte";
+    private static final String TAG = "PersonalPlayerAwardsAdapter";
 
     private Context context;
-    private List<SportWithTrophies> data;
-    private List<SportWithTrophies> dataFiltered;
+    private List<TrophyWithAwards> data;
+    private List<TrophyWithAwards> dataFiltered;
 
     private RecyclerView.RecycledViewPool recycledViewPool;
 
-    public SportsWithTrophiesAdapter(Context context, List<SportWithTrophies> data) {
+    public PersonalPlayerAwardsAdapter(Context context, List<TrophyWithAwards> data) {
         this.context = context;
         this.data = data;
         this.dataFiltered = data;
@@ -41,23 +45,25 @@ public class  SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithT
 
     }
 
-
     @NonNull
     @Override
-    public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
 
-        View theView = LayoutInflater.from(context).inflate(R.layout.sports_with_trophies_row_layout_horizontal, parent, false);
-
+        View theView = LayoutInflater.from(context).inflate(R.layout.personal_player_awards_row_layout_horizontal, parent, false);
 
         return new HomeViewHolder(theView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, final int position) {
+        Sport sport = DataManager.getSportRepository(context).getSportById(data.get(position).trophy.getSportId());
+        Trophy trophy = data.get(position).trophy;
+        String textViewSportText = sport.getName() + ": " + trophy.getTitle();
+        holder.textViewSport.setText(textViewSportText);
+        Utils.imageFromCache(holder.img, trophy.getUrl());
+        holder.trophyView.setBackgroundColor(trophy.getColor());
 
-        holder.textViewSport.setText(data.get(position).sport.name);
-
-        SportWithTrophiesAdapter horizontalAdapter = new SportWithTrophiesAdapter(context, data.get(position));
+        TrophyWithAwardsAdapter horizontalAdapter = new TrophyWithAwardsAdapter(context, data.get(position).awards, data.get(position).trophy.getColor());
         holder.recyclerViewHorizontal.setAdapter(horizontalAdapter);
         holder.recyclerViewHorizontal.setLayoutManager(new GridLayoutManager(context, 5));
 
@@ -66,35 +72,37 @@ public class  SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithT
 
     }
 
-
     @Override
     public int getItemCount() {
         return data.size();
 
     }
 
-
     class HomeViewHolder extends RecyclerView.ViewHolder {
 
         private RecyclerView recyclerViewHorizontal;
         private TextView textViewSport;
+        private ImageView img;
+        private View trophyView;
 
         HomeViewHolder(View itemView) {
             super(itemView);
 
-            // home_recycler_view_horizontal
-            recyclerViewHorizontal = itemView.findViewById(R.id.home_recycler_view_horizontal);
+            recyclerViewHorizontal = itemView.findViewById(R.id.personal_trophies_with_awards_recycler_view_horizontal);
             recyclerViewHorizontal.setHasFixedSize(true);
             recyclerViewHorizontal.setNestedScrollingEnabled(false);
             LinearLayoutManager horizontalManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             recyclerViewHorizontal.setLayoutManager(horizontalManager);
             recyclerViewHorizontal.setItemAnimator(new DefaultItemAnimator());
 
-            textViewSport = itemView.findViewById(R.id.tv_sport);
-
+            textViewSport = itemView.findViewById(R.id.tv_sport_and_trophy);
+            img = itemView.findViewById(R.id.trophies_with_awards_thumbnail);
+            trophyView = itemView.findViewById(R.id.trophies_with_awards_trophy);
 
         }
     }
+
+
 
     private class SportsWithTrophiesDataFilter extends Filter {
 
@@ -106,11 +114,11 @@ public class  SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithT
                 dataFiltered = data;
             } else {
                 Log.d(TAG, "performFiltering: charString=" + charString);
-                List<SportWithTrophies> filteredList = new ArrayList<>();
-                /*for (SportWithTrophies row : data) {
+                /*for (TrophyWithAwards row : data) {
                     // name match condition. this might differ depending on your requirement
-                }*/ //TODO: Filter the Lists Here
-                dataFiltered = filteredList;
+
+                }*/ //TODO: Filtering of Trophy Results
+                dataFiltered = new ArrayList<>();
             }
 
             FilterResults filterResults = new FilterResults();
@@ -120,7 +128,7 @@ public class  SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithT
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            dataFiltered = (ArrayList<SportWithTrophies>) results.values;
+            dataFiltered = (ArrayList<TrophyWithAwards>) results.values;
             notifyDataSetChanged();
         }
     }
