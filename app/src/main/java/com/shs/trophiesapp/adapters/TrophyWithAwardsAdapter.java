@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.shs.trophiesapp.PersonalPlayerAwardsActivity;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.database.entities.TrophyAward;
-import com.shs.trophiesapp.utils.ColorGeneratorByYear;
+import com.shs.trophiesapp.generators.ColorGeneratorByYear;
 
 import java.util.List;
 

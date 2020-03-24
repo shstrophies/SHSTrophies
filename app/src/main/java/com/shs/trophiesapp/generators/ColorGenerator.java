@@ -1,4 +1,4 @@
-package com.shs.trophiesapp.utils;
+package com.shs.trophiesapp.generators;
 
 
 

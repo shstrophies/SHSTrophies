@@ -9,85 +9,85 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".SportsActivity">
-        <include layout="@layout/app_bar"
-                android:id = "@+id/app_bar"></include>
 
-        <!--
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="382dp"
-            android:layout_height="49dp"
-            android:text="@string/saratoga_high_school_trophies"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-            -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/sport_recycleview"
-                    android:layout_width="1261dp"
-                    android:layout_height="528dp"
-                    android:layout_gravity="center|center_horizontal"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="10dp"
-                    android:clipToPadding="false"
-                    android:padding="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.545"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sports_search">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-                <View
-                    android:id="@+id/view3"
-                    android:layout_width="1300dp"
-                    android:layout_height="5dp"
-                    android:background="@drawable/shadow"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.325"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view" />
+        <com.mancj.materialsearchbar.MaterialSearchBar
+            android:id="@+id/sports_search"
+            style="@style/MaterialSearchBarLight"
+            android:layout_width="1100dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/sport_recycleview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view"
+            app:layout_constraintVertical_bias="0.0"
+            app:mt_maxSuggestionsCount="10"
+            app:mt_placeholder=""
+            app:mt_speechMode="false"
+            android:translationZ="90dp"
+            >
 
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toTopOf="@+id/sport_recycleview"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+        </com.mancj.materialsearchbar.MaterialSearchBar>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/sport_recycleview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center|center_horizontal"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="195dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:clipToPadding="false"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </androidx.recyclerview.widget.RecyclerView>
+
+<include layout="@layout/app_bar"></include>
+        <View
+            android:id="@+id/view"
+            android:layout_width="1278dp"
+            android:layout_height="120dp"
+            android:background="#f9f9f9"
+            app:layout_constraintBottom_toTopOf="@+id/sport_recycleview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.026"
+            android:translationZ="-10dp"
+            />
+
+        <View
+            android:layout_width="1300dp"
+            android:layout_height="5dp"
+            android:layout_above="@id/view"
+            android:background="@drawable/shadow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.325"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
 
 
-                    app:layout_constraintTop_toTopOf="parent">
 
-                </LinearLayout>
-
-                <com.mancj.materialsearchbar.MaterialSearchBar
-                    android:id="@+id/sports_search"
-                    style="@style/MaterialSearchBarLight"
-                    android:layout_width="1100dp"
-                    android:layout_height="65dp"
-
-                    android:layout_marginTop="5dp"
-                    android:paddingTop="10dp"
-                    app:layout_constraintBottom_toTopOf="@id/sport_recycleview"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:mt_maxSuggestionsCount="10"
-                    app:mt_placeholder=""
-                    app:mt_speechMode="false">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/sport_recycleview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view">
 
 
-                </com.mancj.materialsearchbar.MaterialSearchBar>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>
+
