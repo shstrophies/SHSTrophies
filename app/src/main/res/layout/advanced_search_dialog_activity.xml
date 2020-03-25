@@ -77,16 +77,16 @@
 
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Names"
+        android:text="Player Name(s)"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.084"
+        app:layout_constraintHorizontal_bias="0.044"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.209" />
+        app:layout_constraintVertical_bias="0.208" />
 
     <TextView
         android:id="@+id/textView5"
@@ -94,7 +94,7 @@
 
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Years"
+        android:text="Year(s)"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="30dp"
@@ -111,7 +111,7 @@
 
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Sport Names"
+        android:text="Sport Name(s)"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="30dp"
@@ -128,7 +128,7 @@
 
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Trophy Titles"
+        android:text="Trophy Title(s)"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="30dp"
