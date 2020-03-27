@@ -81,11 +81,13 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
-            return;
         }
 
+        Log.d(TAG, "Starting end of onCreate");
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        Log.d(TAG, "Finished registering receiver, back to onCreate");
         DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
+        Log.d(TAG, "Going to start downloadData");
         downloadData();
     }
 
@@ -155,6 +157,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void downloadData() {
+        Log.d(TAG, "DownloadData Started");
         downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", SPORTS_GID), SPORTS_DIRECTORY_NAME);
     }
 
