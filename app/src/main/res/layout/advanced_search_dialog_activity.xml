@@ -19,6 +19,7 @@
         android:ems="10"
         android:hint="Enter a year or a range of years seperated by a '-'"
         android:inputType="textPersonName"
+        android:backgroundTint="#C72027"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.768"
@@ -31,6 +32,8 @@
         android:layout_width="921dp"
         android:layout_height="50dp"
         android:layout_marginEnd="36dp"
+        app:backgroundTint="#C72027"
+
         android:ems="10"
         android:hint="Enter a sport name or mulitple sport names (seperated by commas)"
         android:inputType="textPersonName"
@@ -44,6 +47,8 @@
         android:layout_width="921dp"
         android:layout_height="50dp"
         android:layout_marginTop="84dp"
+        android:backgroundTint="#C72027"
+
         android:ems="10"
         android:hint="Enter a trophy title or multiple trophy titles (seperated by commas)"
         android:inputType="textPersonName"
@@ -77,7 +82,7 @@
 
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Player Name(s)"
+        android:text="Player Name"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="30dp"
@@ -144,7 +149,9 @@
         android:layout_width="921dp"
         android:layout_height="50dp"
         android:ems="10"
-        android:hint="Enter a name or multiple names (seperated by commas)"
+        android:backgroundTint="#C72027"
+
+    android:hint="Enter a name or multiple names (seperated by commas)"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -154,7 +161,7 @@
         app:layout_constraintVertical_bias="0.2" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/advanced_search_button"
         android:layout_width="172dp"
         android:layout_height="54dp"
         android:background="#C72027"

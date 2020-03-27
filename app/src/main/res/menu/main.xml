@@ -9,11 +9,6 @@
 
         ></item>
     <item
-        android:title="        "
-        app:showAsAction="always"
-
-        ></item>
-    <item
 
         android:id="@+id/action_about"
         android:title="About "
