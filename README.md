@@ -116,6 +116,10 @@ ___________________________________________________
 
 - Fix possibility of looping bug if someone keeps on pressing on a name. have it be able to be clicked max once
 
+- add onclicklistener to trophy image in the search results page
+
+- add onclicklistener to trophy image in the personal award's page
+
 
 ___________________________________________________
 ### UI:
