@@ -57,52 +57,25 @@ ___________________________________________________
 **Remaining Search Features**
 ___________________________________________________
 
-
-When you tap on the search bar, there will be no existing results underneath it. 
-
-General explanation:
-
-When you type in a few letters of a name:
-
-There will be 1 suggestion for "{the Name}" (in players)
-There will be x amount of suggestions for "{theName} {sportName}". BTW, there's no "in..." for these
-    - x represents the number of sports this player has trophies for. 
-    - Let's say he does Basketball, Baseball, and Soccer.
-    - in this case, there will be "{theName} {sportName}" 3 times 
-    - ex: "Jeff Holmes Basketball", "Jeff Holmes Baseball", "Jeff Holmes Soccer"
-There will be x amount of suggestions for "{theName} {trophy year}"
-    - x represents the number of years this player has trophies for. 
-    - Let's say he won in 1995, 1996, 1996, 1997.
-    - in this case, there will be "{theName} {the sport}" 3 times  (we dont have duplicates for year) 
-    - ex: "Jeff Holmes 1995", "Jeff Holmes 1996", "Jeff Holmes 1997"
-    
-    
-Now, let's say they have "Jeff Homles" in their search bar and then type a 1. 
-So the search space has  "Jeff Homles 1" inside of it.
-Immediatly, all of the "Jeff Holmes {sportName}" suggestions will go away since the user is clearly looking for a year
-
-Now, let's say they have "Jeff Homles" in their search bar and then type a "B". 
-So the search space has  "Jeff Homles B" inside of it.
-Immediatly, all of the "Jeff Holmes {trophy year}" suggestions will go away since the user is clearly not looking for a year
-
-At this point, lets say they have "Jeff Homles 1995" in search bar.
-As soon as they finish the 4 digit number:
-
-It will now expect a sport name.
-
-I think just supporting Name+ Year or Name + Sport search suggestions is good enough for homepage if we include this advnaced search that I was thinking about.
-
-
-Let's say they type in the name of a sport. Let's use "Football". The subsequent suggestions would be:
-"Football {the years of football trophies}"
-"Football {different types of football trophy names}"
-
-
+- have search bar start without any suggestions at start
+- have autocomplete with catergies. if you type in foo, you want 'football in sports' 
+- add icons to search results (Arman)
 - nice to have: show # of results found on search bar
-- add different icons to search maybe
 
 
 
+type in "Arman Rafati"
+suggest sports or years or trophies that would have a result
+
+search results are:
+
+"Arman Rafati"
+"Arman Rafati Basketball" (make sure I have basketball trophies)
+"Arman Rafati 2006" (because I have trophies in 2006)
+"Arman Rafati most valuable player" (because I won an MVP trophy)
+
+
+(add amazon image here)
 
 
 
@@ -115,10 +88,6 @@ ___________________________________________________
 - think about Team Trophy Text
 
 - Fix possibility of looping bug if someone keeps on pressing on a name. have it be able to be clicked max once
-
-- add onclicklistener to trophy image in the search results page
-
-- add onclicklistener to trophy image in the personal award's page
 
 
 ___________________________________________________
