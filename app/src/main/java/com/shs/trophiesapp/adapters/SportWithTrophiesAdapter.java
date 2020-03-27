@@ -19,7 +19,7 @@ import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.TrophyWithAwardsActivity;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.entities.Trophy;
-import com.shs.trophiesapp.generators.ColorGeneratorByTrophyTitle;
+import com.shs.trophiesapp.utils.ColorGeneratorByTrophyTitle;
 import com.shs.trophiesapp.utils.Utils;
 
 public class SportWithTrophiesAdapter extends RecyclerView.Adapter<SportWithTrophiesAdapter.TrophyViewHolder> implements Filterable {

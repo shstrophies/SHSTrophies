@@ -90,9 +90,6 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
         private ImageView img;
         private View trophyView;
 
-        //TextView
-
-
         HomeViewHolder(View itemView) {
             super(itemView);
 

@@ -1,6 +1,5 @@
 package com.shs.trophiesapp;
 
-import android.Manifest;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -78,11 +76,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         loadDatabaseButton.setOnClickListener(this);
         cleanButton = findViewById(R.id.cleanButton);
         cleanButton.setOnClickListener(this);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
-            return;
-        }
 
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
@@ -259,8 +252,10 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 if (downloadButton != null) downloadButton.setEnabled(true);
                 Log.d(TAG, "onReceive: DOWNLOADS complete");
                 DirectoryHelper.listFilesInDirectoryRecursively(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
+                //loadDatabase();
                 setupHashes();
             }
+
         }
     };
 

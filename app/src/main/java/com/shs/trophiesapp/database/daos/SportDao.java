@@ -26,7 +26,4 @@ import java.util.List;
             "imageUrl LIKE :imageUrl LIMIT 1") Sport findByName(String sportName, String imageUrl);
     @Insert void insertAll(Sport... sports);
     @Delete void delete(Sport sport);
-
-    @Query("SELECT name FROM Sport WHERE (name LIKE :name) LIMIT :limit")
-    List<String> searchSportName(String name, int limit);
 }

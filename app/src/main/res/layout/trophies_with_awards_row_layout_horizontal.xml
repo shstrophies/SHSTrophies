@@ -54,7 +54,7 @@
                 android:id="@+id/trophies_with_awards_trophy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_sport_and_trophy"
+                android:layout_below="@id/tv_sport"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="30dp"
                 android:orientation="vertical">

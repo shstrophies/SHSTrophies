@@ -36,16 +36,6 @@ import static androidx.room.OnConflictStrategy.REPLACE;
     @Query("SELECT * FROM TrophyAward WHERE Category LIKE :category")
     List<TrophyAward> findByCategory(String category);
 
-    @Query("SELECT player FROM TrophyAward WHERE (player LIKE :player) LIMIT :limit")
-    List<String> searchPlayerName(String player, int limit);
-
-
-    // select year from TrophyAward where ( year<1979 and  year>1970  )
-    @Query("SELECT year FROM TrophyAward WHERE ( year >= :from AND year <= :to  ) LIMIT :limit")
-    List<Integer> searchYear(int from, int to, int limit);
-
-
-
     //Enumerated Queries
     @Transaction
     @Query("SELECT * FROM TrophyAward " +

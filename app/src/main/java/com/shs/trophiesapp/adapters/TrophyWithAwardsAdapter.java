@@ -1,7 +1,6 @@
 package com.shs.trophiesapp.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.shs.trophiesapp.PersonalPlayerAwardsActivity;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.database.entities.TrophyAward;
-import com.shs.trophiesapp.generators.ColorGeneratorByYear;
+import com.shs.trophiesapp.utils.ColorGeneratorByYear;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,27 +55,6 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
         holder.setDetails(trophyAward);
 
 
-        View.OnClickListener listener = view -> {
-
-
-            Intent intent = new Intent(context, PersonalPlayerAwardsActivity.class);
-
-            // passing data
-            intent.putExtra("playerName", trophyAward.getPlayer());
-            intent.putExtra("color", trophyAward.getColor());
-            intent.putExtra("trophyId", trophyAward.getTrophyId());
-
-
-
-
-            // start activity
-            context.startActivity(intent);
-        };
-
-        // set click listener
-        holder.cardView.setOnClickListener(listener);
-
-
 
 
         // set click listener
@@ -95,11 +72,6 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
             txtPlayer = itemView.findViewById(R.id.txtPlayer);
             txtYear = itemView.findViewById(R.id.txtYear);
             cardView = itemView.findViewById(R.id.cardview_trophy_player_and_year_id);
-        }
-
-        public interface OnPlayerListener{
-            void onPlayerClick(int position);
-
         }
 
         void setDetails(TrophyAward trophyAward) {

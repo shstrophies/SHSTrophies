@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class  SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTrophiesAdapter.HomeViewHolder> implements Filterable {
+public class SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithTrophiesAdapter.HomeViewHolder> implements Filterable {
 
     private static final String TAG = "SportsAndTrophiesAdapte";
 
@@ -82,7 +82,6 @@ public class  SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithT
         HomeViewHolder(View itemView) {
             super(itemView);
 
-            // home_recycler_view_horizontal
             recyclerViewHorizontal = itemView.findViewById(R.id.home_recycler_view_horizontal);
             recyclerViewHorizontal.setHasFixedSize(true);
             recyclerViewHorizontal.setNestedScrollingEnabled(false);
