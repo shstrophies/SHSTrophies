@@ -67,6 +67,21 @@ public abstract class TrophyDao {
     @Query("SELECT * FROM trophyaward JOIN trophy ON trophy.id = trophyId WHERE (trophy.sportId LIKE :sportId) AND (year LIKE :year)")
     public abstract List<TrophyAward> getTrophyAwardsBySportAndYear(long sportId, int year);
 
+
+    @Query("SELECT * FROM trophyaward JOIN trophy ON trophy.id = trophyId WHERE (trophy.sportId LIKE :sportId) AND (title like :title) AND (year IN (:year)) AND (player like :player)")
+    public abstract List<TrophyAward> getTrophyAwardsBySportAndTitleAndYearAndPlayer(long sportId, String title, int year, String player);
+
+// select * from trophyaward where year in (1970,1971);
+//select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6));
+//select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (year IN (1961, 1983, 1992));
+//select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (year IN (1961, 1983, 1992)) AND ((player LIKE '%glen%') OR (player like '%Joy%'));
+//select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (year IN (1961, 1983, 1992)) AND ((player LIKE '%%'));
+//select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (title LIKE '%inspirational%')
+    // TODO
+    @Query("SELECT * FROM trophyaward JOIN trophy ON trophy.id = trophyId WHERE :expression")
+    public abstract List<TrophyAward> getTrophyAwardsByExpression(String expression);
+
+
     @Transaction
     @Query("SELECT * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE ((trophy.sportId LIKE :sportId) AND (year LIKE :year)) ORDER BY trophy.title ASC LIMIT :limit OFFSET ((:page - 1) * :limit)")
     public abstract List<TrophyAward> getTrophyAwardsBySportAndYearLimited(long sportId, int year, int limit, int page);

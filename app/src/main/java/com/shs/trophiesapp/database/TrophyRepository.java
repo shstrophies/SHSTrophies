@@ -55,15 +55,39 @@ public class TrophyRepository {
         return trophyAwardDao.findByPlayerLimited(player, Constants.TROPHIES_PER_PAGE, page);
     }
 
+    public List<TrophyAward> getTrophyAwardsBySportAndTitleAndYearAndPlayer(long sportId, String title, int year, String player) {
+        return trophyDao.getTrophyAwardsBySportAndTitleAndYearAndPlayer(sportId, title, year, player);
+    }
+
+    // // select * from trophyaward where year in (1970,1971);
+    ////select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6));
+    ////select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (year IN (1961, 1983, 1992));
+    ////select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (year IN (1961, 1983, 1992)) AND ((player LIKE '%glen%') OR (player like '%Joy%'));
+    ////select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (year IN (1961, 1983, 1992)) AND ((player LIKE '%%'));
+    ////select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (title LIKE '%inspirational%')
+    public List<TrophyAward> getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers(List<Long> sportIds, List<String> titles, List<Integer> years, List<String> players) {
+        String sportsExpr = sportIds.isEmpty() ? "" :
+                "(trophy.sportId IN (" + sportIds.stream().map(elem -> String.valueOf(elem)).collect(Collectors.joining(", ")) + "))";
+        String titlesExpr = titles.isEmpty() ? "" :
+                titles.stream().map(elem -> "(title LIKE '% " + String.valueOf(elem) + "%')").collect(Collectors.joining(" AND ")) + ")";
+        String yearsExpr = years.isEmpty() ? "" :
+        "(year IN (" + years.stream().map(elem -> String.valueOf(elem)).collect(Collectors.joining(", ")) + "))";
+        String playersExpr = players.isEmpty() ? "" :
+                players.stream().map(elem -> "(player LIKE '% " + String.valueOf(elem) + "%')").collect(Collectors.joining(" AND ")) + ")";
+
+        String expression = " WHERE " + sportsExpr + " AND " + titlesExpr + " AND " + yearsExpr + " AND " + playersExpr;
+        return trophyDao.getTrophyAwardsByExpression(expression);
+    }
+
     public List<TrophyAward> getTrophyAwardsBySportAndYear(long sportId, int year) {
-        if(sportId == -1)
+        if (sportId == -1)
             return trophyDao.getTrophyAwardsByYear(year);
         else
             return trophyDao.getTrophyAwardsBySportAndYear(sportId, year);
     }
 
     public List<TrophyAward> getTrophyAwardsBySportAndPlayer(long sportId, String player) {
-        if(sportId == -1)
+        if (sportId == -1)
             return getTrophyAwardsByPlayer(player);
         else
             return trophyDao.getTrophyAwardsBySportAndPlayer(sportId, "%" + player + "%");
@@ -81,23 +105,23 @@ public class TrophyRepository {
         return trophyAwardDao.getAwardsByTrophyId(trophyId);
     }
 
-    public List<TrophyAward>  getTrophiesByYear(int year) {
+    public List<TrophyAward> getTrophiesByYear(int year) {
         return trophyAwardDao.findByYear(year);
     }
 
-    public List<TrophyAward>  getTrophiesByPlayer(String player) {
+    public List<TrophyAward> getTrophiesByPlayer(String player) {
         return trophyAwardDao.findByPlayer(player);
     }
 
-    public List<String>  searchPlayerName(String str, int limit) {
+    public List<String> searchPlayerName(String str, int limit) {
         return trophyAwardDao.searchPlayerName("%" + str + "%", limit);
     }
 
-    public List<String>  searchTrophyTitle(String str, int limit) {
+    public List<String> searchTrophyTitle(String str, int limit) {
         return trophyDao.searchTrophyTitle("%" + str + "%", limit);
     }
 
-    public List<String>  searchYear(int from, int to, int limit) {
+    public List<String> searchYear(int from, int to, int limit) {
         List<Integer> listOfYears = trophyAwardDao.searchYear(from, to, limit);
         // convert listOfYears to list of year strings
         //ArrayList<String> listOfStrings = new ArrayList<String>();
@@ -118,9 +142,9 @@ public class TrophyRepository {
     static TrophyRepository getInstance(
             TrophyDao trophyDao,
             TrophyAwardDao trophyAwardDao
-            ) {
+    ) {
         if (instance == null) {
-            synchronized(TrophyRepository.class) {
+            synchronized (TrophyRepository.class) {
                 if (instance == null)
                     instance = new TrophyRepository(trophyDao, trophyAwardDao);
             }
