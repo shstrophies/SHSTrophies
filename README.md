@@ -49,9 +49,9 @@ ___________________________________________________
 **Database related**
 ___________________________________________________
 
-- enable recyclerview pagination (Ujjwal)
+- enable recyclerview pagination (In Progress)(Ujjwal)
   
-- file hashing for seamless app restarts (Ujjwal)
+- file hashing for seamless app restarts (Needs Fixing)(Ujjwal)
 
 (POSTPONED)- add FTS in the Database (Ujjwal & Carolina)
 ___________________________________________________
@@ -111,7 +111,8 @@ Mike Cable 1997
 Mike Calble Most Insipration
 Mike Cable Fearless Player 
 
-- nice to have: show # of results found on search bar
+
+- nice to have: show # of results found on search bar suggestion
 - add different icons to search maybe
 
 
@@ -125,8 +126,6 @@ ___________________________________________________
 
 - We should create a wrapper activity called MenuActivity that each Activity extends, and have that override onOptionsMenuItemClicked (whatever the method is), and have that deal with the menu options instead of copy pasting code between each activity.
 
-- think about Team Trophy Text
-
 - Fix possibility of looping bug if someone keeps on pressing on a name. have it be able to be clicked max once
 
 - add onclicklistener to trophy image in the search results page
@@ -138,13 +137,11 @@ ___________________________________________________
 ### UI:
 ___________________________________________________
 
-  
-  - look into back buttons (nice to have, but not needed)
-    
+- align advanced search page
   
 
 ___________________________________________________
 ### Torrens/Leadership Kids
 ___________________________________________________
 
-- update spreadsheet with real data so we can see if there will be storage and load time issues (S)
+- update spreadsheet with real data so we can see if there will be storage and load time issues (In Progress)
