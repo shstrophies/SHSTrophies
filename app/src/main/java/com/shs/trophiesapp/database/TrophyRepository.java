@@ -78,7 +78,7 @@ public class TrophyRepository {
         String playersExpr = players.isEmpty() ? "" :
                 "(" + players.stream().map(elem -> "(player LIKE '%" + String.valueOf(elem).trim() + "%')").collect(Collectors.joining(" OR ")) + ")";
 
-        String expression = " WHERE " + sportsExpr + "AND " + yearsExpr + " AND ( " + titlesExpr + " OR " + playersExpr + " )";
+        String expression = sportsExpr + "AND " + yearsExpr + " AND ( " + titlesExpr + " OR " + playersExpr + " )";
         Log.d(TAG, "getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers: expression=" + expression);
         return trophyDao.getTrophyAwardsByExpression(expression);
     }
