@@ -78,7 +78,7 @@ public abstract class TrophyDao {
 //select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (year IN (1961, 1983, 1992)) AND ((player LIKE '%%'));
 //select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (title LIKE '%inspirational%')
     // TODO
-    @Query("SELECT * FROM trophyaward JOIN trophy ON trophy.id = trophyId WHERE :expression")
+    @Query("SELECT * FROM trophyaward INNER JOIN trophy ON trophy.id = trophyId WHERE :expression")
     public abstract List<TrophyAward> getTrophyAwardsByExpression(String expression);
 
 

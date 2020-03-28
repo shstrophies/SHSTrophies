@@ -46,4 +46,7 @@ public final class Constants {
     };
 
     public static int TROPHIES_PER_PAGE = 12;
+
+    public static final String CURRENT_SPORT_ID = "CURRENT_SPORT_ID";
+
 }

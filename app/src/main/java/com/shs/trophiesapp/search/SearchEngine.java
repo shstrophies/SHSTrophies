@@ -20,6 +20,9 @@ import java.util.stream.Collectors;
 
 public class SearchEngine {
     private static final String TAG = "SearchEngine";
+
+    public static final String SPORTID_SEARCH_KEY = "sportId:";
+
     Context context;
     SportRepository sportRepository;
     TrophyRepository trophyRepository;
@@ -41,65 +44,47 @@ public class SearchEngine {
         return single_instance;
     }
 
+    public ArrayList<TrophyWithAwards> search(String searchStr) {
+        List<Long> sportids = sportRepository.getSports().stream().map(e -> e.getId()).collect(Collectors.toList());
+        return searchInSports(sportids, searchStr);
+    }
+
     // Search for player, year, or trophy title. For example, '1976', or 'Williamson', or 'Williamson, 1976', or 'Most Inspirational'
     // another example: "Shaq, 1982, Glen, 1976, Most Inspirational"
-    public ArrayList<TrophyWithAwards> doSearch(String searchStr) {
+    // "1961, Glen, 1983, 1992, Joy
+    // select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (year IN (1961, 1983, 1992)) AND ((player LIKE '%glen%') OR (player like '%Joy%'));
 
-        ArrayList<TrophyWithAwards> trophiesWithAwards = new ArrayList<>();
+    public ArrayList<TrophyWithAwards> searchInSports(List<Long> sportIds, String searchStr) {
 
-        String[] searchStrings = searchStr.split(",");
-        int searchStrIndex = 0;
-        String keyword = "sportId:";
-        int sportId = -1;
-        if (searchStrings[0].contains(keyword)) {
-            String str = searchStrings[0];
-            int index = str.indexOf(keyword) + keyword.length();
-            String sportIdstr = str.substring(index);
-            sportId = Integer.parseInt(sportIdstr);
-            searchStrIndex = 1;
-        }
+        ArrayList<String> titles = new ArrayList();
+        ArrayList<Integer> years = new ArrayList();
+        ArrayList<String> players = new ArrayList();
+
+        ArrayList<TrophyWithAwards> result = new ArrayList<>();
 
         // select * from trophyaward where year in (1976, 1991)
         // find list of numbers in the the string
         // Example: "Shaq, 1982, Glen, 1976, Most Inspirational" should return "1982, 1976"
-        String numberStrings = searchStr.replaceAll("[^0-9]+", " ").trim().replaceAll(" ", ", ");
-        String nonNumberStrings = searchStr.replaceAll("[0-9]+\\s*[,]", " ").trim();
+        String tmp = searchStr.replaceAll("[^0-9]+", " ");
+        String[] tmpa = tmp.trim().split(" ");
+        List<String> numberStrings = Arrays.asList(searchStr.replaceAll("[^0-9]+", " ").trim().split(" "));
+        years.addAll(numberStrings.stream().map(e -> Integer.parseInt(e)).collect(Collectors.toList()));
 
+        List<String> searchStrings = Arrays.asList(searchStr.replaceAll("[0-9]+\\s*[,]", " ").trim().split(","));
+        titles.addAll(searchStrings);
+        players.addAll(searchStrings);
 
+        List<TrophyAward> list = DataManager.getTrophyRepository(context).getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers(sportIds, titles, years, players);
         HashMap<Long, List<TrophyAward>> map = new HashMap<>();
-        for (int i = searchStrIndex; i < searchStrings.length; i++) {
-            String searchString = searchStrings[i];
-
-            // search by year
-            if (searchString.matches("-?(0|[1-9]\\d*)")) {
-                int year = Integer.parseInt(searchString);
-                List<TrophyAward> list = DataManager.getTrophyRepository(context).getTrophyAwardsBySportAndYear(sportId, year);
-
-                for (TrophyAward a : list) {
-                    Log.d(TAG, "getData: " + a);
-                    long trophyId = a.getTrophyId();
-                    if (!map.containsKey(trophyId)) {
-                        map.put(trophyId, new ArrayList<>());
-                    }
-                    List<TrophyAward> awardList = map.get(trophyId);
-                    awardList.add(a);
-                }
-            } else {
-                // search by player
-                List<TrophyAward> list = DataManager.getTrophyRepository(context).getTrophyAwardsBySportAndPlayer(sportId, searchString);
-
-                for (TrophyAward a : list) {
-                    Log.d(TAG, "getData: " + a);
-                    long trophyId = a.getTrophyId();
-                    if (!map.containsKey(trophyId)) {
-                        map.put(trophyId, new ArrayList<>());
-                    }
-                    List<TrophyAward> awardList = map.get(trophyId);
-                    awardList.add(a);
-                }
+        for (TrophyAward a : list) {
+            Log.d(TAG, "getData: " + a);
+            long trophyId = a.getTrophyId();
+            if (!map.containsKey(trophyId)) {
+                map.put(trophyId, new ArrayList<>());
             }
+            List<TrophyAward> awardList = map.get(trophyId);
+            awardList.add(a);
         }
-
 
         for (Map.Entry<Long, List<TrophyAward>> entry : map.entrySet()) {
             System.out.println(entry.getKey() + " = " + entry.getValue());
@@ -111,52 +96,14 @@ public class SearchEngine {
             TrophyWithAwards trophyWithAwards = new TrophyWithAwards();
             trophyWithAwards.trophy = trophy;
             trophyWithAwards.awards = distinctList;
-            trophiesWithAwards.add(trophyWithAwards);
+            result.add(trophyWithAwards);
         }
 
-        /////////////////////////////////////////////////////////////////////////////////
+        return result;
+    }
 
-
-//        TrophyRepository tropyRepository = DataManager.getTrophyRepository(context);
-//        List<List<Trophy>> listOfTrophies = new ArrayList();
-//        for(int i = 0; i< searchStrings.length; i++) {
-//            String searchString = searchStrings[i];
-//            List<Trophy> sportTrophies  = null;
-//            List<Trophy> playerTrophies = null;
-//
-//
-//            List<Trophy> trophies = sportTrophies;
-//            trophies.addAll(playerTrophies);
-//            if(searchString.matches("-?(0|[1-9]\\d*)")) {
-//                int year = Integer.parseInt(searchString);
-//                List<Trophy> yearTrophies = null;
-//                trophies.addAll(yearTrophies);
-//            }
-//
-//            List<Trophy> distinctList = trophies.stream().distinct().collect(Collectors.toList());
-//            for(Trophy t : distinctList) {
-//                List<Trophy> l = new ArrayList();
-//                l.add(t);
-//                listOfTrophies.add(l);
-//            }
-//        }
-//
-//        Map<String, List<Trophy>> map =
-//                listOfTrophies.stream().collect(Collectors.groupingBy(e -> e.get(0).sport_name,
-//                        Collectors.mapping(e -> e.get(0),
-//                                Collectors.toList())));
-//
-//        for (Map.Entry<String, List<Trophy>> entry : map.entrySet()) {
-//            System.out.println(entry.getKey() + " = " + entry.getValue());
-//            Log.d(TAG, "getData: " + entry.getKey() + " = " + entry.getValue());
-//            String sport_name = entry.getKey();
-//            List<Trophy> trophyList = entry.getValue();
-//            List<Trophy> distinctTrophiesList = trophyList.stream().distinct().collect(Collectors.toList());
-//
-//            SportsAndTrophiesData data = new SportsAndTrophiesData(distinctTrophiesList, sport_name.substring(0,1).toUpperCase() + sport_name.substring(1).toLowerCase());
-//            sportsAndTrophies.add(data);
-//        }
-
-        return trophiesWithAwards;
+    public ArrayList<TrophyWithAwards> advancedSearch(String sportsStr, String titlesStr, String yearsStr, String playersStr) {
+        ArrayList<TrophyWithAwards> result = null;
+        return result;
     }
 }

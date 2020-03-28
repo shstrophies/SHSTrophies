@@ -14,11 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.adapters.TrophiesWithAwardsAdapter;
 import com.shs.trophiesapp.database.DataManager;
+import com.shs.trophiesapp.database.SportRepository;
 import com.shs.trophiesapp.database.TrophyRepository;
+import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.entities.Trophy;
 import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 import com.shs.trophiesapp.search.SearchEngine;
+import com.shs.trophiesapp.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,29 +33,17 @@ import java.util.stream.Collectors;
 public class TrophiesWithAwardsActivity extends AppCompatActivity {
     private static final String TAG = "TrophiesWithAwardsActivity";
 
-    public static final String AWARDS_SEARCH_STRING = "AWARDS_SEARCH_STRING";
-    String searchString;
-    String[] searchStrings;
-
-//    private MaterialSearchBar searchBar;
-
     private TrophiesWithAwardsAdapter adapter;
     private ArrayList<TrophyWithAwards> trophiesWithAwards = new ArrayList<>();
 
+    public static final String AWARDS_SEARCH_STRING = "AWARDS_SEARCH_STRING";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Receive data
-        Intent intent = getIntent();
-        searchString = intent.getExtras().getString(AWARDS_SEARCH_STRING);
-        searchStrings = searchString.split(",");
-
         // create sports_activity layout object
         setContentView(R.layout.trophies_with_awards_activity);
-
-
 
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.trophies_with_awards_recyclerview);
@@ -60,42 +51,15 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
         trophiesWithAwards = new ArrayList<>();
         adapter = new TrophiesWithAwardsAdapter(this, trophiesWithAwards);
 
-
         // set adapter for recyclerview
         recyclerView.setAdapter(adapter);
-
         TextView searchHeader = findViewById(R.id.HeaderWithSearchResults);
 
-
-
-
-        // get data and notify adapter
-        getData();
-        int result = 0;
-
-
-        for(int i =0;i<trophiesWithAwards.size();i++){
-
-            TrophyWithAwards item = trophiesWithAwards.get(i);
-            result+=item.awards.size();
-
-        }
-
-        if(searchString.contains("sportId")){
-            String searchResultText = searchString.substring(searchString.indexOf(",")+1);
-            searchHeader.setText(result +" result(s) for \""+searchResultText+"\"");
-        }
-        else{
-            searchHeader.setText(result +" result(s) for \""+searchString+"\"");
-
-        }
-
-
-
-
+        String searchString = getIntent().getExtras().getString(AWARDS_SEARCH_STRING);
+        getData(searchString);
+        searchHeader.setText(getSearchResultsSummary(searchString));
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -119,12 +83,23 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void getData() {
+    private void getData(String searchString) {
         Log.d(TAG, "getData: getData");
         Context context = this;
-        trophiesWithAwards.addAll(SearchEngine.getInstance(context).doSearch(searchString));
+        Long currentSportId = getIntent().getExtras().getLong(Constants.CURRENT_SPORT_ID);
+        trophiesWithAwards.addAll(SearchEngine.getInstance(context).search(searchString));
         Log.d(TAG, "getData: recyclerview trophiesWithAwards size=" + trophiesWithAwards.size());
         adapter.notifyDataSetChanged();
+    }
 
+    String getSearchResultsSummary(String searchString) {
+        Log.d(TAG, "getSearchResultsSummary: ");
+        Context context = this;
+        int result = 0;
+        for (TrophyWithAwards item : trophiesWithAwards) { result += item.awards.size(); }
+        Long currentSportId = getIntent().getExtras().getLong(Constants.CURRENT_SPORT_ID);
+        String searchResultsSummary = result + " result(s) for " +
+                "\"" + ((currentSportId != 0) ? DataManager.getSportRepository(context).getSportById(currentSportId).getName() : searchString) + "\"";
+        return searchResultsSummary;
     }
 }
