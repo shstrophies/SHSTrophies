@@ -99,6 +99,18 @@ Let's say they type in the name of a sport. Let's use "Football". The subsequent
 "Football {different types of football trophy names}"
 
 
+Mike Cable M
+___________
+
+Mike Cable in Players
+Mike Calbe Basketball
+Mike Cable Football
+Mike Cable 1995
+Mike Cable 1996
+Mike Cable 1997
+Mike Calble Most Insipration
+Mike Cable Fearless Player 
+
 - nice to have: show # of results found on search bar
 - add different icons to search maybe
 
