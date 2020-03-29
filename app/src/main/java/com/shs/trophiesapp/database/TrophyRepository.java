@@ -70,11 +70,11 @@ public class TrophyRepository {
         String sportsExpr = sportIds.isEmpty() ? "" :
                 "(trophy.sportId IN (" + sportIds.stream().map(elem -> String.valueOf(elem)).collect(Collectors.joining(", ")) + "))";
         String titlesExpr = titles.isEmpty() ? "" :
-                "(" + titles.stream().map(elem -> "(title LIKE '%" + String.valueOf(elem).trim() + "%')").collect(Collectors.joining(" OR ")) + ")";
+                "(" + titles.stream().map(elem -> "(title LIKE \"%" + String.valueOf(elem).trim() + "%\")").collect(Collectors.joining(" OR ")) + ")";
         String yearsExpr = years.isEmpty() ? "" :
                 "(year IN (" + years.stream().map(elem -> String.valueOf(elem)).collect(Collectors.joining(", ")) + "))";
         String playersExpr = players.isEmpty() ? "" :
-                "(" + players.stream().map(elem -> "(player LIKE '%" + String.valueOf(elem).trim() + "%')").collect(Collectors.joining(" OR ")) + ")";
+                "(" + players.stream().map(elem -> "(player LIKE \"%" + String.valueOf(elem).trim() + "%\")").collect(Collectors.joining(" OR ")) + ")";
 
         String expression = sportsExpr +
                 (yearsExpr.isEmpty() ? "" : " AND " + yearsExpr) +
