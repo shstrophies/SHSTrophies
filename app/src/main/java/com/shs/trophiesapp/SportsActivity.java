@@ -77,6 +77,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 
         searchBar = findViewById(R.id.sports_search);
         searchBar.setOnSearchActionListener(this);
+//        searchBar.inflateMenu(R.menu.search);
         searchBar.setMaxSuggestionCount(3);
         searchBar.setHint(getResources().getString(R.string.search_info));
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -101,7 +102,8 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
                 List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getSuggestions(searchBar.getText());
                 generatedSuggestions.forEach(e -> Log.d(TAG, "onTextChanged: suggestion=" + e.toString()));
-                suggestions.clear(); suggestions.addAll(generatedSuggestions);
+                suggestions.clear();
+                suggestions.addAll(generatedSuggestions);
                 customSuggestionsAdapter.setSuggestions(suggestions);
             }
 
@@ -114,7 +116,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         customSuggestionsAdapter.setListener(new SuggestionsAdapter.OnItemViewClickListener() {
             @Override
             public void OnItemClickListener(int position, View v) {
-                Suggestion s = (Suggestion)v.getTag();
+                Suggestion s = (Suggestion) v.getTag();
                 searchBar.setText(s.getTitle());
                 customSuggestionsAdapter.clearSuggestions();
             }
@@ -143,7 +145,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         AboutDialogActivity loadingDialog = new AboutDialogActivity(SportsActivity.this);
         AdvancedSearchDialogActivity advancedSearch = new AdvancedSearchDialogActivity(SportsActivity.this);
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_advanced_search:
                 advancedSearch.startAdvancedSearchDialogActivity();
                 return true;
