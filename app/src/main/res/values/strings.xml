@@ -26,9 +26,14 @@
     <string name="clean">Clean</string>
     <string name="search_info">Search for players, years, trophy titles and more...</string>
     <string name="search">Search</string>
-    <string name="hint_players">Player Name(s): one or more player names</string>
-    <string name="hint_trophies">Trophy Title(s): one or more trophy titles</string>
-    <string name="hint_years">Year(s): one or more trophy years</string>
-    <string name="hint_sports">Sport Name(s): one or more sport names</string>
+    <string name="hint_players">one or more player names (comma separated)</string>
+    <string name="hint_trophies">one or more trophy titles (comma separated)</string>
+    <string name="hint_years">one or more trophy years (comma separated)</string>
+    <string name="hint_sports">one or more sport names (comma separated)</string>
+    <string name="advanced_search">Advanced Search</string>
+    <string name="trophy_title_s">"Trophy Title(s) "</string>
+    <string name="player_name_s" >"Player Name(s)  "</string>
+    <string name="sport_name_s"  >"Sport Name(s)   "</string>
+    <string name="year_s"        >"Years(s)           "</string>
 
 </resources>

@@ -1,14 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="AdvancedSearchDialogActivity">
+    tools:context="AdvancedSearchDialogActivity"
+    android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="@string/advanced_search"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="35dp"
+        android:layout_gravity="center"
+         />
+
+    <LinearLayout
+        android:id="@+id/text_input_layout_trophies"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewTrophies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="@string/trophy_title_s"
+            android:textColor="#000"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/edit_text_trophies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:hint="@string/hint_trophies"
+            android:inputType="text"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/text_input_layout_sports"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewSports"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="@string/sport_name_s"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/edit_text_sports"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:hint="@string/hint_sports"
+            android:inputType="text"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/text_input_layout_years"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewYears"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="@string/year_s"
+            android:textColor="#000"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/edit_text_years"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:hint="@string/hint_years"
+            android:inputType="text"
+            android:singleLine="true" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/text_input_layout_players"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewPlayers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="@string/player_name_s"
+            android:textColor="#000"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/edit_text_players"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:hint="@string/hint_players"
+            android:inputType="text"
+            android:singleLine="true" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/button_search"
@@ -18,123 +137,5 @@
         android:background="@color/colorPrimary"
         android:text="@string/search"
         android:textColor="@android:color/white" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textViewTrophies"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_layout_trophies"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/edit_text_trophies"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:hint="@string/hint_trophies"
-                android:inputType="text"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textViewSports"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_layout_sports"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/edit_text_sports"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:hint="@string/hint_sports"
-                android:inputType="number"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textViewYears"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_layout_years"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/edit_text_years"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:hint="@string/hint_years"
-                android:inputType="text"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textViewPlayers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_layout_players"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/edit_text_players"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:hint="@string/hint_players"
-                android:inputType="text"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-
-
 
 </LinearLayout>
