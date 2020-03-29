@@ -6,7 +6,6 @@
         android:id="@+id/action_advanced_search"
         android:title="Advanced Search"
         app:showAsAction="always"
-
         ></item>
     <item
 

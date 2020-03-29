@@ -17,6 +17,7 @@ import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 import com.shs.trophiesapp.search.SearchEngine;
+import com.shs.trophiesapp.search.SearchParameters;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.Utils;
 
@@ -80,7 +81,7 @@ public class PersonalPlayerAwardsActivity extends AppCompatActivity {
     private void getData(String searchString) {
         Log.d(TAG, "getData: getData");
         Context context = this;
-        Long currentSportId = getIntent().getExtras().getLong(Constants.CURRENT_SPORT_ID);
+        Long currentSportId = getIntent().getExtras().getLong(SearchParameters.SPORTID);
         ArrayList<Long> sportids = new ArrayList();
         if (currentSportId != 0)
             sportids.add(currentSportId);

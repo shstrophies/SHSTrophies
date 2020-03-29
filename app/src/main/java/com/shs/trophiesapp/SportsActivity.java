@@ -32,6 +32,7 @@ import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.SportRepository;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.shs.trophiesapp.search.SearchParameters;
 import com.shs.trophiesapp.search.SearchSuggestions;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ import java.util.List;
 import static org.paukov.combinatorics.CombinatoricsFactory.createVector;
 
 
-public class SportsActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener, PopupMenu.OnMenuItemClickListener {
+public class SportsActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener, MaterialSearchBar.OnCreateContextMenuListener, PopupMenu.OnMenuItemClickListener {
     private static final String TAG = "SportsActivity";
 
     private MaterialSearchBar searchBar;
@@ -77,7 +78,8 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
 
         searchBar = findViewById(R.id.sports_search);
         searchBar.setOnSearchActionListener(this);
-//        searchBar.inflateMenu(R.menu.search);
+        // to enable search bar menu
+//        searchBar.inflateMenu(R.menu.main2);
         searchBar.setMaxSuggestionCount(3);
         searchBar.setHint(getResources().getString(R.string.search_info));
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -170,14 +172,17 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onSearchConfirmed(CharSequence text) {
         Log.d(TAG, "onSearchConfirmed: ");
-        //HERE
         String searchString = text.toString();
         if (searchString.isEmpty()) {
             Intent intent = new Intent(this, SportsWithTrophiesActivity.class);
             startActivity(intent);
         } else {
             Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
-            intent.putExtra(TrophiesWithAwardsActivity.AWARDS_SEARCH_STRING, searchString);
+            intent.putExtra(SearchParameters.ALL, searchString);
+            intent.putExtra(SearchParameters.TROPHIES, "");
+            intent.putExtra(SearchParameters.SPORTS, "");
+            intent.putExtra(SearchParameters.YEARS, "");
+            intent.putExtra(SearchParameters.PLAYERS, "");
             startActivity(intent);
         }
     }

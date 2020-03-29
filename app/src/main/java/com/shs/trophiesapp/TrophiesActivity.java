@@ -22,7 +22,7 @@ import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.mancj.materialsearchbar.MaterialSearchBar;
-import com.shs.trophiesapp.search.SearchEngine;
+import com.shs.trophiesapp.search.SearchParameters;
 import com.shs.trophiesapp.utils.Constants;
 
 import java.util.List;
@@ -146,8 +146,12 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
         Sport sport = sportWithTrophies.sport;
         Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
         String searchString = text.toString();
-        intent.putExtra(Constants.CURRENT_SPORT_ID, sport.getId());
-        intent.putExtra(TrophiesWithAwardsActivity.AWARDS_SEARCH_STRING, searchString);
+        intent.putExtra(SearchParameters.SPORTID, sport.getId());
+        intent.putExtra(SearchParameters.ALL, searchString);
+        intent.putExtra(SearchParameters.TROPHIES, "");
+        intent.putExtra(SearchParameters.SPORTS, "");
+        intent.putExtra(SearchParameters.YEARS, "");
+        intent.putExtra(SearchParameters.PLAYERS, "");
         startActivity(intent);
 
     }

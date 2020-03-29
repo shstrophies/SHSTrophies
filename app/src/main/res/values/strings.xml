@@ -35,6 +35,11 @@
     <string name="player_name_s" >"Player Name(s)  "</string>
     <string name="sport_name_s"  >"Sport Name(s)   "</string>
     <string name="year_s"        >"Years(s)           "</string>
-    <string name="blankline"     >"                                                                    "</string>>
+    <string name="blankline"     >"                                                                    "</string>
+    <string name="error_message_players">Enter Player Name(s)</string>
+    <string name="error_message_trophies">Enter Trophy Title(s)</string>
+    <string name="error_message_years">Enter Trophy Year(s)</string>
+    <string name="error_message_sports">Enter Sport Name(s)</string>
+    <string name="success_message">Sign Up Successful</string>
 
 </resources>

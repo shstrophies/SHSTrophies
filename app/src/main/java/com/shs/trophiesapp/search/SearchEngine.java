@@ -105,7 +105,7 @@ public class SearchEngine {
     }
 
     public ArrayList<TrophyWithAwards> advancedSearch(String sportsStr, String titlesStr, String yearsStr, String playersStr) {
-        ArrayList<TrophyWithAwards> result = null;
+        ArrayList<TrophyWithAwards> result = new ArrayList();
         return result;
     }
 }
