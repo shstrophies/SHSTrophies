@@ -70,8 +70,9 @@ public class SearchEngine {
         List<String> digits = digitsString.isEmpty() ? Collections.emptyList() : Arrays.asList(digitsString.trim().split(" "));
         years.addAll(digits.isEmpty() ? Collections.emptyList() : digits.stream().map(e -> Integer.parseInt(e)).collect(Collectors.toList()));
 
-        String nonDigitString = searchStr.replaceAll("[0-9]+\\s*[,]*", " ").replaceAll(",", " ").replaceAll("\\s+", " ");
-        List<String> strings = nonDigitString.isEmpty() ? Collections.emptyList() : Arrays.asList(nonDigitString.trim().split(" "));
+        String delimiter = "#";
+        String nonDigitString = searchStr.replaceAll("[0-9]+\\s*[,]*", " ").replaceAll(",", delimiter).replaceAll("\\s+", " ");
+        List<String> strings = nonDigitString.isEmpty() ? Collections.emptyList() : Arrays.asList(nonDigitString.trim().split(delimiter));
         titles.addAll(strings);
         players.addAll(strings);
 
