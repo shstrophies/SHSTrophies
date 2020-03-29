@@ -87,7 +87,13 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
         Log.d(TAG, "getData: getData");
         Context context = this;
         Long currentSportId = getIntent().getExtras().getLong(Constants.CURRENT_SPORT_ID);
-        trophiesWithAwards.addAll(SearchEngine.getInstance(context).search(searchString));
+        ArrayList<Long> sportids = new ArrayList();
+        if (currentSportId != 0)
+            sportids.add(currentSportId);
+        else
+            sportids.addAll(DataManager.getSportRepository(context).getSports().stream().map(e -> e.getId()).collect(Collectors.toList()));
+
+        trophiesWithAwards.addAll(SearchEngine.getInstance(context).searchInSports(sportids, searchString));
         Log.d(TAG, "getData: recyclerview trophiesWithAwards size=" + trophiesWithAwards.size());
         adapter.notifyDataSetChanged();
     }
