@@ -2,6 +2,8 @@ package com.shs.trophiesapp.database;
 
 import android.util.Log;
 
+import androidx.sqlite.db.SimpleSQLiteQuery;
+
 import com.shs.trophiesapp.database.daos.TrophyAwardDao;
 import com.shs.trophiesapp.database.daos.TrophyDao;
 import com.shs.trophiesapp.database.entities.Trophy;
@@ -58,10 +60,6 @@ public class TrophyRepository {
         return trophyAwardDao.findByPlayerLimited(player, Constants.TROPHIES_PER_PAGE, page);
     }
 
-    public List<TrophyAward> getTrophyAwardsBySportAndTitleAndYearAndPlayer(long sportId, String title, int year, String player) {
-        return trophyDao.getTrophyAwardsBySportAndTitleAndYearAndPlayer(sportId, title, year, player);
-    }
-
     // // select * from trophyaward where year in (1970,1971);
     ////select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6));
     ////select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (year IN (1961, 1983, 1992));
@@ -74,13 +72,20 @@ public class TrophyRepository {
         String titlesExpr = titles.isEmpty() ? "" :
                 "(" + titles.stream().map(elem -> "(title LIKE '%" + String.valueOf(elem).trim() + "%')").collect(Collectors.joining(" OR ")) + ")";
         String yearsExpr = years.isEmpty() ? "" :
-        "(year IN (" + years.stream().map(elem -> String.valueOf(elem)).collect(Collectors.joining(", ")) + "))";
+                "(year IN (" + years.stream().map(elem -> String.valueOf(elem)).collect(Collectors.joining(", ")) + "))";
         String playersExpr = players.isEmpty() ? "" :
                 "(" + players.stream().map(elem -> "(player LIKE '%" + String.valueOf(elem).trim() + "%')").collect(Collectors.joining(" OR ")) + ")";
 
-        String expression = sportsExpr + "AND " + yearsExpr + " AND ( " + titlesExpr + " OR " + playersExpr + " )";
-        Log.d(TAG, "getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers: expression=" + expression);
-        return trophyDao.getTrophyAwardsByExpression(expression);
+        String expression = sportsExpr +
+                (yearsExpr.isEmpty() ? "" : " AND " + yearsExpr) +
+                " AND ( " + titlesExpr + " OR " + playersExpr + " )";
+        String querystr = "SELECT trophyaward.id, trophyId, year, player, category FROM trophyaward INNER JOIN trophy ON trophy.id = trophyId WHERE " + expression;
+        Log.d(TAG, "getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers: query=" + querystr);
+        SimpleSQLiteQuery query = new SimpleSQLiteQuery(querystr);
+        List<TrophyAward> list = trophyDao.getTrophyAwardsByExpression(query);
+        return list;
+
+//        return trophyDao.getTrophyAwardsByExpression(expression);
     }
 
     public List<TrophyAward> getTrophyAwardsBySportAndYear(long sportId, int year) {

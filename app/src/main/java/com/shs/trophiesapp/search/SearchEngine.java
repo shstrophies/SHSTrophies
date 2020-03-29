@@ -13,6 +13,7 @@ import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,14 +66,14 @@ public class SearchEngine {
         // select * from trophyaward where year in (1976, 1991)
         // find list of numbers in the the string
         // Example: "Shaq, 1982, Glen, 1976, Most Inspirational" should return "1982, 1976"
-        String tmp = searchStr.replaceAll("[^0-9]+", " ");
-        String[] tmpa = tmp.trim().split(" ");
-        List<String> numberStrings = Arrays.asList(searchStr.replaceAll("[^0-9]+", " ").trim().split(" "));
-        years.addAll(numberStrings.stream().map(e -> Integer.parseInt(e)).collect(Collectors.toList()));
+        String digitsString = searchStr.replaceAll("[^0-9]+", " ").trim();
+        List<String> digits = digitsString.isEmpty() ? Collections.emptyList() : Arrays.asList(digitsString.trim().split(" "));
+        years.addAll(digits.isEmpty() ? Collections.emptyList() : digits.stream().map(e -> Integer.parseInt(e)).collect(Collectors.toList()));
 
-        List<String> searchStrings = Arrays.asList(searchStr.replaceAll("[0-9]+\\s*[,]", " ").trim().split(","));
-        titles.addAll(searchStrings);
-        players.addAll(searchStrings);
+        String nonDigitString = searchStr.replaceAll("[0-9]+\\s*[,]*", " ").replaceAll(",", " ");
+        List<String> strings = nonDigitString.isEmpty() ? Collections.emptyList() : Arrays.asList(nonDigitString.trim().split(" "));
+        titles.addAll(strings);
+        players.addAll(strings);
 
         List<TrophyAward> list = DataManager.getTrophyRepository(context).getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers(sportIds, titles, years, players);
         HashMap<Long, List<TrophyAward>> map = new HashMap<>();
