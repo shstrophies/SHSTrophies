@@ -67,9 +67,6 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
             intent.putExtra("color", trophyAward.getColor());
             intent.putExtra("trophyId", trophyAward.getTrophyId());
 
-
-
-
             // start activity
             context.startActivity(intent);
         };
