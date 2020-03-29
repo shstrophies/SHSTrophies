@@ -4,32 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="AdvancedSearchDialogActivity"
-    android:orientation="vertical">
+    tools:context="AdvancedSearchDialogActivity">
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
 
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:fontFamily="@font/montserrat_bold"
         android:text="@string/advanced_search"
         android:textAlignment="center"
         android:textColor="#000"
-        android:textSize="35dp"
-        android:layout_gravity="center"
-         />
+        android:textSize="35dp" />
 
     <LinearLayout
         android:id="@+id/text_input_layout_trophies"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:weightSum="10"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="10">
 
         <TextView
             android:id="@+id/textViewTrophies"
@@ -40,22 +39,29 @@
             android:textColor="#000"
             android:textSize="20dp" />
 
-        <EditText
-            android:id="@+id/edit_text_trophies"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:hint="@string/hint_trophies"
-            android:inputType="text"
-            android:singleLine="true" />
+            android:hint="@string/hint_trophies">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_trophies"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/blankline"
+                android:inputType="text"
+                android:textSize="15dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/text_input_layout_sports"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:weightSum="10"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="10">
 
         <TextView
             android:id="@+id/textViewSports"
@@ -66,22 +72,29 @@
             android:textColor="#000"
             android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/edit_text_sports"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:hint="@string/hint_sports"
-            android:inputType="text"
-            android:singleLine="true" />
+            android:hint="@string/hint_sports">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_sports"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/blankline"
+                android:inputType="text"
+                android:textSize="15dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/text_input_layout_years"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:weightSum="10"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="10">
 
         <TextView
             android:id="@+id/textViewYears"
@@ -92,14 +105,21 @@
             android:textColor="#000"
             android:textSize="20dp" />
 
-        <EditText
-            android:id="@+id/edit_text_years"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:hint="@string/hint_years"
-            android:inputType="text"
-            android:singleLine="true" />
+            android:hint="@string/hint_years">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_years"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/blankline"
+                android:inputType="text"
+                android:textSize="15dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
 
@@ -107,8 +127,8 @@
         android:id="@+id/text_input_layout_players"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:weightSum="10"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="10">
 
         <TextView
             android:id="@+id/textViewPlayers"
@@ -119,14 +139,21 @@
             android:textColor="#000"
             android:textSize="20dp" />
 
-        <EditText
-            android:id="@+id/edit_text_players"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:hint="@string/hint_players"
-            android:inputType="text"
-            android:singleLine="true" />
+            android:hint="@string/hint_players">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_players"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/blankline"
+                android:inputType="text"
+                android:textSize="15dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
     <Button

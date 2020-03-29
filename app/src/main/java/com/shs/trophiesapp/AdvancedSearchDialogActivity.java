@@ -3,6 +3,8 @@ package com.shs.trophiesapp;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 
 public class AdvancedSearchDialogActivity {
 
@@ -18,11 +20,11 @@ public class AdvancedSearchDialogActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         LayoutInflater inflater = activity.getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.advanced_search, null));
+        View dialogLayout = inflater.inflate(R.layout.advanced_search, null);
+        builder.setView(dialogLayout);
 
         alertDialog = builder.create();
         alertDialog.show();
-
     }
 
     void dismissDialog(){

@@ -35,5 +35,6 @@
     <string name="player_name_s" >"Player Name(s)  "</string>
     <string name="sport_name_s"  >"Sport Name(s)   "</string>
     <string name="year_s"        >"Years(s)           "</string>
+    <string name="blankline"     >"                                                                    "</string>>
 
 </resources>
