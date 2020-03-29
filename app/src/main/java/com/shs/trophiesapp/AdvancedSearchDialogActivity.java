@@ -18,7 +18,7 @@ public class AdvancedSearchDialogActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         LayoutInflater inflater = activity.getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.advanced_search_dialog_activity, null));
+        builder.setView(inflater.inflate(R.layout.advanced_search, null));
 
         alertDialog = builder.create();
         alertDialog.show();

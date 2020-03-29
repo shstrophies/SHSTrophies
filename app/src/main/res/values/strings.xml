@@ -14,7 +14,6 @@
     <string name="progress_bar_asynctask_dialog">Downloading Spreadsheet</string>
     <string name="progress_bar_database_recreation">Recreating Database for New Changes</string>
     <string name="progress_bar_completed_database_setup">Setting UI for Updated Database</string>
-    <string name="search">Search</string>
     <string name="app_bane">Saratoga High School Trophies</string>
     <string name="sport_title">Sport Title</string>
     <string name="todo">TODO</string>
@@ -26,6 +25,10 @@
     <string name="title">Trophy Title</string>
     <string name="clean">Clean</string>
     <string name="search_info">Search for players, years, trophy titles and more...</string>
-
+    <string name="search">Search</string>
+    <string name="hint_players">Player Name(s): one or more player names</string>
+    <string name="hint_trophies">Trophy Title(s): one or more trophy titles</string>
+    <string name="hint_years">Year(s): one or more trophy years</string>
+    <string name="hint_sports">Sport Name(s): one or more sport names</string>
 
 </resources>
