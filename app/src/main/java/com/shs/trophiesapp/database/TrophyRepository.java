@@ -80,7 +80,7 @@ public class TrophyRepository {
                 (yearsExpr.isEmpty() ? "" : " AND " + yearsExpr) +
                 ((titlesExpr.isEmpty() && !playersExpr.isEmpty()) ? " AND ( " + playersExpr + " )" :
                         (!titlesExpr.isEmpty() && playersExpr.isEmpty()) ? " AND ( " + titlesExpr + " )" :
-                                (titlesExpr.isEmpty() && playersExpr.isEmpty()) ? "" : " AND ( " + titlesExpr + " OR " + playersExpr + " )");
+                                (titlesExpr.isEmpty() && playersExpr.isEmpty()) ? "" : " AND ( " + titlesExpr + " AND " + playersExpr + " )");
         ;
         String querystr = "SELECT trophyaward.id, trophyId, year, player, category FROM trophyaward INNER JOIN trophy ON trophy.id = trophyId " +
                 (expression.isEmpty() ? "" : (" WHERE " + expression));
