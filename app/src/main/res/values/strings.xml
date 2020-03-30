@@ -40,6 +40,6 @@
     <string name="error_message_trophies">Enter Trophy Title(s)</string>
     <string name="error_message_years">Enter Trophy Year(s)</string>
     <string name="error_message_sports">Enter Sport Name(s)</string>
-    <string name="success_message">Sign Up Successful</string>
+    <string name="success_message">Search Successful</string>
 
 </resources>
