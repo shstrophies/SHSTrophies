@@ -17,9 +17,9 @@ import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 import com.shs.trophiesapp.search.SearchEngine;
 import com.shs.trophiesapp.search.SearchParameters;
-import com.shs.trophiesapp.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -81,31 +81,27 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
     private SearchParameters getSearchParameters(Intent intent) {
         Bundle extras = intent.getExtras();
         return new SearchParameters(
-                extras.getLong(SearchParameters.SPORTID),
                 extras.getString(SearchParameters.ALL),
-                extras.getString(SearchParameters.PLAYERS),
-                extras.getString(SearchParameters.SPORTS),
+                extras.getString(SearchParameters.PLAYERNAMES),
+                extras.getString(SearchParameters.SPORTNAMES),
                 extras.getString(SearchParameters.YEARS),
-                extras.getString(SearchParameters.TROPHIES)
+                extras.getString(SearchParameters.TROPHYTITLES)
         );
     }
+
 
     private void getData(Intent intent) {
         Log.d(TAG, "getData: getData");
 
         SearchParameters searchParams = getSearchParameters(intent);
-        if (!searchParams.getMixed().isEmpty()) {
-            ArrayList<Long> sportids = new ArrayList();
-            if (searchParams.getSportid() != 0)
-                sportids.add(searchParams.getSportid());
-            else
-                sportids.addAll(DataManager.getSportRepository(context).getSports().stream().map(e -> e.getId()).collect(Collectors.toList()));
+        if (!searchParams.getAll().isEmpty()) {
+            List<Long> sportids = SearchEngine.getInstance(context).getSportIds(searchParams);
 
             // do the actual search now
-            trophiesWithAwards.addAll(SearchEngine.getInstance(context).searchInSports(sportids, searchParams.getMixed()));
+            trophiesWithAwards.addAll(SearchEngine.getInstance(context).searchInSports(sportids, searchParams.getAll()));
         } else {
             // advanced search
-            trophiesWithAwards.addAll(SearchEngine.getInstance(context).advancedSearch(searchParams.getSports(), searchParams.getTrophies(), searchParams.getYears(), searchParams.getPlayers()));
+            trophiesWithAwards.addAll(SearchEngine.getInstance(context).advancedSearch(searchParams));
         }
         Log.d(TAG, "getData: recyclerview trophiesWithAwards size=" + trophiesWithAwards.size());
 
@@ -113,14 +109,18 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    void setSearchResultsHeader(SearchParameters searchParams) {
-        Log.d(TAG, "getSearchResultsSummary: ");
-        TextView searchHeader = findViewById(R.id.HeaderWithSearchResults);
+    int getSearchResultNumber() {
         int result = 0;
         for (TrophyWithAwards item : trophiesWithAwards) result += item.awards.size();
-        Long currentSportId = searchParams.getSportid();
-        String searchResultsSummary = result + " result(s) for " +
-                "\"" + ((currentSportId != 0) ? DataManager.getSportRepository(context).getSportById(currentSportId).getName() : searchParams.getMixed()) + "\"";
+        return result;
+    }
+
+    void setSearchResultsHeader(SearchParameters searchParams) {
+        Log.d(TAG, "getSearchResultsSummary: ");
+        int searchResultNumber = getSearchResultNumber();
+        List<Long> sportids = SearchEngine.getInstance(context).getSportIds(searchParams);
+        TextView searchHeader = findViewById(R.id.HeaderWithSearchResults);
+        String searchResultsSummary = searchResultNumber + " result(s) for " + searchParams.toString();
         searchHeader.setText(searchResultsSummary);
 
     }

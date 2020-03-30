@@ -4,34 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shs.trophiesapp.adapters.PersonalPlayerAwardsAdapter;
-import com.shs.trophiesapp.adapters.SportWithTrophiesAdapter;
-import com.shs.trophiesapp.adapters.TrophyWithAwardsAdapter;
 import com.shs.trophiesapp.database.DataManager;
-import com.shs.trophiesapp.database.TrophyRepository;
-import com.shs.trophiesapp.database.entities.Trophy;
-import com.shs.trophiesapp.database.entities.TrophyAward;
-import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 import com.shs.trophiesapp.search.SearchEngine;
 import com.shs.trophiesapp.search.SearchParameters;
-import com.shs.trophiesapp.utils.Constants;
-import com.shs.trophiesapp.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.*;
 
-import androidx.annotation.LongDef;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -81,12 +67,8 @@ public class PersonalPlayerAwardsActivity extends AppCompatActivity {
     private void getData(String searchString) {
         Log.d(TAG, "getData: getData");
         Context context = this;
-        Long currentSportId = getIntent().getExtras().getLong(SearchParameters.SPORTID);
-        ArrayList<Long> sportids = new ArrayList();
-        if (currentSportId != 0)
-            sportids.add(currentSportId);
-        else
-            sportids.addAll(DataManager.getSportRepository(context).getSports().stream().map(e -> e.getId()).collect(Collectors.toList()));
+        String sportstr = getIntent().getExtras().getString(SearchParameters.SPORTNAMES);
+        List<Long> sportids = SearchEngine.getInstance(context).getSportIds(sportstr, true);
 
         trophiesWithAwards.addAll(SearchEngine.getInstance(context).searchInSports(sportids, searchString));
         Log.d(TAG, "getData: recyclerview trophiesWithAwards size=" + trophiesWithAwards.size());

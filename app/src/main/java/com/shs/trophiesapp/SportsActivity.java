@@ -179,10 +179,10 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
             intent.putExtra(SearchParameters.ALL, searchString);
-            intent.putExtra(SearchParameters.TROPHIES, "");
-            intent.putExtra(SearchParameters.SPORTS, "");
+            intent.putExtra(SearchParameters.TROPHYTITLES, "");
+            intent.putExtra(SearchParameters.SPORTNAMES, "");
             intent.putExtra(SearchParameters.YEARS, "");
-            intent.putExtra(SearchParameters.PLAYERS, "");
+            intent.putExtra(SearchParameters.PLAYERNAMES, "");
             startActivity(intent);
         }
     }

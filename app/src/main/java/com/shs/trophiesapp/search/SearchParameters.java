@@ -3,51 +3,56 @@ package com.shs.trophiesapp.search;
 public class SearchParameters {
 
     public static final String ALL = "ALL";
-    public static final String PLAYERS = "PLAYERS";
-    public static final String SPORTID = "SPORTID";
-    public static final String SPORTS = "SPORTS";
-    public static final String TROPHIES = "TROPHIES";
+    public static final String PLAYERNAMES = "PLAYERNAMES";
+    public static final String SPORTNAMES = "SPORTNAMES";
+    public static final String TROPHYTITLES = "TROPHYTITLES";
     public static final String YEARS = "YEARS";
-    
-    
-    Long sportid;
-    String mixed;
-    String players;
-    String sports;
+
+
+    String all;
+    String playerNames;
+    String sportNames;
     String years;
-    String trophies;
+    String trophyTitles;
 
 
-    public SearchParameters(Long sportid, String mixed, String players, String sports, String years, String trophies) {
-        this.sportid = sportid;
-        this.mixed = mixed;
-        this.players = players;
-        this.sports = sports;
+    public SearchParameters(String all, String playerNames, String sportNames, String years, String trophyTitles) {
+        this.all = all;
+        this.playerNames = playerNames;
+        this.sportNames = sportNames;
         this.years = years;
-        this.trophies = trophies;
+        this.trophyTitles = trophyTitles;
     }
 
-    public Long getSportid() {
-        return sportid;
+    public String getAll() {
+        return all;
     }
 
-    public String getMixed() {
-        return mixed;
+    public String getPlayerNames() {
+        return playerNames;
     }
 
-    public String getPlayers() {
-        return players;
-    }
-
-    public String getSports() {
-        return sports;
+    public String getSportNames() {
+        return sportNames;
     }
 
     public String getYears() {
         return years;
     }
 
-    public String getTrophies() {
-        return trophies;
+    public String getTrophyTitles() {
+        return trophyTitles;
+    }
+
+    @Override
+    public String toString() {
+        return all.isEmpty() ?
+                (playerNames.isEmpty() ? "" : "players='" + playerNames + '\'') +
+                        (sportNames.isEmpty() ? "" : " sports='" + sportNames + '\'') +
+                        (years.isEmpty() ? "" : " years='" + years + '\'') +
+                        (trophyTitles.isEmpty() ? "" : " trophies='" + trophyTitles + '\'')
+                :
+                all
+                ;
     }
 }

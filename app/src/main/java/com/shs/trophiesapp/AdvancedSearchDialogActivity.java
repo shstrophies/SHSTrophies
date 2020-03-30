@@ -99,10 +99,10 @@ public class AdvancedSearchDialogActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
                 intent.putExtra(SearchParameters.ALL, "");
-                intent.putExtra(SearchParameters.TROPHIES, trophies);
-                intent.putExtra(SearchParameters.SPORTS, sports);
+                intent.putExtra(SearchParameters.TROPHYTITLES, trophies);
+                intent.putExtra(SearchParameters.SPORTNAMES, sports);
                 intent.putExtra(SearchParameters.YEARS, years);
-                intent.putExtra(SearchParameters.PLAYERS, players);
+                intent.putExtra(SearchParameters.PLAYERNAMES, players);
                 context.startActivity(intent);
             }
         });

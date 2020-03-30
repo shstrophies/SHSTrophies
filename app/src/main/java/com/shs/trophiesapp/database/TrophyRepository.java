@@ -82,7 +82,8 @@ public class TrophyRepository {
                         (!titlesExpr.isEmpty() && playersExpr.isEmpty()) ? " AND ( " + titlesExpr + " )" :
                                 (titlesExpr.isEmpty() && playersExpr.isEmpty()) ? "" : " AND ( " + titlesExpr + " OR " + playersExpr + " )");
         ;
-        String querystr = "SELECT trophyaward.id, trophyId, year, player, category FROM trophyaward INNER JOIN trophy ON trophy.id = trophyId WHERE " + expression;
+        String querystr = "SELECT trophyaward.id, trophyId, year, player, category FROM trophyaward INNER JOIN trophy ON trophy.id = trophyId " +
+                (expression.isEmpty() ? "" : (" WHERE " + expression));
         Log.d(TAG, "getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers: query=" + querystr);
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(querystr);
         List<TrophyAward> list = trophyDao.getTrophyAwardsByExpression(query);
