@@ -46,7 +46,7 @@ public class SearchParameters {
 
     @Override
     public String toString() {
-        return all.isEmpty() ?
+        String result =  all.isEmpty() ?
                 (playerNames.isEmpty() ? "" : "players='" + playerNames + '\'') +
                         (sportNames.isEmpty() ? "" : " sports='" + sportNames + '\'') +
                         (years.isEmpty() ? "" : " years='" + years + '\'') +
@@ -54,5 +54,7 @@ public class SearchParameters {
                 :
                 all
                 ;
+
+        return result.isEmpty() ? "\'all\'" : result;
     }
 }
