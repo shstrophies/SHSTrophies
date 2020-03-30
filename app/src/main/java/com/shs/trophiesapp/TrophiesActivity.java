@@ -20,6 +20,7 @@ import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.shs.trophiesapp.search.SearchParameters;
 
 import java.util.List;
 import java.util.Objects;
@@ -119,19 +120,16 @@ public class TrophiesActivity extends AppCompatActivity implements NavigationVie
     @Override
     public void onSearchConfirmed(CharSequence text) {
         Log.d(TAG, "onSearchConfirmed: ");
-        //HERE
         Sport sport = sportWithTrophies.sport;
-        String searchString = "sportId:" + sport.getId() + "," + text.toString();
-        if(searchString.isEmpty()) {
-            Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
-            intent.putExtra(TrophiesWithAwardsActivity.AWARDS_SEARCH_STRING, searchString);
-            startActivity(intent);
-        }
-        else {
-            Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
-            intent.putExtra(TrophiesWithAwardsActivity.AWARDS_SEARCH_STRING, searchString);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
+        String searchString = text.toString();
+        intent.putExtra(SearchParameters.ALL, searchString);
+        intent.putExtra(SearchParameters.TROPHYTITLES, "");
+        intent.putExtra(SearchParameters.SPORTNAMES, sport.getName());
+        intent.putExtra(SearchParameters.YEARS, "");
+        intent.putExtra(SearchParameters.PLAYERNAMES, "");
+        startActivity(intent);
+
     }
 
     @Override

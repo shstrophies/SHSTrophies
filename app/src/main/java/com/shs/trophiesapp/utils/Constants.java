@@ -46,4 +46,5 @@ public final class Constants {
     };
 
     public static int TROPHIES_PER_PAGE = 12;
+
 }

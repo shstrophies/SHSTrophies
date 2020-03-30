@@ -1,6 +1,7 @@
 # SHS Trophies 
 ___________________________________________________
 ### Links to original data:
+- master folder with all info for torrens: https://drive.google.com/open?id=1cZaUjLzV3hIbhGMP-mc-uywEq8HcYkPS
 - Figma UI Designs: https://www.figma.com/file/q213rSM1bDSIGCbETgCeAL/Official-SHS-Trophy-UI?node-id=1%3A2
 - Images provided by Mr. Torrens: https://drive.google.com/drive/folders/1jjymid-BPNTvE8sj15OUT0PvNo9TRVqW
 - Spreadsheet provided by Mr. Torrens of trophyAward information: https://drive.google.com/drive/folders/1uUnlIY1g8QrJMeidAtESJx-MJrDoLoLm
@@ -48,34 +49,74 @@ ___________________________________________________
 **Database related**
 ___________________________________________________
 
-- enable recyclerview pagination (Ujjwal)
+- enable recyclerview pagination (In Progress)(Ujjwal)
   
-- file hashing for seamless app restarts (Ujjwal)
+- file hashing for seamless app restarts (Needs Fixing)(Ujjwal)
 
 (POSTPONED)- add FTS in the Database (Ujjwal & Carolina)
 ___________________________________________________
 **Remaining Search Features**
 ___________________________________________________
 
-- have search bar start without any suggestions at start
-- have autocomplete with catergies. if you type in foo, you want 'football in sports' 
-- add icons to search results (Arman)
-- nice to have: show # of results found on search bar
+
+When you tap on the search bar, there will be no existing results underneath it. 
+
+General explanation:
+
+When you type in a few letters of a name:
+
+There will be 1 suggestion for "{the Name}" (in players)
+There will be x amount of suggestions for "{theName} {sportName}". BTW, there's no "in..." for these
+    - x represents the number of sports this player has trophies for. 
+    - Let's say he does Basketball, Baseball, and Soccer.
+    - in this case, there will be "{theName} {sportName}" 3 times 
+    - ex: "Jeff Holmes Basketball", "Jeff Holmes Baseball", "Jeff Holmes Soccer"
+There will be x amount of suggestions for "{theName} {trophy year}"
+    - x represents the number of years this player has trophies for. 
+    - Let's say he won in 1995, 1996, 1996, 1997.
+    - in this case, there will be "{theName} {the sport}" 3 times  (we dont have duplicates for year) 
+    - ex: "Jeff Holmes 1995", "Jeff Holmes 1996", "Jeff Holmes 1997"
+    
+    
+Now, let's say they have "Jeff Homles" in their search bar and then type a 1. 
+So the search space has  "Jeff Homles 1" inside of it.
+Immediatly, all of the "Jeff Holmes {sportName}" suggestions will go away since the user is clearly looking for a year
+
+Now, let's say they have "Jeff Homles" in their search bar and then type a "B". 
+So the search space has  "Jeff Homles B" inside of it.
+Immediatly, all of the "Jeff Holmes {trophy year}" suggestions will go away since the user is clearly not looking for a year
+
+At this point, lets say they have "Jeff Homles 1995" in search bar.
+As soon as they finish the 4 digit number:
+
+It will now expect a sport name.
+
+I think just supporting Name+ Year or Name + Sport search suggestions is good enough for homepage if we include this advnaced search that I was thinking about.
+
+
+Let's say they type in the name of a sport. Let's use "Football". The subsequent suggestions would be:
+"Football {the years of football trophies}"
+"Football {different types of football trophy names}"
+
+
+Mike Cable M
+___________
+
+Mike Cable in Players
+Mike Calbe Basketball
+Mike Cable Football
+Mike Cable 1995
+Mike Cable 1996
+Mike Cable 1997
+Mike Calble Most Insipration
+Mike Cable Fearless Player 
+
+
+- nice to have: show # of results found on search bar suggestion
+- add different icons to search maybe
 
 
 
-type in "Arman Rafati"
-suggest sports or years or trophies that would have a result
-
-search results are:
-
-"Arman Rafati"
-"Arman Rafati Basketball" (make sure I have basketball trophies)
-"Arman Rafati 2006" (because I have trophies in 2006)
-"Arman Rafati most valuable player" (because I won an MVP trophy)
-
-
-(add amazon image here)
 
 
 
@@ -85,22 +126,22 @@ ___________________________________________________
 
 - We should create a wrapper activity called MenuActivity that each Activity extends, and have that override onOptionsMenuItemClicked (whatever the method is), and have that deal with the menu options instead of copy pasting code between each activity.
 
-- think about Team Trophy Text
-
 - Fix possibility of looping bug if someone keeps on pressing on a name. have it be able to be clicked max once
+
+- add onclicklistener to trophy image in the search results page
+
+- add onclicklistener to trophy image in the personal award's page
 
 
 ___________________________________________________
 ### UI:
 ___________________________________________________
 
-  
-  - look into back buttons (nice to have, but not needed)
-    
+- align advanced search page
   
 
 ___________________________________________________
 ### Torrens/Leadership Kids
 ___________________________________________________
 
-- update spreadsheet with real data so we can see if there will be storage and load time issues (S)
+- update spreadsheet with real data so we can see if there will be storage and load time issues (In Progress)

@@ -14,7 +14,6 @@
     <string name="progress_bar_asynctask_dialog">Downloading Spreadsheet</string>
     <string name="progress_bar_database_recreation">Recreating Database for New Changes</string>
     <string name="progress_bar_completed_database_setup">Setting UI for Updated Database</string>
-    <string name="search">Search</string>
     <string name="app_bane">Saratoga High School Trophies</string>
     <string name="sport_title">Sport Title</string>
     <string name="todo">TODO</string>
@@ -26,6 +25,21 @@
     <string name="title">Trophy Title</string>
     <string name="clean">Clean</string>
     <string name="search_info">Search for players, years, trophy titles and more...</string>
-
+    <string name="search">Search</string>
+    <string name="hint_players">one or more player names (comma separated)</string>
+    <string name="hint_trophies">one or more trophy titles (comma separated)</string>
+    <string name="hint_years">one or more trophy years (comma separated)</string>
+    <string name="hint_sports">one or more sport names (comma separated)</string>
+    <string name="advanced_search">Advanced Search</string>
+    <string name="trophy_title_s">"Trophy Title(s) "</string>
+    <string name="player_name_s" >"Player Name(s)  "</string>
+    <string name="sport_name_s"  >"Sport Name(s)   "</string>
+    <string name="year_s"        >"Years(s)           "</string>
+    <string name="blankline"     >"                                                                    "</string>
+    <string name="error_message_players">Enter Player Name(s)</string>
+    <string name="error_message_trophies">Enter Trophy Title(s)</string>
+    <string name="error_message_years">Enter Trophy Year(s)</string>
+    <string name="error_message_sports">Enter Sport Name(s)</string>
+    <string name="success_message">Search Successful</string>
 
 </resources>
