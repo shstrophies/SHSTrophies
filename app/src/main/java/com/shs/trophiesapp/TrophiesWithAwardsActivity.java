@@ -78,22 +78,13 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private SearchParameters getSearchParameters(Intent intent) {
-        Bundle extras = intent.getExtras();
-        return new SearchParameters(
-                extras.getString(SearchParameters.ALL),
-                extras.getString(SearchParameters.PLAYERNAMES),
-                extras.getString(SearchParameters.SPORTNAMES),
-                extras.getString(SearchParameters.YEARS),
-                extras.getString(SearchParameters.TROPHYTITLES)
-        );
-    }
+
 
 
     private void getData(Intent intent) {
         Log.d(TAG, "getData: getData");
 
-        SearchParameters searchParams = getSearchParameters(intent);
+        SearchParameters searchParams = SearchEngine.getSearchParameters(intent);
 
         if (!searchParams.getAll().isEmpty()) {
             // do search
@@ -121,6 +112,5 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
         TextView searchHeader = findViewById(R.id.HeaderWithSearchResults);
         String searchResultsSummary = searchResultNumber + " result(s) for " + searchParams.toString();
         searchHeader.setText(searchResultsSummary);
-
     }
 }

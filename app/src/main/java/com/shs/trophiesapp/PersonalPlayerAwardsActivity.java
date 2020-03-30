@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class PersonalPlayerAwardsActivity extends AppCompatActivity {
 
     private static final String TAG = "PersonalPlayerAwardsAct";
+    Context context;
     private PersonalPlayerAwardsAdapter adapter;
     private ArrayList<TrophyWithAwards> trophiesWithAwards = new ArrayList<>();
 
@@ -31,6 +32,7 @@ public class PersonalPlayerAwardsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
         setContentView(R.layout.personal_player_awards_activity);
 
         // set recyclerview layout manager
@@ -54,7 +56,7 @@ public class PersonalPlayerAwardsActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         // get data and notify adapter
-        getData(thePlayerName);
+        getData(intent);
 
     }
 
@@ -64,13 +66,18 @@ public class PersonalPlayerAwardsActivity extends AppCompatActivity {
         playerName.setText(thePlayerName);
     }
 
-    private void getData(String searchString) {
-        Log.d(TAG, "getData: getData");
-        Context context = this;
-        String sportstr = getIntent().getExtras().getString(SearchParameters.SPORTNAMES);
-        List<Long> sportids = SearchEngine.getInstance(context).getSportIds(sportstr, true);
 
-        trophiesWithAwards.addAll(SearchEngine.getInstance(context).searchInSports(sportids, searchString));
+    private void getData(Intent intent) {
+        Log.d(TAG, "getData: getData");
+        SearchParameters searchParams = SearchEngine.getSearchParameters(intent);
+        if (!searchParams.getAll().isEmpty()) {
+            // do search
+            List<Long> sportids = SearchEngine.getInstance(context).getSportIds(searchParams);
+            trophiesWithAwards.addAll(SearchEngine.getInstance(context).searchInSports(sportids, searchParams.getAll()));
+        } else {
+            // do advanced search
+            trophiesWithAwards.addAll(SearchEngine.getInstance(context).advancedSearch(searchParams));
+        }
         Log.d(TAG, "getData: recyclerview trophiesWithAwards size=" + trophiesWithAwards.size());
         adapter.notifyDataSetChanged();
     }

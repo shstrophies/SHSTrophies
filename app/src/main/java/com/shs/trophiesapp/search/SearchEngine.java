@@ -1,6 +1,8 @@
 package com.shs.trophiesapp.search;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.shs.trophiesapp.database.DataManager;
@@ -44,6 +46,17 @@ public class SearchEngine {
         if (single_instance == null)
             single_instance = new SearchEngine(context);
         return single_instance;
+    }
+
+    public static SearchParameters getSearchParameters(Intent intent) {
+        Bundle extras = intent.getExtras();
+        return new SearchParameters(
+                extras.getString(SearchParameters.ALL),
+                extras.getString(SearchParameters.PLAYERNAMES),
+                extras.getString(SearchParameters.SPORTNAMES),
+                extras.getString(SearchParameters.YEARS),
+                extras.getString(SearchParameters.TROPHYTITLES)
+        );
     }
 
     // Find list of numbers in the the string
