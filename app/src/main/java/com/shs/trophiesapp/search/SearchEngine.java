@@ -155,7 +155,7 @@ public class SearchEngine {
 
     // Get list of sport ids from search parameter sportsStr
     public List<Long> getSportIds(SearchParameters searchParameters) {
-        return getSportIds(searchParameters.getSportNames(), !searchParameters.getAll().isEmpty() && searchParameters.getSportNames().isEmpty());
+        return getSportIds(searchParameters.getSportNames(), searchParameters.getAll().isEmpty() && searchParameters.getSportNames().isEmpty());
     }
 
     // Get list of years from search parameter yearsStr

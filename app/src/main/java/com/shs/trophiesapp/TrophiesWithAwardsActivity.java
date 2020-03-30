@@ -94,13 +94,13 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
         Log.d(TAG, "getData: getData");
 
         SearchParameters searchParams = getSearchParameters(intent);
-        if (!searchParams.getAll().isEmpty()) {
-            List<Long> sportids = SearchEngine.getInstance(context).getSportIds(searchParams);
 
-            // do the actual search now
+        if (!searchParams.getAll().isEmpty()) {
+            // do search
+            List<Long> sportids = SearchEngine.getInstance(context).getSportIds(searchParams);
             trophiesWithAwards.addAll(SearchEngine.getInstance(context).searchInSports(sportids, searchParams.getAll()));
         } else {
-            // advanced search
+            // do advanced search
             trophiesWithAwards.addAll(SearchEngine.getInstance(context).advancedSearch(searchParams));
         }
         Log.d(TAG, "getData: recyclerview trophiesWithAwards size=" + trophiesWithAwards.size());
@@ -118,7 +118,6 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
     void setSearchResultsHeader(SearchParameters searchParams) {
         Log.d(TAG, "getSearchResultsSummary: ");
         int searchResultNumber = getSearchResultNumber();
-        List<Long> sportids = SearchEngine.getInstance(context).getSportIds(searchParams);
         TextView searchHeader = findViewById(R.id.HeaderWithSearchResults);
         String searchResultsSummary = searchResultNumber + " result(s) for " + searchParams.toString();
         searchHeader.setText(searchResultsSummary);

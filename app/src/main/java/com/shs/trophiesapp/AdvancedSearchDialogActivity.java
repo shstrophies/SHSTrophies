@@ -112,20 +112,21 @@ public class AdvancedSearchDialogActivity extends AppCompatActivity {
      * method for validation of form on search button click
      */
     private void checkValidation() {
-        if (!validation.isEditTextFilled(editTextTrophies, textInputLayoutTrophies, context.getString(R.string.error_message_trophies))) {
-            return;
-        }
-
-        if (!validation.isEditTextEmail(editTextSports, textInputLayoutSports, context.getString(R.string.error_message_sports))) {
-            return;
-        }
-
-        if (!validation.isEditTextFilled(editTextYears, textInputLayoutYears, context.getString(R.string.error_message_years))) {
-            return;
-        }
-        if (!validation.isEditTextFilled(editTextPlayers, textInputLayoutPlayers, context.getString(R.string.error_message_players))) {
-            return;
-        }
+        //TODO
+//        if (!validation.isEditTextFilled(editTextTrophies, textInputLayoutTrophies, context.getString(R.string.error_message_trophies))) {
+//            return;
+//        }
+//
+//        if (!validation.isEditTextEmail(editTextSports, textInputLayoutSports, context.getString(R.string.error_message_sports))) {
+//            return;
+//        }
+//
+//        if (!validation.isEditTextFilled(editTextYears, textInputLayoutYears, context.getString(R.string.error_message_years))) {
+//            return;
+//        }
+//        if (!validation.isEditTextFilled(editTextPlayers, textInputLayoutPlayers, context.getString(R.string.error_message_players))) {
+//            return;
+//        }
 
         Toast.makeText(context, context.getString(R.string.success_message), Toast.LENGTH_LONG).show();
 
