@@ -58,7 +58,53 @@ ___________________________________________________
 **Remaining Search Features**
 ___________________________________________________
 
+- suggestions for homepage (more in depth info about how this should be implemented is at the bottom of thsis file)
+- add suggestions for trophy page 
+- add suggestions for players page
 
+- fix advanced search bugs
+
+- nice to have: show # of results found on search bar suggestion
+- add different icons to search maybe
+
+
+
+
+
+
+___________________________________________________
+**UI Related Backend**
+___________________________________________________
+
+- We should create a wrapper activity called MenuActivity that each Activity extends, and have that override onOptionsMenuItemClicked (whatever the method is), and have that deal with the menu options instead of copy pasting code between each activity.
+
+- Fix possibility of looping bug if someone keeps on pressing on a name. have it be able to be clicked max once
+
+- add onclicklistener to trophy image in the search results page
+
+- add onclicklistener to trophy image in the personal award's page
+
+- make it so if there is no image in the spreadsheet, it will read in the default trophy
+
+
+
+
+___________________________________________________
+### UI:
+___________________________________________________
+- add content for about the app
+- add content for report a bug
+  
+
+___________________________________________________
+### Torrens/Leadership Kids
+___________________________________________________
+
+- update spreadsheet with real data so we can see if there will be storage and load time issues (In Progress)
+
+___________________________________________________
+### Info on search
+___________________________________________________
 When you tap on the search bar, there will be no existing results underneath it. 
 
 General explanation:
@@ -110,38 +156,3 @@ Mike Cable 1996
 Mike Cable 1997
 Mike Calble Most Insipration
 Mike Cable Fearless Player 
-
-
-- nice to have: show # of results found on search bar suggestion
-- add different icons to search maybe
-
-
-
-
-
-
-___________________________________________________
-**UI Related Backend**
-___________________________________________________
-
-- We should create a wrapper activity called MenuActivity that each Activity extends, and have that override onOptionsMenuItemClicked (whatever the method is), and have that deal with the menu options instead of copy pasting code between each activity.
-
-- Fix possibility of looping bug if someone keeps on pressing on a name. have it be able to be clicked max once
-
-- add onclicklistener to trophy image in the search results page
-
-- add onclicklistener to trophy image in the personal award's page
-
-
-___________________________________________________
-### UI:
-___________________________________________________
-- add content for about the app
-- add content for report a bug
-  
-
-___________________________________________________
-### Torrens/Leadership Kids
-___________________________________________________
-
-- update spreadsheet with real data so we can see if there will be storage and load time issues (In Progress)
