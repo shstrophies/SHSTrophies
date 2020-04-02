@@ -236,10 +236,10 @@ public class SearchEngine {
 
 
     public ArrayList<TrophyWithAwards> advancedSearch(SearchParameters searchParameters) {
-        List<Long> sportIds = new ArrayList();
-        ArrayList<String> titles = new ArrayList();
-        ArrayList<Integer> years = new ArrayList();
-        ArrayList<String> players = new ArrayList();
+        List<Long> sportIds = new ArrayList<>();
+        ArrayList<String> titles = new ArrayList<>();
+        ArrayList<Integer> years = new ArrayList<>();
+        ArrayList<String> players = new ArrayList<>();
         ArrayList<TrophyWithAwards> result = new ArrayList<>();
 
         // Get list of sport ids from search parameter sportsStr

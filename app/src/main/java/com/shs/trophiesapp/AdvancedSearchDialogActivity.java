@@ -22,12 +22,6 @@ public class AdvancedSearchDialogActivity extends AppCompatActivity {
     private Activity activity;
     private AlertDialog alertDialog;
 
-    //TextInputLayout variables
-    private TextInputLayout textInputLayoutTrophies;
-    private TextInputLayout textInputLayoutSports;
-    private TextInputLayout textInputLayoutYears;
-    private TextInputLayout textInputLayoutPlayers;
-
     //EditText variables
     private EditText editTextTrophies;
     private EditText editTextSports;
@@ -36,8 +30,6 @@ public class AdvancedSearchDialogActivity extends AppCompatActivity {
 
     //Button
     private Button button;
-
-    private ValidationHelper validation;
 
 
     AdvancedSearchDialogActivity(Activity myActivity) {
@@ -65,46 +57,44 @@ public class AdvancedSearchDialogActivity extends AppCompatActivity {
      * method to initialize views objects
      */
     private void initViews(View parent) {
-        textInputLayoutTrophies = (TextInputLayout) parent.findViewById(R.id.textInputLayoutTrophies);
-        textInputLayoutSports = (TextInputLayout) parent.findViewById(R.id.textInputLayoutSports);
-        textInputLayoutYears = (TextInputLayout) parent.findViewById(R.id.textInputLayoutYears);
-        textInputLayoutPlayers = (TextInputLayout) parent.findViewById(R.id.textInputLayoutPlayers);
+        //TextInputLayout variables
+        TextInputLayout textInputLayoutTrophies = parent.findViewById(R.id.textInputLayoutTrophies);
+        TextInputLayout textInputLayoutSports = parent.findViewById(R.id.textInputLayoutSports);
+        TextInputLayout textInputLayoutYears = parent.findViewById(R.id.textInputLayoutYears);
+        TextInputLayout textInputLayoutPlayers = parent.findViewById(R.id.textInputLayoutPlayers);
 
-        editTextTrophies = (EditText) parent.findViewById(R.id.edit_text_trophies);
-        editTextSports = (EditText) parent.findViewById(R.id.edit_text_sports);
-        editTextYears = (EditText) parent.findViewById(R.id.edit_text_years);
-        editTextPlayers = (EditText) parent.findViewById(R.id.edit_text_players);
+        editTextTrophies = parent.findViewById(R.id.edit_text_trophies);
+        editTextSports = parent.findViewById(R.id.edit_text_sports);
+        editTextYears = parent.findViewById(R.id.edit_text_years);
+        editTextPlayers = parent.findViewById(R.id.edit_text_players);
 
-        button = (Button) parent.findViewById(R.id.button_search);
+        button = parent.findViewById(R.id.button_search);
 
-        validation = new ValidationHelper(parent.getContext());
+        ValidationHelper validation = new ValidationHelper(parent.getContext());
     }
 
     /**
      * method to initialize listeners
      */
     private void initListeners() {
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        button.setOnClickListener(v -> {
 
-                checkValidation();
+            checkValidation();
 
-                String trophies = editTextTrophies.getText().toString().trim();
-                String sports = editTextSports.getText().toString().trim();
-                String years = editTextYears.getText().toString().trim();
-                String players = editTextPlayers.getText().toString().trim();
+            String trophies = editTextTrophies.getText().toString().trim();
+            String sports = editTextSports.getText().toString().trim();
+            String years = editTextYears.getText().toString().trim();
+            String players = editTextPlayers.getText().toString().trim();
 
-                Intent intent = new Intent(context, TrophiesWithAwardsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            Intent intent = new Intent(context, TrophiesWithAwardsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
-                intent.putExtra(SearchParameters.ALL, "");
-                intent.putExtra(SearchParameters.TROPHYTITLES, trophies);
-                intent.putExtra(SearchParameters.SPORTNAMES, sports);
-                intent.putExtra(SearchParameters.YEARS, years);
-                intent.putExtra(SearchParameters.PLAYERNAMES, players);
-                context.startActivity(intent);
-            }
+            intent.putExtra(SearchParameters.ALL, "");
+            intent.putExtra(SearchParameters.TROPHYTITLES, trophies);
+            intent.putExtra(SearchParameters.SPORTNAMES, sports);
+            intent.putExtra(SearchParameters.YEARS, years);
+            intent.putExtra(SearchParameters.PLAYERNAMES, players);
+            context.startActivity(intent);
         });
     }
 

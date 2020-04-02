@@ -7,14 +7,12 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.shs.trophiesapp.adapters.PersonalPlayerAwardsAdapter;
-import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 import com.shs.trophiesapp.search.SearchEngine;
 import com.shs.trophiesapp.search.SearchParameters;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
