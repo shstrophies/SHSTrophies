@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -53,8 +54,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
 
     private ActivitySetupBinding binding;
     //Button downloadButton = null;
-    //Button loadDatabaseButton = null;
-    //Button cleanButton = null;
+    Button loadDatabaseButton = null;
+    Button cleanButton = null;
 
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
     HashMap<Long, DownloadInfo> downloadInfoMap = new HashMap<>();
@@ -68,9 +69,12 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         //setContentView(R.layout.activity_setup);
 
         binding = ActivitySetupBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         binding.downloadDataButton.setOnClickListener(this);
         binding.loadDatabaseButton.setOnClickListener(this);
         binding.cleanButton.setOnClickListener(this);
+
 
         /*downloadButton = findViewById(R.id.downloadDataButton);
         downloadButton.setOnClickListener(this);
@@ -214,6 +218,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             Log.d(TAG, "onReceive: downloadInfoList=" + Collections.singletonList(downloadInfoList));
             downloadInfoList.remove(downloadInfo.id);
             if (downloadInfoList.isEmpty()) {
+                //if(downloadButton != null) downloadButton.setEnabled(true);
                 binding.downloadDataButton.setEnabled(true);
                 Log.d(TAG, "onReceive: DOWNLOADS complete");
                 DirectoryHelper.listFilesInDirectoryRecursively(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
