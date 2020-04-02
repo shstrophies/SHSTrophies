@@ -18,10 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
@@ -32,20 +29,18 @@ import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.SportRepository;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.shs.trophiesapp.databinding.SportsActivityBinding;
 import com.shs.trophiesapp.search.SearchParameters;
 import com.shs.trophiesapp.search.SearchSuggestions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-import static org.paukov.combinatorics.CombinatoricsFactory.createVector;
-
-
 public class SportsActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener, MaterialSearchBar.OnCreateContextMenuListener, PopupMenu.OnMenuItemClickListener {
     private static final String TAG = "SportsActivity";
 
-    private MaterialSearchBar searchBar;
+    private SportsActivityBinding binding;
+
     private List<Suggestion> suggestions = new ArrayList<>();
     private CustomSuggestionsAdapter customSuggestionsAdapter;
 
@@ -56,41 +51,33 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // create sports_activity layout object
-        setContentView(R.layout.sports_activity);
+        binding = SportsActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        //create action bar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.appBar.appBar);
 
-        // set recyclerview layout manager
-        RecyclerView recyclerView = findViewById(R.id.sport_recycleview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         sports = new ArrayList<>();
         adapter = new SportsAdapter(this, this.sports);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        binding.sportRecycleview.setLayoutManager(new GridLayoutManager(this, 3));
 
-        // set adapter for recyclerview
-        recyclerView.setAdapter(adapter);
+        binding.sportRecycleview.setAdapter(adapter);
 
-        // get data and notify adapter
         getData();
 
-        searchBar = findViewById(R.id.sports_search);
-        searchBar.setOnSearchActionListener(this);
-        // to enable search bar menu
-//        searchBar.inflateMenu(R.menu.main2);
-        searchBar.setMaxSuggestionCount(3);
-        searchBar.setHint(getResources().getString(R.string.search_info));
+        binding.sportsSearch.setOnSearchActionListener(this);
+        binding.sportsSearch.setMaxSuggestionCount(3);
+        binding.sportsSearch.setHint(getResources().getString(R.string.search_info));
+
+
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
         suggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getDefaultSuggestions();
         customSuggestionsAdapter.setSuggestions(suggestions);
-        searchBar.setCustomSuggestionAdapter(customSuggestionsAdapter);
+        binding.sportsSearch.setCustomSuggestionAdapter(customSuggestionsAdapter);
 
-        Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
-        searchBar.setCardViewElevation(10);
-        searchBar.addTextChangeListener(new TextWatcher() {
+        Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + binding.sportsSearch.getText());
+        binding.sportsSearch.setCardViewElevation(10);
+        binding.sportsSearch.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "beforeTextChanged: parameters: charSequence " + charSequence.toString() + ", i=" + i + ", i1=" + i1 + ", i2=" + i2);
@@ -101,8 +88,8 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d(TAG, "onTextChanged: parameters: charSequence " + charSequence.toString() + ", i=" + i + ", i1=" + i1 + ", i2=" + i2);
 
-                Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
-                List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getSuggestions(searchBar.getText());
+                Log.d(TAG, "onTextChanged: text changed " + binding.sportsSearch.getText());
+                List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getSuggestions(binding.sportsSearch.getText());
                 generatedSuggestions.forEach(e -> Log.d(TAG, "onTextChanged: suggestion=" + e.toString()));
                 suggestions.clear();
                 suggestions.addAll(generatedSuggestions);
@@ -119,7 +106,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void OnItemClickListener(int position, View v) {
                 Suggestion s = (Suggestion) v.getTag();
-                searchBar.setText(s.getTitle());
+                binding.sportsSearch.setText(s.getTitle());
                 customSuggestionsAdapter.clearSuggestions();
             }
 
@@ -193,7 +180,7 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             case MaterialSearchBar.BUTTON_SPEECH:
                 break;
             case MaterialSearchBar.BUTTON_BACK:
-                searchBar.closeSearch();
+                binding.sportsSearch.closeSearch();
                 break;
         }
     }
@@ -219,12 +206,12 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
         return true;
     }
 
-    public void showPopup(View v) {
+    /*public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
         popup.setOnMenuItemClickListener(this);
         popup.inflate(R.menu.main);
         popup.show();
-    }
+    }*/
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
