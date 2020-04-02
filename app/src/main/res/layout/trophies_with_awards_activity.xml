@@ -26,6 +26,7 @@
 
         android:layout_marginBottom="28dp"
         android:fontFamily="@font/montserrat_extrabold"
+        android:maxLines="2"
         android:text='{# of results} results for "{Search Query}"'
         android:textAlignment="center"
         android:textColor="#000"
