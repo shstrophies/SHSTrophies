@@ -49,16 +49,18 @@ ___________________________________________________
 **Database related**
 ___________________________________________________
 
-- enable recyclerview pagination (In Progress)(Ujjwal)
   
-- file hashing for seamless app restarts (Needs Fixing)(Ujjwal)
+- file hashing merge into master (Needs Fixing)(Ujjwal)
 
-(POSTPONED)- add FTS in the Database (Ujjwal & Carolina)
+- enable recyclerview pagination (In Progress)(Ujjwal)
+
+
+~~(POSTPONED)- add FTS in the Database (Ujjwal & Carolina)~~
 ___________________________________________________
 **Remaining Search Features**
 ___________________________________________________
 
-- suggestions for homepage (more in depth info about how this should be implemented is at the bottom of thsis file)
+- suggestions for homepage (more in depth info about how this should be implemented is at the bottom of this file)
 - add suggestions for trophy page 
 - add suggestions for players page
 
@@ -76,9 +78,11 @@ ___________________________________________________
 **UI Related Backend**
 ___________________________________________________
 
-- We should create a wrapper activity called MenuActivity that each Activity extends, and have that override onOptionsMenuItemClicked (whatever the method is), and have that deal with the menu options instead of copy pasting code between each activity.
+- We should create a wrapper activity called MenuActivity that each Activity extends, and have that override onOptionsMenuItemClicked (whatever the method is), and have that deal with the menu options instead of copy pasting code between each activity. (Ujjwal)
 
 - Fix possibility of looping bug if someone keeps on pressing on a name. have it be able to be clicked max once
+
+- fix searching on homepage to work
 
 - add onclicklistener to trophy image in the search results page
 
