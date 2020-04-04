@@ -80,8 +80,8 @@ def append_df_to_excel(df, filename, sheet_name='Sheet1', startrow=None,
     writer.save()
 
 
-def convertTable(sport, frame, theTitle, theUrl, lastSheet=None, exportFile='export.xlsx'):
-    print("convertTable sport=" + sport + ", title=" + theTitle + ", url=" + theUrl + ", lastSheet=" + str(lastSheet))
+def convertDataFrame(inputBaseFileName, inputSheetName, frame, theTitle, theUrl, lastSheet=None, exportFile='export.xlsx'):
+    print("convertDataFrame inputBaseFileName=" + inputBaseFileName + ", inputSheetName=" + inputSheetName + ", title=" + theTitle + ", url=" + theUrl + ", lastSheet=" + str(lastSheet))
     # print("frame=" + frame.to_string())
     if(not theTitle):
         print("title is empty, skip")
@@ -107,19 +107,19 @@ def convertTable(sport, frame, theTitle, theUrl, lastSheet=None, exportFile='exp
     dfg = dff[['Year', 'Trophy_Title', 'Trophy_Image_URI', 'Player_Name']].copy()
     # dfg.drop(dfg.columns[0], axis=1, inplace=True)
 
-    print("converted dfg=" + dfg.to_string())
+    # print("converted dfg=" + dfg.to_string())
 
-    theSheetName = sport
-    print('theSheetName=' + theSheetName)
+    outputSheetName = inputBaseFileName
+    print('outputSheetName=' + outputSheetName)
     startRow=None
     header=True
-    if(sport in lastSheet):
+    if(inputBaseFileName in lastSheet):
         header=False
 
-    append_df_to_excel(dfg, exportFile, sheet_name=theSheetName, startrow=startRow, header=header, index=False)
+    append_df_to_excel(dfg, exportFile, sheet_name=outputSheetName, startrow=startRow, header=header, index=False)
 
-    theFileName = str(r'export_' + sport.replace(" ", "_") + '_' + theTitle.replace(" ", "_") + '.xlsx')
-    # dfg.to_excel(theFileName, sheet_name=theSheetName, index=False, header=True)
+    theFileName = str(r'export_' + inputBaseFileName.replace(" ", "_") + '_' + theTitle.replace(" ", "_") + '.xlsx')
+    # dfg.to_excel(theFileName, sheet_name=outputSheetName, index=False, header=True)
     return dfg
 
 
@@ -136,17 +136,17 @@ def getImageUrl(df, column, defaultUrl):
     return imageUrl
 
 
-def convertSpreadSheetFromExcel(sport, excelFile, exportFile):
-    lastSport = {}
+def convertExcelFile(inputBaseFileName, excelFile, exportFile):
+    lastinputBaseFileName = {}
     # df = pd.read_excel(excelFile)
     xls = pd.ExcelFile(excelFile)
     for sheet_name in xls.sheet_names:
         print("*******input sheet=" + sheet_name)
         df = xls.parse(sheet_name)
-        convertSpreadSheet(sport, df, exportFile, lastSport)
+        convertExcelSheet(inputBaseFileName, sheet_name, df, exportFile, lastinputBaseFileName)
 
 
-def convertSpreadSheet(sport, df, exportFile, lastSport):
+def convertExcelSheet(inputBaseFileName, inputSheetName, df, exportFile, lastinputBaseFileName):
     df.columns = df.columns.to_series().apply(lambda x: x.strip())
     columns = df.columns.values
     newCol = 'Year'
@@ -164,8 +164,8 @@ def convertSpreadSheet(sport, df, exportFile, lastSport):
         if (column != 'Year'):
             imageUrl = getImageUrl(df, column, 'https://TODO')
             print("imageUrl=" + imageUrl)
-            convertTable(sport, df, column, imageUrl, lastSport, exportFile)
-            lastSport[sport] = column
+            convertDataFrame(inputBaseFileName, inputSheetName, df, column, imageUrl, lastinputBaseFileName, exportFile)
+            lastinputBaseFileName[inputBaseFileName] = column
 
 def findFilesInFolder(path, pathList, extension, subFolders = True):
     """  Recursive function to find all files of an extension type in a folder (and optionally in all subfolders too)
@@ -201,7 +201,7 @@ print("all files=" + str(pathList))
 for filename in pathList:
     basename = os.path.basename(str(filename))
     info = os.path.splitext(basename)
-    sport = info[0]
-    print("file=" + str(filename) + ", sport=" + sport)
-    convertSpreadSheetFromExcel(sport, str(filename), exportFile)
+    filenamePrefix = info[0]
+    print("file=" + str(filename) + ", filenamePrefix=" + filenamePrefix)
+    convertExcelFile(filenamePrefix, str(filename), exportFile)
 
