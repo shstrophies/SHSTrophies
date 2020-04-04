@@ -4,6 +4,8 @@
 # pip install xlrd
 import glob
 from io import BytesIO
+
+import numpy
 import requests
 import pandas as pd
 import re
@@ -90,7 +92,7 @@ def convertDataframe(basefilename, sheetname, dataframe, title, url, lastdata=No
 
     if (title == 'Year'):
         return
-    dfa = dataframe[['Year', title]].assign(title=title).replace(0, pd.np.nan).replace(0.0, pd.np.nan).copy()
+    dfa = dataframe[['Year', title]].assign(title=title).replace(0, numpy.nan).replace(0.0, numpy.nan).copy()
     # print("dfa=" + dfa.to_string())
     # fill any Nan Year with the previous row's non-Nan Year value
     dfb = dfa['Year'].fillna(method='ffill')
@@ -109,7 +111,7 @@ def convertDataframe(basefilename, sheetname, dataframe, title, url, lastdata=No
     # dfg.drop(dfg.columns[0], axis=1, inplace=True)
     # append sheetname to trophy title
     dfg['Trophy_Title'] = dfg['Trophy_Title'].astype(str) + ' ' + '[' + sheetname + ']'
-    print("output dataframe dfg=" + dfg.to_string())
+    print("output dataframe dfg=" + "\n"  + dfg.to_string())
 
     outputSheet = basefilename
     print('outputSheet=' + outputSheet)
