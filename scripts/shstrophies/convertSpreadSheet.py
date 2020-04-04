@@ -14,6 +14,9 @@ import os
 def append_df_to_excel(df, filename, sheet_name='Sheet1', startrow=None,
                        truncate_sheet=False,
                        **to_excel_kwargs):
+
+    print('append_df_to_excel: filname=' + str(filename) + ', sheet_name=' + str(sheet_name) + ', startrow=' + str(startrow) + ', truncate_sheet=' + str(truncate_sheet))
+
     """
     Append a DataFrame [df] to existing Excel file [filename]
     into [sheet_name] Sheet.
@@ -77,27 +80,39 @@ def append_df_to_excel(df, filename, sheet_name='Sheet1', startrow=None,
     writer.save()
 
 
-def convertTable(sport, frame, theTitle, theUrl, lastSheet=None):
-    print("convertTable sport=" + sport + ", title=" + theTitle + ", url=" + theUrl)
+def convertTable(sport, frame, theTitle, theUrl, lastSheet=None, exportFile='export.xlsx'):
+    print("convertTable sport=" + sport + ", title=" + theTitle + ", url=" + theUrl + ", lastSheet=" + str(lastSheet))
+    print("frame=" + frame.to_string())
     if(not theTitle):
         print("title is empty, skip")
         return
 
     if (theTitle == 'Year'):
         return
-    dfc = frame[['Year', theTitle]].assign(title=theTitle).dropna().copy()
+    dfa = frame[['Year', theTitle]].assign(title=theTitle).copy()
+    print("dfa=" + dfa.to_string())
+    # fill any Nan Year with the previous row's non-Nan Year value
+    dfb = dfa['Year'].fillna(method='ffill')
+    print("dfb=" + dfb.to_string())
+    dfa.loc[dfb.index, 'Year'] = dfb
+    print("dfa=" + dfa.to_string())
+    dfc = dfa[['Year', theTitle]].assign(title=theTitle).dropna().copy()
+    print("dfc=" + dfc.to_string())
     dfc.rename(columns={theTitle: 'Player_Name'}, inplace=True)
+    print("dfc=" + dfc.to_string())
     dfd = dfc[['Year', 'Player_Name']].assign(Trophy_Title=theTitle).copy()
     dfe = dfd.replace({'Year': r'[/-].*'}, {'Year': ''}, regex=True)[['Year', 'Trophy_Title', 'Player_Name']].copy()
 
     dff = dfe[['Year', 'Trophy_Title', 'Player_Name']].assign(Trophy_Image_URI=theUrl).copy()
     dfg = dff[['Year', 'Trophy_Title', 'Trophy_Image_URI', 'Player_Name']].copy()
-    theSheetName = sport
+    print("converted dfg=" + dfg.to_string())
 
+    theSheetName = sport
+    print('theSheetName=' + theSheetName)
     startRow=0
-    if(sport in lastSheet):
-        startRow=1
-    append_df_to_excel(dfg, 'export.xlsx', sheet_name=theSheetName, startrow=startRow)
+    # if(sport in lastSheet):
+    #     startRow=1
+    append_df_to_excel(dfg, exportFile, sheet_name=theSheetName, startrow=startRow)
 
     theFileName = str(r'export_' + sport.replace(" ", "_") + '_' + theTitle.replace(" ", "_") + '.xlsx')
     # dfg.to_excel(theFileName, sheet_name=theSheetName, index=False, header=True)
@@ -117,19 +132,19 @@ def getImageUrl(df, column, defaultUrl):
     return imageUrl
 
 
-def convertSpreadSheetFromExcel(sport, excelFile):
+def convertSpreadSheetFromExcel(sport, excelFile, exportFile):
     df = pd.read_excel(excelFile)
-    convertSpreadSheet(sport, df)
+    convertSpreadSheet(sport, df, exportFile)
 
 
-def convertSpreadSheetFromUrl(sport, url):
+def convertSpreadSheetFromUrl(sport, url, exportFile):
     # Cross country - boys
     r = requests.get(url)
     data = r.content
     df = pd.read_csv(BytesIO(data))
-    convertSpreadSheet(sport, df)
+    convertSpreadSheet(sport, df, exportFile)
 
-def convertSpreadSheet(sport, df):
+def convertSpreadSheet(sport, df, exportFile):
     lastSport = {}
     df.columns = df.columns.to_series().apply(lambda x: x.strip())
     columns = df.columns.values
@@ -154,7 +169,7 @@ def convertSpreadSheet(sport, df):
         if (column != 'Year'):
             imageUrl = getImageUrl(df, column, 'https://TODO')
             print("imageUrl=" + imageUrl)
-            convertTable(sport, df, column, imageUrl, lastSport)
+            convertTable(sport, df, column, imageUrl, lastSport, exportFile)
             lastSport[sport] = column
 
 def findFilesInFolder(path, pathList, extension, subFolders = True):
@@ -177,20 +192,20 @@ def findFilesInFolder(path, pathList, extension, subFolders = True):
 
     return pathList
 
-dir_name = r'./data'
 extension = ".xlsx"
-pathList = []
-pathList = findFilesInFolder(dir_name, pathList, extension, True)
-print("all files=" + str(pathList))
-for filename in pathList:
-    basename = os.path.basename(str(filename))
-    info = os.path.splitext(basename)
-    sport = info[0]
-    print("file=" + str(filename) + ", sport=" + sport)
-    convertSpreadSheetFromExcel(sport, str(filename))
+exportFile='export' + extension
+os.remove(exportFile) if os.path.exists(exportFile) else None
 
+convertSpreadSheetFromExcel('G. Golf', './data/Mr Torren_s initial data input/Fall Awards/G. Golf.xlsx', exportFile)
 
-# convertSpreadSheetFromUrl('Cross Country Boys',
-#                     'https://docs.google.com/spreadsheets/d/16uzBqifChpbk2l8L3qx37Ij4YggH7TbDEgly67UClAg/export?format=csv&gid=0')
-# convertSpreadSheetFromUrl('Cross Country Girls',
-#                     'https://docs.google.com/spreadsheets/d/16uzBqifChpbk2l8L3qx37Ij4YggH7TbDEgly67UClAg/export?format=csv&gid=632751317')
+# dir_name = r'./data'
+# pathList = []
+# pathList = findFilesInFolder(dir_name, pathList, extension, True)
+# print("all files=" + str(pathList))
+# for filename in pathList:
+#     basename = os.path.basename(str(filename))
+#     info = os.path.splitext(basename)
+#     sport = info[0]
+#     print("file=" + str(filename) + ", sport=" + sport)
+#     convertSpreadSheetFromExcel(sport, str(filename), exportFile)
+
