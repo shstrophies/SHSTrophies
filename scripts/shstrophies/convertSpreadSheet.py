@@ -107,7 +107,8 @@ def convertDataframe(basefilename, sheetname, dataframe, title, url, lastdata=No
     dff = dfe[['Year', 'Trophy_Title', 'Player_Name']].assign(Trophy_Image_URI=url).copy()
     dfg = dff[['Year', 'Trophy_Title', 'Trophy_Image_URI', 'Player_Name']].copy()
     # dfg.drop(dfg.columns[0], axis=1, inplace=True)
-
+    # append sheetname to trophy title
+    dfg['Trophy_Title'] = dfg['Trophy_Title'].astype(str) + ' ' + '[' + sheetname + ']'
     print("output dataframe dfg=" + dfg.to_string())
 
     outputSheet = basefilename
