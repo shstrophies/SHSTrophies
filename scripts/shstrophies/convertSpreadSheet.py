@@ -77,7 +77,7 @@ def append_df_to_excel(df, filename, sheet_name='Sheet1', startrow=None,
     writer.save()
 
 
-def convertTable(sport, frame, theTitle, theUrl):
+def convertTable(sport, frame, theTitle, theUrl, lastSheet=None):
     print("convertTable sport=" + sport + ", title=" + theTitle + ", url=" + theUrl)
     if(not theTitle):
         print("title is empty, skip")
@@ -93,7 +93,12 @@ def convertTable(sport, frame, theTitle, theUrl):
     dff = dfe[['Year', 'Trophy_Title', 'Player_Name']].assign(Trophy_Image_URI=theUrl).copy()
     dfg = dff[['Year', 'Trophy_Title', 'Trophy_Image_URI', 'Player_Name']].copy()
     theSheetName = sport
-    append_df_to_excel(dfg, 'export.xlsx', sheet_name=theSheetName)
+
+    startRow=0
+    if(sport in lastSheet):
+        startRow=1
+    append_df_to_excel(dfg, 'export.xlsx', sheet_name=theSheetName, startrow=startRow)
+
     theFileName = str(r'export_' + sport.replace(" ", "_") + '_' + theTitle.replace(" ", "_") + '.xlsx')
     # dfg.to_excel(theFileName, sheet_name=theSheetName, index=False, header=True)
     return dfg
@@ -125,11 +130,14 @@ def convertSpreadSheetFromUrl(sport, url):
     convertSpreadSheet(sport, df)
 
 def convertSpreadSheet(sport, df):
+    lastSport = {}
     df.columns = df.columns.to_series().apply(lambda x: x.strip())
     columns = df.columns.values
     newCol = 'Year'
+    print("renaming first column to " + newCol)
     df.rename(columns={columns[0]: newCol}, inplace=True)
-
+    df.columns = df.columns.to_series().apply(lambda x: x.strip())
+    columns = df.columns.values
     for column in columns:
         print("column=" + column)
         # if(column == '"'):
@@ -146,7 +154,8 @@ def convertSpreadSheet(sport, df):
         if (column != 'Year'):
             imageUrl = getImageUrl(df, column, 'https://TODO')
             print("imageUrl=" + imageUrl)
-            convertTable(sport, df, column, imageUrl)
+            convertTable(sport, df, column, imageUrl, lastSport)
+            lastSport[sport] = column
 
 def findFilesInFolder(path, pathList, extension, subFolders = True):
     """  Recursive function to find all files of an extension type in a folder (and optionally in all subfolders too)
