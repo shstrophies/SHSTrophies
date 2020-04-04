@@ -25,3 +25,4 @@ out/
 app/app.iml
 local.properties
 scripts/shstrophies/venv/lib/python3.7/*
+scripts/shstrophies/~$export.xlsx
