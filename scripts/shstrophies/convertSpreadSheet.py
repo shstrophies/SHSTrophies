@@ -90,7 +90,7 @@ def convertDataframe(basefilename, sheetname, dataframe, title, url, lastdata=No
 
     if (title == 'Year'):
         return
-    dfa = dataframe[['Year', title]].assign(title=title).copy()
+    dfa = dataframe[['Year', title]].assign(title=title).replace(0, pd.np.nan).replace(0.0, pd.np.nan).copy()
     # print("dfa=" + dfa.to_string())
     # fill any Nan Year with the previous row's non-Nan Year value
     dfb = dfa['Year'].fillna(method='ffill')
@@ -202,7 +202,7 @@ exportfile='export' + extension
 os.remove(exportfile) if os.path.exists(exportfile) else None
 
 # to test
-# convertSpreadSheetFromExcel('G. Golf', './data/Mr Torren_s initial data input/Fall Awards/G. Golf.xlsx', exportfile)
+# convertExcelFile('./data/Mr Torren_s initial data input/Spring Awards/Golf.xlsx', 'Golf', exportfile)
 
 dir_name = r'./data'
 pathList = []
