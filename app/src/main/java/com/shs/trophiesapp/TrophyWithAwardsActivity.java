@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.shs.trophiesapp.R;
+import com.shs.trophiesapp.TrophyDetailsActivity;
 import com.shs.trophiesapp.adapters.TrophyWithAwardsAdapter;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.TrophyRepository;
@@ -164,4 +166,3 @@ public class TrophyWithAwardsActivity extends AppCompatActivity implements Mater
 
 
 }
-

@@ -10,6 +10,7 @@ import com.shs.trophiesapp.database.TrophyRepository;
 
 import org.paukov.combinatorics.ICombinatoricsVector;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,17 +22,17 @@ import static org.paukov.combinatorics.CombinatoricsFactory.createVector;
 public class SearchSuggestions {
     private static final String TAG = "SearchSuggestionsGenera";
 
-    Context context;
-    List<Suggestion> suggestions;
-    SportRepository sportRepository;
-    TrophyRepository trophyRepository;
+    private WeakReference<Context> context;
+    private List<Suggestion> suggestions;
+    private SportRepository sportRepository;
+    private TrophyRepository trophyRepository;
 
     // Singleton code
     private static SearchSuggestions single_instance = null;
 
     // private constructor restricted to this class itself
     private SearchSuggestions(Context context, List<Suggestion> suggestions) {
-        this.context = context;
+        this.context = new WeakReference<>(context);
         this.suggestions = suggestions;
         sportRepository = DataManager.getSportRepository(context);
         trophyRepository = DataManager.getTrophyRepository(context);
@@ -51,8 +52,7 @@ public class SearchSuggestions {
                 new Suggestion("1976", "   in \"Years\""),
                 new Suggestion("Shaquille O'Neil, 1976", "   in \"Trophies\", \"Years\""),
         };
-        ArrayList<Suggestion> suggestions = new ArrayList<>();
-        suggestions.addAll(this.suggestions);
+        ArrayList<Suggestion> suggestions = new ArrayList<>(this.suggestions);
         Collections.addAll(suggestions, _suggestions);
         return suggestions;
     }
@@ -106,10 +106,9 @@ public class SearchSuggestions {
 
     public YearRange getYearRange(String str){
 
-        int yearFrom = 0 ;
-        int yearTo = 0;
+        int yearFrom, yearTo;
+        int x;
 
-        int x = 0;
         try{
             x = Integer.parseInt(str);
         }catch(Exception e){
@@ -134,13 +133,6 @@ public class SearchSuggestions {
             yearFrom = 0;
             yearTo = Integer.MAX_VALUE;
         }
-
-
-
-
-
-
-
         return new YearRange(yearFrom,yearTo);
     }
 

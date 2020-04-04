@@ -21,6 +21,10 @@ public class SportRepository {
         return sportDao.getSportById(id).get(0);
     }
 
+    public List<Sport>  searchSportByName(String str) {
+        return sportDao.searchSportByName("%" + str + "%");
+    }
+
     public List<String>  searchSportName(String str, int limit) {
         return sportDao.searchSportName("%" + str + "%", limit);
     }

@@ -18,6 +18,7 @@ import com.shs.trophiesapp.PersonalPlayerAwardsActivity;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.generators.ColorGeneratorByYear;
+import com.shs.trophiesapp.search.SearchParameters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,14 +62,18 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
 
 
             Intent intent = new Intent(context, PersonalPlayerAwardsActivity.class);
+//            Intent intent = new Intent(context, TrophiesWithAwardsActivity.class);
 
             // passing data
             intent.putExtra("playerName", trophyAward.getPlayer());
             intent.putExtra("color", trophyAward.getColor());
             intent.putExtra("trophyId", trophyAward.getTrophyId());
 
-
-
+            intent.putExtra(SearchParameters.ALL, "");
+            intent.putExtra(SearchParameters.TROPHYTITLES, "");
+            intent.putExtra(SearchParameters.SPORTNAMES, "");
+            intent.putExtra(SearchParameters.YEARS, "");
+            intent.putExtra(SearchParameters.PLAYERNAMES, trophyAward.getPlayer());
 
             // start activity
             context.startActivity(intent);

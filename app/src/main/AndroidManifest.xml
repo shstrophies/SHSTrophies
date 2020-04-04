@@ -57,6 +57,7 @@
             >
         </activity>
         <activity android:name=".PersonalPlayerAwardsActivity" />
+        <activity android:name=".AdvancedSearchDialogActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

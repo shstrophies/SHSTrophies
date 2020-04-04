@@ -19,13 +19,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.lb.auto_fit_textview.AutoResizeTextView
         android:id="@+id/HeaderWithSearchResults"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:layout_marginBottom="28dp"
         android:fontFamily="@font/montserrat_extrabold"
+        android:maxLines="2"
         android:text='{# of results} results for "{Search Query}"'
         android:textAlignment="center"
         android:textColor="#000"

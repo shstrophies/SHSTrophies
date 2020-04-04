@@ -37,7 +37,6 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:scaleType="centerCrop"
                     android:translationZ="90dp" />
-                    />
         </androidx.cardview.widget.CardView>
 
 
@@ -106,33 +105,39 @@
     <com.mancj.materialsearchbar.MaterialSearchBar
         android:id="@+id/trophies_search"
         style="@style/MaterialSearchBarLight"
-
         android:layout_width="1100dp"
         android:layout_height="65dp"
-
-
         android:elevation="8dp"
         android:paddingTop="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/trophy_with_awards_recycleview"
+        app:layout_constraintBottom_toTopOf="@+id/trophy_swipeRefresh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view"
         app:layout_constraintVertical_bias="0.0"
         app:mt_maxSuggestionsCount="10"
         app:mt_placeholder=""
-        app:mt_speechMode="false"></com.mancj.materialsearchbar.MaterialSearchBar>
+        app:mt_speechMode="false"/>
 
-     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/trophy_with_awards_recycleview"
-        android:layout_width="1268dp"
-        android:layout_height="555dp"
-        android:layout_gravity="center|center_horizontal"
-        android:clipToPadding="false"
-        android:padding="20dp"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/trophy_swipeRefresh"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trophies_search" />
+        app:layout_constraintTop_toBottomOf="@id/trophies_search">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trophy_with_awards_recycleview"
+            android:layout_width="1268dp"
+            android:layout_height="555dp"
+            android:layout_gravity="center|center_horizontal"
+            android:clipToPadding="false"
+            android:padding="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trophies_search" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +29,7 @@ import com.shs.trophiesapp.database.AppDatabase;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.entities.TrophyAward;
+import com.shs.trophiesapp.databinding.ActivitySetupBinding;
 import com.shs.trophiesapp.utils.Assert;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
@@ -57,9 +57,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     private static final String TAG = "SetupActivity";
     private static final String SHARED_PREFERENCES_TITLE = "Trophy_Shared_Preferences";
 
-    Button downloadButton = null;
-    Button loadDatabaseButton = null;
-    Button cleanButton = null;
+    private ActivitySetupBinding binding;
 
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
     HashMap<Long, DownloadInfo> downloadInfoMap = new HashMap<>();
@@ -67,17 +65,18 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
     Set<String> destinationPaths = new HashSet<>();
     private LifecycleOwner lifecycleOwner = this;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setup);
 
-        downloadButton = findViewById(R.id.downloadDataButton);
-        downloadButton.setOnClickListener(this);
-        loadDatabaseButton = findViewById(R.id.loadDatabaseButton);
-        loadDatabaseButton.setOnClickListener(this);
-        cleanButton = findViewById(R.id.cleanButton);
-        cleanButton.setOnClickListener(this);
+        binding = ActivitySetupBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        binding.downloadDataButton.setOnClickListener(this);
+        binding.loadDatabaseButton.setOnClickListener(this);
+        binding.cleanButton.setOnClickListener(this);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
@@ -128,14 +127,12 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.downloadDataButton: {
                 downloadData();
-                downloadButton = findViewById(view.getId());
-                downloadButton.setEnabled(false);
+                binding.downloadDataButton.setEnabled(false);
                 break;
             }
             case R.id.loadDatabaseButton: {
@@ -143,8 +140,7 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 break;
             }
             case R.id.cleanButton: {
-                Context context = getApplicationContext();
-                context.deleteDatabase(Constants.DATABASE_NAME);
+                getApplicationContext().deleteDatabase(Constants.DATABASE_NAME);
                 DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
                 getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE).edit().clear().apply();
                 break;
@@ -185,7 +181,8 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         DirectoryHelper.listFilesInDirectory(fullDirectory);
         DirectoryHelper.deleteOlderFiles(fullDirectory, 5);
         DirectoryHelper.createDirectory(this);
-
+        DirectoryHelper.createDirectory(Constants.DATA_DIRECTORY_SPORT_IMAGES);
+        DirectoryHelper.createDirectory(Constants.DATA_DIRECTORY_TROPHY_IMAGES);
 
         DownloadInfo downloadInfo = startDownload(downloadPath, destinationPath);
         downloadInfoMap.put(downloadInfo.id, downloadInfo);
@@ -255,11 +252,12 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             Log.d(TAG, "onReceive: downloadInfoList=" + Collections.singletonList(downloadInfoList));
             downloadInfoList.remove(downloadInfo.id);
             if (downloadInfoList.isEmpty()) {
-                if (downloadButton != null) downloadButton.setEnabled(true);
+                binding.downloadDataButton.setEnabled(true);
                 Log.d(TAG, "onReceive: DOWNLOADS complete");
                 DirectoryHelper.listFilesInDirectoryRecursively(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
                 setupHashes();
             }
+
         }
     };
 

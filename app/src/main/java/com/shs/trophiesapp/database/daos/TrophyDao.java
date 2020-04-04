@@ -5,7 +5,9 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RawQuery;
 import androidx.room.Transaction;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.entities.TrophyAward;
@@ -31,10 +33,17 @@ public abstract class TrophyDao {
     @Query("SELECT * FROM sport")
     public abstract List<SportWithTrophies> getSportWithTrophies();
 
+    @Transaction
+    @Query("SELECT * FROM sport ORDER BY name ASC LIMIT :limit OFFSET ((:page - 1) * :limit)")
+    public abstract List<SportWithTrophies> getSportWithTrophiesLimited(int limit, int page);
 
     @Transaction
     @Query("SELECT * FROM sport WHERE name LIKE :sportName")
     public abstract List<SportWithTrophies> getSportWithTrophiesBySportName(String sportName);
+
+    @Transaction
+    @Query("SELECT * FROM sport INNER JOIN trophy ON trophy.sportId=sport.id WHERE name LIKE :sportName ORDER BY trophy.title ASC LIMIT :limit OFFSET ((:page - 1) * :limit)")
+    public abstract List<SportWithTrophies> getSportWithTrophiesBySportNameLimited(String sportName, int limit, int page);
 
     @Transaction
     @Query("SELECT * FROM trophy")
@@ -66,6 +75,15 @@ public abstract class TrophyDao {
 
     @Query("SELECT * FROM trophyaward JOIN trophy ON trophy.id = trophyId WHERE (trophy.sportId LIKE :sportId) AND (year LIKE :year)")
     public abstract List<TrophyAward> getTrophyAwardsBySportAndYear(long sportId, int year);
+
+// select * from trophyaward where year in (1970,1971);
+//select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6));
+//select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (year IN (1961, 1983, 1992));
+//select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (year IN (1961, 1983, 1992)) AND ((player LIKE '%glen%') OR (player like '%Joy%'));
+//select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (year IN (1961, 1983, 1992)) AND ((player LIKE '%%'));
+//select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (title LIKE '%inspirational%')
+    @RawQuery
+    public abstract List<TrophyAward> getTrophyAwardsByExpression(SupportSQLiteQuery query);
 
     @Transaction
     @Query("SELECT * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE ((trophy.sportId LIKE :sportId) AND (year LIKE :year)) ORDER BY trophy.title ASC LIMIT :limit OFFSET ((:page - 1) * :limit)")

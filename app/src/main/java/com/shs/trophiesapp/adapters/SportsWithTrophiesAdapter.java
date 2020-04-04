@@ -101,7 +101,7 @@ public class  SportsWithTrophiesAdapter extends RecyclerView.Adapter<SportsWithT
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             Log.d(TAG, "performFiltering: constraint=" + constraint);
-            String charString = constraint.toString().toLowerCase();
+            String charString = constraint.toString().toLowerCase().trim();
             if (charString.isEmpty()) {
                 dataFiltered = data;
             } else {

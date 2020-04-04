@@ -9,6 +9,7 @@ public final class Constants {
     // Ujjwal's
 //    public static final String DOWNLOAD_URL = "https://docs.google.com/spreadsheets/d/1opVRw44HNCm08cL_0wqbAiBdh5DROUH563LWNTwtSpA/export?gid=YOURGID&format=csv";
 
+    //https://drive.google.com/drive/folders/1uUnlIY1g8QrJMeidAtESJx-MJrDoLoLm/export?gid=0&format=csv
     public static final String DOWNLOAD_URL = "https://docs.google.com/spreadsheets/d/1DBYBQEN4fZd0ByzcxvvGMDZ--I2-Ku2Rr5zMRpbFRsU/export?gid=YOURGID&format=csv";
     public static final String DRIVE_URL = "https://drive.google.com/uc?export=download&id=";
     public static final String DRIVE_IMAGE_PREFIX = "https://drive.google.com/file/d/";
@@ -17,6 +18,8 @@ public final class Constants {
     public static final String columns_1 = "_Sports, Image URL";
 
     public static final String DATA_DIRECTORY_NAME = "SHSDATA";
+    public static final String DATA_DIRECTORY_SPORT_IMAGES = "SHSDATA/SPORT_IMAGES/";
+    public static final String DATA_DIRECTORY_TROPHY_IMAGES = "SHSDATA/TROPHY_IMAGES/";
     public static final String DATA_DIRECTORY_DISK_CACHE_IMAGES = "SHSDATA/DISK_CACHE_IMAGES/";
     public static final String SPORTS_GID ="0";
 
@@ -44,4 +47,5 @@ public final class Constants {
     };
 
     public static int TROPHIES_PER_PAGE = 12;
+
 }

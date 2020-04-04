@@ -6,11 +6,9 @@ local.properties
 bin/
 gen/
 out/
-<<<<<<< HEAD
 .gradle/5.4.1/fileHashes/fileHashes.lock
 .gradle/buildOutputCleanup/buildOutputCleanup.lock
 .idea/workspace.xml
-=======
 .gradle/5.4.1/executionHistory/executionHistory.bin
 .gradle/5.4.1/executionHistory/executionHistory.lock
 .gradle/5.4.1/fileHashes/fileHashes.bin
@@ -24,8 +22,7 @@ out/
 .idea/libraries/Gradle__com_mikepenz_aboutlibraries_6_2_3_aar.xml
 .idea/libraries/Gradle__com_mikepenz_fastadapter_3_3_1_aar.xml
 .idea/workspace.xml
-<<<<<<< HEAD
-=======
 app/app.iml
 local.properties
->>>>>>> c32b630398bac7c49943655ad03eb5cc26f9feb5
+scripts/shstrophies/venv/lib/python3.7/*
+scripts/shstrophies/~$export.xlsx
