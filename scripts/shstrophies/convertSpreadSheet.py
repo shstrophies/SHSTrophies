@@ -105,6 +105,8 @@ def convertTable(sport, frame, theTitle, theUrl, lastSheet=None, exportFile='exp
 
     dff = dfe[['Year', 'Trophy_Title', 'Player_Name']].assign(Trophy_Image_URI=theUrl).copy()
     dfg = dff[['Year', 'Trophy_Title', 'Trophy_Image_URI', 'Player_Name']].copy()
+    # dfg.drop(dfg.columns[0], axis=1, inplace=True)
+
     print("converted dfg=" + dfg.to_string())
 
     theSheetName = sport
@@ -114,7 +116,7 @@ def convertTable(sport, frame, theTitle, theUrl, lastSheet=None, exportFile='exp
     if(sport in lastSheet):
         header=False
 
-    append_df_to_excel(dfg, exportFile, sheet_name=theSheetName, startrow=startRow, header=header)
+    append_df_to_excel(dfg, exportFile, sheet_name=theSheetName, startrow=startRow, header=header, index=False)
 
     theFileName = str(r'export_' + sport.replace(" ", "_") + '_' + theTitle.replace(" ", "_") + '.xlsx')
     # dfg.to_excel(theFileName, sheet_name=theSheetName, index=False, header=True)
