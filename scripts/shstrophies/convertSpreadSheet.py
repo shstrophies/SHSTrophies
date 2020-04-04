@@ -191,16 +191,17 @@ extension = ".xlsx"
 exportFile='export' + extension
 os.remove(exportFile) if os.path.exists(exportFile) else None
 
-convertSpreadSheetFromExcel('G. Golf', './data/Mr Torren_s initial data input/Fall Awards/G. Golf.xlsx', exportFile)
+# to test
+# convertSpreadSheetFromExcel('G. Golf', './data/Mr Torren_s initial data input/Fall Awards/G. Golf.xlsx', exportFile)
 
-# dir_name = r'./data'
-# pathList = []
-# pathList = findFilesInFolder(dir_name, pathList, extension, True)
-# print("all files=" + str(pathList))
-# for filename in pathList:
-#     basename = os.path.basename(str(filename))
-#     info = os.path.splitext(basename)
-#     sport = info[0]
-#     print("file=" + str(filename) + ", sport=" + sport)
-#     convertSpreadSheetFromExcel(sport, str(filename), exportFile)
+dir_name = r'./data'
+pathList = []
+pathList = findFilesInFolder(dir_name, pathList, extension, True)
+print("all files=" + str(pathList))
+for filename in pathList:
+    basename = os.path.basename(str(filename))
+    info = os.path.splitext(basename)
+    sport = info[0]
+    print("file=" + str(filename) + ", sport=" + sport)
+    convertSpreadSheetFromExcel(sport, str(filename), exportFile)
 
