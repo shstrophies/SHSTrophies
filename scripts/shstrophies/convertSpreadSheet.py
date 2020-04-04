@@ -12,12 +12,11 @@ import re
 import os
 
 
-
 def append_df_to_excel(df, filename, sheet_name='Sheet1', startrow=None,
                        truncate_sheet=False,
                        **to_excel_kwargs):
-
-    print('append_df_to_excel: filename=' + str(filename) + ', sheet_name=' + str(sheet_name) + ', startrow=' + str(startrow) + ', truncate_sheet=' + str(truncate_sheet) + ', to_excel_kwargs=' + str(to_excel_kwargs))
+    print('append_df_to_excel: filename=' + str(filename) + ', sheet_name=' + str(sheet_name) + ', startrow=' + str(
+        startrow) + ', truncate_sheet=' + str(truncate_sheet) + ', to_excel_kwargs=' + str(to_excel_kwargs))
 
     """
     Append a dataframe [df] to existing Excel file [filename]
@@ -83,10 +82,12 @@ def append_df_to_excel(df, filename, sheet_name='Sheet1', startrow=None,
 
 
 def convertDataframe(basefilename, sheetname, dataframe, title, url, lastdata=None, exportfile='export.xlsx', **data):
-    print("convertDataframe " + " basefilename=" + basefilename + ", sheet=" + sheetname + ", title=" + title + ", url=" + url + ", lastdata=" + str(lastdata))
+    print(
+        "convertDataframe " + " basefilename=" + basefilename + ", sheet=" + sheetname + ", title=" + title + ", url=" + url + ", lastdata=" + str(
+            lastdata))
     for key, value in data.items(): print("{}={}".format(key, value))
     # print("frame=" + frame.to_string())
-    if(not title):
+    if (not title):
         print("title is empty, skip")
         return
 
@@ -111,14 +112,14 @@ def convertDataframe(basefilename, sheetname, dataframe, title, url, lastdata=No
     # dfg.drop(dfg.columns[0], axis=1, inplace=True)
     # append sheetname to trophy title
     dfg['Trophy_Title'] = dfg['Trophy_Title'].astype(str) + ' ' + '[' + sheetname + ']'
-    print("output dataframe dfg=" + "\n"  + dfg.to_string())
+    print("output dataframe dfg=" + "\n" + dfg.to_string())
 
     outputSheet = basefilename
     print('outputSheet=' + outputSheet)
-    startRow=None
-    header=True
-    if(basefilename in lastdata):
-        header=False
+    startRow = None
+    header = True
+    if (basefilename in lastdata):
+        header = False
 
     append_df_to_excel(dfg, exportfile, sheet_name=outputSheet, startrow=startRow, header=header, index=False)
 
@@ -127,7 +128,48 @@ def convertDataframe(basefilename, sheetname, dataframe, title, url, lastdata=No
     return dfg
 
 
-def getImageUrl(df, column, defaultUrl):
+def getSports():
+    return [
+        'Volleyball',
+        'Football',
+        'Field Hockey',
+        'Tennis',
+        'Cross Country',
+        'Water Polo',
+        'Golf',
+        'Dance',
+        'Basketball',
+        'Cheer',
+        'Soccer',
+        'Wrestling',
+        'Baseball',
+        'Swimming',
+        'Swimming and Diving',
+        'Track',
+        'Volleyball',
+        'Lacrosse',
+        'Softball',
+        'Badminton'
+    ]
+
+
+def getGender(**data):
+    for key, value in data.items(): print("{}={}".format(key, value))
+    if 'basefile' in data: basefile = data.get('basefile')
+    if 'sheet' in data: sheet = data.get('sheet')
+
+    gender = ""
+    pattern = '^(G\.\s|Girl|Girls|GV|GJV)'
+    if (re.match(pattern, basefile) | re.match(pattern, sheet)): gender = 'G'
+
+    pattern = '^(B\.\s|Boy|Boys|BV|BFS)'
+    if (re.match(pattern, basefile) | re.match(pattern, sheet)): gender = 'B'
+    return gender
+
+
+def getImageUrl(df, column, defaultUrl, **data):
+    print("getImageUrl " + str(data))
+    for key, value in data.items(): print("{}={}".format(key, value))
     imageUrl = defaultUrl
     firstRow = df[column].iloc[0]
     theType = type(firstRow)
@@ -158,15 +200,16 @@ def convertExcelSheet(basefilename, sheetname, dataframe, exportfile, lastdata, 
             dataframe.rename(columns={'Unnamed: 0': newCol}, inplace=True)
             column = 'Year'
         if (column != 'Year'):
-            imageUrl = getImageUrl(dataframe, column, 'https://TODO')
+            imageUrl = getImageUrl(dataframe, column, 'https://TODO', **data)
             print("imageUrl=" + imageUrl)
             convertDataframe(basefilename, sheetname, dataframe, column, imageUrl, lastdata, exportfile, **data)
-            if(basefilename in lastdata):
+            if (basefilename in lastdata):
                 lastdata[basefilename].append(column)
             else:
                 list = [column]
                 lastdata[basefilename] = list
             print("last=" + str(lastdata))
+
 
 def convertExcelFile(path, basefilename, exportpath, **data):
     print("convertExcelFile " + str(data))
@@ -177,9 +220,11 @@ def convertExcelFile(path, basefilename, exportpath, **data):
     for sheetName in xls.sheet_names:
         print("*******input sheet=" + sheetName)
         dataframe = xls.parse(sheetName)
-        convertExcelSheet(basefilename, sheetName, dataframe, exportpath, lastdata, basefile=basefilename, sheet=sheetName, **data)
+        convertExcelSheet(basefilename, sheetName, dataframe, exportpath, lastdata, basefile=basefilename,
+                          sheet=sheetName, **data)
 
-def findFilesInFolder(path, pathList, extension, subFolders = True):
+
+def findFilesInFolder(path, pathList, extension, subFolders=True):
     """  Recursive function to find all files of an extension type in a folder (and optionally in all subfolders too)
 
     path:        Base directory to find files
@@ -188,23 +233,24 @@ def findFilesInFolder(path, pathList, extension, subFolders = True):
     subFolders:  Bool.  If True, find files in all subfolders under path. If False, only searches files in the specified folder
     """
 
-    try:   # Trapping a OSError:  File permissions problem I believe
+    try:  # Trapping a OSError:  File permissions problem I believe
         for entry in os.scandir(path):
             if entry.is_file() and entry.path.endswith(extension):
                 pathList.append(entry.path)
-            elif entry.is_dir() and subFolders:   # if its a directory, then repeat process as a nested function
+            elif entry.is_dir() and subFolders:  # if its a directory, then repeat process as a nested function
                 pathList = findFilesInFolder(entry.path, pathList, extension, subFolders)
     except OSError:
-        print('Cannot access ' + path +'. Probably a permissions error')
+        print('Cannot access ' + path + '. Probably a permissions error')
 
     return pathList
 
+
 extension = ".xlsx"
-exportfile='export' + extension
+exportfile = 'export' + extension
 os.remove(exportfile) if os.path.exists(exportfile) else None
 
 # to test
-# convertExcelFile('./data/Mr Torren_s initial data input/Spring Awards/Golf.xlsx', 'Golf', exportfile)
+# convertExcelFile('./data/Mr Torren_s initial data input/Winter Awards/Basketball.xlsx', 'Basketball', exportfile)
 
 dir_name = r'./data'
 pathList = []
@@ -222,4 +268,3 @@ for file in pathList:
     print('************************************************************')
     print('************************************************************')
     convertExcelFile(str(file), baseFileName, exportfile, file=str(file))
-

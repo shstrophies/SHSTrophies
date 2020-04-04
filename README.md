@@ -155,4 +155,125 @@ Mike Cable 1995
 Mike Cable 1996
 Mike Cable 1997
 Mike Calble Most Insipration
-Mike Cable Fearless Player 
+Mike Cable Fearless Player
+
+
+Spreadsheet assignments:
+------------------------
+
+./golf/boys/P7220035.JPG,genius
+./field hockey/girls/P7220133.JPG,genius
+./field hockey/girls/P7220155.JPG,genius
+./wrestling/P7220236.JPG,genius
+./wrestling/P7220037.JPG,genius
+./wrestling/P7220190.JPG,genius
+./wrestling/P7220028.JPG,genius
+./football/P7220255.JPG,boss
+./football/P7220320.JPG,boss
+./football/P7220322.JPG,boss
+./football/P7220243.JPG,boss
+./football/P7220247.JPG,boss
+./football/P7220324.JPG,boss
+./football/P7220250.JPG,boss
+./football/P7220286.JPG,boss
+./football/P7220319.JPG,boss
+./football/P7220182.JPG,boss
+./football/P7220194.JPG,boss
+./football/P7220221.JPG,boss
+./football/P7220208.JPG,boss
+./football/P7220156.JPG,boss
+./football/P7220185.JPG,boss
+./football/P7220230.JPG,boss
+./football/P7220219.JPG,boss
+./football/P7220193.JPG,boss
+./football/P7220178.JPG,boss
+./football/P7220203.JPG,boss
+./football/P7220216.JPG,boss
+./football/P7220176.JPG,boss
+./football/P7220214.JPG,boss
+./football/P7220201.JPG,boss
+./football/P7220173.JPG,genius
+./football/P7220198.JPG,genius
+./football/P7220239.JPG,genius
+./football/P7220238.JPG,genius
+./football/P7220260.JPG,genius
+./football/P7220249.JPG,genius
+./baseball/P7220269.JPG,ucla
+./baseball/P7220296.JPG,ucla
+./baseball/P7220080.JPG,ucla
+./baseball/P7220268.JPG,ucla
+./baseball/P7220295.JPG,ucla
+./baseball/P7220292.JPG,ucla
+./baseball/P7220235.JPG,ucla
+./baseball/P7220277.JPG,ucla
+./baseball/P7220271.JPG,ucla
+./softball/P7220121.JPG,ucla
+./soccer/girls/P7220131.JPG,ucla
+./soccer/girls/P7220124.JPG,ucla
+./soccer/girls/P7220127.JPG,ucla
+./soccer/girls/P7220075.JPG,ucla
+./soccer/girls/P7220099.JPG,ucla
+./soccer/boys/P7220134.JPG,ucla
+./soccer/boys/P7220086.JPG,ucla
+./soccer/boys/P7220084.JPG,ucla
+./soccer/boys/P7220076.JPG,ucla
+./soccer/boys/P7220117.JPG,ucla
+./basketball/girls/P7220233.JPG,vigvig
+./basketball/boys/P7220225.JPG,vigvig
+./basketball/boys/P7220229.JPG,vigvig
+./basketball/boys/P7220266.JPG,vigvig
+./basketball/P7220316.JPG,vigvig
+./waterpolo/girls/P7220016.JPG,vigvig
+./waterpolo/girls/P7220006.JPG,vigvig
+./waterpolo/boys/P7220026.JPG,vigvig
+./waterpolo/boys/P7220019.JPG,vigvig
+./waterpolo/P7220002.JPG,vigvig
+./volleyball/girls/P7220068.JPG,vigvig
+./volleyball/boys/P7220109.JPG,vigvig
+./volleyball/boys/P7220063.JPG,vigvig
+./volleyball/boys/P7220110.JPG,vigvig
+./volleyball/boys/P7220065.JPG,vigvig
+./cross country/P7220042.JPG,vigvig
+./cross country/girls/P7220051.JPG,vigvig
+./cross country/girls/P7220060.JPG,vigvig
+./cross country/P7220041.JPG,vigvig
+./cross country/P7220046.JPG,vigvig
+./cross country/boys/P7220054.JPG,vigvig
+./cross country/boys/P7220317.JPG,vigvig
+./cross country/boys/P7220048.JPG,vigvig
+./dance/P7220326.JPG,genius
+./dance/P7220328.JPG,genius
+./track and field/girls/P7220093.JPG,genius
+./track and field/girls/P7220102.JPG,genius
+./track and field/boys/P7220095.JPG,
+./track and field/boys/P7220082.JPG,
+./track and field/boys/P7220276.JPG,
+./swimming/girls/P7220105.JPG,
+./swimming/girls/P7220107.JPG,
+./swimming/boys/P7220032.JPG,
+./swimming/boys/P7220029.JPG,
+./swimming/boys/P7220039.JPG,
+./swimming/P7220005.JPG,
+./swimming/P7220272.JPG,
+./tennis/girls/P7220168.JPG,
+./tennis/girls/P7220157.JPG,
+./tennis/girls/P7220146.JPG,
+./tennis/girls/P7220144.JPG,
+./tennis/girls/P7220160.JPG,
+./tennis/girls/P7220163.JPG,
+./tennis/girls/P7220158.JPG,
+./tennis/girls/P7220165.JPG,
+./tennis/girls/P7220114.JPG,
+./tennis/boys/P7220284.JPG,
+./tennis/boys/P7220141.JPG,
+./tennis/boys/P7220152.JPG,
+./tennis/boys/P7220162.JPG,
+./tennis/boys/P7220167.JPG,
+./tennis/boys/P7220170.JPG,
+./tennis/boys/P7220139.JPG,
+./overall/P7220257.JPG,
+./overall/P7220291.JPG,
+./overall/P7220187.JPG,
+./overall/P7220314.JPG,
+./overall/P7220299.JPG,
+./overall/P7220305.JPG
