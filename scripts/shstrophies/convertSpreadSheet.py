@@ -198,10 +198,16 @@ dir_name = r'./data'
 pathList = []
 pathList = findFilesInFolder(dir_name, pathList, extension, True)
 print("all files=" + str(pathList))
-for filename in pathList:
-    basename = os.path.basename(str(filename))
+for file in pathList:
+    basename = os.path.basename(str(file))
     info = os.path.splitext(basename)
-    filenamePrefix = info[0]
-    print("file=" + str(filename) + ", filenamePrefix=" + filenamePrefix)
-    convertExcelFile(filenamePrefix, str(filename), exportFile)
+    baseFileName = info[0]
+    print('************************************************************')
+    print('************************************************************')
+    print('************************************************************')
+    print("file=" + str(file) + ", baseFileName=" + baseFileName)
+    print('************************************************************')
+    print('************************************************************')
+    print('************************************************************')
+    convertExcelFile(baseFileName, str(file), exportFile)
 
