@@ -56,7 +56,7 @@ public abstract class AppDatabase extends RoomDatabase {
         return mInstance;
     }
 
-    public synchronized static void prepopulateDatabase(Context context) {
+    public synchronized static AppDatabase prepopulateDatabase(Context context) {
         if(mInstance == null) {
             Log.d(TAG, "getInstance: creating database from pre-existing file");
             mInstance = Room.databaseBuilder(context, AppDatabase.class, Constants.DATABASE_NAME)
@@ -64,6 +64,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     .createFromFile(context.getDatabasePath(Constants.DATABASE_NAME))
                     .build();
         }
+        return mInstance;
     }
 
     private static AppDatabase buildDatabase(final Context context, RoomDatabase.Callback callback) {

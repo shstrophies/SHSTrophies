@@ -44,6 +44,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -56,15 +57,14 @@ import static com.shs.trophiesapp.utils.Constants.SPORTS_DIRECTORY_NAME;
 public class SetupActivity extends BaseActivity implements View.OnClickListener, LifecycleOwner {
     private static final String TAG = "SetupActivity";
     public static final String SHARED_PREFERENCES_TITLE = "Trophy_Shared_Preferences";
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
 
     private ActivitySetupBinding binding;
+    private boolean stopDownloads = false;
 
-    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
     HashMap<Long, DownloadInfo> downloadInfoMap = new HashMap<>();
     ArrayList<Long> downloadInfoList = new ArrayList<>();
     Set<String> destinationPaths = new HashSet<>();
-    private LifecycleOwner lifecycleOwner = this;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,6 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         binding.loadDatabaseButton.setOnClickListener(this);
         binding.cleanButton.setOnClickListener(this);
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
         }
@@ -88,11 +87,6 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void setupHashes() {
-        // Check the sharedpreferences to see if the hashes exist
-        // If they exist, then go through each and hash the directory exported.csv which it corresponds to, and check if the hashes are the same
-        // If all the hashes are the same, then create the database from it's previous asset
-        // If there are differences, then run loadDatabase again (make sure this works with Glide to download the images correspondingly too)
-        // If they don't exist, then boot normally (It's the first time that the app is booted up)
         Log.d(TAG, "SetupHashes Method Started");
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE);
         Map<String, String> hashes = (Map<String, String>) sharedPreferences.getAll();
@@ -109,6 +103,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                     String prevHash = hashes.get(destPath);
                     String currHash = Utils.getFileHash(destPath + "/" + "exported.csv");
                     Log.d(TAG, "Previous Hash: " + prevHash + ", Current Hash:" + currHash);
+                    assert currHash != null;
                     if(!currHash.equals(prevHash)) loadDatabase();
                     else {
                         Log.d(TAG, "Hashes are the same");
@@ -124,9 +119,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             if(sameHashCounter == destinationPaths.size()) {
                 Log.d(TAG, "Exact same db, creating from previous DB file");
                 AppDatabase.prepopulateDatabase(getApplicationContext());
-                //setupFutureHashing();
                 startActivity(new Intent(SetupActivity.this, SportsActivity.class));
-                finish();
             }
         }
     }
@@ -140,6 +133,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 break;
             }
             case R.id.loadDatabaseButton: {
+                Log.d(TAG, "Button Pressed");
                 loadDatabase();
                 break;
             }
@@ -213,6 +207,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         @Override
         public void onReceive(Context context, Intent intent) {
             //Fetching the download id received with the broadcast
+            if(stopDownloads) return;
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             Log.d(TAG, "onReceive: downloaded id=" + id);
             DownloadInfo downloadInfo = downloadInfoMap.get(id);
@@ -222,7 +217,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
             Log.d(TAG, "onReceive: found downloadInfo, downloadInfo.id=" + downloadInfo.id + " downloadInfo.downloadPath=" + downloadInfo.downloadPath + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
             HashMap downloadStatus = downloadInfo.downloader.checkDownloadStatus(downloadInfo.id);
-            String status = downloadStatus.get("status").toString();
+            String status = Objects.requireNonNull(downloadStatus.get("status")).toString();
             if(status.equals("STATUS_SUCCESSFUL")) {
                 Toast.makeText(context, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
                 Log.d(TAG, "onReceive: Download Completed for id=" + id + " downloadInfo.id=" + downloadInfo.id + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
@@ -234,6 +229,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 if(destinationPath.getName().compareToIgnoreCase(SPORTS_DIRECTORY_NAME) == 0) {
                     try {
                         File file = DirectoryHelper.getLatestFilefromDir(downloadInfo.destinationPath);
+                        assert file != null;
                         Scanner scanner = new Scanner(file);
                         boolean first = true;
                         while (scanner.hasNext()) {
@@ -250,7 +246,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                     } catch (Exception e) { e.printStackTrace(); }
                 }
             } else {
-                String reason = downloadStatus.get("reason").toString();
+                String reason = Objects.requireNonNull(downloadStatus.get("reason")).toString();
                 Toast.makeText(context, "Download NOT SUCCESSFUL because " + reason, Toast.LENGTH_LONG).show();
                 Log.d(TAG, "**** onReceive: Download failed because " + reason);
             }
@@ -267,10 +263,9 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         }
     };
 
-
     private void loadDatabase() {
         try {
-
+            stopDownloads = true;
             Log.d(TAG, "loadDatabase: ");
             Context context = getApplicationContext();
             context.deleteDatabase(Constants.DATABASE_NAME);
@@ -284,7 +279,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                     workManager.enqueue(workRequest);
                     //UUID id = workRequest.getId();
                     WorkManager.getInstance(context).getWorkInfoByIdLiveData(workRequest.getId())
-                            .observe(lifecycleOwner, workInfo -> {
+                            .observe(SetupActivity.this, workInfo -> {
                                 if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                                     Toast.makeText(SetupActivity.this, "DONE Loading database...", Toast.LENGTH_LONG).show();
                                     setupFutureHashing();
@@ -332,11 +327,5 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 DirectoryHelper.createDirectory(this);
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //unregisterReceiver(onDownloadComplete);
     }
 }
