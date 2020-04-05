@@ -1,5 +1,6 @@
 package com.shs.trophiesapp;
 
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,7 +12,7 @@ import java.lang.ref.WeakReference;
 public class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -20,6 +21,7 @@ public class BaseActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_full_clean:
                 SetupActivity.clean(new WeakReference<>(getApplicationContext()));
+                startActivity(new Intent(this, SetupActivity.class));
                 return true;
             case R.id.action_about:
                 new AboutDialogActivity(this).startAboutDialogActivity();

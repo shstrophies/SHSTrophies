@@ -60,7 +60,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
 
     private ActivitySetupBinding binding;
-    private boolean stopDownloads = false;
+    private boolean stopDownloads;
 
     HashMap<Long, DownloadInfo> downloadInfoMap = new HashMap<>();
     ArrayList<Long> downloadInfoList = new ArrayList<>();
@@ -70,6 +70,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        stopDownloads = false;
         binding = ActivitySetupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -139,6 +140,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             }
             case R.id.cleanButton: {
                 clean(new WeakReference<>(getApplicationContext()));
+                recreate();
                 break;
             }
 
@@ -207,7 +209,10 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         @Override
         public void onReceive(Context context, Intent intent) {
             //Fetching the download id received with the broadcast
-            if(stopDownloads) return;
+            if(stopDownloads) {
+                // Check to see if there's actually a directory and corresponding data otherwise don't allow (or you can check if hashes exist)
+                return;
+            }
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             Log.d(TAG, "onReceive: downloaded id=" + id);
             DownloadInfo downloadInfo = downloadInfoMap.get(id);
