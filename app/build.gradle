@@ -68,7 +68,7 @@ dependencies {
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 
     ///// Pagination library
-    implementation "com.jakewharton:butterknife:10.1.0"
+    annotationProcessor "com.jakewharton:butterknife:10.1.0"
     annotationProcessor "com.jakewharton:butterknife-compiler:10.1.0"
 
     annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glideVersion"

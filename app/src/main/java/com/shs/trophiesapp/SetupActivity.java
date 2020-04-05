@@ -110,17 +110,21 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                     String currHash = Utils.getFileHash(destPath + "/" + "exported.csv");
                     Log.d(TAG, "Previous Hash: " + prevHash + ", Current Hash:" + currHash);
                     if(!currHash.equals(prevHash)) loadDatabase();
-                    else sameHashCounter++;
+                    else {
+                        Log.d(TAG, "Hashes are the same");
+                        sameHashCounter++;
+                    }
                 } else {
                     Log.d(TAG, "Hash is new and not in Shared Preferences file");
                     loadDatabase();
                     break;
                 }
             }
+            Log.d(TAG, "Samehashcounter: " + sameHashCounter + ", dPaths Size: " + destinationPaths.size());
             if(sameHashCounter == destinationPaths.size()) {
                 Log.d(TAG, "Exact same db, creating from previous DB file");
                 AppDatabase.prepopulateDatabase(getApplicationContext());
-                setupFutureHashing();
+                //setupFutureHashing();
                 startActivity(new Intent(SetupActivity.this, SportsActivity.class));
                 finish();
             }
@@ -140,13 +144,17 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 break;
             }
             case R.id.cleanButton: {
-                getApplicationContext().deleteDatabase(Constants.DATABASE_NAME);
-                DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
-                getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE).edit().clear().apply();
+                clean();
                 break;
             }
 
         }
+    }
+
+    private void clean() {
+        getApplicationContext().deleteDatabase(Constants.DATABASE_NAME);
+        DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
+        getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE).edit().clear().apply();
     }
 
     private void downloadData() {
@@ -181,8 +189,6 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
         DirectoryHelper.listFilesInDirectory(fullDirectory);
         DirectoryHelper.deleteOlderFiles(fullDirectory, 5);
         DirectoryHelper.createDirectory(this);
-        DirectoryHelper.createDirectory(Constants.DATA_DIRECTORY_SPORT_IMAGES);
-        DirectoryHelper.createDirectory(Constants.DATA_DIRECTORY_TROPHY_IMAGES);
 
         DownloadInfo downloadInfo = startDownload(downloadPath, destinationPath);
         downloadInfoMap.put(downloadInfo.id, downloadInfo);
@@ -326,5 +332,11 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 DirectoryHelper.createDirectory(this);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //unregisterReceiver(onDownloadComplete);
     }
 }

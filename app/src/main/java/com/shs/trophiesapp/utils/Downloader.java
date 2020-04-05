@@ -4,11 +4,8 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
 
-
-import java.io.File;
 import java.util.HashMap;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
@@ -38,12 +35,12 @@ public class Downloader {
     }
 
     public DownloadManager.Request createRequest(String url, String directory, String saveAsName) {
+        Log.d("DownloadManager", "SaveAsName: " + saveAsName);
         String downloadDescription = "url=" + url + " directory=" + directory + " saveAsName=" + saveAsName;
-        Log.d("Downloader", downloadDescription);
-        deleteIfExists(directory, saveAsName);
         DirectoryHelper.createDirectory(directory);
         DirectoryHelper.listFilesInDirectory(directory);
         Uri downloadUri = Uri.parse(url);
+        Log.d("DownloadManager", "DownloadUri: " + downloadUri);
         DownloadManager.Request request = new DownloadManager.Request(downloadUri);
 
         request.setTitle("Downloading file to directory=" + directory); // Title for notification.
@@ -54,12 +51,6 @@ public class Downloader {
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         return request;
-    }
-
-    private void deleteIfExists(String directory, String fileName) {
-        File file = new File(Environment.getExternalStorageDirectory() + "/" + directory, fileName);
-        Log.d("Downloader checkFilePaths", file.getAbsolutePath());
-        if(file.exists()) file.delete();
     }
 
     public long queueDownload(DownloadManager.Request request) {
