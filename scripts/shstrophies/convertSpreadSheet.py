@@ -113,7 +113,10 @@ def convertDataframe(basefilename, sheetname, dataframe, title, url, lastdata=No
 
     # remove row that has image URL
     searchfor = ['image URL', 'image', 'URL']
-    dfg = dfg[~dfg.Year.str.contains('|'.join(searchfor), na=False)]
+    try:
+        dfg = dfg[~dfg.Year.str.contains('|'.join(searchfor), na=False)]
+    except Exception as e:
+        dfg
 
     # append sheetname to trophy title
     dfg['Trophy_Title'] = dfg['Trophy_Title'].astype(str) + ' ' + '[' + sheetname + ']'
