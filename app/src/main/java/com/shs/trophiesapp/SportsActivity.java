@@ -8,8 +8,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -115,40 +113,6 @@ public class SportsActivity extends BaseActivity implements View.OnClickListener
             }
         });
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        AboutDialogActivity loadingDialog = new AboutDialogActivity(SportsActivity.this);
-        AdvancedSearchDialogActivity advancedSearch = new AdvancedSearchDialogActivity(SportsActivity.this);
-
-        switch (item.getItemId()) {
-            case R.id.action_advanced_search:
-                advancedSearch.startAdvancedSearchDialogActivity();
-                return true;
-            case R.id.action_about:
-                loadingDialog.startAboutDialogActivity();
-                return true;
-            case R.id.action_report_bug:
-                return true;
-            default:
-                return false;
-        }
-
-
-    }
-
 
     @Override
     public void onSearchStateChanged(boolean enabled) {
