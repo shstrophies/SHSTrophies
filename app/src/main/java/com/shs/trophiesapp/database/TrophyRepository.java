@@ -76,11 +76,15 @@ public class TrophyRepository {
         String playersExpr = players.isEmpty() ? "" :
                 "(" + players.stream().map(elem -> "(player LIKE \"%" + String.valueOf(elem).trim() + "%\")").collect(Collectors.joining(" OR ")) + ")";
 
+        boolean titlesSameAsPlayers = !titles.stream().filter(players::contains).collect(Collectors.toList()).isEmpty();
+        Log.d(TAG, "getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers: titlesSameAsPlayers ==> " + titlesSameAsPlayers);
         String expression = sportsExpr +
                 (yearsExpr.isEmpty() ? "" : " AND " + yearsExpr) +
                 ((titlesExpr.isEmpty() && !playersExpr.isEmpty()) ? " AND ( " + playersExpr + " )" :
                         (!titlesExpr.isEmpty() && playersExpr.isEmpty()) ? " AND ( " + titlesExpr + " )" :
-                                (titlesExpr.isEmpty() && playersExpr.isEmpty()) ? "" : " AND ( " + titlesExpr + " AND " + playersExpr + " )");
+                                (titlesExpr.isEmpty() && playersExpr.isEmpty()) ? "" :
+                                        ((!titlesExpr.isEmpty() && !playersExpr.isEmpty() && !titlesSameAsPlayers) ? " AND ( " + titlesExpr + " AND " + playersExpr + " )" :
+                                                " AND ( " + titlesExpr + " OR " + playersExpr + " )"));
         ;
         String querystr = "SELECT trophyaward.id, trophyId, year, player, category FROM trophyaward INNER JOIN trophy ON trophy.id = trophyId " +
                 (expression.isEmpty() ? "" : (" WHERE " + expression));

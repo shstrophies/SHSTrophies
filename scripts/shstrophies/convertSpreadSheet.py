@@ -109,12 +109,20 @@ def convertDataframe(basefilename, sheetname, dataframe, title, url, lastdata=No
 
     dff = dfe[['Year', 'Trophy_Title', 'Player_Name']].assign(Trophy_Image_URI=url).copy()
     dfg = dff[['Year', 'Trophy_Title', 'Trophy_Image_URI', 'Player_Name']].copy()
-    # dfg.drop(dfg.columns[0], axis=1, inplace=True)
+    # print("dfg=" + "\n" + dfg.to_string())
+
+    # remove row that has image URL
+    searchfor = ['image URL', 'image', 'URL']
+    try:
+        dfg = dfg[~dfg.Year.str.contains('|'.join(searchfor), na=False)]
+    except Exception as e:
+        dfg
+
     # append sheetname to trophy title
     dfg['Trophy_Title'] = dfg['Trophy_Title'].astype(str) + ' ' + '[' + sheetname + ']'
     print("output dataframe dfg=" + "\n" + dfg.to_string())
 
-    outputSheet = basefilename
+    outputSheet = getOutputSheet(basefilename)
     print('outputSheet=' + outputSheet)
     startRow = None
     header = True
@@ -128,8 +136,22 @@ def convertDataframe(basefilename, sheetname, dataframe, title, url, lastdata=No
     return dfg
 
 
-def getSports():
-    return [
+def getOutputSheet(name, **data):
+    print("getOutputSheet " + " name=" + name)
+    for key, value in data.items(): print("{}={}".format(key, value))
+    outputSheet = str(name)
+    dictOfSports = getDictOfSports()
+    if(outputSheet in dictOfSports):
+        return outputSheet
+    else:
+        for key in dictOfSports.keys():
+            if(outputSheet.lower().find(key.lower()) >= 0):
+                outputSheet = key
+                return outputSheet
+    return outputSheet
+
+def getDictOfSports():
+    sportsList = [
         'Volleyball',
         'Football',
         'Field Hockey',
@@ -151,6 +173,8 @@ def getSports():
         'Softball',
         'Badminton'
     ]
+    dictOfSports = {i: len(sportsList) for i in sportsList}
+    return dictOfSports
 
 
 def getGender(**data):
@@ -200,7 +224,7 @@ def convertExcelSheet(basefilename, sheetname, dataframe, exportfile, lastdata, 
             dataframe.rename(columns={'Unnamed: 0': newCol}, inplace=True)
             column = 'Year'
         if (column != 'Year'):
-            imageUrl = getImageUrl(dataframe, column, 'https://TODO', **data)
+            imageUrl = getImageUrl(dataframe, column, 'DEFAULT IMAGE', **data)
             print("imageUrl=" + imageUrl)
             convertDataframe(basefilename, sheetname, dataframe, column, imageUrl, lastdata, exportfile, **data)
             if (basefilename in lastdata):
@@ -250,7 +274,10 @@ exportfile = 'export' + extension
 os.remove(exportfile) if os.path.exists(exportfile) else None
 
 # to test
-# convertExcelFile('./data/Mr Torren_s initial data input/Winter Awards/Basketball.xlsx', 'Basketball', exportfile)
+# convertExcelFile('./data/Mr Torren_s initial data input/Fall Awards/G. Volleyball.xlsx', 'G. Volleyball', exportfile)
+# convertExcelFile('./data/Mr Torren_s initial data input/Spring Awards/BVolleyball.xlsx', 'BVolleyball', exportfile)
+# exit(0)
+
 
 dir_name = r'./data'
 pathList = []
