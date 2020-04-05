@@ -113,7 +113,7 @@ def convertDataframe(basefilename, sheetname, dataframe, title, url, lastdata=No
 
     # remove row that has image URL
     searchfor = ['image URL', 'image', 'URL']
-    dfg = dfg[~dfg.Year.str.contains('|'.join(searchfor))]
+    dfg = dfg[~dfg.Year.str.contains('|'.join(searchfor), na=False)]
 
     # append sheetname to trophy title
     dfg['Trophy_Title'] = dfg['Trophy_Title'].astype(str) + ' ' + '[' + sheetname + ']'
@@ -271,7 +271,7 @@ exportfile = 'export' + extension
 os.remove(exportfile) if os.path.exists(exportfile) else None
 
 # to test
-# convertExcelFile('./data/Mr Torren_s initial data input/Fall Awards/G. Golf.xlsx', 'G. Golf', exportfile)
+# convertExcelFile('./data/Mr Torren_s initial data input/Fall Awards/G. Volleyball.xlsx', 'G. Volleyball', exportfile)
 # convertExcelFile('./data/Mr Torren_s initial data input/Spring Awards/BVolleyball.xlsx', 'BVolleyball', exportfile)
 # exit(0)
 
