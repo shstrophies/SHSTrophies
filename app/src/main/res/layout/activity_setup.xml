@@ -29,45 +29,51 @@
 
         <Button
             android:id="@+id/downloadDataButton"
-            android:layout_width="300dp"
-            android:layout_height="150dp"
-            android:layout_marginStart="172dp"
-            android:layout_marginEnd="39dp"
-            android:text="@string/download_data"
-            android:textSize="40sp"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_marginRight="400dp"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/loadDatabaseButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.022"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.863" />
+            app:layout_constraintVertical_bias="0.021" />
 
         <Button
             android:id="@+id/cleanButton"
-            android:layout_width="300dp"
-            android:layout_height="150dp"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:background="@color/colorAccent"
+            android:fontFamily="@font/montserrat_extrabold"
             android:text="@string/clean"
-            android:textSize="40sp"
+            android:textColor="#fff"
+            android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.851"
+            app:layout_constraintHorizontal_bias="0.61"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.863" />
+            app:layout_constraintVertical_bias="0.85" />
 
         <Button
             android:id="@+id/loadDatabaseButton"
-            android:layout_width="300dp"
-            android:layout_height="150dp"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
 
             android:layout_marginEnd="20dp"
+            android:background="@color/colorAccent"
+            android:fontFamily="@font/montserrat_extrabold"
             android:text="@string/load_database"
-            android:textSize="40sp"
+            android:textColor="#fff"
+            android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/cleanButton"
-            app:layout_constraintHorizontal_bias="0.97"
+            app:layout_constraintHorizontal_bias="0.973"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.863" />
+            app:layout_constraintVertical_bias="0.85" />
+
 
         <ProgressBar
             android:id="@+id/progressBar4"
