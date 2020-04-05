@@ -5,20 +5,19 @@
     <item
         android:id="@+id/action_advanced_search"
         android:title="Advanced Search"
-        app:showAsAction="always"
-        ></item>
+        app:showAsAction="always" />
     <item
 
         android:id="@+id/action_about"
         android:title="About "
-        app:showAsAction="never"
-        ></item>
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_report_bug"
         android:title="Report an Issue"
-        app:showAsAction="never"
-
-        ></item>
-
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_full_clean"
+        android:title="Clean"
+        app:showAsAction="never" />
 
 </menu>

@@ -8,22 +8,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.adapters.TrophiesWithAwardsAdapter;
-import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 import com.shs.trophiesapp.search.SearchEngine;
 import com.shs.trophiesapp.search.SearchParameters;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-
-public class TrophiesWithAwardsActivity extends AppCompatActivity {
+public class TrophiesWithAwardsActivity extends BaseActivity {
     private static final String TAG = "TrophiesWithAwardsActivity";
 
     Context context;

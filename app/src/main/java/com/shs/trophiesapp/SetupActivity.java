@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
@@ -38,6 +37,7 @@ import com.shs.trophiesapp.utils.Utils;
 import com.shs.trophiesapp.workers.SeedDatabaseWorker;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -53,9 +53,9 @@ import static com.shs.trophiesapp.utils.Constants.SPORTS_GID;
 import static com.shs.trophiesapp.utils.Constants.SPORTS_DIRECTORY_NAME;
 
 
-public class SetupActivity extends AppCompatActivity implements View.OnClickListener, LifecycleOwner {
+public class SetupActivity extends BaseActivity implements View.OnClickListener, LifecycleOwner {
     private static final String TAG = "SetupActivity";
-    private static final String SHARED_PREFERENCES_TITLE = "Trophy_Shared_Preferences";
+    public static final String SHARED_PREFERENCES_TITLE = "Trophy_Shared_Preferences";
 
     private ActivitySetupBinding binding;
 
@@ -144,17 +144,17 @@ public class SetupActivity extends AppCompatActivity implements View.OnClickList
                 break;
             }
             case R.id.cleanButton: {
-                clean();
+                clean(new WeakReference<>(getApplicationContext()));
                 break;
             }
 
         }
     }
 
-    private void clean() {
-        getApplicationContext().deleteDatabase(Constants.DATABASE_NAME);
+    public static void clean(WeakReference<Context> context) {
+        context.get().deleteDatabase(Constants.DATABASE_NAME);
         DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
-        getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE).edit().clear().apply();
+        context.get().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE).edit().clear().apply();
     }
 
     private void downloadData() {

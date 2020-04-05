@@ -1,12 +1,10 @@
 package com.shs.trophiesapp;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,8 +15,7 @@ import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SportsWithTrophiesActivity extends AppCompatActivity
-{
+public class SportsWithTrophiesActivity extends BaseActivity {
     private static final String TAG = "SportsWithTrophiesActivity";
     //private static final int PAGE_LIMIT = 12;
 

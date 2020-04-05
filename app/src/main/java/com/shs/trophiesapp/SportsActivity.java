@@ -16,7 +16,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -36,7 +35,7 @@ import com.shs.trophiesapp.search.SearchSuggestions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SportsActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener, MaterialSearchBar.OnCreateContextMenuListener, PopupMenu.OnMenuItemClickListener {
+public class SportsActivity extends BaseActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener, MaterialSearchBar.OnCreateContextMenuListener, PopupMenu.OnMenuItemClickListener {
     private static final String TAG = "SportsActivity";
 
     private SportsActivityBinding binding;

@@ -15,11 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class PersonalPlayerAwardsActivity extends AppCompatActivity {
+public class PersonalPlayerAwardsActivity extends BaseActivity {
 
     private static final String TAG = "PersonalPlayerAwardsAct";
     Context context;
