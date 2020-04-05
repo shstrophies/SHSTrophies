@@ -74,7 +74,6 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         binding = ActivitySetupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.downloadDataButton.setOnClickListener(this);
         binding.loadDatabaseButton.setOnClickListener(this);
         binding.cleanButton.setOnClickListener(this);
 
@@ -128,11 +127,6 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.downloadDataButton: {
-                downloadData();
-                binding.downloadDataButton.setEnabled(false);
-                break;
-            }
             case R.id.loadDatabaseButton: {
                 Log.d(TAG, "Button Pressed");
                 loadDatabase();
@@ -143,7 +137,6 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 recreate();
                 break;
             }
-
         }
     }
 
