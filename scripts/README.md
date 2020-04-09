@@ -1,6 +1,14 @@
 
+### Install python 3
 
-pip install pandas
-pip install jupyter
-pip install openpyxl
-pip install xlrd
+see https://docs.python-guide.org/starting/install3/osx/
+
+### To run:
+
+source venv/bin/activate
+
+pip install -r requirements.txt
+
+python convertSpreadSheet.py 
+
+
