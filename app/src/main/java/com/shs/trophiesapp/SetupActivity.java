@@ -129,6 +129,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         switch (view.getId()) {
             case R.id.loadDatabaseButton: {
                 Log.d(TAG, "Button Pressed");
+                binding.loadDatabaseButton.setEnabled(false);
                 loadDatabase();
                 break;
             }

@@ -1,10 +1,12 @@
 package com.shs.trophiesapp.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -58,20 +60,26 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, final int position) {
-
         Sport sport = DataManager.getSportRepository(context).getSportById(data.get(position).trophy.getSportId());
         Trophy trophy = data.get(position).trophy;
         String textViewSportText = sport.getName() + ": " + trophy.getTitle();
-        holder.textViewSport.setText(textViewSportText);
-        Utils.imageFromCache(holder.img, trophy.getUrl());
-        holder.trophyView.setBackgroundColor(trophy.getColor());
-
         TrophyWithAwardsAdapter horizontalAdapter = new TrophyWithAwardsAdapter(context, data.get(position).awards, data.get(position).trophy.getColor());
+
+        Utils.imageFromCache(holder.img, trophy.getUrl());
+        holder.img.setOnClickListener(view -> {
+            Dialog imageDialog = new Dialog(context);
+            imageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            View modalView = LayoutInflater.from(context).inflate(R.layout.trophy_thumbnail_modal, null);
+            ((ImageView) modalView.findViewById(R.id.trophy_modal_thumbnail)).setImageDrawable(holder.img.getDrawable());
+            imageDialog.setContentView(modalView);
+            imageDialog.show();
+        });
+
+        holder.textViewSport.setText(textViewSportText);
+        holder.trophyView.setBackgroundColor(trophy.getColor());
         holder.recyclerViewHorizontal.setAdapter(horizontalAdapter);
         holder.recyclerViewHorizontal.setLayoutManager(new GridLayoutManager(context, 5));
-
         holder.recyclerViewHorizontal.setRecycledViewPool(recycledViewPool);
-
 
     }
 
