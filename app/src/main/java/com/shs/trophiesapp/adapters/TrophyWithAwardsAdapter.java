@@ -29,6 +29,7 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
     private Context context;
     private List<TrophyAward> awards;
     private List<TrophyAward> awardsFiltered;
+    private String playerName;
     private int trophyColor;
 
 
@@ -37,6 +38,14 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
         this.awards = awards;
         this.awardsFiltered = awards;
         this.trophyColor = trophyColor;
+    }
+
+    public TrophyWithAwardsAdapter(Context context, List<TrophyAward> awards, int trophyColor, String playerName) {
+        this.context = context;
+        this.awards = awards;
+        this.awardsFiltered = awards;
+        this.trophyColor = trophyColor;
+        this.playerName = playerName;
     }
 
     @Override
@@ -80,13 +89,7 @@ public class TrophyWithAwardsAdapter extends RecyclerView.Adapter<TrophyWithAwar
         };
 
         // set click listener
-        holder.cardView.setOnClickListener(listener);
-
-
-
-
-        // set click listener
-
+        if(playerName == null || !playerName.equals(trophyAward.getPlayer())) holder.cardView.setOnClickListener(listener);
     }
 
     static class TrophyWithAwardsViewHolder extends RecyclerView.ViewHolder {

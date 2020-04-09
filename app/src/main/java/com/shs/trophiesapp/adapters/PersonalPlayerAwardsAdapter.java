@@ -33,13 +33,15 @@ public class PersonalPlayerAwardsAdapter extends RecyclerView.Adapter<PersonalPl
     private Context context;
     private List<TrophyWithAwards> data;
     private List<TrophyWithAwards> dataFiltered;
+    private String playerName;
 
     private RecyclerView.RecycledViewPool recycledViewPool;
 
-    public PersonalPlayerAwardsAdapter(Context context, List<TrophyWithAwards> data) {
+    public PersonalPlayerAwardsAdapter(Context context, List<TrophyWithAwards> data, String playerName) {
         this.context = context;
         this.data = data;
         this.dataFiltered = data;
+        this.playerName = playerName;
 
         recycledViewPool = new RecyclerView.RecycledViewPool();
 
@@ -63,7 +65,7 @@ public class PersonalPlayerAwardsAdapter extends RecyclerView.Adapter<PersonalPl
         Utils.imageFromCache(holder.img, trophy.getUrl());
         holder.trophyView.setBackgroundColor(trophy.getColor());
 
-        TrophyWithAwardsAdapter horizontalAdapter = new TrophyWithAwardsAdapter(context, data.get(position).awards, data.get(position).trophy.getColor());
+        TrophyWithAwardsAdapter horizontalAdapter = new TrophyWithAwardsAdapter(context, data.get(position).awards, data.get(position).trophy.getColor(), playerName);
         holder.recyclerViewHorizontal.setAdapter(horizontalAdapter);
         holder.recyclerViewHorizontal.setLayoutManager(new GridLayoutManager(context, 5));
 

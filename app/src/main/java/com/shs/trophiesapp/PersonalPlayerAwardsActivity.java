@@ -28,21 +28,22 @@ public class PersonalPlayerAwardsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: started");
         super.onCreate(savedInstanceState);
         context = this;
         setContentView(R.layout.personal_player_awards_activity);
+
+        int color = getIntent().getExtras().getInt("color");
+        String thePlayerName = getIntent().getStringExtra("playerName");
+        String url = getIntent().getExtras().getString("url");
+        String lastLetter = thePlayerName.substring(thePlayerName.length() - 1);
 
         // set recyclerview layout manager
         RecyclerView recyclerView = findViewById(R.id.personal_trophies_with_awards_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         trophiesWithAwards = new ArrayList<>();
-        adapter = new PersonalPlayerAwardsAdapter(this, trophiesWithAwards);
-        Log.d(TAG, "onCreate: started");
-        Intent intent = getIntent();
-        int color = intent.getExtras().getInt("color");
-        String thePlayerName = getIntent().getStringExtra("playerName");
-        String url = intent.getExtras().getString("url");
-        String lastLetter = thePlayerName.substring(thePlayerName.length() - 1);
+        adapter = new PersonalPlayerAwardsAdapter(this, trophiesWithAwards, thePlayerName);
+
         if (lastLetter.equals("s")) {
             setPlayerNameText(thePlayerName + "\' awards");
         } else {
@@ -53,7 +54,7 @@ public class PersonalPlayerAwardsActivity extends BaseActivity {
         recyclerView.setAdapter(adapter);
 
         // get data and notify adapter
-        getData(intent);
+        getData(getIntent());
 
     }
 
