@@ -253,7 +253,6 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             Log.d(TAG, "onReceive: downloadInfoList=" + Collections.singletonList(downloadInfoList));
             downloadInfoList.remove(downloadInfo.id);
             if (downloadInfoList.isEmpty()) {
-                binding.downloadDataButton.setEnabled(true);
                 Log.d(TAG, "onReceive: DOWNLOADS complete");
                 DirectoryHelper.listFilesInDirectoryRecursively(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
                 setupHashes();

@@ -28,19 +28,6 @@
         </androidx.appcompat.widget.AppCompatImageView>
 
         <Button
-            android:id="@+id/downloadDataButton"
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:layout_marginRight="400dp"
-            android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.022"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.021" />
-
-        <Button
             android:id="@+id/cleanButton"
             android:layout_width="200dp"
             android:layout_height="100dp"
@@ -60,7 +47,6 @@
             android:id="@+id/loadDatabaseButton"
             android:layout_width="200dp"
             android:layout_height="100dp"
-
             android:layout_marginEnd="20dp"
             android:background="@color/colorAccent"
             android:fontFamily="@font/montserrat_extrabold"
