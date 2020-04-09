@@ -35,10 +35,12 @@ public class BaseActivity extends AppCompatActivity {
                 new AdvancedSearchDialogActivity(this).startAdvancedSearchDialogActivity();
                 return true;
             case R.id.action_report_bug:
-                Intent emailIntent =
-                        new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", Constants.BUG_REPORT_EMAIL, null));
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Trophy App Kiosk Bug Report");
-                startActivity(Intent.createChooser(emailIntent, "Sending Email..."));
+                final Intent emailIntent = new Intent(Intent.ACTION_VIEW)
+                        .setType("plain/text")
+                        .setData(Uri.parse(Constants.BUG_REPORT_EMAIL))
+                        .setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail")
+                        .putExtra(Intent.EXTRA_SUBJECT, "SHS Trophy App Bug Report Email");
+                startActivity(emailIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
