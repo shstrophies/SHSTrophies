@@ -21,6 +21,7 @@ public final class Constants {
     public static final String DATA_DIRECTORY_DISK_CACHE_IMAGES = "SHSDATA/DISK_CACHE_IMAGES/";
     public static final String SPORTS_GID ="0";
 
+    public static final String BUG_REPORT_EMAIL = "email@gmail.com"; //TODO: Fix this email and log in on Kiosk to Trophy-App-specific email
 
     public static final String SPORTS_DIRECTORY_NAME = "sports";
     public static final String DATA_FILENAME_NAME = "exported.csv";
