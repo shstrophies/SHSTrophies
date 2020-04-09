@@ -1,7 +1,9 @@
 package com.shs.trophiesapp;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.DownloadManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -81,7 +83,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
         }
 
-        registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        getApplication().registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
         downloadData();
     }
@@ -206,13 +208,14 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         public void onReceive(Context context, Intent intent) {
             //Fetching the download id received with the broadcast
             if(stopDownloads) {
-                // Check to see if there's actually a directory and corresponding data otherwise don't allow (or you can check if hashes exist)
+                // TODO: Check to see if there's actually a directory and corresponding data otherwise don't allow (or you can check if hashes exist)
                 return;
             }
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             Log.d(TAG, "onReceive: downloaded id=" + id);
             DownloadInfo downloadInfo = downloadInfoMap.get(id);
-            Assert.that(downloadInfo != null, "downloadInfo should not be null");
+            if(downloadInfo == null) return;
+            //Assert.that(downloadInfo != null, "downloadInfo should not be null");
 
             //Checking if the received broadcast is for our enqueued download by matching download id
 
@@ -319,6 +322,36 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             editor.putString(path, hash);
         }
         editor.apply();
+    }
+
+    private static void killmyself(WeakReference<Context> context) {
+        try {
+            if (context.get() != null) {
+                PackageManager pm = context.get().getPackageManager();
+                if (pm != null) {
+                    Intent mStartActivity = pm.getLaunchIntentForPackage(context.get().getPackageName());
+                    if (mStartActivity != null) {
+                        mStartActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //create a pending intent so the application is restarted after System.exit(0) was called.
+                        // We use an AlarmManager to call this intent in 100ms
+                        int mPendingIntentId = 223344;
+                        PendingIntent mPendingIntent = PendingIntent.getActivity(context.get(), mPendingIntentId, mStartActivity,
+                                        PendingIntent.FLAG_CANCEL_CURRENT);
+                        AlarmManager mgr = (AlarmManager) context.get().getSystemService(Context.ALARM_SERVICE);
+                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+                        System.exit(0);
+                    } else {
+                        Log.e(TAG, "Was not able to restart application, mStartActivity null");
+                    }
+                } else {
+                    Log.e(TAG, "Was not able to restart application, PM null");
+                }
+            } else {
+                Log.e(TAG, "Was not able to restart application, Context null");
+            }
+        } catch (Exception ex) {
+            Log.e(TAG, "Was not able to restart application");
+        }
     }
 
     @Override
