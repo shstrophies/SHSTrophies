@@ -31,9 +31,7 @@ android {
         targetCompatibility = 1.8
     }
     buildToolsVersion = '29.0.2'
-
-    viewBinding.enabled = true;
-
+    viewBinding.enabled = true
     android {
         lintOptions {
             checkReleaseBuilds false

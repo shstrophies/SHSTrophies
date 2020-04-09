@@ -82,7 +82,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         }
 
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-        DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
+        //DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
         downloadData();
     }
 
@@ -176,7 +176,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         String fullDirectory = Environment.getExternalStorageDirectory() + "/" + destinationPath;
 
         DirectoryHelper.listFilesInDirectory(fullDirectory);
-        DirectoryHelper.deleteOlderFiles(fullDirectory, 5);
+        DirectoryHelper.deleteOlderFiles(fullDirectory, 0);
         DirectoryHelper.createDirectory(this);
 
         DownloadInfo downloadInfo = startDownload(downloadPath, destinationPath);
@@ -263,6 +263,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
     private void loadDatabase() {
         try {
+            //TODO: Check if downloads all exist
             stopDownloads = true;
             Log.d(TAG, "loadDatabase: ");
             Context context = getApplicationContext();
