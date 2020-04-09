@@ -74,9 +74,9 @@ public class SeedDatabaseWorker extends Worker {
                 HashMap<String, Trophy> map = new HashMap<>();
                 for(TrophyAwardData awarditem : trophyAwardCSVData) {
                     Trophy trophy = new Trophy(awarditem.getTitle(), awarditem.getUrl());
-                    Trophy trophyItem = map.get(awarditem.getUrl());
+                    Trophy trophyItem = map.get(awarditem.getTitle());
                     if(trophyItem == null) {
-                        map.put(awarditem.getUrl(), trophy);
+                        map.put(awarditem.getTitle(), trophy);
                         trophies.add(trophy);
                         long sportId = appDatabase.trophyDao().insert(sport);
                         trophy.setSportId(sportId);

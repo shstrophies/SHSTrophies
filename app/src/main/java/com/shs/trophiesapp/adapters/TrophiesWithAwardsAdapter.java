@@ -70,7 +70,10 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
             Dialog imageDialog = new Dialog(context);
             imageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             View modalView = LayoutInflater.from(context).inflate(R.layout.trophy_thumbnail_modal, null);
+
             ((ImageView) modalView.findViewById(R.id.trophy_modal_thumbnail)).setImageDrawable(holder.img.getDrawable());
+            modalView.findViewById(R.id.trophy_modal_cancel).setOnClickListener(view1 -> imageDialog.dismiss());
+
             imageDialog.setContentView(modalView);
             imageDialog.show();
         });

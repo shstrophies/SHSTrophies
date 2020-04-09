@@ -43,19 +43,16 @@ public class Utils {
         }catch(IOException e){
             e.printStackTrace();
         }
-        Bitmap bitmap = BitmapFactory.decodeStream(is);
-        return bitmap;
+        return BitmapFactory.decodeStream(is);
     }
 
     public static void synchronousImageDownload(Context context, String imageUrl) {
+        if(imageUrl.matches("DEFAULT IMAGE")) return;
         String[] p = imageUrl.split("/");
         if (p.length > 5) {
             String imageLink = Constants.DRIVE_URL + p[5];
             if(!imageUrl.isEmpty() && !imageUrl.trim().equals("")) {
                 try {
-                    /*Glide.with(context)
-                            .load(imageLink)
-                            .downloadOnly(500, 500).get();*/
                     Glide.with(context)
                             .load(imageLink)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
