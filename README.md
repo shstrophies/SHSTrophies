@@ -48,10 +48,6 @@ ___________________________________________________
 ___________________________________________________
 **Database related**
 ___________________________________________________
-
-  
-- file hashing merge into master (Needs Fixing)(Ujjwal)
-
 - enable recyclerview pagination (In Progress)(Ujjwal)
 
 
@@ -78,15 +74,17 @@ ___________________________________________________
 **UI Related Backend**
 ___________________________________________________
 
-- We should create a wrapper activity called MenuActivity that each Activity extends, and have that override onOptionsMenuItemClicked (whatever the method is), and have that deal with the menu options instead of copy pasting code between each activity. (Ujjwal)
+- Finish Trophy Modal Design and Enabling (Ujjwal)
 
-- Fix possibility of looping bug if someone keeps on pressing on a name. have it be able to be clicked max once
+~~- We should create a wrapper activity called MenuActivity that each Activity extends, and have that override onOptionsMenuItemClicked (whatever the method is), and have that deal with the menu options instead of copy pasting code between each activity. (Ujjwal)~~
+
+~~- Fix possibility of looping bug if someone keeps on pressing on a name. have it be able to be clicked max once (Ujjwal)~~
 
 - fix searching on homepage to work
 
-- add onclicklistener to trophy image in the search results page
+~~- add onclicklistener to trophy image in the search results page (Ujjwal)~~
 
-- add onclicklistener to trophy image in the personal award's page
+~~- add onclicklistener to trophy image in the personal award's page (Ujjwal)~~
 
 - make it so if there is no image in the spreadsheet, it will read in the default trophy
 
