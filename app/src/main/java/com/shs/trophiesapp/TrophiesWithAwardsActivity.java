@@ -4,26 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.adapters.TrophiesWithAwardsAdapter;
-import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 import com.shs.trophiesapp.search.SearchEngine;
 import com.shs.trophiesapp.search.SearchParameters;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-
-public class TrophiesWithAwardsActivity extends AppCompatActivity {
+public class TrophiesWithAwardsActivity extends BaseActivity {
     private static final String TAG = "TrophiesWithAwardsActivity";
 
     Context context;
@@ -55,31 +49,6 @@ public class TrophiesWithAwardsActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         getData(getIntent());
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
 
     private void getData(Intent intent) {
         Log.d(TAG, "getData: getData");

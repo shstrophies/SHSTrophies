@@ -10,29 +10,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.MessageDigest;
 
 public class Utils {
-
-
-
-
-
-    /*public static HashMap<String, String> linkedImages = new HashMap<>();
-
-    public static void imageFromUrl(ImageView view, String imageUrl) {
-        String[] p = imageUrl.split("/");
-        if (p.length > 5) {
-            //Create the new image link
-            String imageLink = Constants.DRIVE_URL + p[5];
-
-            if ((imageUrl != null) && !imageUrl.isEmpty()) {
-                Glide.with(view.getContext()).load(imageLink).into(view);
-
-            }
-        }
-    }*/
 
     public static void imageFromCache(ImageView view, String imageUrl) {
         if(imageUrl.matches("DEFAULT IMAGE")) {
@@ -82,5 +65,28 @@ public class Utils {
                 } catch (Exception e) {e.printStackTrace();}
             }
         }
+    }
+
+    public static String getFileHash(String filePath) {
+        try {
+            FileInputStream fis = new FileInputStream(filePath);
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+
+            byte[] byteArray = new byte[1024];
+            int bytesCount;
+            while ((bytesCount = fis.read(byteArray)) != -1) {
+                digest.update(byteArray, 0, bytesCount);
+            };
+            fis.close();
+
+            byte[] bytes = digest.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte bit : bytes) {
+                sb.append(Integer.toString((bit & 0xff) + 0x100, 16).substring(1));
+            }
+
+            return sb.toString();
+        } catch (Exception e) {e.printStackTrace();}
+        return null;
     }
 }

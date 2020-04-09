@@ -9,14 +9,11 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
-import com.shs.trophiesapp.R;
-import com.shs.trophiesapp.TrophyDetailsActivity;
 import com.shs.trophiesapp.adapters.TrophyWithAwardsAdapter;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.TrophyRepository;
@@ -27,7 +24,7 @@ import com.shs.trophiesapp.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrophyWithAwardsActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener   {
+public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSearchBar.OnSearchActionListener   {
     private static final String TAG = "TrophyPlayersAndYearsAc";
 
 

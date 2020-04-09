@@ -4,9 +4,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
-
-
+import android.util.Log;
 
 import java.util.HashMap;
 
@@ -37,10 +35,12 @@ public class Downloader {
     }
 
     public DownloadManager.Request createRequest(String url, String directory, String saveAsName) {
+        Log.d("DownloadManager", "SaveAsName: " + saveAsName);
         String downloadDescription = "url=" + url + " directory=" + directory + " saveAsName=" + saveAsName;
         DirectoryHelper.createDirectory(directory);
         DirectoryHelper.listFilesInDirectory(directory);
         Uri downloadUri = Uri.parse(url);
+        Log.d("DownloadManager", "DownloadUri: " + downloadUri);
         DownloadManager.Request request = new DownloadManager.Request(downloadUri);
 
         request.setTitle("Downloading file to directory=" + directory); // Title for notification.

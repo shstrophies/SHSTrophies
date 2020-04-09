@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.shs.trophiesapp.database.DataManager;
@@ -14,7 +13,7 @@ import com.shs.trophiesapp.database.TrophyRepository;
 import com.shs.trophiesapp.database.entities.Trophy;
 import com.shs.trophiesapp.utils.Utils;
 
-public class TrophyDetailsActivity extends AppCompatActivity {
+public class TrophyDetailsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

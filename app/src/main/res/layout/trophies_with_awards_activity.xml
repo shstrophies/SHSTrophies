@@ -50,7 +50,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trophies_with_awards_recyclerview"
         android:layout_width="1273dp"
-        android:layout_height="590dp"
+        android:layout_height="680dp"
         android:layout_alignParentTop="true"
 
         android:layout_marginTop="10dp"

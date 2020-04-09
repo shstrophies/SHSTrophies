@@ -27,6 +27,13 @@ public class DirectoryHelper extends ContextWrapper {
         return Environment.MEDIA_MOUNTED.equals(extStorageState);
     }
 
+    public void createFolderDirectories() {
+        if (isExternalStorageAvailable()) {
+            createDirectory(ROOT_DIRECTORY_NAME);
+        }
+    }
+
+
     public static void createDirectory(String directoryName) {
         if (!doesDirectoryExist(directoryName)) {
             File file = new File(Environment.getExternalStorageDirectory(), directoryName);

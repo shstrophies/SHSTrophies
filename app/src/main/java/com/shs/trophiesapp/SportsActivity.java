@@ -8,15 +8,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -36,7 +33,7 @@ import com.shs.trophiesapp.search.SearchSuggestions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SportsActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener, MaterialSearchBar.OnCreateContextMenuListener, PopupMenu.OnMenuItemClickListener {
+public class SportsActivity extends BaseActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener, MaterialSearchBar.OnCreateContextMenuListener, PopupMenu.OnMenuItemClickListener {
     private static final String TAG = "SportsActivity";
 
     private SportsActivityBinding binding;
@@ -116,40 +113,6 @@ public class SportsActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        AboutDialogActivity loadingDialog = new AboutDialogActivity(SportsActivity.this);
-        AdvancedSearchDialogActivity advancedSearch = new AdvancedSearchDialogActivity(SportsActivity.this);
-
-        switch (item.getItemId()) {
-            case R.id.action_advanced_search:
-                advancedSearch.startAdvancedSearchDialogActivity();
-                return true;
-            case R.id.action_about:
-                loadingDialog.startAboutDialogActivity();
-                return true;
-            case R.id.action_report_bug:
-                return true;
-            default:
-                return false;
-        }
-
-
-    }
-
 
     @Override
     public void onSearchStateChanged(boolean enabled) {
