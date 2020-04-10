@@ -47,8 +47,7 @@ public class DirectoryHelper extends ContextWrapper {
         File[] files = dir.listFiles();
         if (files != null) {
             Log.d(TAG, "listFilesInDirectory: dirPath=" + dirPath + " " + Arrays.toString(files));
-        }
-        else {
+        } else {
             Log.d(TAG, "listFilesInDirectory: no files");
         }
         return files;
@@ -56,7 +55,7 @@ public class DirectoryHelper extends ContextWrapper {
 
     public static void listFilesInDirectoryRecursively(String dirPath) {
         File dir = new File(dirPath);
-        if(dir.isDirectory()) {
+        if (dir.isDirectory()) {
             Log.d(TAG, "listFilesInDirectoryRecursively: directory=" + dirPath);
         }
         File[] allContents = dir.listFiles();
@@ -93,23 +92,24 @@ public class DirectoryHelper extends ContextWrapper {
         // file array with all the files
         File[] files = dir.listFiles(); //important
 
-        // sort files from lowest to biggest number, oldest to newest
-        Arrays.sort(files, (f1, f2) -> Long.compare(f1.lastModified(), f2.lastModified()));
+        if (files != null) {
+            // sort files from lowest to biggest number, oldest to newest
+            Arrays.sort(files, (f1, f2) -> Long.compare(f1.lastModified(), f2.lastModified()));
 
-        Log.d(TAG, "deleteOlderFiles: "+ Arrays.toString(files));
-        // no need to remove files
-        if(files.length <= keepNewestNumberOfFiles){
+            Log.d(TAG, "deleteOlderFiles: " + Arrays.toString(files));
+            // no need to remove files
+            if (files.length <= keepNewestNumberOfFiles) {
 
-            Log.d(TAG, "deleteOlderFiles: nothing to delete");
-            return;
+                Log.d(TAG, "deleteOlderFiles: nothing to delete");
+                return;
+            }
+
+            // objective is to eliminate elements that that are the oldest, aka delete the files with the smallest numbers
+            for (int i = 0; i < (files.length - keepNewestNumberOfFiles); i++) {
+                Log.d(TAG, "deleteOlderFiles: DELETING FILE: " + files[i]);
+                files[i].delete();
+            }
         }
-
-        // objective is to eliminate elements that that are the oldest, aka delete the files with the smallest numbers
-        for(int i=0;i < (files.length - keepNewestNumberOfFiles); i++){
-            Log.d(TAG, "deleteOlderFiles: DELETING FILE: " + files[i]);
-            files[i].delete();
-        }
-
     }
 
     public static boolean doesDirectoryExist(String directoryName) {
@@ -117,7 +117,7 @@ public class DirectoryHelper extends ContextWrapper {
         return file.isDirectory() && file.exists();
     }
 
-    public static File getLatestFilefromDir(String dirPath){
+    public static File getLatestFilefromDir(String dirPath) {
         Log.d(TAG, "getLatestFilefromDir: dirPath=" + dirPath);
         File dir = new File(dirPath);
         File[] files = dir.listFiles();
