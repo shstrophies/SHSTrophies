@@ -60,9 +60,8 @@ ___________________________________________________
 - add suggestions for trophy page 
 - add suggestions for players page
 
-- fix advanced search bugs
+- fix advanced search bugs (Ujjwal)
 
-- nice to have: show # of results found on search bar suggestion
 - add different icons to search maybe
 
 
@@ -76,17 +75,8 @@ ___________________________________________________
 
 - Finish Trophy Modal Design and Enabling (Ujjwal)
 
-~~- We should create a wrapper activity called MenuActivity that each Activity extends, and have that override onOptionsMenuItemClicked (whatever the method is), and have that deal with the menu options instead of copy pasting code between each activity. (Ujjwal)~~
-
-~~- Fix possibility of looping bug if someone keeps on pressing on a name. have it be able to be clicked max once (Ujjwal)~~
-
 - fix searching on homepage to work
 
-~~- add onclicklistener to trophy image in the search results page (Ujjwal)~~
-
-~~- add onclicklistener to trophy image in the personal award's page (Ujjwal)~~
-
-- make it so if there is no image in the spreadsheet, it will read in the default trophy
 
 
 
@@ -109,45 +99,10 @@ ___________________________________________________
 ___________________________________________________
 When you tap on the search bar, there will be no existing results underneath it. 
 
-General explanation:
-
-When you type in a few letters of a name:
-
-There will be 1 suggestion for "{the Name}" (in players)
-There will be x amount of suggestions for "{theName} {sportName}". BTW, there's no "in..." for these
-    - x represents the number of sports this player has trophies for. 
-    - Let's say he does Basketball, Baseball, and Soccer.
-    - in this case, there will be "{theName} {sportName}" 3 times 
-    - ex: "Jeff Holmes Basketball", "Jeff Holmes Baseball", "Jeff Holmes Soccer"
-There will be x amount of suggestions for "{theName} {trophy year}"
-    - x represents the number of years this player has trophies for. 
-    - Let's say he won in 1995, 1996, 1996, 1997.
-    - in this case, there will be "{theName} {the sport}" 3 times  (we dont have duplicates for year) 
-    - ex: "Jeff Holmes 1995", "Jeff Holmes 1996", "Jeff Holmes 1997"
-    
-    
-Now, let's say they have "Jeff Homles" in their search bar and then type a 1. 
-So the search space has  "Jeff Homles 1" inside of it.
-Immediatly, all of the "Jeff Holmes {sportName}" suggestions will go away since the user is clearly looking for a year
-
-Now, let's say they have "Jeff Homles" in their search bar and then type a "B". 
-So the search space has  "Jeff Homles B" inside of it.
-Immediatly, all of the "Jeff Holmes {trophy year}" suggestions will go away since the user is clearly not looking for a year
-
-At this point, lets say they have "Jeff Homles 1995" in search bar.
-As soon as they finish the 4 digit number:
-
-It will now expect a sport name.
-
-I think just supporting Name+ Year or Name + Sport search suggestions is good enough for homepage if we include this advnaced search that I was thinking about.
 
 
-Let's say they type in the name of a sport. Let's use "Football". The subsequent suggestions would be:
-"Football {the years of football trophies}"
-"Football {different types of football trophy names}"
 
-
-Mike Cable M
+Mike Cable 
 ___________
 
 Mike Cable in Players
@@ -159,124 +114,19 @@ Mike Cable 1997
 Mike Calble Most Insipration
 Mike Cable Fearless Player
 
+___________________________________________________
+### Ujjwal TODO:
+___________________________________________________
 
-Spreadsheet assignments:
-------------------------
 
-./golf/boys/P7220035.JPG,genius
-./field hockey/girls/P7220133.JPG,genius
-./field hockey/girls/P7220155.JPG,genius
-./wrestling/P7220236.JPG,genius
-./wrestling/P7220037.JPG,genius
-./wrestling/P7220190.JPG,genius
-./wrestling/P7220028.JPG,genius
-./football/P7220255.JPG,boss
-./football/P7220320.JPG,boss
-./football/P7220322.JPG,boss
-./football/P7220243.JPG,boss
-./football/P7220247.JPG,boss
-./football/P7220324.JPG,boss
-./football/P7220250.JPG,boss
-./football/P7220286.JPG,boss
-./football/P7220319.JPG,boss
-./football/P7220182.JPG,boss
-./football/P7220194.JPG,boss
-./football/P7220221.JPG,boss
-./football/P7220208.JPG,boss
-./football/P7220156.JPG,boss
-./football/P7220185.JPG,boss
-./football/P7220230.JPG,boss
-./football/P7220219.JPG,boss
-./football/P7220193.JPG,boss
-./football/P7220178.JPG,boss
-./football/P7220203.JPG,boss
-./football/P7220216.JPG,boss
-./football/P7220176.JPG,boss
-./football/P7220214.JPG,boss
-./football/P7220201.JPG,boss
-./football/P7220173.JPG,genius
-./football/P7220198.JPG,genius
-./football/P7220239.JPG,genius
-./football/P7220238.JPG,genius
-./football/P7220260.JPG,genius
-./football/P7220249.JPG,genius
-./baseball/P7220269.JPG,ucla
-./baseball/P7220296.JPG,ucla
-./baseball/P7220080.JPG,ucla
-./baseball/P7220268.JPG,ucla
-./baseball/P7220295.JPG,ucla
-./baseball/P7220292.JPG,ucla
-./baseball/P7220235.JPG,ucla
-./baseball/P7220277.JPG,ucla
-./baseball/P7220271.JPG,ucla
-./softball/P7220121.JPG,ucla
-./soccer/girls/P7220131.JPG,ucla
-./soccer/girls/P7220124.JPG,ucla
-./soccer/girls/P7220127.JPG,ucla
-./soccer/girls/P7220075.JPG,ucla
-./soccer/girls/P7220099.JPG,ucla
-./soccer/boys/P7220134.JPG,ucla
-./soccer/boys/P7220086.JPG,ucla
-./soccer/boys/P7220084.JPG,ucla
-./soccer/boys/P7220076.JPG,ucla
-./soccer/boys/P7220117.JPG,ucla
-./basketball/girls/P7220233.JPG,vigvig
-./basketball/boys/P7220225.JPG,vigvig
-./basketball/boys/P7220229.JPG,vigvig
-./basketball/boys/P7220266.JPG,vigvig
-./basketball/P7220316.JPG,vigvig
-./waterpolo/girls/P7220016.JPG,vigvig
-./waterpolo/girls/P7220006.JPG,vigvig
-./waterpolo/boys/P7220026.JPG,vigvig
-./waterpolo/boys/P7220019.JPG,vigvig
-./waterpolo/P7220002.JPG,vigvig
-./volleyball/girls/P7220068.JPG,vigvig
-./volleyball/boys/P7220109.JPG,vigvig
-./volleyball/boys/P7220063.JPG,vigvig
-./volleyball/boys/P7220110.JPG,vigvig
-./volleyball/boys/P7220065.JPG,vigvig
-./cross country/P7220042.JPG,vigvig
-./cross country/girls/P7220051.JPG,vigvig
-./cross country/girls/P7220060.JPG,vigvig
-./cross country/P7220041.JPG,vigvig
-./cross country/P7220046.JPG,vigvig
-./cross country/boys/P7220054.JPG,vigvig
-./cross country/boys/P7220317.JPG,vigvig
-./cross country/boys/P7220048.JPG,vigvig
-./dance/P7220326.JPG,genius
-./dance/P7220328.JPG,genius
-./track and field/girls/P7220093.JPG,genius
-./track and field/girls/P7220102.JPG,genius
-./track and field/boys/P7220095.JPG,
-./track and field/boys/P7220082.JPG,
-./track and field/boys/P7220276.JPG,
-./swimming/girls/P7220105.JPG,
-./swimming/girls/P7220107.JPG,
-./swimming/boys/P7220032.JPG,
-./swimming/boys/P7220029.JPG,
-./swimming/boys/P7220039.JPG,
-./swimming/P7220005.JPG,
-./swimming/P7220272.JPG,
-./tennis/girls/P7220168.JPG,
-./tennis/girls/P7220157.JPG,
-./tennis/girls/P7220146.JPG,
-./tennis/girls/P7220144.JPG,
-./tennis/girls/P7220160.JPG,
-./tennis/girls/P7220163.JPG,
-./tennis/girls/P7220158.JPG,
-./tennis/girls/P7220165.JPG,
-./tennis/girls/P7220114.JPG,
-./tennis/boys/P7220284.JPG,
-./tennis/boys/P7220141.JPG,
-./tennis/boys/P7220152.JPG,
-./tennis/boys/P7220162.JPG,
-./tennis/boys/P7220167.JPG,
-./tennis/boys/P7220170.JPG,
-./tennis/boys/P7220139.JPG,
-./overall/P7220257.JPG,
-./overall/P7220291.JPG,
-./overall/P7220187.JPG,
-./overall/P7220314.JPG,
-./overall/P7220299.JPG,
-./overall/P7220305.JPG
+- Fix sizing of trophy image when you tap on it (cuz rn they show up really small and are grainy when i try to adjust the size)
+
+- Implement search suggestions on the Trophy Page. The searching works but no suggestions show up (i think you can copy most of the existing code from the homepgae search). But, one thing to note is that suggestions for Trophy page should only be for things that are inside of trophy page. 
+- Implement search functionality and suggestions on the Players Page. Neither the searching nor suggestions work for this activity. 
+- Fix search suggestions on homepage. When you tap search bar right now, it shows shaquille O'Neil, etc. It should show nothing when you first tap on it. Then as you type a letter, stuff should start appearing.
+- If someone types in football on homepage, searching should bring them to the football trophies page.
+- Fix advanced search. Rn, if you type in 1990 into the Names section, it just shows all results. It should show none since no one is named 1990. Make sure people can only enter numbers inside of the Year space or else we'll tell them it must be a year
+- add a pinch zoom in for the trophy images. (maybe use a library like this https://github.com/davemorrissey/subsampling-scale-image-view to start).
+- add pagination
+
 
