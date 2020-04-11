@@ -1,12 +1,11 @@
 package com.shs.trophiesapp.adapters;
 
-import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -19,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shs.trophiesapp.R;
+import com.shs.trophiesapp.TrophyDetailsActivity;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.entities.Trophy;
@@ -66,16 +66,16 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
         TrophyWithAwardsAdapter horizontalAdapter = new TrophyWithAwardsAdapter(context, data.get(position).awards, data.get(position).trophy.getColor());
 
         Utils.imageFromCache(holder.img, trophy.getUrl());
+
         holder.img.setOnClickListener(view -> {
-            Dialog imageDialog = new Dialog(context);
-            imageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            View modalView = LayoutInflater.from(context).inflate(R.layout.trophy_thumbnail_modal, null);
+            Intent intent1 = new Intent(context, TrophyDetailsActivity.class);
 
-            ((ImageView) modalView.findViewById(R.id.trophy_modal_thumbnail)).setImageDrawable(holder.img.getDrawable());
-            modalView.findViewById(R.id.trophy_modal_cancel).setOnClickListener(view1 -> imageDialog.dismiss());
+            // passing data
+            intent1.putExtra("trophyId", trophy.getId());
+            intent1.putExtra("color", trophy.getColor());
 
-            imageDialog.setContentView(modalView);
-            imageDialog.show();
+            // start activity
+            context.startActivity(intent1);
         });
 
         holder.textViewSport.setText(textViewSportText);
