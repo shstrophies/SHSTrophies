@@ -126,4 +126,5 @@ ___________________________________________________
 - add pagination
 
 ~~- Fix sizing of trophy image when you tap on it (cuz rn they show up really small and are grainy when i try to adjust the size)~~
+
 ~~- add a pinch zoom in for the trophy images. (maybe use a library like this https://github.com/davemorrissey/subsampling-scale-image-view to start).~~
