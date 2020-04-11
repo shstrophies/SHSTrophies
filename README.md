@@ -118,15 +118,12 @@ ___________________________________________________
 ### Ujjwal TODO:
 ___________________________________________________
 
-
-- Fix sizing of trophy image when you tap on it (cuz rn they show up really small and are grainy when i try to adjust the size)
-
 - Implement search suggestions on the Trophy Page. The searching works but no suggestions show up (i think you can copy most of the existing code from the homepgae search). But, one thing to note is that suggestions for Trophy page should only be for things that are inside of trophy page. 
 - Implement search functionality and suggestions on the Players Page. Neither the searching nor suggestions work for this activity. 
 - Fix search suggestions on homepage. When you tap search bar right now, it shows shaquille O'Neil, etc. It should show nothing when you first tap on it. Then as you type a letter, stuff should start appearing.
 - If someone types in football on homepage, searching should bring them to the football trophies page.
 - Fix advanced search. Rn, if you type in 1990 into the Names section, it just shows all results. It should show none since no one is named 1990. Make sure people can only enter numbers inside of the Year space or else we'll tell them it must be a year
-- add a pinch zoom in for the trophy images. (maybe use a library like this https://github.com/davemorrissey/subsampling-scale-image-view to start).
 - add pagination
 
-
+~~- Fix sizing of trophy image when you tap on it (cuz rn they show up really small and are grainy when i try to adjust the size)~~
+~~- add a pinch zoom in for the trophy images. (maybe use a library like this https://github.com/davemorrissey/subsampling-scale-image-view to start).~~
