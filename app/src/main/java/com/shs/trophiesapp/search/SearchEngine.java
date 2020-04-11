@@ -13,6 +13,7 @@ import com.shs.trophiesapp.database.entities.Trophy;
 import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,16 +28,16 @@ public class SearchEngine {
     public static final String SPORTID_SEARCH_KEY = "sportId:";
     public static final String delimiter = "#";
 
-    Context context;
-    SportRepository sportRepository;
-    TrophyRepository trophyRepository;
+    private WeakReference<Context> context;
+    private SportRepository sportRepository;
+    private TrophyRepository trophyRepository;
 
     // Singleton code
     private static SearchEngine single_instance = null;
 
     // private constructor restricted to this class itself
     private SearchEngine(Context context) {
-        this.context = context;
+        this.context = new WeakReference<>(context);
         sportRepository = DataManager.getSportRepository(context);
         trophyRepository = DataManager.getTrophyRepository(context);
     }
@@ -65,24 +66,21 @@ public class SearchEngine {
     // This will be used in query as follows:
     // select * from trophyaward where year in (1976, 1991)
     String getAllDigitsString(String input) {
-        String result = input.replaceAll("[^0-9]+", " ").trim();
-        return result;
+        return input.replaceAll("[^0-9]+", " ").trim();
     }
 
     // Convert string containing digits separated by space delimiter to list of digit strings (use Arrays.asList())
     // if input is empty, return empty list (use Collections.emptyList())
     // Example: input: "1982 1076" should return a list of "1982" and "1976"
     List<String> convertToDigitsList(String input) {
-        List<String> result = input.isEmpty() ? Collections.emptyList() : Arrays.asList(input.trim().split(" "));
-        return result;
+        return input.isEmpty() ? Collections.emptyList() : Arrays.asList(input.trim().split(" "));
     }
 
     // Convert list of strings to list of integers (use stream().map(inputElem -> /* conversion */)
     // if input is empty, return empty list (use Collections.emptyList())
     // if input element is not an integer string then covert it to 0
     List<Integer> convertToListOfIntegers(List<String> input) {
-        List<Integer> result = input.isEmpty() ? Collections.emptyList() : input.stream().map(inputElem -> Integer.parseInt(inputElem)).collect(Collectors.toList());
-        return result;
+        return input.isEmpty() ? Collections.emptyList() : input.stream().map(Integer::parseInt).collect(Collectors.toList());
     }
 
     // Find list of non-digit strings in the the string
@@ -93,32 +91,25 @@ public class SearchEngine {
     // This will be used in query as follows:
     // select * from trophyaward where (player like '%Shaq%') OR (player like '%Glen%') OR (player like '%Most Inspirational%')
     String getAllNonDigitsString(String input, String delimiter) {
-        String result = input.replaceAll("[0-9]+\\s*[,]*", " ").replaceAll(",", delimiter).replaceAll("\\s+", " ");
-        return result;
+        return input.replaceAll("[0-9]+\\s*[,]*", " ").replaceAll(",", delimiter).replaceAll("\\s+", " ");
     }
 
     // Convert strings separated by delimiter to list of strings
     // input is one string which contains strings separated by delimiter (example: "Shaq#Glen#Most Inspirational")
     // if input is empty, return empty list (use Collections.emptyList())
     List<String> convertToListOfStrings(String input, String delimiter) {
-        List<String> result = input.isEmpty() ? Collections.emptyList() : Arrays.asList(input.trim().split(delimiter));
-        return result;
+        return input.isEmpty() ? Collections.emptyList() : Arrays.asList(input.trim().split(delimiter));
     }
 
     // Convert list of strings to list of sport ids (use stream().map(inputElem -> /* conversion */)
     // if input is empty, return empty list (use Collections.emptyList())
     List<Long> convertToListOfSportIds(List<String> input) {
-        List<Long> result = input.isEmpty()
-                ?
-                Collections.emptyList()
-                :
+        return input.isEmpty() ? Collections.emptyList() :
                 input.stream().map(inputElem -> {
-                    String sportName = inputElem;
-                    List<Sport> sports = sportRepository.searchSportByName(sportName);
+                    List<Sport> sports = sportRepository.searchSportByName(inputElem);
                     return sports.get(0).getId();
 
                 }).collect(Collectors.toList());
-        return result;
     }
 
     // Convert input list of TrophyAward objects to list of TrophyWithAwards
@@ -126,7 +117,7 @@ public class SearchEngine {
     // Then iterate through the hashMap and for each trophyId key, get the Trophy object (use trophyRepository.getTrophyById(trophyId) method).
     // Construct the TrophyAward objects and add it to the result list.
     List<TrophyWithAwards> converttoListOfTrophyWithAwards(List<TrophyAward> input) {
-        ArrayList<TrophyWithAwards> result = new ArrayList();
+        ArrayList<TrophyWithAwards> result = new ArrayList<>();
 
         HashMap<Long, List<TrophyAward>> map = new HashMap<>();
         for (TrophyAward award : input) {
@@ -152,13 +143,10 @@ public class SearchEngine {
 
     // Get list of sport ids from search parameter sportsStr
     public List<Long> getSportIds(String sportNames, boolean allIdsIfEmpty) {
-        ArrayList<Long> sportids = new ArrayList();
         String nonDigitTitlesString = getAllNonDigitsString(sportNames, delimiter);
         List<String> titlesList = convertToListOfStrings(nonDigitTitlesString, delimiter);
-        return (titlesList.isEmpty() && allIdsIfEmpty) ?
-                sportRepository.getSports().stream().map(e -> e.getId()).collect(Collectors.toList())
-                :
-                convertToListOfSportIds(titlesList);
+        return (titlesList.isEmpty() && allIdsIfEmpty) ? sportRepository.getSports().stream().map(Sport::getId).collect(Collectors.toList())
+                : convertToListOfSportIds(titlesList);
     }
 
     public Long getSportId(String sportNames) {
@@ -185,8 +173,7 @@ public class SearchEngine {
     public List<String> getTitles(SearchParameters searchParameters) {
         String titlesStr = searchParameters.getTrophyTitles();
         String nonDigitTitlesString = getAllNonDigitsString(titlesStr, delimiter);
-        List<String> titlesList = convertToListOfStrings(nonDigitTitlesString, delimiter);
-        return titlesList;
+        return convertToListOfStrings(nonDigitTitlesString, delimiter);
     }
 
     // Find list of non-digit strings in the playersStr string
@@ -194,12 +181,11 @@ public class SearchEngine {
     // Example: "Glen, Anna Smith" should return "Glen#Anna Smith"
     public List<String> getPlayers(SearchParameters searchParameters) {
         String nonDigitPlayersString = getAllNonDigitsString(searchParameters.getPlayerNames(), delimiter);
-        List<String> playersList = convertToListOfStrings(nonDigitPlayersString, delimiter);
-        return playersList;
+        return convertToListOfStrings(nonDigitPlayersString, delimiter);
     }
 
     public ArrayList<TrophyWithAwards> search(String searchStr) {
-        List<Long> sportids = sportRepository.getSports().stream().map(e -> e.getId()).collect(Collectors.toList());
+        List<Long> sportids = sportRepository.getSports().stream().map(Sport::getId).collect(Collectors.toList());
         return searchInSports(sportids, searchStr);
     }
 
@@ -210,57 +196,45 @@ public class SearchEngine {
     // select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (year IN (1961, 1983, 1992)) AND ((player LIKE '%glen%') OR (player like '%Joy%'));
     public ArrayList<TrophyWithAwards> searchInSports(List<Long> sportIds, String searchStr) {
 
-        ArrayList<String> titles = new ArrayList();
-        ArrayList<Integer> years = new ArrayList();
-        ArrayList<String> players = new ArrayList();
-        ArrayList<TrophyWithAwards> result = new ArrayList<>();
-
         // Get list of years from search string searchStr
         // Example: input: "1982 1076" should return a list of "1982" and "1976"
         String digitsString = getAllDigitsString(searchStr);
         List<String> digitsList = convertToDigitsList(digitsString);
-        years.addAll(convertToListOfIntegers(digitsList));
+        ArrayList<Integer> years = new ArrayList<>(convertToListOfIntegers(digitsList));
 
         // Find list of non-digit strings in the the string
         // Get all non-digit strings separated by # delimiter (use replaceAll method)
         // Example: "Shaq, 1982, Glen, 1976, Most Inspirational" should return "Shaq#Glen#Most Ispirational"
         String nonDigitString = getAllNonDigitsString(searchStr, delimiter);
         List<String> stringsList = convertToListOfStrings(nonDigitString, delimiter);
-        titles.addAll(stringsList);
-        players.addAll(stringsList);
+        ArrayList<String> titles = new ArrayList<>(stringsList);
+        ArrayList<String> players = new ArrayList<>(stringsList);
 
-        List<TrophyAward> list = DataManager.getTrophyRepository(context).getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers(sportIds, titles, years, players);
-        result.addAll(converttoListOfTrophyWithAwards(list));
-        return result;
+        List<TrophyAward> list = DataManager.getTrophyRepository(context.get()).getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers(sportIds, titles, years, players);
+        return new ArrayList<>(converttoListOfTrophyWithAwards(list));
     }
 
 
     public ArrayList<TrophyWithAwards> advancedSearch(SearchParameters searchParameters) {
-        List<Long> sportIds = new ArrayList<>();
-        ArrayList<String> titles = new ArrayList<>();
-        ArrayList<Integer> years = new ArrayList<>();
-        ArrayList<String> players = new ArrayList<>();
-        ArrayList<TrophyWithAwards> result = new ArrayList<>();
 
         // Get list of sport ids from search parameter sportsStr
-        sportIds.addAll(getSportIds(searchParameters));
+        List<Long> sportIds = new ArrayList<>(getSportIds(searchParameters));
 
         // Get list of years from search parameter yearsStr
         // Example: input: "1982 1076" should return a list of "1982" and "1976"
-        years.addAll(getYears(searchParameters));
+        ArrayList<Integer> years = new ArrayList<>(getYears(searchParameters));
 
         // Find list of non-digit strings in the titlesStr string
         // Get all non-digit strings separated by # delimiter (use replaceAll method)
         // Example: "Most Inspirational, Most Valuable" should return "Most Inspirational#Most Valuable"
-        titles.addAll(getTitles(searchParameters));
+        ArrayList<String> titles = new ArrayList<>(getTitles(searchParameters));
 
         // Find list of non-digit strings in the playersStr string
         // Get all non-digit strings separated by # delimiter (use replaceAll method)
         // Example: "Glen, Anna Smith" should return "Glen#Anna Smith"
-        players.addAll(getPlayers(searchParameters));
+        ArrayList<String> players = new ArrayList<>(getPlayers(searchParameters));
 
-        List<TrophyAward> list = DataManager.getTrophyRepository(context).getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers(sportIds, titles, years, players);
-        result.addAll(converttoListOfTrophyWithAwards(list));
-        return result;
+        List<TrophyAward> list = DataManager.getTrophyRepository(context.get()).getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers(sportIds, titles, years, players);
+        return new ArrayList<>(converttoListOfTrophyWithAwards(list));
     }
 }

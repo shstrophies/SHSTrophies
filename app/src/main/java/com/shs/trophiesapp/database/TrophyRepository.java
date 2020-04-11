@@ -12,8 +12,6 @@ import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 import com.shs.trophiesapp.utils.Constants;
 
-import java.util.ArrayList;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,15 +66,15 @@ public class TrophyRepository {
     // select * FROM trophyaward INNER JOIN trophy ON trophy.id=trophyId WHERE (trophy.sportId IN (1,2,3,4,5,6)) AND (title LIKE '%inspirational%')
     public List<TrophyAward> getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers(List<Long> sportIds, List<String> titles, List<Integer> years, List<String> players) {
         String sportsExpr = sportIds.isEmpty() ? "" :
-                "(trophy.sportId IN (" + sportIds.stream().map(elem -> String.valueOf(elem)).collect(Collectors.joining(", ")) + "))";
+                "(trophy.sportId IN (" + sportIds.stream().map(String::valueOf).collect(Collectors.joining(", ")) + "))";
         String titlesExpr = titles.isEmpty() ? "" :
                 "(" + titles.stream().map(elem -> "(title LIKE \"%" + String.valueOf(elem).trim() + "%\")").collect(Collectors.joining(" OR ")) + ")";
         String yearsExpr = years.isEmpty() ? "" :
-                "(year IN (" + years.stream().map(elem -> String.valueOf(elem)).collect(Collectors.joining(", ")) + "))";
+                "(year IN (" + years.stream().map(String::valueOf).collect(Collectors.joining(", ")) + "))";
         String playersExpr = players.isEmpty() ? "" :
                 "(" + players.stream().map(elem -> "(player LIKE \"%" + String.valueOf(elem).trim() + "%\")").collect(Collectors.joining(" OR ")) + ")";
 
-        boolean titlesSameAsPlayers = !titles.stream().filter(players::contains).collect(Collectors.toList()).isEmpty();
+        boolean titlesSameAsPlayers = titles.stream().anyMatch(players::contains);
         Log.d(TAG, "getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers: titlesSameAsPlayers ==> " + titlesSameAsPlayers);
         String expression = sportsExpr +
                 (yearsExpr.isEmpty() ? "" : " AND " + yearsExpr) +
@@ -90,8 +88,7 @@ public class TrophyRepository {
                 (expression.isEmpty() ? "" : (" WHERE " + expression));
         Log.d(TAG, "getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers: query=" + querystr);
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(querystr);
-        List<TrophyAward> list = trophyDao.getTrophyAwardsByExpression(query);
-        return list;
+        return trophyDao.getTrophyAwardsByExpression(query);
     }
 
     public List<TrophyAward> getTrophyAwardsBySportAndYear(long sportId, int year) {
@@ -142,7 +139,6 @@ public class TrophyRepository {
         //ArrayList<String> listOfStrings = new ArrayList<String>();
 
         //converting integer array to string array
-        List<String> listOfStrings = listOfYears.stream().map(elem -> String.valueOf(elem)).collect(Collectors.toList());
 
 
         /*
@@ -150,7 +146,7 @@ public class TrophyRepository {
             listOfStrings.add(""+listOfYears.get(i));
         }
         */
-        return listOfStrings;
+        return listOfYears.stream().map(String::valueOf).collect(Collectors.toList());
 
     }
 

@@ -39,7 +39,7 @@ public class SearchSuggestions {
     }
 
     // static method to create instance of Singleton class
-    public static SearchSuggestions getInstance(Context context, List suggestions) {
+    public static SearchSuggestions getInstance(Context context, List<Suggestion> suggestions) {
         if (single_instance == null)
             single_instance = new SearchSuggestions(context, suggestions);
         return single_instance;
@@ -66,7 +66,7 @@ public class SearchSuggestions {
         YearRange range = getYearRange(searchString);
         List<String> years = trophyRepository.searchYear(range.getYearFrom(), range.getYearTo(), 5);
 
-        ArrayList<Suggestion> allSuggestions = new ArrayList<Suggestion>();
+        ArrayList<Suggestion> allSuggestions = new ArrayList<>();
         allSuggestions.addAll(sports.stream().map(e -> new Suggestion(e, "   in \"Sports\"")).collect(Collectors.toList()));
         allSuggestions.addAll(trophies.stream().map(e -> new Suggestion(e, "   in \"Trophies\"")).collect(Collectors.toList()));
         allSuggestions.addAll(players.stream().map(e -> new Suggestion(e, "   in \"Players\"")).collect(Collectors.toList()));
