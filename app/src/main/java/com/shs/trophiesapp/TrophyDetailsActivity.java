@@ -1,6 +1,7 @@
 package com.shs.trophiesapp;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 
+import com.bogdwellers.pinchtozoom.ImageMatrixTouchHandler;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.TrophyRepository;
 import com.shs.trophiesapp.database.entities.Trophy;
@@ -43,6 +45,7 @@ public class TrophyDetailsActivity extends BaseActivity {
         Utils.imageFromCache(img, url);
         cardView.setBackgroundColor(color);
 
+        img.setOnTouchListener(new ImageMatrixTouchHandler(this));
     }
 
 

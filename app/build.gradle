@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.shs.trophiesapp"
@@ -65,9 +64,8 @@ dependencies {
     //Material search bar library
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 
-    ///// Pagination library
-    annotationProcessor "com.jakewharton:butterknife:10.1.0"
-    annotationProcessor "com.jakewharton:butterknife-compiler:10.1.0"
+    // Image Zoom Library
+    implementation 'com.bogdwellers:pinchtozoom:0.1'
 
     annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
 //    annotationProcessor "androidx.databinding:databinding-compiler:3.2.0-alpha16"
