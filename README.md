@@ -48,59 +48,40 @@ ___________________________________________________
 ___________________________________________________
 **Database related**
 ___________________________________________________
-- enable recyclerview pagination (In Progress)(Ujjwal)
+- (Maybe for later if needed. Dont work on this yet)enable recyclerview pagination 
 
-
-~~(POSTPONED)- add FTS in the Database (Ujjwal & Carolina)~~
 ___________________________________________________
 **Remaining Search Features**
 ___________________________________________________
-
-- suggestions for homepage (more in depth info about how this should be implemented is at the bottom of this file)
+- When you tap on the search bar, there will be no existing results underneath it. 
 - add suggestions for trophy page 
 - add suggestions for players page
+- fix overall suggestion wording
+- fix advanced search bugs/data validation (Ujjwal)
+- remove commas from search suggestions
+- (nice to do)If someone types in football on homepage, searching should bring them to the football trophies page.
 
-- fix advanced search bugs (Ujjwal)
-
-- add different icons to search maybe
-
-
-
-
-
-
-___________________________________________________
+__________________________________________________
 **UI Related Backend**
 ___________________________________________________
-
-- Finish Trophy Modal Design and Enabling (Ujjwal)
-
-- fix searching on homepage to work
-
-
-
-
+- add report a bug page functionality such as google form embedded
 
 ___________________________________________________
 ### UI:
 ___________________________________________________
 - add content for about the app
 - add content for report a bug
-  
 
 ___________________________________________________
 ### Torrens/Leadership Kids
 ___________________________________________________
 
-- update spreadsheet with real data so we can see if there will be storage and load time issues (In Progress)
+- figure out overall sport trophy stuff??
+- email torrens tonight with updates
 
 ___________________________________________________
 ### Info on search
 ___________________________________________________
-When you tap on the search bar, there will be no existing results underneath it. 
-
-
-
 
 Mike Cable 
 ___________
@@ -114,17 +95,5 @@ Mike Cable 1997
 Mike Calble Most Insipration
 Mike Cable Fearless Player
 
-___________________________________________________
-### Ujjwal TODO:
-___________________________________________________
 
-- Implement search suggestions on the Trophy Page. The searching works but no suggestions show up (i think you can copy most of the existing code from the homepgae search). But, one thing to note is that suggestions for Trophy page should only be for things that are inside of trophy page. 
-- Implement search functionality and suggestions on the Players Page. Neither the searching nor suggestions work for this activity. 
-- Fix search suggestions on homepage. When you tap search bar right now, it shows shaquille O'Neil, etc. It should show nothing when you first tap on it. Then as you type a letter, stuff should start appearing.
-- If someone types in football on homepage, searching should bring them to the football trophies page.
-- Fix advanced search. Rn, if you type in 1990 into the Names section, it just shows all results. It should show none since no one is named 1990. Make sure people can only enter numbers inside of the Year space or else we'll tell them it must be a year
-- add pagination
 
-~~- Fix sizing of trophy image when you tap on it (cuz rn they show up really small and are grainy when i try to adjust the size)~~
-
-~~- add a pinch zoom in for the trophy images. (maybe use a library like this https://github.com/davemorrissey/subsampling-scale-image-view to start).~~
