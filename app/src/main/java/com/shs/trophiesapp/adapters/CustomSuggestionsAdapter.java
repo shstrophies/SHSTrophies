@@ -50,13 +50,14 @@ public class CustomSuggestionsAdapter extends SuggestionsAdapter<Suggestion, Cus
 
     @Override
     public SuggestionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.d(TAG, "CustomSuggestionsAdapter.onCreateViewHolder: ");
         View view = getLayoutInflater().inflate(R.layout.item_custom_suggestion, parent, false);
         return new SuggestionHolder(view);
     }
 
     @Override
     public void onBindSuggestionHolder(Suggestion suggestion, SuggestionHolder holder, int position) {
-        Log.d(TAG, "onBindSuggestionHolder: suggestion=" + suggestion.getTitle() + " --- " + suggestion.getSubtitle());
+        Log.d(TAG, "CustomSuggestionsAdapter.onBindSuggestionHolder: suggestion=" + suggestion.getTitle() + " --- " + suggestion.getSubtitle());
         holder.title.setText(suggestion.getTitle());
         holder.subtitle.setText(suggestion.getSubtitle());
     }
@@ -82,6 +83,7 @@ public class CustomSuggestionsAdapter extends SuggestionsAdapter<Suggestion, Cus
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
+                Log.d(TAG, "CustomSuggestionsAdapter.performFiltering: ");
                 FilterResults results = new FilterResults();
                 String term = constraint.toString();
                 if(term.isEmpty())
@@ -98,6 +100,7 @@ public class CustomSuggestionsAdapter extends SuggestionsAdapter<Suggestion, Cus
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
+                Log.d(TAG, "CustomSuggestionsAdapter.publishResults: ");
                 suggestions = (ArrayList<Suggestion>) results.values;
                 notifyDataSetChanged();
             }

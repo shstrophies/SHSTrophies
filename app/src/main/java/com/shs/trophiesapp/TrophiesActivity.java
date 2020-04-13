@@ -4,22 +4,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.shs.trophiesapp.adapters.CustomSuggestionsAdapter;
 import com.shs.trophiesapp.adapters.SportWithTrophiesAdapter;
+import com.shs.trophiesapp.data.Suggestion;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.shs.trophiesapp.search.SearchParameters;
+import com.shs.trophiesapp.search.SearchSuggestions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +35,8 @@ public class TrophiesActivity extends BaseActivity implements NavigationView.OnN
     public static final String TROPHIES_BY_SPORT_NAME = "Sport";
 
     private MaterialSearchBar searchBar;
+    private List<Suggestion> suggestions = new ArrayList<>();
+    private CustomSuggestionsAdapter customSuggestionsAdapter;
 
     private SportWithTrophiesAdapter adapter;
     private SportWithTrophies sportWithTrophies;
@@ -63,6 +72,16 @@ public class TrophiesActivity extends BaseActivity implements NavigationView.OnN
         searchBar = findViewById(R.id.trophies_search);
         searchBar.setOnSearchActionListener(this);
         searchBar.setHint(getResources().getString(R.string.search_info));
+
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+        LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
+        suggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getDefaultSuggestions();
+        customSuggestionsAdapter.setSuggestions(suggestions);
+        searchBar.setCustomSuggestionAdapter(customSuggestionsAdapter);
+
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
         searchBar.setCardViewElevation(1);
         /*searchBar.addTextChangeListener(new TextWatcher() {

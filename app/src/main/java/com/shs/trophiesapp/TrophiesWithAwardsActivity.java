@@ -24,13 +24,6 @@ public class TrophiesWithAwardsActivity extends BaseActivity {
     private TrophiesWithAwardsAdapter adapter;
     private ArrayList<TrophyWithAwards> trophiesWithAwards = new ArrayList<>();
 
-    public static final String AWARDS_SEARCH_STRING_ALL = "AWARDS_SEARCH_STRING_ALL";
-    public static final String AWARDS_SEARCH_STRING_PLAYERS = "AWARDS_SEARCH_STRING_PLAYERS";
-    public static final String AWARDS_SEARCH_STRING_SPORTS = "AWARDS_SEARCH_STRING_SPORTS";
-    public static final String AWARDS_SEARCH_STRING_TROPHIES = "AWARDS_SEARCH_STRING_TROPHIES";
-    public static final String AWARDS_SEARCH_STRING_YEARS = "AWARDS_SEARCH_STRING_YEARS";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +44,7 @@ public class TrophiesWithAwardsActivity extends BaseActivity {
     }
 
     private void getData(Intent intent) {
-        Log.d(TAG, "getData: getData");
+        Log.d(TAG, "TrophiesWithAwardsActivity: getData");
 
         SearchParameters searchParams = SearchEngine.getSearchParameters(intent);
 

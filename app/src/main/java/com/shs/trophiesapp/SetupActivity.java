@@ -118,10 +118,14 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 }
             }
             Log.d(TAG, "Samehashcounter: " + sameHashCounter + ", dPaths Size: " + destinationPaths.size());
-            if(sameHashCounter == destinationPaths.size()) {
+            if((sameHashCounter == destinationPaths.size()) && getApplicationContext().getDatabasePath(Constants.DATABASE_NAME).exists()) {
                 Log.d(TAG, "Exact same db, creating from previous DB file");
                 AppDatabase.prepopulateDatabase(getApplicationContext());
                 startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+            }
+            else {
+                Log.d(TAG, "database directory does not exists for some reason...");
+                loadDatabase();
             }
         }
     }
