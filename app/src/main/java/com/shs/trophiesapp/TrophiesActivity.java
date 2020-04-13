@@ -101,7 +101,8 @@ public class TrophiesActivity extends BaseActivity implements NavigationView.OnN
                 Log.d(TAG, "onTextChanged: parameters: charSequence " + charSequence.toString() + ", i=" + i + ", i1=" + i1 + ", i2=" + i2);
 
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
-                List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getSuggestions(searchBar.getText());
+                Sport sport = sportWithTrophies.sport;
+                List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getSuggestions(sport + " " + searchBar.getText());
                 generatedSuggestions.forEach(e -> Log.d(TAG, "onTextChanged: suggestion=" + e.toString()));
                 suggestions.clear();
                 suggestions.addAll(generatedSuggestions);

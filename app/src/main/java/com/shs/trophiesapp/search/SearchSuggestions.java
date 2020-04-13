@@ -60,7 +60,6 @@ public class SearchSuggestions {
 
 
     public List<Suggestion> getSuggestions(String searchString) {
-//        if (searchString.length() == 0) return getDefaultSuggestions();
         List<String> sports = sportRepository.searchSportName(searchString, 5);
         List<String> trophies = trophyRepository.searchTrophyTitle(searchString, 5);
         List<String> players = trophyRepository.searchPlayerName(searchString, 5);
