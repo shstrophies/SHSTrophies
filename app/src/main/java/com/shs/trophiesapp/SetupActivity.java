@@ -137,7 +137,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 if(!getIntent().getBooleanExtra("Clean", false)) {
                     Log.d(TAG, "Button Pressed");
                     binding.loadDatabaseButton.setEnabled(false);
-                    loadDatabase();
+                    loadDatabase(false);
                 } else Toast.makeText(getApplicationContext(), "Cannot Load Database, no data present", Toast.LENGTH_LONG).show();
                 break;
             }
@@ -271,6 +271,11 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     };
 
     private void loadDatabase() {
+//        loadDatabase(true);
+        loadDatabase(false);
+    }
+
+    private void loadDatabase(boolean fromFiles) {
         try {
             //TODO: Check if downloads all exist
             stopDownloads = true;
@@ -282,18 +287,20 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                     Log.d(TAG, "Room.databaseBuilder, ... onCreate: ");
                     super.onCreate(db);
-                    OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SeedDatabaseWorker.class).build();
-                    WorkManager workManager = WorkManager.getInstance(context);
-                    workManager.enqueue(workRequest);
-                    //UUID id = workRequest.getId();
-                    WorkManager.getInstance(context).getWorkInfoByIdLiveData(workRequest.getId())
-                            .observe(SetupActivity.this, workInfo -> {
-                                if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
-                                    Toast.makeText(SetupActivity.this, "DONE Loading database...", Toast.LENGTH_LONG).show();
-                                    setupFutureHashing();
-                                    startActivity(new Intent(SetupActivity.this, SportsActivity.class));
-                                }
-                            });
+                    if(fromFiles) {
+                        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SeedDatabaseWorker.class).build();
+                        WorkManager workManager = WorkManager.getInstance(context);
+                        workManager.enqueue(workRequest);
+                        //UUID id = workRequest.getId();
+                        WorkManager.getInstance(context).getWorkInfoByIdLiveData(workRequest.getId())
+                                .observe(SetupActivity.this, workInfo -> {
+                                    if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                                        Toast.makeText(SetupActivity.this, "DONE Loading database...", Toast.LENGTH_LONG).show();
+                                        setupFutureHashing();
+                                        startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+                                    }
+                                });
+                    }
                 }
             };
 
@@ -315,6 +322,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             e.printStackTrace();
         }
     }
+
 
     private void setupFutureHashing() {
         Log.d(TAG, "Setup Future Hashing");

@@ -46,20 +46,21 @@ public class SearchSuggestions {
     }
 
     public List<Suggestion> getDefaultSuggestions() {
-        final Suggestion[] _suggestions = {
-                new Suggestion("Shaquille O'Neil", "   in \"Players\""),
-                new Suggestion("Most Inspirational", "   in \"Trophies\""),
-                new Suggestion("1976", "   in \"Years\""),
-                new Suggestion("Shaquille O'Neil, 1976", "   in \"Trophies\", \"Years\""),
-        };
-        ArrayList<Suggestion> suggestions = new ArrayList<>(this.suggestions);
-        Collections.addAll(suggestions, _suggestions);
-        return suggestions;
+//        final Suggestion[] _suggestions = {
+//                new Suggestion("Shaquille O'Neil", "   in \"Players\""),
+//                new Suggestion("Most Inspirational", "   in \"Trophies\""),
+//                new Suggestion("1976", "   in \"Years\""),
+//                new Suggestion("Shaquille O'Neil, 1976", "   in \"Trophies\", \"Years\""),
+//        };
+
+        List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(context.get(), suggestions).getSuggestions("");
+        generatedSuggestions.forEach(e -> Log.d(TAG, "onTextChanged: suggestion=" + e.toString()));
+        return generatedSuggestions;
     }
 
 
     public List<Suggestion> getSuggestions(String searchString) {
-        if (searchString.length() == 0) return getDefaultSuggestions();
+//        if (searchString.length() == 0) return getDefaultSuggestions();
         List<String> sports = sportRepository.searchSportName(searchString, 5);
         List<String> trophies = trophyRepository.searchTrophyTitle(searchString, 5);
         List<String> players = trophyRepository.searchPlayerName(searchString, 5);
