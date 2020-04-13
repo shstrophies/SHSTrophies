@@ -10,9 +10,12 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
 import com.shs.trophiesapp.R;
 import com.shs.trophiesapp.data.Suggestion;
+import com.shs.trophiesapp.database.entities.Trophy;
+import com.shs.trophiesapp.database.relations.SportWithTrophies;
 
 import java.util.ArrayList;
 
@@ -110,20 +113,26 @@ public class CustomSuggestionsAdapter extends SuggestionsAdapter<Suggestion, Cus
 
         public SuggestionHolder(View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.title);
-            subtitle = itemView.findViewById(R.id.subtitle);
+            title = (TextView) itemView.findViewById(R.id.title);
+            subtitle = (TextView) itemView.findViewById(R.id.subtitle);
             iv_delete = itemView.findViewById(R.id.iv_delete);
 
-            itemView.setOnClickListener(v -> {
-                v.setTag(getSuggestions().get(getAdapterPosition()));
-                listener.OnItemClickListener(getAdapterPosition(), v);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    v.setTag(getSuggestions().get(getAdapterPosition()));
+                    listener.OnItemClickListener(getAdapterPosition(), v);
+                }
             });
 
-            iv_delete.setOnClickListener(v -> {
-                int position = getAdapterPosition();
-                if (position > 0 && position < getSuggestions().size()) {
-                    v.setTag(getSuggestions().get(getAdapterPosition()));
-                    listener.OnItemDeleteListener(getAdapterPosition(), v);
+            iv_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position > 0 && position < getSuggestions().size()) {
+                        v.setTag(getSuggestions().get(getAdapterPosition()));
+                        listener.OnItemDeleteListener(getAdapterPosition(), v);
+                    }
                 }
             });
         }
