@@ -137,7 +137,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 if(!getIntent().getBooleanExtra("Clean", false)) {
                     Log.d(TAG, "Button Pressed");
                     binding.loadDatabaseButton.setEnabled(false);
-                    loadDatabase(false);
+                    loadDatabase();
                 } else Toast.makeText(getApplicationContext(), "Cannot Load Database, no data present", Toast.LENGTH_LONG).show();
                 break;
             }
