@@ -2,20 +2,26 @@ package com.shs.trophiesapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
 import com.shs.trophiesapp.adapters.CustomSuggestionsAdapter;
 import com.shs.trophiesapp.adapters.SportWithTrophiesAdapter;
 import com.shs.trophiesapp.data.Suggestion;
@@ -75,7 +81,6 @@ public class TrophiesActivity extends BaseActivity implements NavigationView.OnN
 
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
         customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
         suggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getDefaultSuggestions();
@@ -84,23 +89,44 @@ public class TrophiesActivity extends BaseActivity implements NavigationView.OnN
 
         Log.d("LOG_TAG", getClass().getSimpleName() + ": text " + searchBar.getText());
         searchBar.setCardViewElevation(1);
-        /*searchBar.addTextChangeListener(new TextWatcher() {
-            @Override
+        searchBar.addTextChangeListener(new TextWatcher() {
+             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d(TAG, "beforeTextChanged: ");
+                Log.d(TAG, "beforeTextChanged: parameters: charSequence " + charSequence.toString() + ", i=" + i + ", i1=" + i1 + ", i2=" + i2);
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d(TAG, "onTextChanged: parameters: charSequence " + charSequence.toString() + ", i=" + i + ", i1=" + i1 + ", i2=" + i2);
+
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
+                List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getSuggestions(searchBar.getText());
+                generatedSuggestions.forEach(e -> Log.d(TAG, "onTextChanged: suggestion=" + e.toString()));
+                suggestions.clear();
+                suggestions.addAll(generatedSuggestions);
+                customSuggestionsAdapter.setSuggestions(suggestions);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.d(TAG, "afterTextChanged: editable=" + editable.toString());
+                Log.d(TAG, "afterTextChanged: ");
+                suggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getDefaultSuggestions();
+            }
+        });
+        customSuggestionsAdapter.setListener(new SuggestionsAdapter.OnItemViewClickListener() {
+            @Override
+            public void OnItemClickListener(int position, View v) {
+                Suggestion s = (Suggestion) v.getTag();
+                searchBar.setText(s.getTitle());
+                customSuggestionsAdapter.clearSuggestions();
             }
 
-        });*/
+            @Override
+            public void OnItemDeleteListener(int position, View v) {
+                // TODO
+            }
+        });
     }
 
     @Override
