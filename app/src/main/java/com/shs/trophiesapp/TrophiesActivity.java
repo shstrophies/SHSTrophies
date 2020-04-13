@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class TrophiesActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener {
+public class TrophiesActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener, MaterialSearchBar.OnCreateContextMenuListener {
     private static final String TAG = "TrophiesActivity";
     public static final String TROPHIES_BY_SPORT_NAME = "Sport";
 
