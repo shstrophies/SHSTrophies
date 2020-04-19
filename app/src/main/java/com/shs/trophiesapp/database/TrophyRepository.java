@@ -125,12 +125,20 @@ public class TrophyRepository {
         return trophyAwardDao.findByPlayer(player);
     }
 
+    public List<TrophyAward> getRandomTrophies(int limit) {
+        return trophyAwardDao.getRandomTrophies(limit);
+    }
+
     public List<String> searchPlayerName(String str, int limit) {
         return trophyAwardDao.searchPlayerName("%" + str + "%", limit);
     }
 
     public List<String> searchTrophyTitle(String str, int limit) {
         return trophyDao.searchTrophyTitle("%" + str + "%", limit);
+    }
+
+    public List<String> searchTrophyTitleInSport(String title, String sportName, int limit) {
+        return trophyDao.searchTrophyTitleInSport("%" + title + "%", sportName, limit);
     }
 
     public List<String> searchYear(int from, int to, int limit) {
