@@ -16,7 +16,10 @@ import org.paukov.combinatorics.ICombinatoricsVector;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import static org.paukov.combinatorics.CombinatoricsFactory.createCartesianProductGenerator;
@@ -65,37 +68,41 @@ public class SearchSuggestions {
     public List<Suggestion> getFirstSuggestions() {
         ArrayList<Suggestion> allSuggestions = new ArrayList<>();
         List<TrophyAward> trophyAwards = trophyRepository.getRandomTrophies(6);
+        Suggestion suggestion;
+        Trophy trophy;
+        Sport sport;
 
         TrophyAward award = trophyAwards.get(0);
-        Trophy trophy =  trophyRepository.getTropyById(award.getTrophyId());
-        Sport sport = sportRepository.getSportById(trophy.getSportId());
-        Suggestion suggestion = new Suggestion(sport.getName() + " " + trophy.getTitle(), "   in \"Sports\", \"Trophies\"");
+        suggestion = new Suggestion(award.getPlayer() + " " + award.getYear(), "   in \"Players\", \"Years\"");
         allSuggestions.add(suggestion);
 
         award = trophyAwards.get(1);
-        suggestion = new Suggestion(award.getPlayer() + " " + award.getYear(), "   in \"Players\", \"Years\"");
+        trophy =  trophyRepository.getTropyById(award.getTrophyId());
+        sport = sportRepository.getSportById(trophy.getSportId());
+        suggestion = new Suggestion(sport.getName() + " " + trophy.getTitle(), "   in \"Sports\", \"Trophies\"");
         allSuggestions.add(suggestion);
 
         award = trophyAwards.get(2);
         trophy = trophyRepository.getTropyById(award.getTrophyId());
-        suggestion = new Suggestion(trophy.getTitle() + " " + award.getYear(), "   in \"Trophies\", \"Years\"");
+        suggestion = new Suggestion(award.getPlayer() + " " + award.getYear(), "   in \"Players\", \"Years\"");
         allSuggestions.add(suggestion);
 
         award = trophyAwards.get(3);
         trophy = trophyRepository.getTropyById(award.getTrophyId());
-        suggestion = new Suggestion(award.getPlayer() + " " + trophy.getTitle(), "   in \"Players\", \"Trophies\"");
+        sport = sportRepository.getSportById(trophy.getSportId());
+        suggestion = new Suggestion(sport.getName() + " " + award.getYear(), "   in \"Sports\", \"Years\"");
         allSuggestions.add(suggestion);
 
         award = trophyAwards.get(4);
         trophy = trophyRepository.getTropyById(award.getTrophyId());
-        suggestion = new Suggestion(award.getPlayer() + " " + award.getYear(), "   in \"Players\", \"Years\"");
+        suggestion = new Suggestion(award.getPlayer() + " " + trophy.getTitle(), "   in \"Players\", \"Trophies\"");
         allSuggestions.add(suggestion);
 
         award = trophyAwards.get(5);
         trophy = trophyRepository.getTropyById(award.getTrophyId());
-        sport = sportRepository.getSportById(trophy.getSportId());
-        suggestion = new Suggestion(sport.getName() + " " + award.getYear(), "   in \"Sports\", \"Years\"");
+        suggestion = new Suggestion(trophy.getTitle() + " " + award.getYear(), "   in \"Trophies\", \"Years\"");
         allSuggestions.add(suggestion);
+
 
         return allSuggestions;
     }
@@ -142,7 +149,11 @@ public class SearchSuggestions {
 
         Collections.shuffle(allSuggestions);
         allSuggestions.subList(Integer.min(6, allSuggestions.size()), allSuggestions.size()).clear();
-        return allSuggestions;
+        List<Suggestion> result = new ArrayList<>(new HashSet<>(allSuggestions.stream()
+                .collect(Collectors.toCollection(() ->
+                        new TreeSet<>(Comparator.comparing(Suggestion::getTitle))))));
+
+        return result;
     }
 
 
