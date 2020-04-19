@@ -121,21 +121,21 @@ public class SearchSuggestions {
 
         for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(sportsSet, trophiesSet)) {
             String str = cartesianProduct.getVector().stream()
-                    .collect(Collectors.joining(", "));
+                    .collect(Collectors.joining(" "));
             allSuggestions.add(new Suggestion(str, "   in \"Sports\", \"Trophies\""));
             Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
         }
 
         for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(trophiesSet, playersSet)) {
             String str = cartesianProduct.getVector().stream()
-                    .collect(Collectors.joining(", "));
+                    .collect(Collectors.joining(" "));
             allSuggestions.add(new Suggestion(str, "   in \"Trophies\", \"Players\""));
             Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
         }
 
         for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(sportsSet, playersSet)) {
             String str = cartesianProduct.getVector().stream()
-                    .collect(Collectors.joining(", "));
+                    .collect(Collectors.joining(" "));
             allSuggestions.add(new Suggestion(str, "   in \"Sports\", \"Players\""));
             Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
         }
