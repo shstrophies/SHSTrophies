@@ -48,36 +48,32 @@ ___________________________________________________
 ___________________________________________________
 **Database related**
 ___________________________________________________
-- (Maybe for later if needed. Dont work on this yet)enable recyclerview pagination 
+- (Maybe for later if needed. Dont work on this yet) enable recyclerview pagination 
 
 ___________________________________________________
 **Remaining Search Features**
 ___________________________________________________
-- When you tap on the search bar, there will be no existing results underneath it. 
-- add suggestions for trophy page 
-- add suggestions for players page
 - fix overall suggestion wording
 - fix advanced search bugs/data validation (Ujjwal)
-- remove commas from search suggestions
-- (nice to do)If someone types in football on homepage, searching should bring them to the football trophies page.
+- If someone types in football on homepage, searching should bring them to the football trophies page (Ujjwal)
 
 __________________________________________________
 **UI Related Backend**
 ___________________________________________________
-- add report a bug page functionality such as google form embedded
+- add report a bug page functionality such as google form embedded (Ujjwal)
 
 ___________________________________________________
 ### UI:
 ___________________________________________________
 - add content for about the app
 - add content for report a bug
+- make it so search bar doesnt push back trophies
 
 ___________________________________________________
 ### Torrens/Leadership Kids
 ___________________________________________________
 
-- figure out overall sport trophy stuff??
-- email torrens tonight with updates
+
 
 ___________________________________________________
 ### Info on search
