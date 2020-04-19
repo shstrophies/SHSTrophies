@@ -62,7 +62,7 @@ public class SearchSuggestions {
     }
 
 
-    public List<Suggestion> getSuggestions(String searchString) {
+    public List<Suggestion> getFirstSuggestions() {
         ArrayList<Suggestion> allSuggestions = new ArrayList<>();
         List<TrophyAward> trophyAwards = trophyRepository.getRandomTrophies(6);
 
@@ -100,50 +100,50 @@ public class SearchSuggestions {
         return allSuggestions;
     }
 
-//    public List<Suggestion> getSuggestions(String searchString) {
-//
-//        List<String> sports = sportRepository.searchSportName(searchString, 5);
-//        List<String> trophies = trophyRepository.searchTrophyTitle(searchString, 5);
-//        List<String> players = trophyRepository.searchPlayerName(searchString, 5);
-//        YearRange range = getYearRange(searchString);
-//        List<String> years = trophyRepository.searchYear(range.getYearFrom(), range.getYearTo(), 5);
-//
-//        ArrayList<Suggestion> allSuggestions = new ArrayList<>();
-//        allSuggestions.addAll(sports.stream().map(e -> new Suggestion(e, "   in \"Sports\"")).collect(Collectors.toList()));
-//        allSuggestions.addAll(trophies.stream().map(e -> new Suggestion(e, "   in \"Trophies\"")).collect(Collectors.toList()));
-//        allSuggestions.addAll(players.stream().map(e -> new Suggestion(e, "   in \"Players\"")).collect(Collectors.toList()));
-//        allSuggestions.addAll(years.stream().map(e -> new Suggestion(e, "   in \"Years\"")).collect(Collectors.toList()));
-//
-//
-//        ICombinatoricsVector<String> sportsSet = createVector(sports);
-//        ICombinatoricsVector<String> trophiesSet = createVector(trophies);
-//        ICombinatoricsVector<String> playersSet = createVector(players);
-//
-//        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(sportsSet, trophiesSet)) {
-//            String str = cartesianProduct.getVector().stream()
-//                    .collect(Collectors.joining(", "));
-//            allSuggestions.add(new Suggestion(str, "   in \"Sports\", \"Trophies\""));
-//            Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
-//        }
-//
-//        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(trophiesSet, playersSet)) {
-//            String str = cartesianProduct.getVector().stream()
-//                    .collect(Collectors.joining(", "));
-//            allSuggestions.add(new Suggestion(str, "   in \"Trophies\", \"Players\""));
-//            Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
-//        }
-//
-//        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(sportsSet, playersSet)) {
-//            String str = cartesianProduct.getVector().stream()
-//                    .collect(Collectors.joining(", "));
-//            allSuggestions.add(new Suggestion(str, "   in \"Sports\", \"Players\""));
-//            Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
-//        }
-//
-//        Collections.shuffle(allSuggestions);
-//        allSuggestions.subList(Integer.min(6, allSuggestions.size()), allSuggestions.size()).clear();
-//        return allSuggestions;
-//    }
+    public List<Suggestion> getSuggestions(String searchString) {
+        if(searchString.isEmpty()) return getFirstSuggestions();
+        List<String> sports = sportRepository.searchSportName(searchString, 5);
+        List<String> trophies = trophyRepository.searchTrophyTitle(searchString, 5);
+        List<String> players = trophyRepository.searchPlayerName(searchString, 5);
+        YearRange range = getYearRange(searchString);
+        List<String> years = trophyRepository.searchYear(range.getYearFrom(), range.getYearTo(), 5);
+
+        ArrayList<Suggestion> allSuggestions = new ArrayList<>();
+        allSuggestions.addAll(sports.stream().map(e -> new Suggestion(e, "   in \"Sports\"")).collect(Collectors.toList()));
+        allSuggestions.addAll(trophies.stream().map(e -> new Suggestion(e, "   in \"Trophies\"")).collect(Collectors.toList()));
+        allSuggestions.addAll(players.stream().map(e -> new Suggestion(e, "   in \"Players\"")).collect(Collectors.toList()));
+        allSuggestions.addAll(years.stream().map(e -> new Suggestion(e, "   in \"Years\"")).collect(Collectors.toList()));
+
+
+        ICombinatoricsVector<String> sportsSet = createVector(sports);
+        ICombinatoricsVector<String> trophiesSet = createVector(trophies);
+        ICombinatoricsVector<String> playersSet = createVector(players);
+
+        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(sportsSet, trophiesSet)) {
+            String str = cartesianProduct.getVector().stream()
+                    .collect(Collectors.joining(", "));
+            allSuggestions.add(new Suggestion(str, "   in \"Sports\", \"Trophies\""));
+            Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
+        }
+
+        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(trophiesSet, playersSet)) {
+            String str = cartesianProduct.getVector().stream()
+                    .collect(Collectors.joining(", "));
+            allSuggestions.add(new Suggestion(str, "   in \"Trophies\", \"Players\""));
+            Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
+        }
+
+        for (ICombinatoricsVector<String> cartesianProduct : createCartesianProductGenerator(sportsSet, playersSet)) {
+            String str = cartesianProduct.getVector().stream()
+                    .collect(Collectors.joining(", "));
+            allSuggestions.add(new Suggestion(str, "   in \"Sports\", \"Players\""));
+            Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
+        }
+
+        Collections.shuffle(allSuggestions);
+        allSuggestions.subList(Integer.min(6, allSuggestions.size()), allSuggestions.size()).clear();
+        return allSuggestions;
+    }
 
 
     public YearRange getYearRange(String str){
