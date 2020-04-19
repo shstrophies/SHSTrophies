@@ -109,7 +109,7 @@
         android:layout_height="wrap_content"
         android:elevation="8dp"
         android:paddingTop="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/trophy_swipeRefresh"
+        app:layout_constraintBottom_toTopOf="@+id/trophy_with_awards_recycleview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view"
@@ -119,14 +119,6 @@
         app:mt_speechMode="false"
         android:translationZ="90dp"/>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/trophy_swipeRefresh"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/trophies_search">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/trophy_with_awards_recycleview"
@@ -139,6 +131,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/trophies_search" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
