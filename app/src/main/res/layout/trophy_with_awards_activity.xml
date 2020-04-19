@@ -120,17 +120,21 @@
         android:translationZ="90dp"/>
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/trophy_with_awards_recycleview"
-            android:layout_width="1268dp"
-            android:layout_height="555dp"
-            android:layout_gravity="center|center_horizontal"
-            android:clipToPadding="false"
-            android:padding="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/trophies_search" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trophy_with_awards_recycleview"
+        android:layout_width="1268dp"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center|center_horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="195dp"
+        android:layout_marginEnd="10dp"
+        android:clipToPadding="false"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
