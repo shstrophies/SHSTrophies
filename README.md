@@ -1,4 +1,4 @@
-# SHS Trophies 
+z# SHS Trophies 
 ___________________________________________________
 ### Links to original data:
 - master folder with all info for torrens: https://drive.google.com/open?id=1cZaUjLzV3hIbhGMP-mc-uywEq8HcYkPS
@@ -46,6 +46,8 @@ ___________________________________________________
 
 ### Backend:
 ___________________________________________________
+- (Ujjwal) fix all loading bugs
+
 **Database related**
 ___________________________________________________
 - (Maybe for later if needed. Dont work on this yet) enable recyclerview pagination 
@@ -53,21 +55,22 @@ ___________________________________________________
 ___________________________________________________
 **Remaining Search Features**
 ___________________________________________________
-- fix overall suggestion wording
-- fix advanced search bugs/data validation (Ujjwal)
-- If someone types in football on homepage, searching should bring them to the football trophies page (Ujjwal)
-
+- (Ujjwal) make max suggestion count 2 so suggestions don't overflow
+- (Ujjwal) fix advanced search bugs/data validation  (ex: when you type John in "Years", all trophies show up)
+- (Ujjwal) If someone types in football on homepage, searching should bring them to the football trophies page 
+- (minor fix) fix overall suggestion wording
 __________________________________________________
 **UI Related Backend**
 ___________________________________________________
-- add report a bug page functionality such as google form embedded (Ujjwal)
+- (Ujjwal) add report a bug page such as google form embedded 
 
 ___________________________________________________
 ### UI:
 ___________________________________________________
 - add content for about the app
-- add content for report a bug
-- make it so search bar doesnt push back trophies
+- (Arman)fix scroll down all the way for Name's award page
+- (Arman) fix advanced search's UI
+
 
 ___________________________________________________
 ### Torrens/Leadership Kids
