@@ -1,0 +1,106 @@
+[
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/personal_player_awards_row_view.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/personal_player_awards_row_view.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/advanced_search_dialog_activity.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/advanced_search_dialog_activity.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/sports_with_trophies_row_layout.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/sports_with_trophies_row_layout.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/cardview_item_trophy_player_and_year_loading.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/cardview_item_trophy_player_and_year_loading.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/popup_about_activity.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/popup_about_activity.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/advanced_search.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/advanced_search.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/trophy_with_awards_activity.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/trophy_with_awards_activity.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/sports_with_trophies_row_view.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/sports_with_trophies_row_view.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/cardview_item_trophy.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/cardview_item_trophy.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_setup.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/activity_setup.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/sports_with_trophies_activity.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/sports_with_trophies_activity.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/sports_activity.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/sports_activity.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/personal_player_awards_row_layout_horizontal.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/personal_player_awards_row_layout_horizontal.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/cardview_item_trophy_player_and_year.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/cardview_item_trophy_player_and_year.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/trophies_activity.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/trophies_activity.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/trophies_with_awards_row_view.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/trophies_with_awards_row_view.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/app_bar.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/app_bar.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/trophies_with_awards_row_layout_horizontal.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/trophies_with_awards_row_layout_horizontal.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/item_custom_suggestion.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/item_custom_suggestion.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/personal_player_awards_activity.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/personal_player_awards_activity.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/cardview_item_sport.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/cardview_item_sport.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/trophies_with_awards_row_layout.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/trophies_with_awards_row_layout.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/sports_with_trophies_row_layout_horizontal.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/sports_with_trophies_row_layout_horizontal.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/personal_player_awards_row_layout.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/personal_player_awards_row_layout.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/trophies_with_awards_activity.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/trophies_with_awards_activity.xml"
+    },
+    {
+        "merged": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/cardview_trophy_details.xml",
+        "source": "/Users/macbookpro/Desktop/Android Studio/SHSTrophies/app/src/main/res/layout/cardview_trophy_details.xml"
+    }
+]
