@@ -1,9 +1,7 @@
 package com.shs.trophiesapp;
 
 import android.Manifest;
-import android.app.AlarmManager;
 import android.app.DownloadManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +29,6 @@ import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.databinding.ActivitySetupBinding;
-import com.shs.trophiesapp.utils.Assert;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
 import com.shs.trophiesapp.utils.Downloader;
@@ -79,9 +76,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         binding.loadDatabaseButton.setOnClickListener(this);
         binding.cleanButton.setOnClickListener(this);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
 
         getApplication().registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
@@ -91,10 +86,13 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     private void setupHashes() {
         Log.d(TAG, "SetupHashes Method Started");
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE);
-        Map<String, String> hashes = (Map<String, String>) sharedPreferences.getAll();
+        Map<String, String> hashes = new HashMap<>();
+        for(Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
+            hashes.put(entry.getKey(), entry.getValue().toString());
+        }
         destinationPaths.add(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + SPORTS_DIRECTORY_NAME);
 
-        if(hashes == null || hashes.isEmpty()) {
+        if(hashes.equals(new HashMap<String, String>()) || hashes.isEmpty()) {
             Log.d(TAG, "No Hashes present");
             loadDatabase();
         } else {
@@ -322,7 +320,6 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
-
     private void setupFutureHashing() {
         Log.d(TAG, "Setup Future Hashing");
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE);
@@ -335,36 +332,6 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         editor.apply();
     }
 
-    private static void killmyself(WeakReference<Context> context) {
-        try {
-            if (context.get() != null) {
-                PackageManager pm = context.get().getPackageManager();
-                if (pm != null) {
-                    Intent mStartActivity = pm.getLaunchIntentForPackage(context.get().getPackageName());
-                    if (mStartActivity != null) {
-                        mStartActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        //create a pending intent so the application is restarted after System.exit(0) was called.
-                        // We use an AlarmManager to call this intent in 100ms
-                        int mPendingIntentId = 223344;
-                        PendingIntent mPendingIntent = PendingIntent.getActivity(context.get(), mPendingIntentId, mStartActivity,
-                                        PendingIntent.FLAG_CANCEL_CURRENT);
-                        AlarmManager mgr = (AlarmManager) context.get().getSystemService(Context.ALARM_SERVICE);
-                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
-                        System.exit(0);
-                    } else {
-                        Log.e(TAG, "Was not able to restart application, mStartActivity null");
-                    }
-                } else {
-                    Log.e(TAG, "Was not able to restart application, PM null");
-                }
-            } else {
-                Log.e(TAG, "Was not able to restart application, Context null");
-            }
-        } catch (Exception ex) {
-            Log.e(TAG, "Was not able to restart application");
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -372,5 +339,12 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 DirectoryHelper.createDirectory(this);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        unregisterReceiver(onDownloadComplete);
     }
 }
