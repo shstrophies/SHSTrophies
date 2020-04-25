@@ -9,6 +9,10 @@ gen/
 out/
 #Misc Files
 app/*.iml
+app/build/*
+app/debug/*
+app/release/*
+gradle/*
 scripts/shstrophies/venv/lib/python3.7/*
 scripts/shstrophies/~$export.xlsx
 
