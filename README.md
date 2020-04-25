@@ -1,4 +1,4 @@
-z# SHS Trophies 
+# SHS Trophies 
 ___________________________________________________
 ### Links to original data:
 - master folder with all info for torrens: https://drive.google.com/open?id=1cZaUjLzV3hIbhGMP-mc-uywEq8HcYkPS
