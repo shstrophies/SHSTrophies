@@ -80,7 +80,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
         getApplication().registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
-        downloadData();
+        downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", SPORTS_GID), SPORTS_DIRECTORY_NAME);
     }
 
     private void setupHashes() {
@@ -152,11 +152,6 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
         context.get().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE).edit().clear().apply();
     }
-
-    private void downloadData() {
-        downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", SPORTS_GID), SPORTS_DIRECTORY_NAME);
-    }
-
 
     static class DownloadInfo {
         long id;
@@ -344,7 +339,10 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         unregisterReceiver(onDownloadComplete);
     }
+
+    private Runnable httpDownload = () -> {
+
+    };
 }
