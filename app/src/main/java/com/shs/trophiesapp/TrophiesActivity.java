@@ -31,6 +31,7 @@ import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.shs.trophiesapp.search.SearchParameters;
 import com.shs.trophiesapp.search.SearchSuggestions;
+import com.shs.trophiesapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,6 +146,10 @@ public class TrophiesActivity extends BaseActivity implements NavigationView.OnN
         Sport sport = sportWithTrophies.sport;
         Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
         String searchString = text.toString();
+
+        Intent nextActivity = Utils.searchKeywordRerouting(getApplicationContext(), searchString);
+        if(nextActivity != null) startActivity(nextActivity);
+
         intent.putExtra(SearchParameters.ALL, searchString);
         intent.putExtra(SearchParameters.TROPHYTITLES, "");
         intent.putExtra(SearchParameters.SPORTNAMES, sport.getName());

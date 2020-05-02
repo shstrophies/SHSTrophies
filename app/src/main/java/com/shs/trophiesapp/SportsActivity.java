@@ -10,13 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.material.navigation.NavigationView;
@@ -31,6 +28,7 @@ import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.shs.trophiesapp.databinding.SportsActivityBinding;
 import com.shs.trophiesapp.search.SearchParameters;
 import com.shs.trophiesapp.search.SearchSuggestions;
+import com.shs.trophiesapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,8 +65,8 @@ public class SportsActivity extends BaseActivity implements View.OnClickListener
         binding.sportsSearch.setMaxSuggestionCount(3);
         binding.sportsSearch.setHint(getResources().getString(R.string.search_info));
 
-        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
-        LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+        LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
         suggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getDefaultSuggestions();
@@ -126,6 +124,10 @@ public class SportsActivity extends BaseActivity implements View.OnClickListener
     public void onSearchConfirmed(CharSequence text) {
         Log.d(TAG, "onSearchConfirmed: ");
         String searchString = text.toString();
+
+        Intent nextActivity = Utils.searchKeywordRerouting(getApplicationContext(), searchString);
+        if(nextActivity != null) startActivity(nextActivity);
+
         if (searchString.isEmpty()) {
             Intent intent = new Intent(this, SportsWithTrophiesActivity.class);
             startActivity(intent);

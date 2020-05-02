@@ -1,6 +1,7 @@
 package com.shs.trophiesapp.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,13 +10,20 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
+import com.shs.trophiesapp.TrophiesActivity;
+import com.shs.trophiesapp.database.DataManager;
+import com.shs.trophiesapp.database.SportRepository;
+import com.shs.trophiesapp.database.entities.Sport;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.util.List;
 
 public class Utils {
+
+    private static List<Sport> sports;
 
     public static void imageFromCache(ImageView view, String imageUrl) {
         if(imageUrl.matches("DEFAULT IMAGE")) {
@@ -89,6 +97,21 @@ public class Utils {
 
             return sb.toString();
         } catch (Exception e) {e.printStackTrace();}
+        return null;
+    }
+
+    public static Intent searchKeywordRerouting(Context context, String query) {
+        if(sports == null) {
+            SportRepository sportRepository = DataManager.getSportRepository(context);
+            sports = sportRepository.getSports();
+        }
+        for(Sport sport : sports) {
+            if(query.trim().toLowerCase().equals(sport.name.trim().toLowerCase())) {
+                Intent intent = new Intent(context, TrophiesActivity.class);
+                intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, sport.name);
+                return intent;
+            }
+        }
         return null;
     }
 }

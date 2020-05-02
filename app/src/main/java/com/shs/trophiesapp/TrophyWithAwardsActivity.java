@@ -10,10 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -27,7 +25,6 @@ import com.shs.trophiesapp.adapters.TrophyWithAwardsAdapter;
 import com.shs.trophiesapp.data.Suggestion;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.TrophyRepository;
-import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 import com.shs.trophiesapp.search.SearchParameters;
@@ -54,7 +51,6 @@ public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSe
         setContentView(R.layout.trophy_with_awards_activity);
 
         TextView tvSportTitle = findViewById(R.id.trophy_with_awards_title);
-        TextView tvTitle = findViewById(R.id.trophy_with_awards_title);
         ImageView img = findViewById(R.id.trophy_with_awards_thumbnail);
         //searchHeader = findViewById(R.id.HeaderWithSearchResults);
 
@@ -68,7 +64,6 @@ public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSe
 
         String tvSportTitleText = sport + " Trophy Award(s)";
         tvSportTitle.setText(tvSportTitleText);
-        tvTitle.setText(title);
         //searchHeader.setText( "{Number} results for" + searchBar.getText());
         Utils.imageFromCache(img, url);
         //trophyView.setBackgroundColor(color);
@@ -162,6 +157,10 @@ public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSe
     public void onSearchConfirmed(CharSequence text) {
         Log.d(TAG, "onSearchConfirmed: ");
         String searchString = text.toString();
+
+        Intent nextActivity = Utils.searchKeywordRerouting(getApplicationContext(), searchString);
+        if(nextActivity != null) startActivity(nextActivity);
+
         if (searchString.isEmpty()) {
             Intent intent = new Intent(this, SportsWithTrophiesActivity.class);
             startActivity(intent);

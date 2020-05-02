@@ -15,6 +15,7 @@ import org.paukov.combinatorics.ICombinatoricsVector;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -52,16 +53,16 @@ public class SearchSuggestions {
     }
 
     public List<Suggestion> getDefaultSuggestions() {
-//        final Suggestion[] _suggestions = {
-//                new Suggestion("Shaquille O'Neil", "   in \"Players\""),
-//                new Suggestion("Most Inspirational", "   in \"Trophies\""),
-//                new Suggestion("1976", "   in \"Years\""),
-//                new Suggestion("Shaquille O'Neil, 1976", "   in \"Trophies\", \"Years\""),
-//        };
+        final List<Suggestion> _suggestions = Arrays.asList(
+                new Suggestion("Shaquille O'Neil", "   in \"Players\""),
+                new Suggestion("Most Inspirational", "   in \"Trophies\""),
+                new Suggestion("1976", "   in \"Years\""),
+                new Suggestion("Shaquille O'Neil, 1976", "   in \"Trophies\", \"Years\"")
+        );
 
-        List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(context.get(), suggestions).getSuggestions("");
-        generatedSuggestions.forEach(e -> Log.d(TAG, "onTextChanged: suggestion=" + e.toString()));
-        return generatedSuggestions;
+        //List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(context.get(), suggestions).getSuggestions("");
+        _suggestions.forEach(e -> Log.d(TAG, "onTextChanged: suggestion=" + e.toString()));
+        return _suggestions;
     }
 
 
