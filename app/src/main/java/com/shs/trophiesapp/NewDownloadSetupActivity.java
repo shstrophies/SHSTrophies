@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
@@ -45,16 +46,17 @@ import java.util.concurrent.TimeUnit;
 import static com.shs.trophiesapp.utils.CSVUtils.parseLine;
 import static com.shs.trophiesapp.utils.Constants.DATA_FILENAME_NAME;
 import static com.shs.trophiesapp.utils.Constants.DOWNLOAD_URL;
-import static com.shs.trophiesapp.utils.Constants.SPORTS_GID;
 import static com.shs.trophiesapp.utils.Constants.SPORTS_DIRECTORY_NAME;
+import static com.shs.trophiesapp.utils.Constants.SPORTS_GID;
 
-public class SetupActivity extends BaseActivity implements View.OnClickListener, LifecycleOwner {
+//TODO: Change/Fix this warning for testing
+public class NewDownloadSetupActivity extends AppCompatActivity implements View.OnClickListener, LifecycleOwner {
     private static final String TAG = "SetupActivity";
     public static final String SHARED_PREFERENCES_TITLE = "Trophy_Shared_Preferences";
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
     private static final int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors(); //TODO: Test app on kiosk to see what optimal pool size is
 
-    private ActivitySetupBinding binding;
+    private ActivitySetupBinding binding = ActivitySetupBinding.inflate(getLayoutInflater());
     private ExecutorService executor;
     private List<String> directoryPaths = new ArrayList<>();
 
@@ -62,7 +64,6 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivitySetupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.loadDatabaseButton.setOnClickListener(this);
         binding.cleanButton.setOnClickListener(this);
@@ -73,11 +74,8 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         try {
             HashMap<String, String> csv_headers = executor.submit(firstDownloadCallable).get();
-            DirectoryHelper.createAllDirectories(csv_headers.keySet().toArray(new String[0]));
-
             for(String sport : csv_headers.keySet()) {
-                String directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                        "/" + Constants.DATA_DIRECTORY_NAME + "/" + sport + "/";
+                String directoryPath = Objects.requireNonNull(getExternalFilesDir(null)).getAbsolutePath() + "/" + sport + "/";
                 directoryPaths.add(directoryPath + DATA_FILENAME_NAME);
                 executor.submit(
                         new ThreadDownloader(DOWNLOAD_URL.replace("YOURGID",
@@ -167,7 +165,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
             if((sameHashCounter == directoryPaths.size()) && getApplicationContext().getDatabasePath(Constants.DATABASE_NAME).exists()) {
                 Log.d(TAG, "Exact same db, creating from previous DB file");
                 AppDatabase.prepopulateDatabase(getApplicationContext());
-                startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+                startActivity(new Intent(NewDownloadSetupActivity.this, SportsActivity.class));
             }
             else {
                 Log.d(TAG, "database directory does not exists for some reason...");
@@ -201,11 +199,11 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 WorkManager workManager = WorkManager.getInstance(currContext);
                 workManager.enqueue(workRequest);
                 WorkManager.getInstance(currContext).getWorkInfoByIdLiveData(workRequest.getId())
-                        .observe(SetupActivity.this, workInfo -> {
+                        .observe(NewDownloadSetupActivity.this, workInfo -> {
                             if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
-                                Toast.makeText(SetupActivity.this, "DONE Loading database...", Toast.LENGTH_LONG).show();
+                                Toast.makeText(NewDownloadSetupActivity.this, "DONE Loading database...", Toast.LENGTH_LONG).show();
                                 setupFutureHashingAfterDownload();
-                                startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+                                startActivity(new Intent(NewDownloadSetupActivity.this, SportsActivity.class));
                             }
                         });
             }
@@ -215,19 +213,19 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     private void loadDatabaseFromDBFile() {
         Log.d(TAG, "Exact same db, creating from previous DB file");
         AppDatabase.prepopulateDatabase(getApplicationContext());
-        startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+        startActivity(new Intent(NewDownloadSetupActivity.this, SportsActivity.class));
     }
 
     private Callable<HashMap<String, String>> firstDownloadCallable = () -> {
         HashMap<String, String> sport_gid = new HashMap<>();
-        String directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"
-                + Constants.DATA_DIRECTORY_NAME + "/" + SPORTS_DIRECTORY_NAME + "/";
-        DirectoryHelper.createDirectory(directoryPath);
+        String directoryPath = Objects.requireNonNull(getExternalFilesDir(null)).getAbsolutePath() + "/" + SPORTS_DIRECTORY_NAME + "/";
         String downloadPath = DOWNLOAD_URL.replace("YOURGID", SPORTS_GID);
 
         directoryPaths.add(directoryPath + DATA_FILENAME_NAME);
         ThreadDownloader.httpDownload(downloadPath, directoryPath, new WeakReference<>(getApplicationContext()));
-        Scanner scanner = new Scanner(new File(directoryPath + DATA_FILENAME_NAME));
+        File file = DirectoryHelper.getLatestFilefromDir(directoryPath + DATA_FILENAME_NAME);
+        assert file != null;
+        Scanner scanner = new Scanner(file);
         boolean first = true;
         while (scanner.hasNext()) {
             String line = scanner.nextLine();
