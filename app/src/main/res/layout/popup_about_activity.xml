@@ -8,8 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="593dp"
-        android:layout_height="633dp"
+        android:layout_width="643dp"
+        android:layout_height="744dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,34 +19,41 @@
             android:id="@+id/textView"
             android:layout_width="464dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="140dp"
             android:fontFamily="@font/montserrat_bold"
             android:gravity="center_horizontal"
-            android:text="About"
+            android:text="About "
             android:textColor="#000"
             android:textSize="30dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"></TextView>
 
         <ScrollView
             android:id="@+id/scrollView2"
-            android:layout_width="545dp"
-            android:layout_height="580dp"
+            android:layout_width="526dp"
+            android:layout_height="478dp"
+            android:layout_marginTop="2dp"
             android:padding="10dp"
+            android:paddingBottom="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintVertical_bias="0.73">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="100dp"
                 android:fontFamily="@font/montserrat"
-                android:gravity="center"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id vehicula erat. Praesent sit amet ipsum nec turpis cursus pellentesque. Aliquam erat volutpat. Sed a volutpat ipsum. Etiam viverra a nulla sit amet scelerisque. Duis sed diam mauris. Ut quis vehicula risus, non sollicitudin orci.  Ut non dolor quis magna tempus tristique. Aliquam ligula lacus, vulputate ut dui sed, iaculis pretium nulla. Nunc ex nunc, tincidunt quis tempus vel, tincidunt a est. Duis tristique, est et tincidunt congue, augue metus luctus dui, sit amet efficitur orci ex cursus sem. In a lorem sed libero mattis consectetur ac bibendum nisl. Integer orci nisl, maximus ac risus non, lacinia ullamcorper felis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas varius eros eget tincidunt pulvinar. Duis cursus elit bibendum fringilla tempus. Sed vestibulum nulla a sapien posuere, a cursus leo ultricies. Morbi feugiat, ex vel cursus mattis, neque tellus facilisis ligula, at tincidunt enim magna non augue. Integer eu erat lectus. Aenean consectetur elit purus, quis viverra dolor eleifend eget. Duis fermentum efficitur dapibus."
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="\tA long time ago, trophies used to be displayed physically in trophy cases in our lobby. However, because of the sheer talent of our athletic teams, the trophies would pile up such that the trophy cases overfilled and we had to archive the vast majority of trophies. The process of maintaining the archive of trophies was painstaking and arduous. At one point, Mrs. Ybarra injured herself while carrying too many trophies to and fro, sustaining a major injury. \n\n\tThis was the inciting incident that convinced Mr. Torrens that action needed to be taken. Determined to devise a team of skilled computer programmers and mobile developers, Mr. Torrens surveyed the list of potential recruits. Obviously, this didn't take long because he immediately consulted the greatest club on campus, the Application Development (App Dev) club, for help. \n\n\tUpon hearing of the arduous challenge opportune for capture, then-president Daniel Bessonov assembled a team of coders to bestow the project upon: then-members Arman Rafati, Ujjwal Krishnamurthi, and Shayan Sarnevesht. Together, these three masterminds worked on the Android java project, coordinating with Mr. Torrens to assemble pictures of all the trophies, developing a beautiful user interface to display them, and devising a clever query database schema by which trophy data would be retrieved. \n\n\tThe three developers even recruited other gifted underclassmen computer scientists: namely, Vignav Ramesh and Shreyas Rana. The project was difficult, yet rewarding. Tedious, yet exciting. Impossible, yet possible. Even amidst the COVID-19 pandemic, the team triumphed through thick and thin, tirelessly hacking away at the project. Finally after working for over a year, from about February 2019 to May/June 2020, a major advancement was made. \n\n\tThe trophy app had a working product! \n\n\tOf course, this is a project that will never end. It will require constant maintenance, visual and structural improvements, and new generations of App Dev members who will assume these upkeep responsibilities. So it is up to you, kind reader, as to whether this trophy app holds a bright future or dim future. Arman, Ujjwal, and Shayan are in the next chapter of their lives pursuing computer science degrees, and will not always be able to manage the app's upkeep. Join App Dev club today and continue the trophy app's legacy!\n\n"
                 android:textColor="#000"
                 android:textSize="20dp"></TextView>
 
