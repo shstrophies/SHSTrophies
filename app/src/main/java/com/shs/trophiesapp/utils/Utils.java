@@ -29,8 +29,6 @@ public class Utils {
                     Glide.with(view.getContext())
                             .load(imageLink)
                             .onlyRetrieveFromCache(true)
-                            //.override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                            //.dontTransform()
                             .into(view);
                 }
             }
@@ -59,10 +57,10 @@ public class Utils {
                         Glide.with(context)
                                 .downloadOnly()
                                 .load(imageLink)
-                                .skipMemoryCache(true)
+                                .timeout(60000)
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                                .get();
+                                .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
+                                //.get();
                     } catch (Exception e) {e.printStackTrace();}
                 }
             }

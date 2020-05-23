@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,7 +21,10 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.GlideException;
 import com.shs.trophiesapp.database.AppDatabase;
+import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.databinding.ActivitySetupBinding;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
@@ -54,6 +58,8 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
     private static final int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors(); //TODO: Test app on kiosk to see what optimal pool size is
 
+    private static final boolean startClean = true;
+
     private ActivitySetupBinding binding;
     private ExecutorService executor;
     private List<String> directoryPaths = new ArrayList<>();
@@ -70,14 +76,20 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         if(!getApplicationContext().getDatabasePath(Constants.DATABASE_NAME).exists()) binding.loadDatabaseButton.setEnabled(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
 
+        if(startClean) clean(new WeakReference<>(getApplicationContext()));
+
+        DirectoryHelper.createDirectory(Constants.DATA_DIRECTORY_NAME);
+        DirectoryHelper.createDirectory(Constants.DATA_DIRECTORY_NAME + "/" + SPORTS_DIRECTORY_NAME);
+
         executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         try {
             HashMap<String, String> csv_headers = executor.submit(firstDownloadCallable).get();
-            DirectoryHelper.createAllDirectories(csv_headers.keySet().toArray(new String[0]));
 
             for(String sport : csv_headers.keySet()) {
-                String directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                        "/" + Constants.DATA_DIRECTORY_NAME + "/" + sport + "/";
+                String directoryPath = Constants.DATA_DIRECTORY_NAME + "/" + sport + "/";
+                DirectoryHelper.createDirectory(directoryPath);
+                directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + directoryPath;
+                Log.d(TAG, "Directory Path for Each Sport: " + directoryPath);
                 directoryPaths.add(directoryPath + DATA_FILENAME_NAME);
                 executor.submit(
                         new ThreadDownloader(DOWNLOAD_URL.replace("YOURGID",
@@ -132,6 +144,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         context.get().deleteDatabase(Constants.DATABASE_NAME);
         DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
         context.get().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE).edit().clear().apply();
+        new CacheClearAsyncTask(context).execute();
     }
 
     private void setupHashingAfterDownload() {
@@ -193,7 +206,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         Context currContext = getApplicationContext();
         currContext.deleteDatabase(Constants.DATABASE_NAME);
 
-        AppDatabase.getInstance(currContext, new RoomDatabase.Callback() {
+        AppDatabase db = AppDatabase.getInstance(currContext, new RoomDatabase.Callback() {
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                 Log.d(TAG, "Room.databaseBuilder, ... onCreate: ");
                 super.onCreate(db);
@@ -210,19 +223,22 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                         });
             }
         });
+        List<Sport> sports = db.sportDao().getAll(); //Just so that the DB is created (B/c of Room Design Pattern)
     }
 
     private void loadDatabaseFromDBFile() {
         Log.d(TAG, "Exact same db, creating from previous DB file");
-        AppDatabase.prepopulateDatabase(getApplicationContext());
+        AppDatabase db = AppDatabase.prepopulateDatabase(getApplicationContext());
+        List<Sport> sports = db.sportDao().getAll(); //Just so that the DB is created (B/c of Room Design Pattern)
         startActivity(new Intent(SetupActivity.this, SportsActivity.class));
     }
 
     private Callable<HashMap<String, String>> firstDownloadCallable = () -> {
         HashMap<String, String> sport_gid = new HashMap<>();
-        String directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"
-                + Constants.DATA_DIRECTORY_NAME + "/" + SPORTS_DIRECTORY_NAME + "/";
+        String directoryPath = Constants.DATA_DIRECTORY_NAME + "/" + SPORTS_DIRECTORY_NAME + "/";
         DirectoryHelper.createDirectory(directoryPath);
+        directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + directoryPath;
+
         String downloadPath = DOWNLOAD_URL.replace("YOURGID", SPORTS_GID);
 
         directoryPaths.add(directoryPath + DATA_FILENAME_NAME);
@@ -242,4 +258,20 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         }
         return sport_gid;
     };
+
+    static class CacheClearAsyncTask extends AsyncTask<Void, Void, Void> {
+        private WeakReference<Context> cont;
+        public CacheClearAsyncTask(WeakReference<Context> cont) {this.cont = cont;}
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Glide.get(cont.get()).clearDiskCache();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute (Void result)    {
+            Glide.get(cont.get()).clearMemory();
+        }
+    }
 }

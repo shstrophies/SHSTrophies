@@ -4,7 +4,7 @@ buildscript {
     ext {
         constraintLayoutVersion = '1.1.2'
         espressoVersion = '3.0.1'
-        glideVersion = '4.11.0'
+        glideVersion = '4.10.0'
         gsonVersion = '2.8.2'
         junitVersion = '4.12'
         lifecycleVersion = '1.1.1'
@@ -18,7 +18,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+        mavenCentral()
     }
 
     dependencies {
