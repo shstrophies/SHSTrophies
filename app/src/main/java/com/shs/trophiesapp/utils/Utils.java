@@ -13,11 +13,14 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.shs.trophiesapp.database.AppDatabase;
+import com.shs.trophiesapp.database.entities.Sport;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.util.List;
 
 public class Utils {
 
@@ -66,6 +69,16 @@ public class Utils {
                 }
             }
         }
+    }
+
+    public static String searchSportNameEnhancement(Context context, String text) {
+        List<Sport> sports = AppDatabase.getInstance(context).sportDao().getSports();
+        for(Sport sport : sports) {
+            if(sport.name.trim().toLowerCase().equals(text.trim().toLowerCase())) {
+                return sport.name;
+            }
+        }
+        return null;
     }
 
     /*public static void frescoImgDownload(Context context, String imageUrl) {

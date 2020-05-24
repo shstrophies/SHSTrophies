@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,6 +30,7 @@ import com.shs.trophiesapp.database.relations.SportWithTrophies;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.shs.trophiesapp.search.SearchParameters;
 import com.shs.trophiesapp.search.SearchSuggestions;
+import com.shs.trophiesapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,16 +142,24 @@ public class TrophiesActivity extends BaseActivity implements NavigationView.OnN
     @Override
     public void onSearchConfirmed(CharSequence text) {
         Log.d(TAG, "onSearchConfirmed: ");
-        Sport sport = sportWithTrophies.sport;
-        Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
         String searchString = text.toString();
-        intent.putExtra(SearchParameters.ALL, searchString);
-        intent.putExtra(SearchParameters.TROPHYTITLES, "");
-        intent.putExtra(SearchParameters.SPORTNAMES, sport.getName());
-        intent.putExtra(SearchParameters.YEARS, "");
-        intent.putExtra(SearchParameters.PLAYERNAMES, "");
-        startActivity(intent);
-
+        String name = Utils.searchSportNameEnhancement(getApplicationContext(), text.toString());
+        if (searchString.isEmpty()) {
+            Intent intent = new Intent(this, SportsWithTrophiesActivity.class);
+            startActivity(intent);
+        } else if(name != null) {
+            Intent intent = new Intent(TrophiesActivity.this, TrophiesActivity.class);
+            intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, name);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
+            intent.putExtra(SearchParameters.ALL, searchString);
+            intent.putExtra(SearchParameters.TROPHYTITLES, "");
+            intent.putExtra(SearchParameters.SPORTNAMES, sportWithTrophies.sport.getName());
+            intent.putExtra(SearchParameters.YEARS, "");
+            intent.putExtra(SearchParameters.PLAYERNAMES, "");
+            startActivity(intent);
+        }
     }
 
     @Override
