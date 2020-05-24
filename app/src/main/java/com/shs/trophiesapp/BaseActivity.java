@@ -1,14 +1,11 @@
 package com.shs.trophiesapp;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.shs.trophiesapp.utils.Constants;
 
 import java.lang.ref.WeakReference;
 
