@@ -41,7 +41,8 @@ public class BaseActivity extends AppCompatActivity {
                         .setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail")
                         .putExtra(Intent.EXTRA_SUBJECT, "SHS Trophy App Bug Report Email");
                 startActivity(emailIntent);*/
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BUG_REPORT_FORM_URL)));
+                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BUG_REPORT_FORM_URL)));
+                startActivity(new Intent(BaseActivity.this, ReportBugActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
