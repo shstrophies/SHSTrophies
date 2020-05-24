@@ -22,9 +22,7 @@ import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.GlideException;
 import com.shs.trophiesapp.database.AppDatabase;
-import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.databinding.ActivitySetupBinding;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
@@ -58,7 +56,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
     private static final int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors(); //TODO: Test app on kiosk to see what optimal pool size is
 
-    private static final boolean startClean = true;
+    private static final boolean startClean = false;
 
     private ActivitySetupBinding binding;
     private ExecutorService executor;
@@ -80,6 +78,8 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
         DirectoryHelper.createDirectory(Constants.DATA_DIRECTORY_NAME);
         DirectoryHelper.createDirectory(Constants.DATA_DIRECTORY_NAME + "/" + SPORTS_DIRECTORY_NAME);
+
+        //Fresco.initialize(this);
 
         executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         try {
@@ -223,13 +223,13 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                         });
             }
         });
-        List<Sport> sports = db.sportDao().getAll(); //Just so that the DB is created (B/c of Room Design Pattern)
+        db.sportDao().getAll(); //Just so that the DB is created (B/c of Room Design Pattern)
     }
 
     private void loadDatabaseFromDBFile() {
         Log.d(TAG, "Exact same db, creating from previous DB file");
         AppDatabase db = AppDatabase.prepopulateDatabase(getApplicationContext());
-        List<Sport> sports = db.sportDao().getAll(); //Just so that the DB is created (B/c of Room Design Pattern)
+        db.sportDao().getAll(); //Just so that the DB is created (B/c of Room Design Pattern)
         startActivity(new Intent(SetupActivity.this, SportsActivity.class));
     }
 
@@ -261,7 +261,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
     static class CacheClearAsyncTask extends AsyncTask<Void, Void, Void> {
         private WeakReference<Context> cont;
-        public CacheClearAsyncTask(WeakReference<Context> cont) {this.cont = cont;}
+        CacheClearAsyncTask(WeakReference<Context> cont) {this.cont = cont;}
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -270,8 +270,8 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         }
 
         @Override
-        protected void onPostExecute (Void result)    {
-            Glide.get(cont.get()).clearMemory();
+        protected void onPostExecute (Void result) {
+            Log.d(TAG, "Cleaned Disk Cache");
         }
     }
 }

@@ -22,7 +22,6 @@ public class TrophiesAppGlideModule extends AppGlideModule {
         builder.setDiskCache(
                 new ExternalPreferredCacheDiskCacheFactory(context, Constants.DATA_DIRECTORY_DISK_CACHE_IMAGES, diskCacheSizeBytes)
         );
-
         builder.setLogLevel(Log.DEBUG);
     }
 
