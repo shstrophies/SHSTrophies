@@ -56,7 +56,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
     private static final int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors(); //TODO: Test app on kiosk to see what optimal pool size is
 
-    private static final boolean startClean = false;
+    private static final boolean startClean = true;
 
     private ActivitySetupBinding binding;
     private ExecutorService executor;
@@ -78,8 +78,6 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
 
         DirectoryHelper.createDirectory(Constants.DATA_DIRECTORY_NAME);
         DirectoryHelper.createDirectory(Constants.DATA_DIRECTORY_NAME + "/" + SPORTS_DIRECTORY_NAME);
-
-        //Fresco.initialize(this);
 
         executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         try {
