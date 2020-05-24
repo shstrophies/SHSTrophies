@@ -10,10 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -27,7 +25,6 @@ import com.shs.trophiesapp.adapters.TrophyWithAwardsAdapter;
 import com.shs.trophiesapp.data.Suggestion;
 import com.shs.trophiesapp.database.DataManager;
 import com.shs.trophiesapp.database.TrophyRepository;
-import com.shs.trophiesapp.database.entities.Sport;
 import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.database.relations.TrophyWithAwards;
 import com.shs.trophiesapp.search.SearchParameters;
@@ -53,7 +50,6 @@ public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trophy_with_awards_activity);
 
-        TextView tvSportTitle = findViewById(R.id.trophy_with_awards_title);
         TextView tvTitle = findViewById(R.id.trophy_with_awards_title);
         ImageView img = findViewById(R.id.trophy_with_awards_thumbnail);
         //searchHeader = findViewById(R.id.HeaderWithSearchResults);
@@ -65,9 +61,6 @@ public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSe
         String url = intent.getExtras().getString("url");
         int color = intent.getExtras().getInt("color");
 
-
-        String tvSportTitleText = sport + " Trophy Award(s)";
-        tvSportTitle.setText(tvSportTitleText);
         tvTitle.setText(title);
         //searchHeader.setText( "{Number} results for" + searchBar.getText());
         Utils.imageFromCache(img, url);
@@ -162,8 +155,13 @@ public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSe
     public void onSearchConfirmed(CharSequence text) {
         Log.d(TAG, "onSearchConfirmed: ");
         String searchString = text.toString();
+        String name = Utils.searchSportNameEnhancement(getApplicationContext(), text.toString());
         if (searchString.isEmpty()) {
             Intent intent = new Intent(this, SportsWithTrophiesActivity.class);
+            startActivity(intent);
+        } else if(name != null) {
+            Intent intent = new Intent(TrophyWithAwardsActivity.this, TrophiesActivity.class);
+            intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, name);
             startActivity(intent);
         } else {
             Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);

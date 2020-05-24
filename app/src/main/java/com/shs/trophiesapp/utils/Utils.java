@@ -6,14 +6,21 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
+
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.shs.trophiesapp.database.AppDatabase;
+import com.shs.trophiesapp.database.entities.Sport;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.util.List;
 
 public class Utils {
 
@@ -28,9 +35,6 @@ public class Utils {
                 if(!imageUrl.isEmpty() && !imageUrl.trim().equals("")) {
                     Glide.with(view.getContext())
                             .load(imageLink)
-                            .onlyRetrieveFromCache(true)
-                            //.override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                            //.dontTransform()
                             .into(view);
                 }
             }
@@ -59,15 +63,36 @@ public class Utils {
                         Glide.with(context)
                                 .downloadOnly()
                                 .load(imageLink)
-                                .skipMemoryCache(true)
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                                .get();
+                                .listener(new LoggingListener<>())
+                                .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
                     } catch (Exception e) {e.printStackTrace();}
                 }
             }
         }
     }
+
+    public static String searchSportNameEnhancement(Context context, String text) {
+        List<Sport> sports = AppDatabase.getInstance(context).sportDao().getSports();
+        for(Sport sport : sports) {
+            if(sport.name.trim().toLowerCase().equals(text.trim().toLowerCase())) {
+                return sport.name;
+            }
+        }
+        return null;
+    }
+
+    /*public static void frescoImgDownload(Context context, String imageUrl) {
+        if(imageUrl.matches("DEFAULT IMAGE")) return;
+        String[] p = imageUrl.split("/");
+        if(p.length > 5) {
+            Uri imageLink = Uri.parse(Constants.DRIVE_URL + p[5]);
+            if(!imageUrl.isEmpty() && !imageUrl.trim().equals("")) {
+                ImagePipeline pipeline = Fresco.getImagePipeline();
+                pipeline.prefetchToDiskCache(ImageRequest.fromUri(imageLink), null);
+
+            }
+        }
+    }*/
 
     public static String getFileHash(String filePath) {
         try {
@@ -90,5 +115,21 @@ public class Utils {
             return sb.toString();
         } catch (Exception e) {e.printStackTrace();}
         return null;
+    }
+
+    public static class LoggingListener<T> implements RequestListener<T> {
+        @Override
+        public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                    Target<T> target, boolean isFirstResource) {
+            e.logRootCauses("ASDF");
+            return false; // Allow calling onLoadFailed on the Target.
+        }
+
+        @Override
+        public boolean onResourceReady(T resource, Object model, Target<T> target,
+                                       DataSource dataSource, boolean isFirstResource) {
+            // Log successes here or use DataSource to keep track of cache hits and misses.
+            return false; // Allow calling onResourceReady on the Target.
+        }
     }
 }

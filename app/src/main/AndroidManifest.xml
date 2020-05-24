@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.shs.trophiesapp">
 
@@ -12,11 +11,15 @@
     <application
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup"
-        tools:replace="android:label"
         android:label="@string/saratoga_high_school_trophies"
         android:supportsRtl="true"
         android:testOnly="false"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        tools:replace="android:label">
+        <activity
+            android:name=".ReportBugActivity"
+            android:label="@string/title_activity_report_bug"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
         <activity android:name=".SetupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,37 +28,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.shs.trophiesapp.TrophiesActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            >
-
-        </activity>
+            android:name=".TrophiesActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
         <activity
-            android:name="com.shs.trophiesapp.SportsActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            >
-        </activity>
+            android:name=".SportsActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
         <activity
-            android:name="com.shs.trophiesapp.SportsWithTrophiesActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            >
-        </activity>
-
+            android:name=".SportsWithTrophiesActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
         <activity
-            android:name="com.shs.trophiesapp.TrophyDetailsActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            >
-        </activity>
+            android:name=".TrophyDetailsActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
         <activity
-            android:name="com.shs.trophiesapp.TrophyWithAwardsActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            >
-        </activity>
+            android:name=".TrophyWithAwardsActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
         <activity
-            android:name="com.shs.trophiesapp.TrophiesWithAwardsActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            >
-        </activity>
+            android:name=".TrophiesWithAwardsActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
         <activity android:name=".PersonalPlayerAwardsActivity" />
         <activity android:name=".AdvancedSearchDialogActivity" />
         <activity android:name=".BaseActivity" />
@@ -64,6 +53,5 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
-
 
 </manifest>

@@ -7,13 +7,14 @@
 
 
     </style>
-        <!-- Customize your theme here. -->
-        <style name = "CustomToolbarStyle" parent= "Theme.AppCompat.Light.NoActionBar">
+    <!-- Customize your theme here. -->
+    <style name="CustomToolbarStyle" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="colorPrimary">@color/colorPrimary</item>
 
-        </style>
-    <style name = "CustomPopupStyle" parent= "Theme.AppCompat.Light.NoActionBar">
+    </style>
+
+    <style name="CustomPopupStyle" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="android:overlapAnchor">false</item>
@@ -22,7 +23,6 @@
 
 
     </style>
-
 
 
     <style name="FullscreenTheme" parent="AppTheme">
@@ -63,4 +63,13 @@
         <item name="mt_placeholderColor">@color/searchBarPlaceholderColor</item>
         <item name="mt_highlightedTextColor">@color/searchBarTextHighlightColor</item>
     </style>
+
+    <style name="AppTheme.NoActionBar.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

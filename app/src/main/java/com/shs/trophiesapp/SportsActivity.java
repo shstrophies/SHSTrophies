@@ -10,8 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -31,6 +29,7 @@ import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.shs.trophiesapp.databinding.SportsActivityBinding;
 import com.shs.trophiesapp.search.SearchParameters;
 import com.shs.trophiesapp.search.SearchSuggestions;
+import com.shs.trophiesapp.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,8 +125,13 @@ public class SportsActivity extends BaseActivity implements View.OnClickListener
     public void onSearchConfirmed(CharSequence text) {
         Log.d(TAG, "onSearchConfirmed: ");
         String searchString = text.toString();
+        String name = Utils.searchSportNameEnhancement(getApplicationContext(), text.toString());
         if (searchString.isEmpty()) {
             Intent intent = new Intent(this, SportsWithTrophiesActivity.class);
+            startActivity(intent);
+        } else if(name != null) {
+            Intent intent = new Intent(SportsActivity.this, TrophiesActivity.class);
+            intent.putExtra(TrophiesActivity.TROPHIES_BY_SPORT_NAME, name);
             startActivity(intent);
         } else {
             Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
