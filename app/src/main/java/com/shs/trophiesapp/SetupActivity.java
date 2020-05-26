@@ -179,6 +179,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                 Log.d(TAG, "Exact same db, creating from previous DB file");
                 AppDatabase.prepopulateDatabase(getApplicationContext());
                 startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+                finish();
             }
             else {
                 Log.d(TAG, "database directory does not exists for some reason...");
@@ -217,6 +218,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
                                 Toast.makeText(SetupActivity.this, "DONE Loading database...", Toast.LENGTH_LONG).show();
                                 setupFutureHashingAfterDownload();
                                 startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+                                finish();
                             }
                         });
             }
@@ -229,6 +231,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         AppDatabase db = AppDatabase.prepopulateDatabase(getApplicationContext());
         db.sportDao().getAll(); //Just so that the DB is created (B/c of Room Design Pattern)
         startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+        finish();
     }
 
     private Callable<HashMap<String, String>> firstDownloadCallable = () -> {
