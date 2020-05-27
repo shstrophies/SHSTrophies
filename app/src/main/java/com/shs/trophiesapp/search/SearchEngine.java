@@ -104,12 +104,14 @@ public class SearchEngine {
     // Convert list of strings to list of sport ids (use stream().map(inputElem -> /* conversion */)
     // if input is empty, return empty list (use Collections.emptyList())
     List<Long> convertToListOfSportIds(List<String> input) {
-        return input.isEmpty() ? Collections.emptyList() :
+        List<Long> list =  input.isEmpty() ? Collections.emptyList() :
                 input.stream().map(inputElem -> {
                     List<Sport> sports = sportRepository.searchSportByName(inputElem);
-                    return sports.get(0).getId();
-
+                    if(sports.size() > 0) return sports.get(0).getId();
+                    else return null;
                 }).collect(Collectors.toList());
+        if(list.get(0) != null) return list; //This is a shitty solution, but works for the time being TODO: Fix this
+        else return Collections.emptyList();
     }
 
     // Convert input list of TrophyAward objects to list of TrophyWithAwards
@@ -234,7 +236,10 @@ public class SearchEngine {
         // Example: "Glen, Anna Smith" should return "Glen#Anna Smith"
         ArrayList<String> players = new ArrayList<>(getPlayers(searchParameters));
 
+        if(sportIds.size() == 0 && years.size() == 0 && titles.size() == 0 && players.size() == 0) return new ArrayList<>();
+
         List<TrophyAward> list = DataManager.getTrophyRepository(context.get()).getTrophyAwardsBySportsAndTitlesAndYearsAndPlayers(sportIds, titles, years, players);
+        Log.d(TAG, "TrophyAward List Size: " + list.size());
         return new ArrayList<>(converttoListOfTrophyWithAwards(list));
     }
 }
