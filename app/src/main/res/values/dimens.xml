@@ -6,4 +6,5 @@
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="button_margin_top">50dp</dimen>
+    <dimen name="content_padding_normal">25dp</dimen>
 </resources>
