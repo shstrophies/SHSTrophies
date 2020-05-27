@@ -103,8 +103,7 @@ public class TrophiesActivity extends BaseActivity implements NavigationView.OnN
                 Sport sport = sportWithTrophies.sport;
                 List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getSuggestions(sport + " " + searchBar.getText());
                 generatedSuggestions.forEach(e -> Log.d(TAG, "onTextChanged: suggestion=" + e.toString()));
-                if(suggestions.size() > 0) suggestions.clear();
-                suggestions.addAll(generatedSuggestions);
+                suggestions = new ArrayList<>(generatedSuggestions);
                 customSuggestionsAdapter.setSuggestions(suggestions);
             }
 
@@ -141,20 +140,19 @@ public class TrophiesActivity extends BaseActivity implements NavigationView.OnN
     @Override
     public void onSearchConfirmed(CharSequence text) {
         Log.d(TAG, "onSearchConfirmed: ");
-        Sport sport = sportWithTrophies.sport;
         Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
-        String searchString = text.toString();
+        String searchString = text.toString().trim();
 
         Intent nextActivity = Utils.searchKeywordRerouting(getApplicationContext(), searchString);
         if(nextActivity != null) startActivity(nextActivity);
-
-        intent.putExtra(SearchParameters.ALL, searchString);
-        intent.putExtra(SearchParameters.TROPHYTITLES, "");
-        intent.putExtra(SearchParameters.SPORTNAMES, sport.getName());
-        intent.putExtra(SearchParameters.YEARS, "");
-        intent.putExtra(SearchParameters.PLAYERNAMES, "");
-        startActivity(intent);
-
+        else if (!searchString.isEmpty()) {
+            intent.putExtra(SearchParameters.ALL, searchString);
+            intent.putExtra(SearchParameters.TROPHYTITLES, "");
+            intent.putExtra(SearchParameters.SPORTNAMES, "");
+            intent.putExtra(SearchParameters.YEARS, "");
+            intent.putExtra(SearchParameters.PLAYERNAMES, "");
+            startActivity(intent);
+        }
     }
 
     @Override

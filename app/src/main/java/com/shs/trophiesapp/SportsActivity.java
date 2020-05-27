@@ -89,8 +89,7 @@ public class SportsActivity extends BaseActivity implements View.OnClickListener
                 Log.d(TAG, "onTextChanged: text changed " + binding.sportsSearch.getText());
                 List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getSuggestions(binding.sportsSearch.getText());
                 generatedSuggestions.forEach(e -> Log.d(TAG, "onTextChanged: suggestion=" + e.toString()));
-                if(suggestions.size() > 0) suggestions.clear();
-                suggestions.addAll(generatedSuggestions);
+                suggestions = new ArrayList<>(generatedSuggestions);
                 customSuggestionsAdapter.setSuggestions(suggestions);
             }
 
@@ -123,15 +122,11 @@ public class SportsActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onSearchConfirmed(CharSequence text) {
         Log.d(TAG, "onSearchConfirmed: ");
-        String searchString = text.toString();
+        String searchString = text.toString().trim();
 
         Intent nextActivity = Utils.searchKeywordRerouting(getApplicationContext(), searchString);
         if(nextActivity != null) startActivity(nextActivity);
-
-        if (searchString.isEmpty()) {
-            Intent intent = new Intent(this, SportsWithTrophiesActivity.class);
-            startActivity(intent);
-        } else {
+        else if (!searchString.isEmpty()) {
             Intent intent = new Intent(this, TrophiesWithAwardsActivity.class);
             intent.putExtra(SearchParameters.ALL, searchString);
             intent.putExtra(SearchParameters.TROPHYTITLES, "");
