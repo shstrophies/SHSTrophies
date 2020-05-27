@@ -38,6 +38,7 @@ public class ReportBugActivity extends AppCompatActivity {
             }*/
         });
         binding.content.webview.loadUrl(Constants.BUG_REPORT_FORM_URL);
+        binding.content.webview.getSettings().setJavaScriptEnabled(true);
     }
 
 }
