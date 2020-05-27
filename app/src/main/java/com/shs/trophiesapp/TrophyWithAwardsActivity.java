@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,7 +56,7 @@ public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSe
         //Receive data
         Intent intent = getIntent();
         String sport = intent.getExtras().getString("sportName");
-        String title = intent.getExtras().getString("title");
+        //String title = intent.getExtras().getString("title");
         String url = intent.getExtras().getString("url");
         int color = intent.getExtras().getInt("color");
 
@@ -85,7 +84,7 @@ public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSe
 //        searchBar.inflateMenu(R.menu.main);
         searchBar.setHint(getResources().getString(R.string.search_info));
 
-        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+        //ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
         suggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getDefaultSuggestions();

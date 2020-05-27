@@ -13,24 +13,8 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 public class Downloader {
 
     private DownloadManager downloadManager;
-    private Context context;
-
-    static class DownloadInfo {
-        long id;
-        Downloader downloader;
-        String downloadPath;
-        String destinationPath;
-
-        public DownloadInfo(long id, Downloader downloader, String downloadPath, String destinationPath) {
-            this.id = id;
-            this.downloader = downloader;
-            this.downloadPath = downloadPath;
-            this.destinationPath = destinationPath;
-        }
-    }
 
     public Downloader(Context ctx) {
-        context = ctx;
         downloadManager = (DownloadManager) ctx.getSystemService(DOWNLOAD_SERVICE);
     }
 
@@ -70,7 +54,7 @@ public class Downloader {
             result.put("reason", "COULD_NOT_FIND");
             result.put("downloadId", String.valueOf(downloadId));
         }
-        HashMap wmap = new HashMap();
+        HashMap<String, String> wmap = new HashMap<>();
         for (HashMap.Entry<String, String> entry : result.entrySet()) {
             wmap.put(entry.getKey(), entry.getValue());
         }
@@ -91,7 +75,7 @@ public class Downloader {
         int filenameIndex = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
         String filename = cursor.getString(filenameIndex);
 
-        String statusText = "";
+        String statusText;
         String reasonText = "";
 
         switch (STATUS) {

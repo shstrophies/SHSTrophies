@@ -1,14 +1,11 @@
 package com.shs.trophiesapp;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.shs.trophiesapp.utils.Constants;
 
 import java.lang.ref.WeakReference;
 
@@ -41,7 +38,8 @@ public class BaseActivity extends AppCompatActivity {
                         .setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail")
                         .putExtra(Intent.EXTRA_SUBJECT, "SHS Trophy App Bug Report Email");
                 startActivity(emailIntent);*/
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BUG_REPORT_FORM_URL)));
+                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BUG_REPORT_FORM_URL)));
+                startActivity(new Intent(BaseActivity.this, ReportBugActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

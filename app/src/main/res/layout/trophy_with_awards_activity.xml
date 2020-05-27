@@ -87,8 +87,10 @@
         android:textSize="23dp"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/trophy_with_awards_title"
+        app:layout_constraintVertical_bias="0.708" />
 
     <View
         android:id="@+id/view2"

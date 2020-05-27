@@ -22,13 +22,11 @@ public class TrophiesAppGlideModule extends AppGlideModule {
         builder.setDiskCache(
                 new ExternalPreferredCacheDiskCacheFactory(context, Constants.DATA_DIRECTORY_DISK_CACHE_IMAGES, diskCacheSizeBytes)
         );
-
         builder.setLogLevel(Log.DEBUG);
     }
 
     @Override
     public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
         super.registerComponents(context, glide, registry);
-        
     }
 }

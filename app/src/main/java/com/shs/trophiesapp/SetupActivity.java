@@ -1,14 +1,11 @@
 package com.shs.trophiesapp;
 
 import android.Manifest;
-import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,107 +21,101 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
+import com.bumptech.glide.Glide;
 import com.shs.trophiesapp.database.AppDatabase;
-import com.shs.trophiesapp.database.DataManager;
-import com.shs.trophiesapp.database.entities.Sport;
-import com.shs.trophiesapp.database.entities.TrophyAward;
 import com.shs.trophiesapp.databinding.ActivitySetupBinding;
 import com.shs.trophiesapp.utils.Constants;
 import com.shs.trophiesapp.utils.DirectoryHelper;
-import com.shs.trophiesapp.utils.Downloader;
+import com.shs.trophiesapp.utils.ThreadDownloader;
 import com.shs.trophiesapp.utils.Utils;
 import com.shs.trophiesapp.workers.SeedDatabaseWorker;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static com.shs.trophiesapp.utils.CSVUtils.parseLine;
+import static com.shs.trophiesapp.utils.Constants.DATA_FILENAME_NAME;
 import static com.shs.trophiesapp.utils.Constants.DOWNLOAD_URL;
 import static com.shs.trophiesapp.utils.Constants.SPORTS_GID;
 import static com.shs.trophiesapp.utils.Constants.SPORTS_DIRECTORY_NAME;
-
 
 public class SetupActivity extends BaseActivity implements View.OnClickListener, LifecycleOwner {
     private static final String TAG = "SetupActivity";
     public static final String SHARED_PREFERENCES_TITLE = "Trophy_Shared_Preferences";
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
+    private static final int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors(); //TODO: Test app on kiosk to see what optimal pool size is
+
+    private static final boolean startClean = true;
 
     private ActivitySetupBinding binding;
-    private boolean stopDownloads;
-
-    HashMap<Long, DownloadInfo> downloadInfoMap = new HashMap<>();
-    ArrayList<Long> downloadInfoList = new ArrayList<>();
-    Set<String> destinationPaths = new HashSet<>();
+    private ExecutorService executor;
+    private List<String> directoryPaths = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        stopDownloads = false;
         binding = ActivitySetupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         binding.loadDatabaseButton.setOnClickListener(this);
         binding.cleanButton.setOnClickListener(this);
 
+        if(!getApplicationContext().getDatabasePath(Constants.DATABASE_NAME).exists()) binding.loadDatabaseButton.setEnabled(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
 
-        getApplication().registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-        DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
-        downloadData();
+        if(startClean) clean(new WeakReference<>(getApplicationContext()));
+
+        DirectoryHelper.createDirectory(Constants.DATA_DIRECTORY_NAME);
+        DirectoryHelper.createDirectory(Constants.DATA_DIRECTORY_NAME + "/" + SPORTS_DIRECTORY_NAME);
+
+        executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+        try {
+            HashMap<String, String> csv_headers = executor.submit(firstDownloadCallable).get();
+
+            for(String sport : csv_headers.keySet()) {
+                String directoryPath = Constants.DATA_DIRECTORY_NAME + "/" + sport + "/";
+                DirectoryHelper.createDirectory(directoryPath);
+                directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + directoryPath;
+                Log.d(TAG, "Directory Path for Each Sport: " + directoryPath);
+                directoryPaths.add(directoryPath + DATA_FILENAME_NAME);
+                executor.submit(
+                        new ThreadDownloader(DOWNLOAD_URL.replace("YOURGID",
+                                Objects.requireNonNull(csv_headers.get(sport))), directoryPath, getApplicationContext())
+                );
+            }
+            executor.shutdown();
+            long timeBeforeTermination = System.currentTimeMillis();
+            boolean terminated = executor.awaitTermination(5, TimeUnit.MINUTES);
+            long timeAfterTermination = System.currentTimeMillis();
+            Log.d(TAG, "Termination time for all Thread processes is " + (timeAfterTermination - timeBeforeTermination) + " millis.");
+
+            if(terminated) {
+                Toast.makeText(getApplicationContext(), "Starting Hashing", Toast.LENGTH_LONG).show();
+                setupHashingAfterDownload();
+            }
+
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void setupHashes() {
-        Log.d(TAG, "SetupHashes Method Started");
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE);
-        Map<String, String> hashes = new HashMap<>();
-        for(Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
-            hashes.put(entry.getKey(), entry.getValue().toString());
-        }
-        destinationPaths.add(Environment.getExternalStorageDirectory() + "/" + DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + SPORTS_DIRECTORY_NAME);
-
-        if(hashes.equals(new HashMap<String, String>()) || hashes.isEmpty()) {
-            Log.d(TAG, "No Hashes present");
-            loadDatabase();
-        } else {
-            int sameHashCounter = 0;
-            for(String destPath : destinationPaths) {
-                if(hashes.containsKey(destPath)) {
-                    // Not the first time booting up the app
-                    String prevHash = hashes.get(destPath);
-                    String currHash = Utils.getFileHash(destPath + "/" + "exported.csv");
-                    Log.d(TAG, "Previous Hash: " + prevHash + ", Current Hash:" + currHash);
-                    assert currHash != null;
-                    if(!currHash.equals(prevHash)) loadDatabase();
-                    else {
-                        Log.d(TAG, "Hashes are the same");
-                        sameHashCounter++;
-                    }
-                } else {
-                    Log.d(TAG, "Hash is new and not in Shared Preferences file");
-                    loadDatabase();
-                    break;
-                }
-            }
-            Log.d(TAG, "Samehashcounter: " + sameHashCounter + ", dPaths Size: " + destinationPaths.size());
-            if((sameHashCounter == destinationPaths.size()) && getApplicationContext().getDatabasePath(Constants.DATABASE_NAME).exists()) {
-                Log.d(TAG, "Exact same db, creating from previous DB file");
-                AppDatabase.prepopulateDatabase(getApplicationContext());
-                startActivity(new Intent(SetupActivity.this, SportsActivity.class));
-            }
-            else {
-                Log.d(TAG, "database directory does not exists for some reason...");
-                loadDatabase();
-            }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                DirectoryHelper.createDirectory(this);
         }
     }
 
@@ -132,11 +123,11 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.loadDatabaseButton: {
-                if(!getIntent().getBooleanExtra("Clean", false)) {
-                    Log.d(TAG, "Button Pressed");
-                    binding.loadDatabaseButton.setEnabled(false);
-                    loadDatabase(!getApplicationContext().getDatabasePath(Constants.DATABASE_NAME).exists());
-                } else Toast.makeText(getApplicationContext(), "Cannot Load Database, no data present", Toast.LENGTH_LONG).show();
+                executor.shutdownNow();
+                binding.loadDatabaseButton.setEnabled(false);
+                Log.d(TAG, "Loading Database from DB File");
+                Toast.makeText(getApplicationContext(), "Loading DB from Existing DB File", Toast.LENGTH_LONG).show();
+                loadDatabaseFromDBFile();
                 break;
             }
             case R.id.cleanButton: {
@@ -151,200 +142,137 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
         context.get().deleteDatabase(Constants.DATABASE_NAME);
         DirectoryHelper.deleteDirectory(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
         context.get().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE).edit().clear().apply();
+        new CacheClearAsyncTask(context).execute();
     }
 
-    private void downloadData() {
-        downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", SPORTS_GID), SPORTS_DIRECTORY_NAME);
-    }
-
-
-    static class DownloadInfo {
-        long id;
-        Downloader downloader;
-        String downloadPath;
-        String destinationPath;
-
-        DownloadInfo(long id, Downloader downloader, String downloadPath, String destinationPath) {
-            this.id = id;
-            this.downloader = downloader;
-            this.downloadPath = downloadPath;
-            this.destinationPath = destinationPath;
+    private void setupHashingAfterDownload() {
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE);
+        Map<String, String> hashes = new HashMap<>();
+        for(Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
+            hashes.put(entry.getKey(), entry.getValue().toString());
         }
-    }
 
-    private void downloadDataFromURL(String downloadPath, String directoryName) {
-        Log.d(TAG, "downloadDataFromURL: ************************************************** ");
-        Log.d(TAG, "downloadDataFromURL: ************************************************** ");
-        Log.d(TAG, "downloadDataFromURL: download data for " + directoryName + " downloadPath=" + downloadPath);
-        Log.d(TAG, "downloadDataFromURL: ************************************************** ");
-        Log.d(TAG, "downloadDataFromURL: ************************************************** ");
-
-        String destinationPath = DirectoryHelper.ROOT_DIRECTORY_NAME + "/" + directoryName;
-        String fullDirectory = Environment.getExternalStorageDirectory() + "/" + destinationPath;
-
-        DirectoryHelper.listFilesInDirectory(fullDirectory);
-        DirectoryHelper.deleteOlderFiles(fullDirectory, 0);
-        DirectoryHelper.createDirectory(this);
-
-        DownloadInfo downloadInfo = startDownload(downloadPath, destinationPath);
-        downloadInfoMap.put(downloadInfo.id, downloadInfo);
-        Log.d(TAG, "downloadDataFromURL: *** downloadInfoList add " + downloadInfo.id);
-        downloadInfoList.add(downloadInfo.id);
-
-        Toast.makeText(SetupActivity.this, "Download Started for id=" + downloadInfo.id, Toast.LENGTH_LONG).show();
-        Log.d(TAG, "downloadDataFromURL: Download Started for id=" + downloadInfo.id + " downloadDataFromURL: downloadInfoMap=" + Collections.singletonList(downloadInfoMap));
-    }
-
-    private DownloadInfo startDownload(String downloadPath, String destinationPath) {
-        Log.d(TAG, "startDownload: url=" + downloadPath + ", directory=" + destinationPath);
-        Uri.parse(downloadPath);
-        Downloader downloader = new Downloader(this);
-        DownloadManager.Request request = downloader.createRequest(downloadPath, destinationPath, Constants.DATA_FILENAME_NAME);
-        long downloadId = downloader.queueDownload(request);// This will start downloading
-        String fullDirectory = Environment.getExternalStorageDirectory() + "/" + destinationPath;
-        return new DownloadInfo(downloadId, downloader, downloadPath, fullDirectory);
-    }
-
-    private BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //Fetching the download id received with the broadcast
-            if(stopDownloads) {
-                // TODO: Check to see if there's actually a directory and corresponding data otherwise don't allow (or you can check if hashes exist)
-                return;
-            }
-            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-            Log.d(TAG, "onReceive: downloaded id=" + id);
-            DownloadInfo downloadInfo = downloadInfoMap.get(id);
-            if(downloadInfo == null) return;
-            //Assert.that(downloadInfo != null, "downloadInfo should not be null");
-
-            //Checking if the received broadcast is for our enqueued download by matching download id
-
-            Log.d(TAG, "onReceive: found downloadInfo, downloadInfo.id=" + downloadInfo.id + " downloadInfo.downloadPath=" + downloadInfo.downloadPath + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
-            HashMap downloadStatus = downloadInfo.downloader.checkDownloadStatus(downloadInfo.id);
-            String status = Objects.requireNonNull(downloadStatus.get("status")).toString();
-            if(status.equals("STATUS_SUCCESSFUL")) {
-                Toast.makeText(context, "Download Completed for id=" + id, Toast.LENGTH_LONG).show();
-                Log.d(TAG, "onReceive: Download Completed for id=" + id + " downloadInfo.id=" + downloadInfo.id + " downloadInfo.destinationPath=" + downloadInfo.destinationPath);
-                DirectoryHelper.listFilesInDirectory(downloadInfo.destinationPath);
-                destinationPaths.add(downloadInfo.destinationPath + "/");
-
-                // if this is the sports spreadsheet, then read it and get all the GIDs from that file
-                File destinationPath = new File(downloadInfo.destinationPath);
-                if(destinationPath.getName().compareToIgnoreCase(SPORTS_DIRECTORY_NAME) == 0) {
-                    try {
-                        File file = DirectoryHelper.getLatestFilefromDir(downloadInfo.destinationPath);
-                        assert file != null;
-                        Scanner scanner = new Scanner(file);
-                        boolean first = true;
-                        while (scanner.hasNext()) {
-                            String line = scanner.nextLine();
-                            Log.d(TAG, "onReceive: line=" + line);
-                            List<String> commaSeparatedLine = parseLine(line);
-                            if (first) first = false;
-                            else {
-                                String sport = commaSeparatedLine.get(0);
-                                String gid = commaSeparatedLine.get(1);
-                                downloadDataFromURL(DOWNLOAD_URL.replace("YOURGID", gid), sport);
-                            }
-                        }
-                    } catch (Exception e) { e.printStackTrace(); }
-                }
-            } else {
-                String reason = Objects.requireNonNull(downloadStatus.get("reason")).toString();
-                Toast.makeText(context, "Download NOT SUCCESSFUL because " + reason, Toast.LENGTH_LONG).show();
-                Log.d(TAG, "**** onReceive: Download failed because " + reason);
-            }
-            Log.d(TAG, "onReceive: *** downloadInfoList remove " + downloadInfo.id);
-            Log.d(TAG, "onReceive: downloadInfoList=" + Collections.singletonList(downloadInfoList));
-            downloadInfoList.remove(downloadInfo.id);
-            if (downloadInfoList.isEmpty()) {
-                Log.d(TAG, "onReceive: DOWNLOADS complete");
-                DirectoryHelper.listFilesInDirectoryRecursively(Environment.getExternalStorageDirectory() + "/" + Constants.DATA_DIRECTORY_NAME);
-                setupHashes();
-            }
-
-        }
-    };
-
-    private void loadDatabase() {
-        loadDatabase(true);
-    }
-
-    private void loadDatabase(boolean fromFiles) {
-        try {
-            //TODO: Check if downloads all exist
-            stopDownloads = true;
-            Log.d(TAG, "loadDatabase: ");
-            Context context = getApplicationContext();
-            context.deleteDatabase(Constants.DATABASE_NAME);
-
-            RoomDatabase.Callback rdc = new RoomDatabase.Callback() {
-                public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                    Log.d(TAG, "Room.databaseBuilder, ... onCreate: ");
-                    super.onCreate(db);
-                    if(fromFiles) {
-                        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SeedDatabaseWorker.class).build();
-                        WorkManager workManager = WorkManager.getInstance(context);
-                        workManager.enqueue(workRequest);
-                        //UUID id = workRequest.getId();
-                        WorkManager.getInstance(context).getWorkInfoByIdLiveData(workRequest.getId())
-                                .observe(SetupActivity.this, workInfo -> {
-                                    if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
-                                        Toast.makeText(SetupActivity.this, "DONE Loading database...", Toast.LENGTH_LONG).show();
-                                        setupFutureHashing();
-                                        startActivity(new Intent(SetupActivity.this, SportsActivity.class));
-                                    }
-                                });
+        if(hashes.equals(new HashMap<>()) || hashes.isEmpty()) {
+            Log.d(TAG, "No Hashes present");
+            loadDatabaseFromFiles();
+        } else {
+            int sameHashCounter = 0;
+            for(String path : directoryPaths) {
+                if(hashes.containsKey(path)) {
+                    String prevHash = hashes.get(path);
+                    String currHash = Utils.getFileHash(path);
+                    Log.d(TAG, "Previous Hash: " + prevHash + ", Current Hash:" + currHash);
+                    assert currHash != null;
+                    if(!currHash.equals(prevHash)) loadDatabaseFromFiles();
+                    else {
+                        Log.d(TAG, "Hashes are the same");
+                        sameHashCounter++;
                     }
+                } else {
+                    Log.d(TAG, "Hash is new and not in Shared Preferences file");
+                    loadDatabaseFromFiles();
+                    break;
                 }
-            };
-
-            AppDatabase.getInstance(context, rdc);
-            Toast.makeText(SetupActivity.this, "Loading database...", Toast.LENGTH_LONG).show();
-            List<Sport> sports = DataManager.getSportRepository(context).getSports();
-
-            Toast.makeText(SetupActivity.this, "Getting trophy repository", Toast.LENGTH_LONG).show();
-            List<TrophyAward> awards = DataManager.getTrophyRepository(context).getAwards();
-
-            if ((sports.size() != 0) && (awards.size() != 0)) {
-                Toast.makeText(SetupActivity.this, "sports size=" + sports.size(), Toast.LENGTH_LONG).show();
-                Toast.makeText(SetupActivity.this, "awards size=" + awards.size(), Toast.LENGTH_LONG).show();
-
-                setupFutureHashing();
-                startActivity(new Intent(SetupActivity.this, SportsActivity.class));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            Log.d(TAG, "Samehashcounter: " + sameHashCounter + ", dPaths Size: " + directoryPaths.size());
+            if((sameHashCounter == directoryPaths.size()) && getApplicationContext().getDatabasePath(Constants.DATABASE_NAME).exists()) {
+                Log.d(TAG, "Exact same db, creating from previous DB file");
+                AppDatabase.prepopulateDatabase(getApplicationContext());
+                startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+                finish();
+            }
+            else {
+                Log.d(TAG, "database directory does not exists for some reason...");
+                loadDatabaseFromFiles();
+            }
         }
     }
 
-    private void setupFutureHashing() {
+    private void setupFutureHashingAfterDownload() {
         Log.d(TAG, "Setup Future Hashing");
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES_TITLE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        for (String path : destinationPaths) {
-            String hash = Utils.getFileHash(path + "/" + "exported.csv");
+        for (String path : directoryPaths) {
+            String hash = Utils.getFileHash(path);
             Log.d(TAG, "Hash Key: " + path + ", Hash: " + hash);
             editor.putString(path, hash);
         }
         editor.apply();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                DirectoryHelper.createDirectory(this);
-        }
+    private void loadDatabaseFromFiles() {
+        Log.d(TAG, "loadDatabaseFromFiles");
+        Context currContext = getApplicationContext();
+        currContext.deleteDatabase(Constants.DATABASE_NAME);
+
+        AppDatabase db = AppDatabase.getInstance(currContext, new RoomDatabase.Callback() {
+            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                Log.d(TAG, "Room.databaseBuilder, ... onCreate: ");
+                super.onCreate(db);
+                OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SeedDatabaseWorker.class).build();
+                WorkManager workManager = WorkManager.getInstance(currContext);
+                workManager.enqueue(workRequest);
+                WorkManager.getInstance(currContext).getWorkInfoByIdLiveData(workRequest.getId())
+                        .observe(SetupActivity.this, workInfo -> {
+                            if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                                Toast.makeText(SetupActivity.this, "DONE Loading database...", Toast.LENGTH_LONG).show();
+                                setupFutureHashingAfterDownload();
+                                startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+                                finish();
+                            }
+                        });
+            }
+        });
+        db.sportDao().getAll(); //Just so that the DB is created (B/c of Room Design Pattern)
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    private void loadDatabaseFromDBFile() {
+        Log.d(TAG, "Exact same db, creating from previous DB file");
+        AppDatabase db = AppDatabase.prepopulateDatabase(getApplicationContext());
+        db.sportDao().getAll(); //Just so that the DB is created (B/c of Room Design Pattern)
+        startActivity(new Intent(SetupActivity.this, SportsActivity.class));
+        finish();
+    }
 
-        unregisterReceiver(onDownloadComplete);
+    private Callable<HashMap<String, String>> firstDownloadCallable = () -> {
+        HashMap<String, String> sport_gid = new HashMap<>();
+        String directoryPath = Constants.DATA_DIRECTORY_NAME + "/" + SPORTS_DIRECTORY_NAME + "/";
+        DirectoryHelper.createDirectory(directoryPath);
+        directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + directoryPath;
+
+        String downloadPath = DOWNLOAD_URL.replace("YOURGID", SPORTS_GID);
+
+        directoryPaths.add(directoryPath + DATA_FILENAME_NAME);
+        ThreadDownloader.httpDownload(downloadPath, directoryPath, new WeakReference<>(getApplicationContext()));
+        Scanner scanner = new Scanner(new File(directoryPath + DATA_FILENAME_NAME));
+        boolean first = true;
+        while (scanner.hasNext()) {
+            String line = scanner.nextLine();
+            Log.d(TAG, "onReceive: line=" + line);
+            List<String> commaSeparatedLine = parseLine(line);
+            if (first) first = false;
+            else {
+                String sport = commaSeparatedLine.get(0);
+                String gid = commaSeparatedLine.get(1);
+                sport_gid.put(sport, gid);
+            }
+        }
+        return sport_gid;
+    };
+
+    static class CacheClearAsyncTask extends AsyncTask<Void, Void, Void> {
+        private WeakReference<Context> cont;
+        CacheClearAsyncTask(WeakReference<Context> cont) {this.cont = cont;}
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Glide.get(cont.get()).clearDiskCache();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute (Void result) {
+            Log.d(TAG, "Cleaned Disk Cache");
+        }
     }
 }

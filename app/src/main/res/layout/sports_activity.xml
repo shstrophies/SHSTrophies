@@ -23,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view"
             app:layout_constraintVertical_bias="0.0"
-            app:mt_maxSuggestionsCount="10"
+            app:mt_maxSuggestionsCount="1"
             app:mt_placeholder=""
             app:mt_speechMode="false"
             android:translationZ="90dp"

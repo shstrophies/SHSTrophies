@@ -54,10 +54,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/personal_trophies_with_awards_recyclerview"
             android:layout_width="fill_parent"
-            android:layout_height="590dp"
+            android:layout_height="520dp"
             android:layout_alignParentTop="true"
 
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@id/trophies_with_awards_recyclerview"
             app:layout_constraintEnd_toEndOf="parent"

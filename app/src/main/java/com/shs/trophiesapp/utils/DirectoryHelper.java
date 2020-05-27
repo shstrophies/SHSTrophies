@@ -33,6 +33,9 @@ public class DirectoryHelper extends ContextWrapper {
         }
     }
 
+    public static void createAllDirectories(String... directories) {
+        for(String directory : directories) createDirectory(directory);
+    }
 
     public static void createDirectory(String directoryName) {
         if (!doesDirectoryExist(directoryName)) {

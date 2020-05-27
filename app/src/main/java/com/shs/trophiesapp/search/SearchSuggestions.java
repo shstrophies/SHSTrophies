@@ -29,6 +29,8 @@ import static org.paukov.combinatorics.CombinatoricsFactory.createVector;
 public class SearchSuggestions {
     private static final String TAG = "SearchSuggestionsGenera";
 
+    int SUGGESTIONS_MAX = 4;
+
     private WeakReference<Context> context;
     private List<Suggestion> suggestions;
     private SportRepository sportRepository;
@@ -108,8 +110,21 @@ public class SearchSuggestions {
         return allSuggestions;
     }
 
+    public List<Suggestion> shuffleSuggestionsAndReturnSubList(List<Suggestion> allSuggestions) {
+        Collections.shuffle(allSuggestions);
+        List<Suggestion> subList = allSuggestions.subList(0, Integer.min(SUGGESTIONS_MAX, allSuggestions.size()));
+        List<Suggestion> result = new ArrayList<>(new HashSet<>(subList.stream()
+                .collect(Collectors.toCollection(() ->
+                        new TreeSet<>(Comparator.comparing(Suggestion::getTitle))))));
+        Log.d(TAG, "shuffleSuggestionsAndReturnSubList: result size=" + result.size());
+        return result;
+    }
+
+
+
+
     public List<Suggestion> getSuggestions(String searchString) {
-        if(searchString.isEmpty()) return getFirstSuggestions();
+        if(searchString.isEmpty()) return shuffleSuggestionsAndReturnSubList(getFirstSuggestions());
         List<String> sports = sportRepository.searchSportName(searchString, 5);
         List<String> trophies = trophyRepository.searchTrophyTitle(searchString, 5);
         List<String> players = trophyRepository.searchPlayerName(searchString, 5);
@@ -148,13 +163,8 @@ public class SearchSuggestions {
             Log.d(TAG, "onTextChanged: cartesianProduct=" + cartesianProduct);
         }
 
-        Collections.shuffle(allSuggestions);
-        allSuggestions.subList(Integer.min(6, allSuggestions.size()), allSuggestions.size()).clear();
-        List<Suggestion> result = new ArrayList<>(new HashSet<>(allSuggestions.stream()
-                .collect(Collectors.toCollection(() ->
-                        new TreeSet<>(Comparator.comparing(Suggestion::getTitle))))));
+        return shuffleSuggestionsAndReturnSubList(allSuggestions);
 
-        return result;
     }
 
 
