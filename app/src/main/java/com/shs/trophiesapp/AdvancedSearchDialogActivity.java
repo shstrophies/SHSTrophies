@@ -76,8 +76,8 @@ public class AdvancedSearchDialogActivity extends AppCompatActivity {
         } if(!players.replaceAll(" ", "").chars().allMatch(Character::isLetter)) {
             Toast.makeText(context, "Player Names Input Invalid, Please Input Only Text", Toast.LENGTH_LONG).show();
             return false;
-        } if(!years.replaceAll(" ", "").chars().allMatch(Character::isDigit)) {
-            Toast.makeText(context, "Years Input Invalid, Please Input Only Digits", Toast.LENGTH_LONG).show();
+        } if(!years.replaceAll(" ","").replaceAll(",","").chars().allMatch(Character::isDigit)) {
+            Toast.makeText(context, "Years Input Invalid, Please Input Only Digits and/or commas", Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
