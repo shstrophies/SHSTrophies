@@ -10,12 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -80,7 +78,7 @@ public class TrophiesActivity extends BaseActivity implements NavigationView.OnN
         searchBar.setOnSearchActionListener(this);
         searchBar.setHint(getResources().getString(R.string.search_info));
 
-        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+        //ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
@@ -105,7 +103,7 @@ public class TrophiesActivity extends BaseActivity implements NavigationView.OnN
                 Sport sport = sportWithTrophies.sport;
                 List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getSuggestions(sport + " " + searchBar.getText());
                 generatedSuggestions.forEach(e -> Log.d(TAG, "onTextChanged: suggestion=" + e.toString()));
-                suggestions.clear();
+                if(suggestions.size() > 0) suggestions.clear();
                 suggestions.addAll(generatedSuggestions);
                 customSuggestionsAdapter.setSuggestions(suggestions);
             }

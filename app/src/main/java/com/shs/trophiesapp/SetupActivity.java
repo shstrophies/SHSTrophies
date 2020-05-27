@@ -56,7 +56,7 @@ public class SetupActivity extends BaseActivity implements View.OnClickListener,
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 54654;
     private static final int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors(); //TODO: Test app on kiosk to see what optimal pool size is
 
-    private static final boolean startClean = true;
+    private static final boolean startClean = false; //Changed so that the pictures don't get removed every successive reload
 
     private ActivitySetupBinding binding;
     private ExecutorService executor;

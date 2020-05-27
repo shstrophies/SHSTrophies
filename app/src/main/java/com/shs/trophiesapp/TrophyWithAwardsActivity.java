@@ -107,7 +107,7 @@ public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSe
                 Log.d(TAG, "onTextChanged: text changed " + searchBar.getText());
                 List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getSuggestions(searchBar.getText());
                 generatedSuggestions.forEach(e -> Log.d(TAG, "onTextChanged: suggestion=" + e.toString()));
-                suggestions.clear();
+                if(suggestions.size() > 0) suggestions.clear();
                 suggestions.addAll(generatedSuggestions);
                 customSuggestionsAdapter.setSuggestions(suggestions);
             }
