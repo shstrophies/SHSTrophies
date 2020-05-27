@@ -162,7 +162,7 @@ public class SearchEngine {
     // Get list of years from search parameter yearsStr
     // Example: input: "1982 1076" should return a list of "1982" and "1976"
     public List<Integer> getYears(SearchParameters searchParameters) {
-        String digitsString = getAllDigitsString(searchParameters.years);
+        String digitsString = getAllDigitsString(searchParameters.getYears());
         List<String> digitsList = convertToDigitsList(digitsString);
         return convertToListOfIntegers(digitsList);
     }

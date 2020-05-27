@@ -46,7 +46,6 @@ public class PersonalPlayerAwardsAdapter extends RecyclerView.Adapter<PersonalPl
         this.playerName = playerName;
 
         recycledViewPool = new RecyclerView.RecycledViewPool();
-
     }
 
     @NonNull
@@ -117,8 +116,6 @@ public class PersonalPlayerAwardsAdapter extends RecyclerView.Adapter<PersonalPl
 
         }
     }
-
-
 
     private class SportsWithTrophiesDataFilter extends Filter {
 

@@ -9,11 +9,11 @@ public class SearchParameters {
     public static final String YEARS = "YEARS";
 
 
-    String all;
-    String playerNames;
-    String sportNames;
-    String years;
-    String trophyTitles;
+    private String all;
+    private String playerNames;
+    private String sportNames;
+    private String years;
+    private String trophyTitles;
 
 
     public SearchParameters(String all, String playerNames, String sportNames, String years, String trophyTitles) {

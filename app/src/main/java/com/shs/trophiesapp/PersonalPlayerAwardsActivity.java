@@ -33,9 +33,10 @@ public class PersonalPlayerAwardsActivity extends BaseActivity {
         context = this;
         setContentView(R.layout.personal_player_awards_activity);
 
-        int color = getIntent().getExtras().getInt("color");
+        //int color = getIntent().getExtras().getInt("color");
         String thePlayerName = getIntent().getStringExtra("playerName");
-        String url = getIntent().getExtras().getString("url");
+        //String url = getIntent().getExtras().getString("url");
+        assert thePlayerName != null;
         String lastLetter = thePlayerName.substring(thePlayerName.length() - 1);
 
         // set recyclerview layout manager
@@ -70,10 +71,20 @@ public class PersonalPlayerAwardsActivity extends BaseActivity {
         SearchParameters searchParams = SearchEngine.getSearchParameters(intent);
         if (!searchParams.getAll().isEmpty()) {
             // do search
+            if(intent.getStringExtra("playername").equals("Team Trophy")) {
+
+            } else {
+
+            }
             List<Long> sportids = SearchEngine.getInstance(context).getSportIds(searchParams);
             trophiesWithAwards.addAll(SearchEngine.getInstance(context).searchInSports(sportids, searchParams.getAll()));
         } else {
             // do advanced search
+            if(intent.getStringExtra("playername").equals("Team Trophy")) {
+
+            } else {
+
+            }
             trophiesWithAwards.addAll(SearchEngine.getInstance(context).advancedSearch(searchParams));
         }
         Log.d(TAG, "getData: recyclerview trophiesWithAwards size=" + trophiesWithAwards.size());
