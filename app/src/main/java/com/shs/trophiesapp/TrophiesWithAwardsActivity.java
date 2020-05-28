@@ -72,7 +72,7 @@ public class TrophiesWithAwardsActivity extends BaseActivity {
         Log.d(TAG, "getSearchResultsSummary: ");
         int searchResultNumber = getSearchResultNumber();
         TextView searchHeader = findViewById(R.id.HeaderWithSearchResults);
-        String searchResultsSummary = searchResultNumber + " result(s) for " + searchParams.toString();
+        String searchResultsSummary = searchResultNumber + " result(s) for \'" + searchParams.toString()+"\'";
         searchHeader.setText(searchResultsSummary);
     }
 }
