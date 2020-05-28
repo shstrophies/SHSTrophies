@@ -2,6 +2,7 @@ package com.shs.trophiesapp.database.entities;
 
 import android.graphics.Color;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -78,9 +79,10 @@ public class Trophy {
         this.color = color;
     }
 
-    @Ignore public int color = Color.RED;
+    @Ignore public int color = Color.parseColor("#C72027"); //TODO: Fix this if we change app theme colors in colors.xml
 
 
+    @NonNull
     @Override
     public String toString() {
         return "Trophy{" +

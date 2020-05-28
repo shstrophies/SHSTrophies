@@ -19,7 +19,7 @@
         <activity
             android:name=".ReportBugActivity"
             android:label="@string/title_activity_report_bug"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar"/>
         <activity android:name=".SetupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,22 +29,22 @@
         </activity>
         <activity
             android:name=".TrophiesActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity
             android:name=".SportsActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity
             android:name=".SportsWithTrophiesActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity
             android:name=".TrophyDetailsActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity
             android:name=".TrophyWithAwardsActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity
             android:name=".TrophiesWithAwardsActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity android:name=".PersonalPlayerAwardsActivity" />
         <activity android:name=".AdvancedSearchDialogActivity" />
         <activity android:name=".BaseActivity" />

@@ -44,17 +44,13 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
         this.dataFiltered = data;
 
         recycledViewPool = new RecyclerView.RecycledViewPool();
-
     }
 
 
     @NonNull
     @Override
     public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View theView = LayoutInflater.from(context).inflate(R.layout.trophies_with_awards_row_layout_horizontal, parent, false);
-
-
         return new HomeViewHolder(theView);
     }
 
@@ -69,12 +65,8 @@ public class TrophiesWithAwardsAdapter extends RecyclerView.Adapter<TrophiesWith
 
         holder.img.setOnClickListener(view -> {
             Intent intent1 = new Intent(context, TrophyDetailsActivity.class);
-
-            // passing data
             intent1.putExtra("trophyId", trophy.getId());
             intent1.putExtra("color", trophy.getColor());
-
-            // start activity
             context.startActivity(intent1);
         });
 
