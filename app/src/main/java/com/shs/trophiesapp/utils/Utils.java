@@ -33,6 +33,7 @@ public class Utils {
     public static void imageFromCache(ImageView view, String imageUrl) {
         if (imageUrl.matches("DEFAULT IMAGE")) {
             view.setImageBitmap(imageViaAssets(view.getContext(), Constants.DEFAULT_TROPHY));
+
         } else {
             String[] p = imageUrl.split("/");
             if (p.length > 5) {
