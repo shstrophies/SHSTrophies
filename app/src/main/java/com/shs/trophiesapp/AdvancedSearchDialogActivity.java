@@ -67,13 +67,13 @@ public class AdvancedSearchDialogActivity extends AppCompatActivity {
      * Only checks if year has numbers and if others have pure text (checking trophy titles vs player names is impossible)
      */
     private boolean checkValidation(String trophies, String sports, String years, String players) {
-        if(!trophies.replaceAll(" ", "").chars().allMatch(Character::isLetter)) {
+        if(!trophies.replaceAll(" ", "").replaceAll(",","").chars().allMatch(Character::isLetter)) {
             Toast.makeText(context, "Trophy Title Input Invalid, Please Input Only Text", Toast.LENGTH_LONG).show();
             return false;
-        } if(!sports.replaceAll(" ", "").chars().allMatch(Character::isLetter)) {
+        } if(!sports.replaceAll(" ", "").replaceAll(",","").chars().allMatch(Character::isLetter)) {
             Toast.makeText(context, "Sport Names Input Invalid, Please Input Only Text", Toast.LENGTH_LONG).show();
             return false;
-        } if(!players.replaceAll(" ", "").chars().allMatch(Character::isLetter)) {
+        } if(!players.replaceAll(" ", "").replaceAll(",","").chars().allMatch(Character::isLetter)) {
             Toast.makeText(context, "Player Names Input Invalid, Please Input Only Text", Toast.LENGTH_LONG).show();
             return false;
         } if(!years.replaceAll(" ","").replaceAll(",","").chars().allMatch(Character::isDigit)) {

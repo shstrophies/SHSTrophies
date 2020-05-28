@@ -71,20 +71,10 @@ public class PersonalPlayerAwardsActivity extends BaseActivity {
         SearchParameters searchParams = SearchEngine.getSearchParameters(intent);
         if (!searchParams.getAll().isEmpty()) {
             // do search
-            if(intent.getStringExtra("playername").equals("Team Trophy")) {
-
-            } else {
-
-            }
             List<Long> sportids = SearchEngine.getInstance(context).getSportIds(searchParams);
             trophiesWithAwards.addAll(SearchEngine.getInstance(context).searchInSports(sportids, searchParams.getAll()));
         } else {
-            // do advanced search
-            if(intent.getStringExtra("playername").equals("Team Trophy")) {
-
-            } else {
-
-            }
+            //Advanced Search
             trophiesWithAwards.addAll(SearchEngine.getInstance(context).advancedSearch(searchParams));
         }
         Log.d(TAG, "getData: recyclerview trophiesWithAwards size=" + trophiesWithAwards.size());
