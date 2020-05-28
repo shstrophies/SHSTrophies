@@ -56,10 +56,10 @@ public class SearchSuggestions {
 
     public List<Suggestion> getDefaultSuggestions() {
         final List<Suggestion> _suggestions = Arrays.asList(
-                new Suggestion("Shaquille O'Neil", "   in \"Players\""),
+                new Suggestion("Raymond Goni", "   in \"Players\""),
                 new Suggestion("Most Inspirational", "   in \"Trophies\""),
-                new Suggestion("1976", "   in \"Years\""),
-                new Suggestion("Shaquille O'Neil, 1976", "   in \"Trophies\", \"Years\"")
+                new Suggestion("1997", "   in \"Years\""),
+                new Suggestion("Raymond Goni, 1997", "   in \"Trophies\", \"Years\"")
         );
 
         //List<Suggestion> generatedSuggestions = SearchSuggestions.getInstance(context.get(), suggestions).getSuggestions("");
