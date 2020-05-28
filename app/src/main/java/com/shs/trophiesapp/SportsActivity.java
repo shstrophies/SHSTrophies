@@ -65,9 +65,7 @@ public class SportsActivity extends BaseActivity implements View.OnClickListener
         binding.sportsSearch.setMaxSuggestionCount(3);
         binding.sportsSearch.setHint(getResources().getString(R.string.search_info));
 
-//        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         customSuggestionsAdapter = new CustomSuggestionsAdapter(inflater);
         suggestions = SearchSuggestions.getInstance(getApplicationContext(), suggestions).getDefaultSuggestions();
         customSuggestionsAdapter.setSuggestions(suggestions);
@@ -139,12 +137,8 @@ public class SportsActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onButtonClicked(int buttonCode) {
-        switch (buttonCode) {
-            case MaterialSearchBar.BUTTON_SPEECH:
-                break;
-            case MaterialSearchBar.BUTTON_BACK:
-                binding.sportsSearch.closeSearch();
-                break;
+        if (buttonCode == MaterialSearchBar.BUTTON_BACK) {
+            binding.sportsSearch.closeSearch();
         }
     }
 

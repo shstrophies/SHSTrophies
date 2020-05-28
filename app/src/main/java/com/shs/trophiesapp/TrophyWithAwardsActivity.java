@@ -8,8 +8,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -33,7 +35,7 @@ import com.shs.trophiesapp.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSearchBar.OnSearchActionListener, MaterialSearchBar.OnCreateContextMenuListener {
+public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSearchBar.OnSearchActionListener, MaterialSearchBar.OnCreateContextMenuListener, PopupMenu.OnMenuItemClickListener {
     private static final String TAG = "TrophyPlayersAndYearsAc";
 
 
@@ -170,12 +172,8 @@ public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSe
 
     @Override
     public void onButtonClicked(int buttonCode) {
-        switch (buttonCode) {
-            case MaterialSearchBar.BUTTON_SPEECH:
-                break;
-            case MaterialSearchBar.BUTTON_BACK:
-                searchBar.closeSearch();
-                break;
+        if (buttonCode == MaterialSearchBar.BUTTON_BACK) {
+            searchBar.closeSearch();
         }
     }
 
@@ -206,4 +204,6 @@ public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSe
     }
 
 
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {return false;}
 }
