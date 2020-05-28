@@ -62,7 +62,7 @@ public class TrophyWithAwardsActivity extends BaseActivity implements MaterialSe
         int color = intent.getExtras().getInt("color");
 
 
-        String tvSportTitleText = title + " Trophy Award(s)";
+        String tvSportTitleText = title;
         tvSportTitle.setText(tvSportTitleText);
         //searchHeader.setText( "{Number} results for" + searchBar.getText());
         Utils.imageFromCache(img, url);
