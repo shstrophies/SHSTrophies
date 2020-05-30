@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/AppTheme.NoActionBar"
+        android:icon="@mipmap/ic_launcher"
         tools:replace="android:label">
         <activity
             android:name=".ReportBugActivity"
@@ -46,7 +47,6 @@
             android:name=".TrophiesWithAwardsActivity"
             android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity android:name=".PersonalPlayerAwardsActivity" />
-        <activity android:name=".AdvancedSearchDialogActivity" />
         <activity android:name=".BaseActivity" />
 
         <meta-data
